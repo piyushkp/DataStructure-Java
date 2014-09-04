@@ -163,5 +163,23 @@ public class StringImp {
         }
         return rpt;
     }
+
+    //Remove duplicate characters in a given string keeping only the first occurrences.
+    private String removeDuplicate(String s)
+    {
+        if(s == null)
+            return null;
+        HashSet<Character> _set = new HashSet<Character>();
+        StringBuffer result = new StringBuffer();
+        char[] _ch = s.toCharArray();
+        for (int i = 0; i < _ch.length; i++)
+        {
+            if(!_set.contains(_ch[i])) {
+                _set.add(_ch[i]);
+                result.append(_ch[i]);
+            }
+        }
+        return  result.toString();
+    }
 }
 

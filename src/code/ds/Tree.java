@@ -462,11 +462,7 @@ public class Tree {
         return true;
     }
 
-
-    // Find the Nth smallest element from the BST
-
-    // Fidn the Nth smallest element from the BST
-
+    // Find the Kth smallest element from the BST
     Node temp;
     public Node getNthMin(int target)
     {
@@ -499,6 +495,23 @@ public class Tree {
             else
                 temp = root.left;
         }
+    }
+    //given a binary search tree and you are asked to find the Kth smallest element in that tree.
+    private Node findKthNode(Node root, int k)
+    {
+        if(root == null)
+            return null;
+        int leftSize = findLeftTreeSize(root.left);
+        if(leftSize == k - 1)
+            return root;
+        else if (leftSize < k - 1)
+            findKthNode(root.left, k);
+        else
+            findKthNode(root.right, k-leftSize-1);
+        return null;
+    }
+    private int findLeftTreeSize(Node root){
+        return 1+ findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
 
     /* A O(n) iterative program for construction of BST from preorder traversal */
@@ -705,6 +718,36 @@ public class Tree {
                 _stack.push(newNode.right);
         }
         return  newNode;
+    }
+
+    //Given the root of a binary search tree and 2 numbers min and max,
+   // trim the tree such that all the numbers in the new tree are between min and max (inclusive).
+   private Node trimBST(Node root, int minValue, int maxValue)
+   {
+       if(root == null)
+           return null;
+       root.left = trimBST(root.left, minValue, maxValue);
+       root.right = trimBST(root.right, minValue, maxValue);
+       if(minValue <= root.data && root.data <= maxValue)
+           return root;
+       if(root.data < minValue)
+           return  root.right;
+       if(root.data > maxValue)
+           return root.left;
+       return  null;
+   }
+   // Given a Binary Search Tree and a value, find the closest element to the given value in BST.
+    private void closest_element(Node root, int value, int minValue)
+    {
+        if(root == null)
+            return;
+        int diff = Math.abs(root.data - value);
+        if(minValue > diff)
+            minValue = diff;
+        if(root.data > value)
+            closest_element(root.left, value, minValue);
+        else
+            closest_element(root.right, value, minValue);
     }
 }
 
