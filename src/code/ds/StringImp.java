@@ -144,6 +144,7 @@ public class StringImp {
     }
 
     //Run of length: count the number of individual occurrences of repeated letters
+    //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
     public static int count_runs(String target) {
         char prev = target.charAt(0);
         int rpt = 0;
