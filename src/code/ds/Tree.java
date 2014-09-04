@@ -94,6 +94,25 @@ public class Tree {
             return true;
         return DFS(root.left, target) || DFS(root.right, target);
     }
+    //DFS: Iterative
+    private Boolean DFSIterative(Node root, int target) {
+        if (root == null)
+            return false;
+        Stack<Node> _stack = new Stack<Node>();
+        _stack.push(root);
+        while (_stack.size() > 0) {
+            Node temp = _stack.peek();
+            if (temp.data == target)
+                return true;
+            if (temp.left != null)
+                _stack.push(temp.left);
+            else if (temp.right != null)
+                _stack.push(temp.right);
+            else
+                _stack.pop();
+        }
+        return false;
+    }
 
     // BFS : Implement a breadth first search algorithm.
     // Level order traversal
@@ -250,8 +269,7 @@ public class Tree {
             else
                 root = nodetoDelete.left;
         }
-        else
-        {
+        else {
             Node successor = FindSuccessor(nodetoDelete, parent);
             parent.left = successor.right;
             nodetoDelete = successor;
@@ -413,10 +431,24 @@ public class Tree {
     }
 
     // Find out if given tree is Binary Search Tree or not
+
+    private Boolean IsBSTUtil(Node root, int minValue, int maxValue)
+    {
+        if(root == null)
+            return  true;
+        if( root.data < minValue
+            && root.data > maxValue
+            && IsBSTUtil(root.left, minValue, root.data)
+            && IsBSTUtil(root.right, root.data, maxValue))
+            return  true;
+        else
+            return  false;
+    }
+
+    Node prev;
     private Boolean isBST(Node root)
     {
         // do inorder traversal and check it is sorted or not
-        Node prev = null;
         if (root != null)
         {
             if (!isBST(root.left))
