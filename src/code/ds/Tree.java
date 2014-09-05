@@ -515,7 +515,7 @@ public class Tree {
     }
 
     /* A O(n) iterative program for construction of BST from preorder traversal */
-    public Node ConstuctTreeFromPreOrder(int[] preOrder)
+    public Node constuctTreeFromPreOrder(int[] preOrder)
     {
         Node root = new Node();
         root.data = preOrder[0];
@@ -748,6 +748,17 @@ public class Tree {
             closest_element(root.left, value, minValue);
         else
             closest_element(root.right, value, minValue);
+    }
+    //Given a binary search tree, sum all the nodes which are at on the same vertical line.
+    int HD_OFFSET = 16;
+    private void verticalSUM(Node root, int[] sum, int hd, int min, int max)
+    {
+        int index = hd + HD_OFFSET /2;
+        if(index < min) min = index;
+        if(index > max) max = index;
+        sum[index] += root.data;
+        verticalSUM(root.left,sum, hd-1,min,max);
+        verticalSUM(root.right, sum, hd+1, min, max);
     }
 }
 
