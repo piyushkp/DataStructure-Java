@@ -181,5 +181,46 @@ public class StringImp {
         }
         return  result.toString();
     }
+    //Permutations of the string
+    void permute( String str ){
+        int length = str.length();
+        boolean[] used = new boolean[ length ];
+        StringBuffer out = new StringBuffer();
+        char[] in = str.toCharArray();
+        doPermute( in, out, used, length, 0 );
+    }
+    void doPermute( char[] in, StringBuffer out,
+                    boolean[] used, int length, int level ){
+        if( level == length ){
+            System.out.println( out.toString() );
+            return;
+        }
+        for( int i = 0; i < length; ++i ){
+            if( used[i] ) continue;
+            out.append( in[i] );
+            used[i] = true;
+            doPermute( in, out, used, length, level + 1 );
+            used[i] = false;
+            out.setLength( out.length() - 1 );
+        }
+    }
+    //combination of the string
+    void combine( String str ){
+        int length = str.length();
+        char[] instr = str.toCharArray();
+        StringBuilder outstr = new StringBuilder();
+        doCombine( instr, outstr, length, 0, 0 );
+    }
+    void doCombine( char[] instr, StringBuilder outstr, int length,
+                    int level, int start ){
+        for( int i = start; i < length; i++ ){
+            outstr.append( instr[i] );
+            System.out.println( outstr );
+            if( i < length - 1 ){
+                doCombine( instr, outstr, length, level + 1, i + 1 );
+            }
+            outstr.length = outstr.length - 1;
+        }
+    }
 }
 
