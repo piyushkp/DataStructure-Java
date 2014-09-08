@@ -67,6 +67,33 @@ public class StringImp {
         }
         return null;
     }
+    // Find the first occurrence of number.
+    private int findFirstoccrrence(int[] A, int k)
+    {
+        int low = 0;
+        int high = A.length;
+        int result = -1;
+        while (low <= high)
+        {
+            int mid = (low + high) /2;
+            if(k == A[mid])
+            {
+                result = mid;
+                high = mid -1;
+                // for the last occurrence
+                // low = mid + 1;
+            }
+            else if (k < A[mid])
+            {
+                high = mid -1;
+            }
+            else if (k > A[mid])
+            {
+                low = mid + 1;
+            }
+         }
+        return result;
+    }
 
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
@@ -219,7 +246,7 @@ public class StringImp {
             if( i < length - 1 ){
                 doCombine( instr, outstr, length, level + 1, i + 1 );
             }
-            outstr.length = outstr.length - 1;
+            outstr.setLength(outstr.length() - 1);
         }
     }
 }

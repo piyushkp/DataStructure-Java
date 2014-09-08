@@ -82,11 +82,12 @@ public class Array
             {
                 return G[k];
             }
-            if (pivot < k)
+            if (pivot > k)
             {
                 return quickselect(G, first, pivot - 1, k);
             }
-            return quickselect(G, pivot + 1, last, k);
+            else
+                return quickselect(G, pivot + 1, last, k);
         }
         return 0;
     }
