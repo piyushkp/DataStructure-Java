@@ -137,6 +137,33 @@ public class Tree {
         return false;
     }
 
+    //Print binary tree level by level in new line
+    // Level order search
+    public static void printLevels(Node tree) {
+        Queue<Node> queue = new java.util.LinkedList<Node>();
+        Queue<Integer> levels = new java.util.LinkedList<Integer>();
+        queue.add(tree);
+        levels.add(0);
+        int lastLevel= 0;
+        while (queue.size() > 0) {
+            Node node = queue.remove();
+            int level = levels.remove();
+            if(level!=lastLevel){
+                System.out.println();
+                lastLevel = level;
+            }
+            System.out.print(node.data + " ");
+            if(node.left!=null){
+                queue.add(node.left);
+                levels.add(level+1);
+            }
+            if(node.right !=null ){
+                queue.add(node.right);
+                levels.add(level+1);
+            }
+        }
+    }
+
     // Inorder traversal of BST
     public void inOrder(Node root)
     {

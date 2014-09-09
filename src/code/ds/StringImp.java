@@ -344,8 +344,40 @@ public class StringImp {
         return S.substring(minStart, minEnd+1);
     }
 
-    //Reverse words in a string
+    //Find distance between words in a string
+    //eg: String => "I am a good girl" distance between "I" and "good" is 3
+    public static void distBetWords(String str, String word1, String word2) {
+        StringTokenizer st = new StringTokenizer(str);
+        int numberOfWords = 0;
+        boolean start = false;
+        while(st.hasMoreTokens()){
+            String token = st.nextToken();
+            if(token.equals(word1)){
+                start = true;
+                continue;
+            }
+            if(start) {
+                if(token.equals(word2)){
+                    start = false;
+                }
+                else {
+                    numberOfWords++;
+                }
+            }
+        }
+        System.out.println(numberOfWords);
+    }
 
+    //Reverse words in a string
+    public static String reverseWords(String sentence) {
+        StringBuilder sb = new StringBuilder(sentence.length() + 1);
+        String[] words = sentence.split(" ");
+        for (int i = words.length - 1; i >= 0; i--) {
+            sb.append(words[i]).append(' ');
+        }
+        sb.setLength(sb.length() - 1);  // Strip trailing space
+        return sb.toString();
+    }
 
 
 }

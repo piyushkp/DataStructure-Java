@@ -146,7 +146,7 @@ public class Array
         return -1;
     }
 
-    //find the sum of contiguous subarray within a one-dimensional array of numbers which has the largest sum.
+    //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
     private int maxSubArraySum(int a[])
     {
         int max_so_far = 0, max_ending_here = 0;
