@@ -249,8 +249,100 @@ public class StringImp {
             outstr.setLength(outstr.length() - 1);
         }
     }
+    //Given two (dictionary) words as Strings, determine if they are isomorphic
+    private static class Mapping{
+        private final Character c;
+        private final List<Integer> integers;
+        public Mapping(Character c, List<Integer> integers) {
+            this.c = c;
+            this.integers = integers;
+        }
+        private Character getC() {
+            return c;
+        }
+        private List<Integer> getIntegers() {
+            return integers;
+        }
+    }
+    public static List<Mapping> getMap(String s) throws Exception {
+        if(s== null || s.isEmpty()) throw new Exception("String cannot be null or empty");
+        LinkedHashMap<Character, List<Integer>> map = new LinkedHashMap<Character, List<Integer>>();
+        char[] chars = s.toCharArray();
+        for(int i = 0; i < chars.length; i++){
+            if(!map.containsKey(chars[i])) map.put(chars[i], new ArrayList<Integer>());
+            map.get(chars[i]).add(i);
+        }
+        List<Mapping> result = new ArrayList<Mapping>();
+        for(Character c : map.keySet())
+            result.add(new Mapping(c, map.get(c)));
+        return result;
+    }
+    public static boolean areIsomorphic(String a, String b) throws Exception {
+        if(a.length() != b.length()) return false;
+        List<Mapping> mapA = getMap(a);
+        List<Mapping> mapB = getMap(b);
+        if(mapA.size() != mapB.size()) return false;
+        for(int i = 0; i< mapA.size(); i++){
+            Mapping fromA = mapA.get(i);
+            Mapping fromB = mapB.get(i);
+            if(fromA.getIntegers().size() != fromB.getIntegers().size()) return false;
+            for(int j = 0; j < fromA.getIntegers().size(); j++)
+                if(fromA.getIntegers().get(j) != fromB.getIntegers().get(j)) return false;
+        }
+        return true;
+    }
 
     //Given set of characters and a string, find smallest substring which contains all characters
+    public String minSubString(String S, String T) {
+        if (S==null||T==null){
+            return null;
+        }
+        if(S.length()==0 && T.length()==0){
+            return "";
+        }
+        if (S.length()<T.length()){
+            return"";
+        }
+        HashMap<Character, Integer>needFind=new HashMap<Character, Integer>();
+        HashMap<Character, Integer>alreadyFind=new HashMap<Character, Integer>();
+        for(int i=0; i<T.length(); i++){
+            alreadyFind.put(T.charAt(i), 0);
+            if (needFind.containsKey(T.charAt(i))){
+                needFind.put(T.charAt(i), needFind.get(T.charAt(i))+1);
+            }
+            else{
+                needFind.put(T.charAt(i), 1);
+            }
+        }
+        int minStart=-1;
+        int minEnd=S.length();
+        int start=0;
+        int len=0;
+        for (int i=0; i<S.length(); i++){
+            if (alreadyFind.containsKey(S.charAt(i))){
+                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i))+1);
+                if (alreadyFind.get(S.charAt(i))<=needFind.get(S.charAt(i))){
+                    len++;
+                }
+                if (len==T.length()){
+                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start))>needFind.get(S.charAt(start))){
+                        if (needFind.containsKey(S.charAt(start))){
+                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start))-1);
+                        }
+                        start++;
+                    }
+                    if (i-start<minEnd-minStart){
+                        minStart=start;
+                        minEnd=i;
+                    }
+                }
+            }
+        }
+        if (minStart==-1){
+            return "";
+        }
+        return S.substring(minStart, minEnd+1);
+    }
 
     //Reverse words in a string
 
