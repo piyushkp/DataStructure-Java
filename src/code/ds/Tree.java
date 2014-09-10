@@ -14,9 +14,7 @@ public class Tree {
         public Node right;
         public Node parent;
     }
-
     public Node root;
-
     // insert node in BST
     public void insert(Node root, int node)
     {
@@ -35,7 +33,6 @@ public class Tree {
             insert(root.right, node);
         }
     }
-
     // Insert node into tree Iterative
     public void insertItr(Node root, int data)
     {
@@ -71,7 +68,6 @@ public class Tree {
             }
         }
     }
-
     // recursive search in BST
     public Node search(Node root, int data)
     {
@@ -113,7 +109,6 @@ public class Tree {
         }
         return false;
     }
-
     // BFS : Implement a breadth first search algorithm.
     // Level order traversal
     private Boolean BFS(Node root, int target)
@@ -136,7 +131,6 @@ public class Tree {
         }
         return false;
     }
-
     //Print binary tree level by level in new line
     // Level order search
     public static void printLevels(Node tree) {
@@ -163,7 +157,34 @@ public class Tree {
             }
         }
     }
-
+    /* Given a binary tree, print its nodes in reverse level order */
+    void reverseLevelOrder(Node root)
+    {
+        Stack<Node> S = new Stack<Node>();
+        Queue<Node> Q = null;
+        Q.add(root);
+        // Do something like normal level order traversal order. Following are the
+        // differences with normal level order traversal
+        // 1) Instead of printing a node, we push the node to stack
+        // 2) Right subtree is visited before left subtree
+        while (Q.size() > 0)
+        {
+            root = Q.peek();
+            Q.poll();
+            S.push(root);
+            if (root.right != null)
+                Q.add(root.right); // NOTE: RIGHT CHILD IS ENQUEUED BEFORE LEFT
+            if (root.left != null)
+                Q.add(root.left);
+        }
+        // Now pop all items from stack one by one and print them
+        while (S.size() > 0)
+        {
+            root = S.peek();
+            System.out.print(root.data);
+            S.pop();
+        }
+    }
     // Inorder traversal of BST
     public void inOrder(Node root)
     {
@@ -174,7 +195,6 @@ public class Tree {
             inOrder(root.right);
         }
     }
-
     // Preorder traversal of BST
     public void preOrder(Node root)
     {
@@ -185,7 +205,6 @@ public class Tree {
             preOrder(root.right);
         }
     }
-
     // An iterative process to print preorder traversal of Binary tree
     void iterativePreorder(Node root)
     {
@@ -212,7 +231,6 @@ public class Tree {
                 nodeStack.push(node.left);
         }
     }
-
     // Postorder traversal of BST
     public void postOrder(Node root)
     {
@@ -223,7 +241,6 @@ public class Tree {
             System.out.print(root.data);
         }
     }
-
     // An iterative function to do postorder traversal of a given binary tree
     public ArrayList<Integer> postorderTraversal(Node root)
     {
@@ -244,7 +261,6 @@ public class Tree {
         Collections.reverse(res);
         return res;
     }
-
     // Delete node from tree
     public void delete(int key)
     {
@@ -301,9 +317,7 @@ public class Tree {
             parent.left = successor.right;
             nodetoDelete = successor;
         }
-
     }
-
     private Node FindParent(int key, Node Parent)
     {
         Node node = root;
@@ -324,7 +338,6 @@ public class Tree {
         }
         return null;
     }
-
     private Node FindSuccessor(Node startNode, Node parent)
     {
         parent = startNode;
@@ -336,7 +349,6 @@ public class Tree {
         }
         return startNode;
     }
-
     //In a binary search tree, find the lowest common ancestor.
     private Node FindLCA(Node root, Node one, Node two)
     {
@@ -351,7 +363,6 @@ public class Tree {
         }
         return null;
     }
-
     // Find LCA of Binary Tree.
     //The run time complexity is O(h), where h is the tree’s height. The space complexity is also O(h)
     public Node FindLCA_BTree(Node root, Node one, Node two)
@@ -378,7 +389,6 @@ public class Tree {
         }
         return null;
     }
-
     // Find LCA best way no Space Required
     public Node FindLCA_Best(Node root, Node one, Node two)
     {
@@ -407,7 +417,6 @@ public class Tree {
         }
         return null;
     }
-
     public int getHeight(Node node)
     {
         int height = 0;
@@ -418,7 +427,19 @@ public class Tree {
         }
         return height;
     }
-
+    //Find LCA without parent pointer
+    static Node FindLowestCommonAncestor(Node n, int n1, int n2)
+    {
+        if (n == null) return null;
+        if (n.data == n1 || n.data == n2) return n;
+        Node left = FindLowestCommonAncestor(n.left, n1, n2);
+        Node right = FindLowestCommonAncestor(n.right, n1, n2);
+        if (left == null && right == null) return null;
+        if (left != null && right != null) return n;
+        if (left != null) return left;
+        if (right != null) return right;
+        return null;
+    }
     // Find the Diameter of Binary Tree
     public int diameterOfBinaryTree(Node node)
     {
@@ -442,7 +463,6 @@ public class Tree {
             return 1 + Math.max(heightOfBinaryTree(node.left), heightOfBinaryTree(node.right));
         }
     }
-
     // Convert sorted array into balanced tree
     private Node sortedArraytoBST(int[] arr, int start, int end)
     {
@@ -456,9 +476,7 @@ public class Tree {
 
         return tree;
     }
-
     // Find out if given tree is Binary Search Tree or not
-
     private Boolean IsBSTUtil(Node root, int minValue, int maxValue)
     {
         if(root == null)
@@ -471,7 +489,6 @@ public class Tree {
         else
             return  false;
     }
-
     Node prev;
     private Boolean isBST(Node root)
     {
@@ -488,7 +505,6 @@ public class Tree {
         }
         return true;
     }
-
     // Find the Kth smallest element from the BST
     Node temp;
     public Node getNthMin(int target)
@@ -569,7 +585,6 @@ public class Tree {
         }
         return root;
     }
-
     //Two nodes of a BST are swapped, correct the BST
     public void CorrectBST(Node root)
     {
@@ -607,7 +622,6 @@ public class Tree {
         a = b;
         b = t;
     }
-
     //Binary Tree Maximum Path Sum
     public int maxPathSum(Node root)
     {
@@ -648,7 +662,6 @@ public class Tree {
         root.data = Math.max(leftLen, rightLen) + root.data;
         return maxLength;
     }
-
     //Given a binary tree, every node has a int value, return the root node of subtree with the largest sum up value.
     private Node maxSumSubtree(Node root)
     {
@@ -672,7 +685,6 @@ public class Tree {
         }
         return total;
     }
-
     //Find the maximum sum of the subtree (triangle) from the given tree.
     private int FindMaxSumSubtree(Node root)
     {
@@ -696,7 +708,6 @@ public class Tree {
             max_sum = sum;
         return max_sum;
     }
-
     //Print Right View of a Binary Tree
     public void rightView()
     {
@@ -714,7 +725,6 @@ public class Tree {
         rightViewUtil(root.right, level + 1, max_level);
         rightViewUtil(root.left, level + 1, max_level);
     }
-
     // Given a Binary Tree mirror it with left and right subtree
     private Node mirrorTree(Node root)
     {
@@ -746,7 +756,6 @@ public class Tree {
         }
         return  newNode;
     }
-
     //Given the root of a binary search tree and 2 numbers min and max,
    // trim the tree such that all the numbers in the new tree are between min and max (inclusive).
    private Node trimBST(Node root, int minValue, int maxValue)
@@ -786,6 +795,24 @@ public class Tree {
         sum[index] += root.data;
         verticalSUM(root.left,sum, hd-1,min,max);
         verticalSUM(root.right, sum, hd+1, min, max);
+    }
+    //Given a binary tree where all the right nodes are leaf nodes,
+    // flip it upside down and turn it into a tree with left leaf nodes.
+    Node FlipTree ( Node root )
+    {
+        if (root == null)
+            return null;
+        // Working base condition
+        if( root.left == null && root.right == null)
+        {
+            return root.left;
+        }
+        Node newRoot = FlipTree(root.left);
+        root.left.left = root.right;
+        root.left.right = root;
+        root.left = null;
+        root.right = null;
+        return newRoot;
     }
 }
 

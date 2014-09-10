@@ -22,7 +22,6 @@ public class StringImp {
         }
         System.out.printf("%c%d", first, count);
     }
-
     //Finds first non repeated character in a String in just one pass.
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
@@ -40,7 +39,6 @@ public class StringImp {
         }
         return nonrepeating.get(0);
     }
-
     //Return maximum occurring character in the input string
     public static String getMaxRepeatedChar(String txt) {
         if ((txt != null)) {
@@ -94,7 +92,6 @@ public class StringImp {
          }
         return result;
     }
-
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
@@ -118,7 +115,6 @@ public class StringImp {
         }
         return false;
     }
-
     /* Regular Expression Matching
     Implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
@@ -144,7 +140,6 @@ public class StringImp {
             }
         }
     }
-
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
@@ -169,7 +164,6 @@ public class StringImp {
         }
         return maxLength;
     }
-
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
     public static int count_runs(String target) {
@@ -190,7 +184,6 @@ public class StringImp {
         }
         return rpt;
     }
-
     //Remove duplicate characters in a given string keeping only the first occurrences.
     private String removeDuplicate(String s)
     {
@@ -291,7 +284,6 @@ public class StringImp {
         }
         return true;
     }
-
     //Given set of characters and a string, find smallest substring which contains all characters
     public String minSubString(String S, String T) {
         if (S==null||T==null){
@@ -343,7 +335,6 @@ public class StringImp {
         }
         return S.substring(minStart, minEnd+1);
     }
-
     //Find distance between words in a string
     //eg: String => "I am a good girl" distance between "I" and "good" is 3
     public static void distBetWords(String str, String word1, String word2) {
@@ -367,7 +358,6 @@ public class StringImp {
         }
         System.out.println(numberOfWords);
     }
-
     //Reverse words in a string
     public static String reverseWords(String sentence) {
         StringBuilder sb = new StringBuilder(sentence.length() + 1);
@@ -378,5 +368,20 @@ public class StringImp {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
+    //find count of common characters presented in an array of strings or array of character arrays
+    private void CountOfCommonCharacters(String s, String S1, String S2)
+    {
+        char[] _chars = s.toCharArray();
+        Set<String> _set = new HashSet<String>();
+        for(int i = 0; i < _chars.length; i++)
+        {
+            char c = _chars[i];
+            if(S1.indexOf(c) != -1 && S2.indexOf(c) != -1)
+                _set.add(String.valueOf(c));
+        }
+        for(String string: _set)
+            System.out.println(string);
+    }
+
 }
 
