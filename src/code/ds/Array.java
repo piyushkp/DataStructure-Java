@@ -1,5 +1,7 @@
 package code.ds;
 
+import java.util.HashMap;
+
 /**
  * Created by Piyush Patel.
  */
@@ -212,6 +214,53 @@ public class Array
                 max_so_far  =  max_ending_here;
         }
         return max_so_far;
+    }
+    //Write a program to find the element in an array that is repeated more than half number of times.
+    // Return -1 if no such element is found.
+    private int MoreThanHalfElem(int a[],int n)
+    {
+        int ln = a.length;
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        for (int i = 0; i < a.length; i++) {
+            int freq = 0;
+            if (map.get(a[i]) == null) {
+                freq = 1;
+                map.put(a[i], 1);
+            } else {
+                freq = map.get(a[i]);
+                freq++;
+                map.put(a[i], freq);
+            }
+            if (freq > (a.length / 2)) {
+                return a[i];
+            }
+        }
+        return  -1;
+    }
+    //Searching an Element in a Rotated Sorted Array
+    private int rotated_binary_search(int A[], int N, int key) {
+        int L = 0;
+        int R = N - 1;
+        while (L <= R) {
+            // Avoid overflow, same as M=(L+R)/2
+            int M = L + ((R - L) / 2);
+            if (A[M] == key) return M;
+            // the bottom half is sorted
+            if (A[L] <= A[M]) {
+                if (A[L] <= key && key < A[M])
+                    R = M - 1;
+                else
+                    L = M + 1;
+            }
+            // the upper half is sorted
+            else {
+                if (A[M] < key && key <= A[R])
+                    L = M + 1;
+                else
+                    R = M - 1;
+            }
+        }
+        return -1;
     }
 }
 

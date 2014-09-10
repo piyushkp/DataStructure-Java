@@ -1,5 +1,9 @@
 package code.ds;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 /**
  * Created by ppatel2 on 9/8/2014.
  */
@@ -97,7 +101,6 @@ public class Numbers
         }
         return s;
     }
-
     // Find the Nearest points in A Plane
     public ArrayList<Point> findNearest(Point center, int m) {
         PriorityQueue<Point> q = new PriorityQueue<Point>();
@@ -111,5 +114,55 @@ public class Numbers
             nearestPoints.add(q.pool());
         }
         return nearestPoints;
+    }
+    //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
+    class Interval
+    {
+        int start;
+        int end;
+    }
+    void mergeIntervals(ArrayList<Interval> intervals)
+    {
+        // Test if the given set has at least one interval
+        if (intervals.size() <= 0)
+            return;
+
+        // Create an empty stack of intervals
+        Stack<Interval> s = new Stack<Interval>();
+
+        // sort the intervals based on start time
+        sort(intervals.begin(), intervals.end(), compareInterval);
+
+        // push the first interval to stack
+        s.push(intervals.get(0));
+
+        // Start from the next interval and merge if necessary
+        for (int i = 1 ; i < intervals.size(); i++)
+        {
+            // get interval from stack top
+            Interval top = s.peek();
+
+            // if current interval is not overlapping with stack top,
+            // push it to the stack
+            if (top.end < intervals.get(i).start)
+            {
+                s.push( intervals.get(i) );
+            }
+            // Otherwise update the ending time of top if ending of current
+            // interval is more
+            else if (top.end < intervals.get(i).end)
+            {
+                top.end = intervals.get(i).end;
+                s.pop();
+                s.push(top);
+            }
+        }
+        // Print contents of stack
+        while (!s.empty())
+        {
+            Interval t = s.peek();
+            System.out.print("[" + t.start + "," + t.end + "]" + " ");
+            s.pop();
+        }
     }
 }

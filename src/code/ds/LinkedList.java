@@ -248,6 +248,4 @@ public class LinkedList
             }
         }
     }
-
-    //
 }

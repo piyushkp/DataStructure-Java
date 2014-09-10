@@ -378,7 +378,5 @@ public class StringImp {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
-
-
 }
 
