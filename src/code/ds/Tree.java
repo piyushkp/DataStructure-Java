@@ -473,7 +473,6 @@ public class Tree {
         tree.data = arr[mid];
         tree.left = sortedArraytoBST(arr, start, mid - 1);
         tree.right = sortedArraytoBST(arr, mid + 1, end);
-
         return tree;
     }
     // Find out if given tree is Binary Search Tree or not
@@ -556,7 +555,6 @@ public class Tree {
     private int findLeftTreeSize(Node root){
         return 1+ findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
-
     /* A O(n) iterative program for construction of BST from preorder traversal */
     public Node constuctTreeFromPreOrder(int[] preOrder)
     {
@@ -571,7 +569,6 @@ public class Tree {
             {
                 temp = _stack.pop();
             }
-
             if (temp != null)
             {
                 temp.right.data = preOrder[i];

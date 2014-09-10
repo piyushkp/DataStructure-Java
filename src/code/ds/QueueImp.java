@@ -25,7 +25,6 @@ public class QueueImp
             return Outbox.pop();
         }
     }
-
     //Blocking Queue  is a queue that blocks when you try to dequeue from it when the queue is empty
     // or if you try to enqueue items to it when the queue is already full.
     public class BlockingQueue
