@@ -109,6 +109,18 @@ public class Array
         G[x] = G[y];
         G[y] = tmp;
     }
+    //Quick sort
+    public void quickSort(int[] array, int startIdx, int endIdx) {
+        int idx = partition(array, startIdx, endIdx);
+        // Recursively call quicksort with left part of the partitioned array
+        if (startIdx < idx - 1) {
+            quickSort(array, startIdx, idx - 1);
+        }
+        // Recursively call quick sort with right part of the partitioned array
+        if (endIdx > idx) {
+            quickSort(array, idx, endIdx);
+        }
+    }
      //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s. Count the number of zeroes in the given array.
     // A wrapper over recursive function firstZero()
     int countOnes(int[] arr, int n)
@@ -246,6 +258,34 @@ public class Array
             }
         }
         return -1;
+    }
+    //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
+    private void findMinofabc(int a[],int b[],int c[])
+    {
+        quickSort(a,0,a.length);
+        quickSort(b,0,a.length);
+        quickSort(c,0,a.length);
+        int min = Integer.MAX_VALUE;
+        int i = 0, j = 0, k = 0;
+        int index1=0,index2=0,index3=0;
+        while( i < a.length && j < b.length && k < c.length)
+        {
+            int n = Math.abs(a[i]- b[j]) + Math.abs(b[j] - c[k])+ Math.abs(c[k] - a[i]);
+            if(n < min)
+            {
+                min = n;
+                index1 = i;
+                index2 = j;
+                index3 = k;
+            }
+            if(a[i] < b[j] && a[i] < c[k])
+                i++;
+            else if (b[j] < a[i] && b[j] < c[k])
+                j++;
+            else
+                k++;
+        }
+        System.out.print(a[index1] + " " + b[index2] + " " + c[index3]);
     }
 }
 
