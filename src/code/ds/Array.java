@@ -7,13 +7,11 @@ import java.util.HashMap;
  */
 public class Array
 {
-
     //Merge two sorted array into sorted array
     public int[] MergeArray(int[] a, int[] b)
     {
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;
-
         while (i < a.length && j < b.length)
         {
             if (a[i] < b[j])
@@ -25,10 +23,8 @@ public class Array
             answer[k++] = a[i++];
         while (j < b.length)
             answer[k++] = b[j++];
-
         return answer;
     }
-
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(logk)
     public int findKthElement(int k, int[] array1, int start1, int end1, int[] array2, int start2, int end2)
@@ -58,7 +54,6 @@ public class Array
             return findKthElement(k - mid, array1, start1, end1, array2, start2 + sub2, end2);
         }
     }
-
     //Given two unsorted int arrays, find the kth smallest element in the merged, sorted array.
     private void MergeUnsortedArray(int[] A1, int[] A2)
     {
@@ -114,21 +109,17 @@ public class Array
         G[x] = G[y];
         G[y] = tmp;
     }
-
      //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s. Count the number of zeroes in the given array.
     // A wrapper over recursive function firstZero()
     int countOnes(int[] arr, int n)
     {
         // Find index of first zero in given array
         int first = firstZero(arr, 0, n - 1);
-
         // If 0 is not present at all, return 0
         if (first == -1)
             return 0;
-
         return (n - first);
     }
-
     /* if 0 is present in arr[] then returns the index of FIRST occurrence
     of 0 in arr[low..high], otherwise returns -1.  Time Complexity: O(Logn)*/
     int firstZero(int[] arr, int low, int high)
@@ -139,7 +130,6 @@ public class Array
             int mid = low + (high - low) / 2;
             if ((mid == 0 || arr[mid - 1] == 1) && arr[mid] == 0)
                 return mid;
-
             if (arr[mid] == 1)  // If mid element is not 0
                 return firstZero(arr, (mid + 1), high);
             else  // If mid element is 0, but not first 0
@@ -147,7 +137,6 @@ public class Array
         }
         return -1;
     }
-
     //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
     private int maxSubArraySum(int a[])
     {
@@ -165,7 +154,6 @@ public class Array
         }
         return max_so_far;
     }
-
     //Given an array that contains both positive and negative integers, find the product of the maximum product subarray.
     int maxSubarrayProduct(int arr[])
     {
@@ -187,7 +175,6 @@ public class Array
                 max_ending_here = max_ending_here*arr[i];
                 min_ending_here = Math.min(min_ending_here * arr[i], 1);
             }
-
         /* If this element is 0, then the maximum product cannot
            end here, make both max_ending_here and min_ending_here 0
            Assumption: Output is alway greater than or equal to 1. */
@@ -208,7 +195,6 @@ public class Array
                 max_ending_here = Math.max (min_ending_here * arr[i], 1);
                 min_ending_here = temp * arr[i];
             }
-
             // update max_so_far, if needed
             if (max_so_far <  max_ending_here)
                 max_so_far  =  max_ending_here;
@@ -244,7 +230,6 @@ public class Array
         while (L <= R) {
             // Avoid overflow, same as M=(L+R)/2
             int M = L + ((R - L) / 2);
-            if (A[M] == key) return M;
             // the bottom half is sorted
             if (A[L] <= A[M]) {
                 if (A[L] <= key && key < A[M])
