@@ -105,9 +105,9 @@ public class Array
     }
     private void swap(int[] G, int x, int y)
     {
-        int tmp = G[x];
-        G[x] = G[y];
-        G[y] = tmp;
+        G[x] ^= G[y];
+        G[y] ^= G[x];
+        G[x] ^= G[y];
     }
     //Quick sort
     public void quickSort(int[] array, int startIdx, int endIdx) {
