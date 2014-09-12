@@ -3,6 +3,7 @@ package code.ds;
  * Created by ppatel2 on 9/11/2014.
  */
 public class HashTableImp {
+    //Implement hashtable
     public class HashMap<K,V>
     {
         private double loadFactor = 0.75;
