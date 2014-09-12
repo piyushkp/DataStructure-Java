@@ -75,7 +75,6 @@ public class MISC
         // Return the result.
         return postfix.toString();
     }
-
     public void infixToPrefix(String infix) {
         //Step 1. Reverse the infix expression.
         //Step 2. Make Every '(' as ')' and every ')' as '('
