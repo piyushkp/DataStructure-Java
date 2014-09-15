@@ -165,4 +165,19 @@ public class Numbers
             s.pop();
         }
     }
+    //Calculate the angle between hour hand and minute hand
+    int calcAngle(int h, int m)
+    {
+        if (h <0 || m < 0 || h >12 || m > 60)
+            System.out.print("Wrong input");
+        if (h == 12) h = 0;
+        if (m == 60) m = 0;
+        int hour_angle = (h*60 + m) / 2;
+        int minute_angle = 6*m;
+        // Find the difference between two angles
+        int angle = Math.abs(hour_angle - minute_angle);
+        // Return the smaller angle of two possible angles
+        angle = Math.min(360-angle, angle);
+        return angle;
+    }
 }
