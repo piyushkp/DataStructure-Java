@@ -81,4 +81,24 @@ public class MISC
         //Step 3. Convert expression to postfix form
         //Step 4. Reverse the expression.
     }
+    /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
+    followingMatrix[i][j] == true iff user i is following user j
+    thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
+    Let's also agree that followingMatrix[i][i] == false */
+    //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
+    int getInfluencer(Array [][] M) {
+        for(int i=0; i<M.length; i++) {
+            boolean is_influencer = true;
+            for(int j=0; j<M.length; j++) {
+                if( i==j ) continue;
+                if( M[i][j] || !M[j][i] ) {
+                    is_influencer = false;
+                    break;
+                }
+            }
+            if( is_influencer )
+                return i;
+        }
+        return -1;
+    }
 }
