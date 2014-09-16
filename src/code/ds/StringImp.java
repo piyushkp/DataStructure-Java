@@ -143,8 +143,6 @@ public class StringImp {
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
-        // Start typing your Java solution below
-        // DO NOT write main() function
         int i = 0;
         int maxLength = 0;
         while (i < s.length()) {
