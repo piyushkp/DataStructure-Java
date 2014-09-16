@@ -472,5 +472,29 @@ public class StringImp {
             }
         }
     }
+    //Return the smallest character that is strictly larger than the search character,
+    //If no such character exists, return the smallest character in the array
+    //given sorted list of letters, sorted in ascending order
+    //e.g  ['c', 'f', 'j', 'p', 'v'], 'k' => 'p' and ['c', 'f', 'j', 'p', 'v'], 'z' => 'c'
+    public static char findNextChar(char[] list, char c) {
+        assert list.length > 0;
+        int left = 0, right = list.length - 1;
+        char result = list[0];
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (list[mid] == c) {
+                if (mid < list.length - 1) return list[mid+1];
+                else return result;
+            }
+            else if (list[mid] < c) {
+                left = mid + 1;
+            }
+            else {//list[mid] > c
+                result = list[mid];
+                right = mid - 1;
+            }
+        }
+        return result;
+    }
 }
 
