@@ -384,14 +384,93 @@ public class StringImp {
     }
 
     //word wrap
-    public static String wrap(String in, int len) {
-        in=in.trim();
-        if(in.length()<len) return in;
-        if(in.substring(0, len).contains("\n"))
-            return in.substring(0, in.indexOf("\n")).trim() + "\n\n" + wrap(in.substring(in.indexOf("\n") + 1), len);
-        int place=Math.max(Math.max(in.lastIndexOf(" ",len),in.lastIndexOf("\t",len)),in.lastIndexOf("-",len));
-        return in.substring(0,place).trim()+"\n"+wrap(in.substring(place),len);
+    void wrapthis(String para,int w)
+    {
+        String c[]=para.split(" ");
+        int n=c.length;
+        int cost[]=new int[n];
+        int [][]espace=new int[n][n];
+        int line[]=new int[n];
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<=i;j++)
+            {
+                int t=0;
+                if(i==j)
+                {
+                    t=c[i].length();
+                }
+                else
+                {
+                    if(i>j)
+                    {
+                        for(int k=j;k<=i;k++)
+                        {
+                            t=t+c[k].length();
+                        }
+                    }
+                    else
+                    {
+                        for(int k=i;k<=j;k++)
+                        {
+                            t=t+c[k].length();
+                        }
+                    }
+                }
+                //System.out.print(" t:"+t);
+                if(t>w)
+                {
+                    espace[i][j]=-1;
+                    espace[j][i]=-1;
+                }
+                else
+                {
+                    espace[i][j]=w-t-(i-j);
+                    espace[j][i]=w-t-(i-j);
+                }
+                System.out.print(" "+espace[i][j]);
+            }
+            System.out.println();
+        }
+        int es=w-c[0].length();
+        cost[0]=es*es*es;
+        for(int j=1;j<n;j++)
+        {
+            int t;
+            int tl=c[j].length();
+            cost[j]=Integer.MAX_VALUE;
+            for(int i=1;i<=j;i++)
+            {
+                if(espace[i][j]!=-1)
+                {
+                    t=cost[i-1]+espace[i][j]*espace[i][j]*espace[i][j];
+                    //System.out.println("t:"+t);
+                    if(t<cost[j])
+                    {
+                        cost[j]=t;
+                        line[j]=i;
+                    }
+                }
+            }
+            System.out.println("optimal line"+ line[j]);
+        }
+        System.out.println("optimal cost"+cost[n-1]);
+        int pre;
+        System.out.print(" "+c[0]);
+        pre=0;
+        for(int i=1;i<n;i++)
+        {
+            if(line[i]==pre)
+            {
+                System.out.print(" "+c[i]);
+            }
+            else
+            {
+                System.out.println();
+                System.out.print(" "+c[i]);
+                pre=line[i];
+            }
+        }
     }
-
 }
 

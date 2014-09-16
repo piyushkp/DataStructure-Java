@@ -180,4 +180,12 @@ public class Numbers
         angle = Math.min(360-angle, angle);
         return angle;
     }
+    //Returns true if the input string is a number and false otherwise
+    public static boolean isNumber(String toTest) {
+        boolean flag = false;
+        // implementation here
+        String pattern = "-?\\d+(\\.\\d+)?";
+        flag = toTest.matches(pattern);
+        return flag;
+    }
 }

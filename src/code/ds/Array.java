@@ -309,5 +309,25 @@ public class Array
                 endIndex = i;
         }
     }
+    //Given an array arr[] of n integers, construct a Product Array prod[] (of same size)
+    //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
+    //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
+    private int[] productArray(int a[])
+    {
+        int temp = 1;
+        int [] prod = new int[a.length];
+        for(int i =0; i<a.length;i++)
+        {
+            prod[i] = temp;
+            temp *= a[i];
+        }
+        temp = 1;
+        for(int i= a.length; i>=0;i--)
+        {
+            prod[i] *= temp;
+            temp *= a[i];
+        }
+        return prod;
+    }
 }
 
