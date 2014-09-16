@@ -1,5 +1,7 @@
 package code.ds;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.HashMap;
 
 /**
@@ -286,6 +288,26 @@ public class Array
                 k++;
         }
         System.out.print(a[index1] + " " + b[index2] + " " + c[index3]);
+    }
+    //Given a sorted array with duplicates and a number, find the range in the
+    //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).
+    private void findRange(int a[], int num)
+    {
+        int startIndex = -1, endIndex = -1;
+        boolean flag = true;
+        if(a.length == 0)
+            return;
+        for(int i = 0; i<a.length; i++)
+        {
+            if(a[i] == num && flag)
+            {
+                startIndex = i;
+                endIndex = i;
+                flag = false;
+            }
+            else if(a[i] == num)
+                endIndex = i;
+        }
     }
 }
 

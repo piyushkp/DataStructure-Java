@@ -171,7 +171,6 @@ public class StringImp {
         int rpt = 0;
         for (int i = 1; i < target.length(); i++) {
             char curr = target.charAt(i);
-
             if (curr == prev) {
                 rpt++;
 
@@ -242,7 +241,8 @@ public class StringImp {
             outstr.setLength(outstr.length() - 1);
         }
     }
-    //Given two (dictionary) words as Strings, determine if they are isomorphic
+    //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
+    //given "turtle", "tletur"; returns true
     private static class Mapping{
         private final Character c;
         private final List<Integer> integers;
@@ -381,6 +381,16 @@ public class StringImp {
         }
         for(String string: _set)
             System.out.println(string);
+    }
+
+    //word wrap
+    public static String wrap(String in, int len) {
+        in=in.trim();
+        if(in.length()<len) return in;
+        if(in.substring(0, len).contains("\n"))
+            return in.substring(0, in.indexOf("\n")).trim() + "\n\n" + wrap(in.substring(in.indexOf("\n") + 1), len);
+        int place=Math.max(Math.max(in.lastIndexOf(" ",len),in.lastIndexOf("\t",len)),in.lastIndexOf("-",len));
+        return in.substring(0,place).trim()+"\n"+wrap(in.substring(place),len);
     }
 
 }
