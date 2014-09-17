@@ -1,8 +1,10 @@
 package code.ds;
 
+
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Piyush Patel.
@@ -328,6 +330,34 @@ public class Array
             temp *= a[i];
         }
         return prod;
+    }
+    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the set which gives the sum of zero.
+    //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1)
+    HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
+        Arrays.sort(arr);
+        HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
+        ArrayList<Integer> triplet = new ArrayList<Integer>();
+        int n = arr.length;
+        for (int i = 0;i < n; i++) {
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) {
+                int sum_two = arr[i] + arr[j];
+                if (sum_two + arr[k] < 0) {
+                    j++;
+                } else if (sum_two + arr[k] > 0) {
+                    k--;
+                } else {
+                    triplet.set(0,arr[i]);
+                    triplet.set(1,arr[j]);
+                    triplet.set(2,arr[k]);
+                    triplets.add(triplet);
+                    j++;
+                    k--;
+                }
+            }
+        }
+        return triplets;
     }
 }
 
