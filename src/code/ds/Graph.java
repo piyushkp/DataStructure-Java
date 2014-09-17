@@ -54,7 +54,6 @@ public class Graph
             // Dequeue a vertex from queue ( Refer http://goo.gl/35oz8 )
             int u = q.front();
             q.pop();
-
             // Find all non-colored adjacent vertices
             for (int v = 0; v < V; ++v)
             {
@@ -65,7 +64,6 @@ public class Graph
                     colorArr[v] = 1 - colorArr[u];
                     q.push(v);
                 }
-
                 //  An edge from u to v exists and destination v is colored with
                 // same color as u
                 else if (G[u][v] && colorArr[v] == colorArr[u])
@@ -75,6 +73,29 @@ public class Graph
         // If we reach here, then all adjacent vertices can be colored with
         // alternate color
         return true;
+    }
+    //Shortest path with exactly k edges in a directed and weighted graph
+    // A naive recursive function to count walks from u to v with k edges
+    int shortestPath(int graph[][V], int u, int v, int k)
+    {
+        int INF = Integer.MAX_VALUE;
+        // Base cases
+        if (k == 0 && u == v)             return 0;
+        if (k == 1 && graph[u][v] != INF) return graph[u][v];
+        if (k <= 0)                       return INF;
+        // Initialize result
+        int res = INF;
+        // Go to all adjacents of u and recur
+        for (int i = 0; i < V; i++)
+        {
+            if (graph[u][i] != INF && u != i && v != i)
+            {
+                int rec_res = shortestPath(graph, i, v, k-1);
+                if (rec_res != INF)
+                    res = Math.min(res, graph[u][i] + rec_res);
+            }
+        }
+        return res;
     }
 
     //how would you distribute graph across machines.
