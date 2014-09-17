@@ -351,7 +351,8 @@ public class Array
                     triplet.set(0,arr[i]);
                     triplet.set(1,arr[j]);
                     triplet.set(2,arr[k]);
-                    triplets.add(triplet);
+                    if(!triplets.contains(triplet))
+                        triplets.add(triplet);
                     j++;
                     k--;
                 }
