@@ -81,6 +81,49 @@ public class MISC
         //Step 3. Convert expression to postfix form
         //Step 4. Reverse the expression.
     }
+    //Evaluates the specified postfix expression.
+    public int evaluate (String expr)
+    {
+        Stack<Integer> stack = new Stack<Integer>();
+        int op1, op2, result = 0;
+        String token;
+        StringTokenizer tokenizer = new StringTokenizer (expr);
+        while (tokenizer.hasMoreTokens())
+        {
+            token = tokenizer.nextToken();
+            if (isOperator(token.charAt(0)))
+            {
+                op2 = (stack.pop()).intValue();
+                op1 = (stack.pop()).intValue();
+                result = evalSingleOp (token.charAt(0), op1, op2);
+                stack.push (new Integer(result));
+            }
+            else
+                stack.push (new Integer(Integer.parseInt(token)));
+        }
+        return result;
+    }
+    private int evalSingleOp (char operation, int op1, int op2)
+    {
+        int result = 0;
+        switch (operation)
+        {
+            case '+':
+                result = op1 + op2;
+                break;
+            case '-':
+                result = op1 - op2;
+                break;
+            case '*':
+                result = op1 * op2;
+                break;
+            case '/':
+                result = op1 / op2;
+        }
+        return result;
+    }
+
+
     /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
     followingMatrix[i][j] == true iff user i is following user j
     thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
