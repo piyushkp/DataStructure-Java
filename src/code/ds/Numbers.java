@@ -207,4 +207,27 @@ public class Numbers
         if(ni.isInteger()) return ni.getInteger();
         else return getListSum(ni.getList(), 1);
     }
+    //Squareroot of a Number - O(logN)
+    //2^0.5logN
+    private int sqrt(int num) {
+        if (num < 0)
+            return 0;
+        if (num == 1)
+            return 1;
+        int low = 0;
+        int high = 1 + (num / 2);
+        int mid;
+        int square;
+        while (low + 1 < high) {
+            mid = low + (high - low) / 2;
+            square = mid * mid;
+            if (square == num)
+                return mid;
+            else if (square < num)
+                low = mid;
+            else
+                high = mid;
+        }
+        return low;
+    }
  }
