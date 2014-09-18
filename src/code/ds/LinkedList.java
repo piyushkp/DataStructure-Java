@@ -231,4 +231,30 @@ public class LinkedList
             }
         }
     }
+    //Write a function that would return the 5th element from the tail (or end) of a singly linked list of integers
+    void printNthFromLast(Node head, int n)
+    {
+        Node main_ptr = head;
+        Node ref_ptr = head;
+        int count = 0;
+        if(head != null)
+        {
+            while( count < n )
+            {
+                if(ref_ptr == null)
+                {
+                    System.out.print("n is greater than the no. of nodes in list");
+                    return;
+                }
+                ref_ptr = ref_ptr.next;
+                count++;
+            } /* End of while*/
+            while(ref_ptr != null)
+            {
+                main_ptr = main_ptr.next;
+                ref_ptr  = ref_ptr.next;
+            }
+            System.out.print("Node no. n from last is " +main_ptr.data);
+        }
+    }
 }
