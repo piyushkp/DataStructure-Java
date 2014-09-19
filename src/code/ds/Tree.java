@@ -5,7 +5,6 @@ import java.util.*;
 /**
  * Created by Piyush Patel.
  */
-
 public class Tree {
     public class Node
     {
@@ -833,6 +832,32 @@ public class Tree {
             arr[ largest ] = temp;
             MaxHeapify( arr, largest );
         }
+    }
+    //Check if tree is a balanced tree.
+    public static boolean isTreeBalanced(Node rootNode) {
+        int maxDepth = maxDepth(rootNode);
+        int minDepth = minDepth(rootNode);
+        System.out.println("max depth " + maxDepth);
+        System.out.println("min depth " + minDepth);
+        return maxDepth - minDepth <= 1;
+    }
+    private static int maxDepth(Node currentNode) {
+        if (currentNode == null) {
+            return 0;
+        }
+        int maxLeft = maxDepth(currentNode.left);
+        int maxRight = maxDepth(currentNode.right);
+        int max = Math.max(maxLeft, maxRight);
+        return 1 + max;
+    }
+    private static int minDepth(Node currentNode) {
+        if (currentNode == null) {
+            return 0;
+        }
+        int minLeft = minDepth(currentNode.left);
+        int minRight = minDepth( currentNode.right);
+        int min = Math.min(minLeft, minRight);
+        return 1 + min;
     }
 }
 

@@ -82,4 +82,23 @@ public class StackImp
             return sb.toString();
         }
     }
+    //Sort a stack using only one additional stack and no other data structure.
+    public static Stack<Integer> sortStack(Stack<Integer> inputStack) {
+        if (inputStack == null) {
+            return null;
+        }
+        Stack<Integer> tempStack;
+        while (!inputStack.empty()) {
+            int temp = inputStack.pop();
+            if (tempStack.empty()) {
+                tempStack.push(temp);
+            } else {
+                while (!tempStack.empty() && tempStack.peek() > temp) {
+                    inputStack.push(tempStack.pop());
+                }
+                tempStack.push(temp);
+            }
+        }
+        return tempStack;
+    }
 }
