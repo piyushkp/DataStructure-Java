@@ -144,4 +144,16 @@ public class MISC
         }
         return -1;
     }
+
+    public class Singleton {
+        private static Singleton uniqInstance;
+        private Singleton() {
+        }
+        public static synchronized Singleton getInstance() {
+            if (uniqInstance == null) {
+                uniqInstance = new Singleton();
+            }
+            return uniqInstance;
+        }
+    }
 }
