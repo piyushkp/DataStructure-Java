@@ -140,6 +140,66 @@ public class StringImp {
             }
         }
     }
+    //Given set of characters and a string, find smallest substring which contains all characters
+    //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
+    public String minSubString(String S, String T) {
+        if (S==null||T==null){
+            return null;
+        }
+        if(S.length()==0 && T.length()==0){
+            return "";
+        }
+        if (S.length()<T.length()){
+            return"";
+        }
+        HashMap<Character, Integer>needFind=new HashMap<Character, Integer>();
+        HashMap<Character, Integer>alreadyFind=new HashMap<Character, Integer>();
+        for(int i=0; i<T.length(); i++)
+        {
+            alreadyFind.put(T.charAt(i), 0);
+            if (needFind.containsKey(T.charAt(i)))
+            {
+                needFind.put(T.charAt(i), needFind.get(T.charAt(i))+1);
+            }
+            else{
+                needFind.put(T.charAt(i), 1);
+            }
+        }
+        int minStart=-1;
+        int minEnd=S.length();
+        int start=0;
+        int len=0;
+        for (int i=0; i<S.length(); i++){
+            if (alreadyFind.containsKey(S.charAt(i)))
+            {
+                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i))+1);
+                if (alreadyFind.get(S.charAt(i))<=needFind.get(S.charAt(i)))
+                {
+                    len++;
+                }
+                if (len==T.length())
+                {
+                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start))>needFind.get(S.charAt(start)))
+                    {
+                        if (needFind.containsKey(S.charAt(start)))
+                        {
+                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start))-1);
+                        }
+                        start++;
+                    }
+                    if (i-start<minEnd-minStart)
+                    {
+                        minStart=start;
+                        minEnd=i;
+                    }
+                }
+            }
+        }
+        if (minStart==-1){
+            return "";
+        }
+        return S.substring(minStart, minEnd+1);
+    }
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
@@ -161,6 +221,31 @@ public class StringImp {
             }
         }
         return maxLength;
+    }
+    //Find all the repeating sub-string sequence of specified length in a large string sequence.
+    // The sequences returned i.e. the output must be sorted alphabetically
+    //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
+    //Input String: "ABCABCA" repeated sub-string length: 2 Output: AB, BC, CA
+    public static void printRepeatingStrings(String inputString, int sequenceLength) {
+        if (inputString.isEmpty() || sequenceLength <= 0 || sequenceLength >= inputString.length()) {
+            System.out.println("Invalid input");
+        } else {
+            int i = 0;
+            int j = i + sequenceLength;
+            Set<String> tempSet = new HashSet<String>();
+            Set<String> repeatingSequences = new TreeSet<String>();
+            while (j <= inputString.length())
+            {
+                if (!tempSet.add(inputString.substring(i, j))) {
+                    repeatingSequences.add(inputString.substring(i, j));
+                }
+                i++;
+                j = i + sequenceLength;
+            }
+            for (String str : repeatingSequences) {
+                System.out.println(str);
+            }
+        }
     }
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
@@ -282,65 +367,6 @@ public class StringImp {
         }
         return true;
     }
-    //Given set of characters and a string, find smallest substring which contains all characters
-    public String minSubString(String S, String T) {
-        if (S==null||T==null){
-            return null;
-        }
-        if(S.length()==0 && T.length()==0){
-            return "";
-        }
-        if (S.length()<T.length()){
-            return"";
-        }
-        HashMap<Character, Integer>needFind=new HashMap<Character, Integer>();
-        HashMap<Character, Integer>alreadyFind=new HashMap<Character, Integer>();
-        for(int i=0; i<T.length(); i++)
-        {
-            alreadyFind.put(T.charAt(i), 0);
-            if (needFind.containsKey(T.charAt(i)))
-            {
-                needFind.put(T.charAt(i), needFind.get(T.charAt(i))+1);
-            }
-            else{
-                needFind.put(T.charAt(i), 1);
-            }
-        }
-        int minStart=-1;
-        int minEnd=S.length();
-        int start=0;
-        int len=0;
-        for (int i=0; i<S.length(); i++){
-            if (alreadyFind.containsKey(S.charAt(i)))
-            {
-                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i))+1);
-                if (alreadyFind.get(S.charAt(i))<=needFind.get(S.charAt(i)))
-                {
-                    len++;
-                }
-                if (len==T.length())
-                {
-                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start))>needFind.get(S.charAt(start)))
-                    {
-                        if (needFind.containsKey(S.charAt(start)))
-                        {
-                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start))-1);
-                        }
-                        start++;
-                    }
-                    if (i-start<minEnd-minStart)
-                    {
-                        minStart=start;
-                        minEnd=i;
-                    }
-                }
-            }
-        }
-        if (minStart==-1){
-            return "";
-        }
-        return S.substring(minStart, minEnd+1);
-    }
     //Find distance between words in a string
     //eg: String => "I am a good girl" distance between "I" and "good" is 3
     public static void distBetWords(String str, String word1, String word2) {
@@ -388,7 +414,6 @@ public class StringImp {
         for(String string: _set)
             System.out.println(string);
     }
-
     //word wrap
     void wrapthis(String para,int w)
     {
