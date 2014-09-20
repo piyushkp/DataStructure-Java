@@ -156,9 +156,9 @@ public class Array
     //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
     private int maxSubArraySum(int a[])
     {
-            int max_so_far = a[0], i;
+            int max_so_far = a[0];
             int curr_max = a[0];
-            for (i = 1; i < a.length; i++)
+            for (int i = 1; i < a.length; i++)
             {
                 curr_max = Math.max(a[i], curr_max+a[i]);
                 max_so_far = Math.max(max_so_far, curr_max);
