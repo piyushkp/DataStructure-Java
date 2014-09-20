@@ -9,40 +9,36 @@ import java.util.Stack;
  */
 public class Numbers
 {
-    //Implement power function efficiently
-    private int intpow(int base, int exp) {
-        if (exp == 0)
-            return 1;
-        else if (exp == 1)
-            return base;
-        else if ((exp & 1) != 0) //Odd
-            return base * intpow(base * base, exp / 2);
-        else
-            return intpow(base * base, exp / 2);
-    }
-    //Iterative and handles negative
-    public static double pow (double base, int exponent)
+    //Function to calculate x raised to the power y in O(logn)
+    int power(int x, int y)
     {
-        boolean NegExp=false;
-        double result=1;
-        if (exponent==0)
+        int temp;
+        if( y == 0)
             return 1;
-        if (exponent<0)
-        {
-            NegExp=true;
-            exponent*=-1;
-        }
-        while (exponent>0)
-        {
-            if ((exponent&1)==1)
-                result *= base;
-            base*=base;
-            exponent=exponent>>1;
-        }
-        if (NegExp)
-            result=1/result;
-        return result;
+        temp = power(x, y/2);
+        if (y%2 == 0)
+            return temp*temp;
+        else
+            return x*temp*temp;
     }
+    /* Extended version of power function that can work for float x and negative y*/
+    float power(float x, int y)
+    {
+        float temp;
+        if( y == 0)
+            return 1;
+        temp = power(x, y/2);
+        if (y%2 == 0)
+            return temp*temp;
+        else
+        {
+            if(y > 0)
+                return x*temp*temp;
+            else
+                return (temp*temp)/x;
+        }
+    }
+
     //Implement decimal to roman and vice versa
     public static String IntegerToRomanNumeral(int input) {
         if (input < 1 || input > 3999)
