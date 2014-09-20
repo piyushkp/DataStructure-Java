@@ -156,19 +156,14 @@ public class Array
     //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
     private int maxSubArraySum(int a[])
     {
-        int max_so_far = 0, max_ending_here = 0;
-        int i;
-        for(i = 0; i < a.length; i++)
-        {
-            max_ending_here = max_ending_here + a[i];
-            if(max_ending_here < 0)
-                max_ending_here = 0;
-     /* Do not compare for all elements. Compare only
-        when  max_ending_here > 0 */
-            else if (max_so_far < max_ending_here)
-                max_so_far = max_ending_here;
-        }
-        return max_so_far;
+            int max_so_far = a[0], i;
+            int curr_max = a[0];
+            for (i = 1; i < a.length; i++)
+            {
+                curr_max = Math.max(a[i], curr_max+a[i]);
+                max_so_far = Math.max(max_so_far, curr_max);
+            }
+            return max_so_far;
     }
     //Given an array that contains both positive and negative integers, find the product of the maximum product subarray.
     int maxSubarrayProduct(int arr[])
