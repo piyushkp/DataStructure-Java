@@ -122,8 +122,6 @@ public class MISC
         }
         return result;
     }
-
-
     /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
     followingMatrix[i][j] == true iff user i is following user j
     thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
