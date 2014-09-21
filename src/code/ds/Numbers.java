@@ -2,40 +2,38 @@ package code.ds;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
  * Created by ppatel2 on 9/8/2014.
  */
-public class Numbers
-{
+public class Numbers {
     //Function to calculate x raised to the power y in O(logn)
-    int power(int x, int y)
-    {
+    int power(int x, int y) {
         int temp;
-        if( y == 0)
+        if (y == 0)
             return 1;
-        temp = power(x, y/2);
-        if (y%2 == 0)
-            return temp*temp;
+        temp = power(x, y / 2);
+        if (y % 2 == 0)
+            return temp * temp;
         else
-            return x*temp*temp;
+            return x * temp * temp;
     }
+
     /* Extended version of power function that can work for float x and negative y*/
-    float power(float x, int y)
-    {
+    float power(float x, int y) {
         float temp;
-        if( y == 0)
+        if (y == 0)
             return 1;
-        temp = power(x, y/2);
-        if (y%2 == 0)
-            return temp*temp;
-        else
-        {
-            if(y > 0)
-                return x*temp*temp;
+        temp = power(x, y / 2);
+        if (y % 2 == 0)
+            return temp * temp;
+        else {
+            if (y > 0)
+                return x * temp * temp;
             else
-                return (temp*temp)/x;
+                return (temp * temp) / x;
         }
     }
 
@@ -46,7 +44,8 @@ public class Numbers
         String s = "";
         while (input >= 1000) {
             s += "M";
-            input -= 1000;        }
+            input -= 1000;
+        }
         while (input >= 900) {
             s += "CM";
             input -= 900;
@@ -97,19 +96,46 @@ public class Numbers
         }
         return s;
     }
-    // Find the Nearest points in A Plane
-    public ArrayList<Point> findNearest(Point center, int m) {
-        PriorityQueue<Point> q = new PriorityQueue<Point>();
-        for (Point p : points){
-            double dist = Math.pow((center.getX() - p.getX()),2) + Math.pow((center.getY() - p.getY()),2) ;
-            p.setDistFromCenter(dist);
-            q.add(p);
+
+    //Find the Nearest points in A Plane
+    //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
+    class Point {
+        double x, y;
+        public double getX() {
+            return x;
         }
-        ArrayList<Point> nearestPoints = new ArrayList<Point>();
-        for (int i = 0; i < m; i++){
-            nearestPoints.add(q.pool());
+        public void setX(double x) {
+            this.x = x;
         }
-        return nearestPoints;
+        public double getY() {
+            return y;
+        }
+        public void setY(double y) {
+            this.y = y;
+        }
+        private double distance2(Point center) {
+            return Math.pow((center.getX() - p.getX()), 2) + Math.pow((center.getY() - p.getY()), 2);
+        }
+    }
+    public PriorityQueue<Point> findNearest(ArrayList<Point> points, Point center, int m) {
+        PriorityQueue<Point> heap = new PriorityQueue<Point>(m,new Comparator<Point>() { //max heap
+            @Override
+            public int compare(Point a, Point b) {
+                return Integer.compare(b.distance2(center), a.distance2(center));
+            }
+        });
+        for(int i=0; i<points.size(); i++) { //O(n)
+            Point p = points.get(i);
+            if (p==center) continue; //use reference equals as there may be other points with the same coordinates as the center.
+            if (heap.size()<m) heap.add(p);
+            else {
+                if (p.distance2(center)<heap.peek().distance2(center)) { //O(1)
+                    heap.remove(); //O(log(m));
+                    heap.add(p); //O(log(m))
+                }
+            }
+        }
+        return  heap;
     }
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
     class Interval
