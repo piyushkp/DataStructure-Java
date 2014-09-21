@@ -97,7 +97,7 @@ public class Numbers {
         return s;
     }
 
-    //Find the Nearest points in A Plane
+    //Find the Nearest points in A Plane O(nlogm)
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point {
         double x, y;
@@ -121,7 +121,7 @@ public class Numbers {
         PriorityQueue<Point> heap = new PriorityQueue<Point>(m,new Comparator<Point>() { //max heap
             @Override
             public int compare(Point a, Point b) {
-                return Integer.compare(b.distance2(center), a.distance2(center));
+                return  (b.distance2(center), a.distance2(center));
             }
         });
         for(int i=0; i<points.size(); i++) { //O(n)
