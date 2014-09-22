@@ -22,6 +22,7 @@ public class StringImp {
         }
         System.out.printf("%c%d", first, count);
     }
+
     //Finds first non repeated character in a String in just one pass.
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
@@ -39,6 +40,7 @@ public class StringImp {
         }
         return nonrepeating.get(0);
     }
+
     //Return maximum occurring character in the input string
     public static String getMaxRepeatedChar(String txt) {
         if ((txt != null)) {
@@ -65,33 +67,28 @@ public class StringImp {
         }
         return null;
     }
+
     // Find the first occurrence of number.
-    private int findFirstoccrrence(int[] A, int k)
-    {
+    private int findFirstoccrrence(int[] A, int k) {
         int low = 0;
         int high = A.length;
         int result = -1;
-        while (low <= high)
-        {
-            int mid = (low + high) /2;
-            if(k == A[mid])
-            {
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (k == A[mid]) {
                 result = mid;
-                high = mid -1;
+                high = mid - 1;
                 // for the last occurrence
                 // low = mid + 1;
-            }
-            else if (k < A[mid])
-            {
-                high = mid -1;
-            }
-            else if (k > A[mid])
-            {
+            } else if (k < A[mid]) {
+                high = mid - 1;
+            } else if (k > A[mid]) {
                 low = mid + 1;
             }
-         }
+        }
         return result;
     }
+
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
@@ -115,6 +112,7 @@ public class StringImp {
         }
         return false;
     }
+
     /* Regular Expression Matching
     Implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
@@ -140,66 +138,59 @@ public class StringImp {
             }
         }
     }
+
     //Given set of characters and a string, find smallest substring which contains all characters
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
     public String minSubString(String S, String T) {
-        if (S==null||T==null){
+        if (S == null || T == null) {
             return null;
         }
-        if(S.length()==0 && T.length()==0){
+        if (S.length() == 0 && T.length() == 0) {
             return "";
         }
-        if (S.length()<T.length()){
-            return"";
+        if (S.length() < T.length()) {
+            return "";
         }
-        HashMap<Character, Integer>needFind=new HashMap<Character, Integer>();
-        HashMap<Character, Integer>alreadyFind=new HashMap<Character, Integer>();
-        for(int i=0; i<T.length(); i++)
-        {
+        HashMap<Character, Integer> needFind = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> alreadyFind = new HashMap<Character, Integer>();
+        for (int i = 0; i < T.length(); i++) {
             alreadyFind.put(T.charAt(i), 0);
-            if (needFind.containsKey(T.charAt(i)))
-            {
-                needFind.put(T.charAt(i), needFind.get(T.charAt(i))+1);
-            }
-            else{
+            if (needFind.containsKey(T.charAt(i))) {
+                needFind.put(T.charAt(i), needFind.get(T.charAt(i)) + 1);
+            } else {
                 needFind.put(T.charAt(i), 1);
             }
         }
-        int minStart=-1;
-        int minEnd=S.length();
-        int start=0;
-        int len=0;
-        for (int i=0; i<S.length(); i++){
-            if (alreadyFind.containsKey(S.charAt(i)))
-            {
-                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i))+1);
-                if (alreadyFind.get(S.charAt(i))<=needFind.get(S.charAt(i)))
-                {
+        int minStart = -1;
+        int minEnd = S.length();
+        int start = 0;
+        int len = 0;
+        for (int i = 0; i < S.length(); i++) {
+            if (alreadyFind.containsKey(S.charAt(i))) {
+                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i)) + 1);
+                if (alreadyFind.get(S.charAt(i)) <= needFind.get(S.charAt(i))) {
                     len++;
                 }
-                if (len==T.length())
-                {
-                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start))>needFind.get(S.charAt(start)))
-                    {
-                        if (needFind.containsKey(S.charAt(start)))
-                        {
-                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start))-1);
+                if (len == T.length()) {
+                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start)) > needFind.get(S.charAt(start))) {
+                        if (needFind.containsKey(S.charAt(start))) {
+                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start)) - 1);
                         }
                         start++;
                     }
-                    if (i-start<minEnd-minStart)
-                    {
-                        minStart=start;
-                        minEnd=i;
+                    if (i - start < minEnd - minStart) {
+                        minStart = start;
+                        minEnd = i;
                     }
                 }
             }
         }
-        if (minStart==-1){
+        if (minStart == -1) {
             return "";
         }
-        return S.substring(minStart, minEnd+1);
+        return S.substring(minStart, minEnd + 1);
     }
+
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
@@ -222,6 +213,7 @@ public class StringImp {
         }
         return maxLength;
     }
+
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
     // The sequences returned i.e. the output must be sorted alphabetically
     //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
@@ -234,8 +226,7 @@ public class StringImp {
             int j = i + sequenceLength;
             Set<String> tempSet = new HashSet<String>();
             Set<String> repeatingSequences = new TreeSet<String>();
-            while (j <= inputString.length())
-            {
+            while (j <= inputString.length()) {
                 if (!tempSet.add(inputString.substring(i, j))) {
                     repeatingSequences.add(inputString.substring(i, j));
                 }
@@ -247,6 +238,7 @@ public class StringImp {
             }
         }
     }
+
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
     public static int count_runs(String target) {
@@ -266,130 +258,140 @@ public class StringImp {
         }
         return rpt;
     }
+
     //Remove duplicate characters in a given string keeping only the first occurrences.
-    private String removeDuplicate(String s)
-    {
-        if(s == null)
+    private String removeDuplicate(String s) {
+        if (s == null)
             return null;
         HashSet<Character> _set = new HashSet<Character>();
         StringBuffer result = new StringBuffer();
         char[] _ch = s.toCharArray();
-        for (int i = 0; i < _ch.length; i++)
-        {
-            if(!_set.contains(_ch[i])) {
+        for (int i = 0; i < _ch.length; i++) {
+            if (!_set.contains(_ch[i])) {
                 _set.add(_ch[i]);
                 result.append(_ch[i]);
             }
         }
-        return  result.toString();
+        return result.toString();
     }
+
     //Permutations of the string
-    void permute( String str ){
+    void permute(String str) {
         int length = str.length();
-        boolean[] used = new boolean[ length ];
+        boolean[] used = new boolean[length];
         StringBuffer out = new StringBuffer();
         char[] in = str.toCharArray();
-        doPermute( in, out, used, length, 0 );
+        doPermute(in, out, used, length, 0);
     }
-    void doPermute( char[] in, StringBuffer out,
-                    boolean[] used, int length, int level ){
-        if( level == length ){
-            System.out.println( out.toString() );
+
+    void doPermute(char[] in, StringBuffer out,
+                   boolean[] used, int length, int level) {
+        if (level == length) {
+            System.out.println(out.toString());
             return;
         }
-        for( int i = 0; i < length; ++i ){
-            if( used[i] ) continue;
-            out.append( in[i] );
+        for (int i = 0; i < length; ++i) {
+            if (used[i]) continue;
+            out.append(in[i]);
             used[i] = true;
-            doPermute( in, out, used, length, level + 1 );
+            doPermute(in, out, used, length, level + 1);
             used[i] = false;
-            out.setLength( out.length() - 1 );
+            out.setLength(out.length() - 1);
         }
     }
+
     //combination of the string
-    void combine( String str ){
+    void combine(String str) {
         int length = str.length();
         char[] instr = str.toCharArray();
         StringBuilder outstr = new StringBuilder();
-        doCombine( instr, outstr, length, 0, 0 );
+        doCombine(instr, outstr, length, 0, 0);
     }
-    void doCombine( char[] instr, StringBuilder outstr, int length,
-                    int level, int start ){
-        for( int i = start; i < length; i++ ){
-            outstr.append( instr[i] );
-            System.out.println( outstr );
-            if( i < length - 1 ){
-                doCombine( instr, outstr, length, level + 1, i + 1 );
+
+    void doCombine(char[] instr, StringBuilder outstr, int length,
+                   int level, int start) {
+        for (int i = start; i < length; i++) {
+            outstr.append(instr[i]);
+            System.out.println(outstr);
+            if (i < length - 1) {
+                doCombine(instr, outstr, length, level + 1, i + 1);
             }
             outstr.setLength(outstr.length() - 1);
         }
     }
+
     //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
     //given "turtle", "tletur"; returns true
-    private static class Mapping{
+    private static class Mapping {
         private final Character c;
         private final List<Integer> integers;
+
         public Mapping(Character c, List<Integer> integers) {
             this.c = c;
             this.integers = integers;
         }
+
         private Character getC() {
             return c;
         }
+
         private List<Integer> getIntegers() {
             return integers;
         }
     }
+
     public static List<Mapping> getMap(String s) throws Exception {
-        if(s== null || s.isEmpty()) throw new Exception("String cannot be null or empty");
+        if (s == null || s.isEmpty()) throw new Exception("String cannot be null or empty");
         LinkedHashMap<Character, List<Integer>> map = new LinkedHashMap<Character, List<Integer>>();
         char[] chars = s.toCharArray();
-        for(int i = 0; i < chars.length; i++){
-            if(!map.containsKey(chars[i])) map.put(chars[i], new ArrayList<Integer>());
+        for (int i = 0; i < chars.length; i++) {
+            if (!map.containsKey(chars[i])) map.put(chars[i], new ArrayList<Integer>());
             map.get(chars[i]).add(i);
         }
         List<Mapping> result = new ArrayList<Mapping>();
-        for(Character c : map.keySet())
+        for (Character c : map.keySet())
             result.add(new Mapping(c, map.get(c)));
         return result;
     }
+
     public static boolean areIsomorphic(String a, String b) throws Exception {
-        if(a.length() != b.length()) return false;
+        if (a.length() != b.length()) return false;
         List<Mapping> mapA = getMap(a);
         List<Mapping> mapB = getMap(b);
-        if(mapA.size() != mapB.size()) return false;
-        for(int i = 0; i< mapA.size(); i++){
+        if (mapA.size() != mapB.size()) return false;
+        for (int i = 0; i < mapA.size(); i++) {
             Mapping fromA = mapA.get(i);
             Mapping fromB = mapB.get(i);
-            if(fromA.getIntegers().size() != fromB.getIntegers().size()) return false;
-            for(int j = 0; j < fromA.getIntegers().size(); j++)
-                if(fromA.getIntegers().get(j) != fromB.getIntegers().get(j)) return false;
+            if (fromA.getIntegers().size() != fromB.getIntegers().size()) return false;
+            for (int j = 0; j < fromA.getIntegers().size(); j++)
+                if (fromA.getIntegers().get(j) != fromB.getIntegers().get(j)) return false;
         }
         return true;
     }
+
     //Find distance between words in a string
     //eg: String => "I am a good girl" distance between "I" and "good" is 3
     public static void distBetWords(String str, String word1, String word2) {
         StringTokenizer st = new StringTokenizer(str);
         int numberOfWords = 0;
         boolean start = false;
-        while(st.hasMoreTokens()){
+        while (st.hasMoreTokens()) {
             String token = st.nextToken();
-            if(token.equals(word1)){
+            if (token.equals(word1)) {
                 start = true;
                 continue;
             }
-            if(start) {
-                if(token.equals(word2)){
+            if (start) {
+                if (token.equals(word2)) {
                     start = false;
-                }
-                else {
+                } else {
                     numberOfWords++;
                 }
             }
         }
         System.out.println(numberOfWords);
     }
+
     //Reverse words in a string
     public static String reverseWords(String sentence) {
         StringBuilder sb = new StringBuilder(sentence.length() + 1);
@@ -400,109 +402,88 @@ public class StringImp {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
+
     //find count of common characters presented in an array of strings or array of character arrays
-    private void CountOfCommonCharacters(String s, String S1, String S2)
-    {
+    private void CountOfCommonCharacters(String s, String S1, String S2) {
         char[] _chars = s.toCharArray();
         Set<String> _set = new HashSet<String>();
-        for(int i = 0; i < _chars.length; i++)
-        {
+        for (int i = 0; i < _chars.length; i++) {
             char c = _chars[i];
-            if(S1.indexOf(c) != -1 && S2.indexOf(c) != -1)
+            if (S1.indexOf(c) != -1 && S2.indexOf(c) != -1)
                 _set.add(String.valueOf(c));
         }
-        for(String string: _set)
+        for (String string : _set)
             System.out.println(string);
     }
+
     //word wrap
-    void wrapthis(String para,int w)
-    {
-        String c[]=para.split(" ");
-        int n=c.length;
-        int cost[]=new int[n];
-        int [][]espace=new int[n][n];
-        int line[]=new int[n];
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<=i;j++)
-            {
-                int t=0;
-                if(i==j)
-                {
-                    t=c[i].length();
-                }
-                else
-                {
-                    if(i>j)
-                    {
-                        for(int k=j;k<=i;k++)
-                        {
-                            t=t+c[k].length();
+    void wrapthis(String para, int w) {
+        String c[] = para.split(" ");
+        int n = c.length;
+        int cost[] = new int[n];
+        int[][] espace = new int[n][n];
+        int line[] = new int[n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j <= i; j++) {
+                int t = 0;
+                if (i == j) {
+                    t = c[i].length();
+                } else {
+                    if (i > j) {
+                        for (int k = j; k <= i; k++) {
+                            t = t + c[k].length();
                         }
-                    }
-                    else
-                    {
-                        for(int k=i;k<=j;k++)
-                        {
-                            t=t+c[k].length();
+                    } else {
+                        for (int k = i; k <= j; k++) {
+                            t = t + c[k].length();
                         }
                     }
                 }
                 //System.out.print(" t:"+t);
-                if(t>w)
-                {
-                    espace[i][j]=-1;
-                    espace[j][i]=-1;
+                if (t > w) {
+                    espace[i][j] = -1;
+                    espace[j][i] = -1;
+                } else {
+                    espace[i][j] = w - t - (i - j);
+                    espace[j][i] = w - t - (i - j);
                 }
-                else
-                {
-                    espace[i][j]=w-t-(i-j);
-                    espace[j][i]=w-t-(i-j);
-                }
-                System.out.print(" "+espace[i][j]);
+                System.out.print(" " + espace[i][j]);
             }
             System.out.println();
         }
-        int es=w-c[0].length();
-        cost[0]=es*es*es;
-        for(int j=1;j<n;j++)
-        {
+        int es = w - c[0].length();
+        cost[0] = es * es * es;
+        for (int j = 1; j < n; j++) {
             int t;
-            int tl=c[j].length();
-            cost[j]=Integer.MAX_VALUE;
-            for(int i=1;i<=j;i++)
-            {
-                if(espace[i][j]!=-1)
-                {
-                    t=cost[i-1]+espace[i][j]*espace[i][j]*espace[i][j];
+            int tl = c[j].length();
+            cost[j] = Integer.MAX_VALUE;
+            for (int i = 1; i <= j; i++) {
+                if (espace[i][j] != -1) {
+                    t = cost[i - 1] + espace[i][j] * espace[i][j] * espace[i][j];
                     //System.out.println("t:"+t);
-                    if(t<cost[j])
-                    {
-                        cost[j]=t;
-                        line[j]=i;
+                    if (t < cost[j]) {
+                        cost[j] = t;
+                        line[j] = i;
                     }
                 }
             }
-            System.out.println("optimal line"+ line[j]);
+            System.out.println("optimal line" + line[j]);
         }
-        System.out.println("optimal cost"+cost[n-1]);
+        System.out.println("optimal cost" + cost[n - 1]);
         int pre;
-        System.out.print(" "+c[0]);
-        pre=0;
-        for(int i=1;i<n;i++)
-        {
-            if(line[i]==pre)
-            {
-                System.out.print(" "+c[i]);
-            }
-            else
-            {
+        System.out.print(" " + c[0]);
+        pre = 0;
+        for (int i = 1; i < n; i++) {
+            if (line[i] == pre) {
+                System.out.print(" " + c[i]);
+            } else {
                 System.out.println();
-                System.out.print(" "+c[i]);
-                pre=line[i];
+                System.out.print(" " + c[i]);
+                pre = line[i];
             }
         }
     }
+
     //Return the smallest character that is strictly larger than the search character,
     //If no such character exists, return the smallest character in the array
     //given sorted list of letters, sorted in ascending order
@@ -514,44 +495,77 @@ public class StringImp {
         while (left < right) {
             int mid = left + (right - left) / 2;
             if (list[mid] == c) {
-                if (mid < list.length - 1) return list[mid+1];
+                if (mid < list.length - 1) return list[mid + 1];
                 else return result;
-            }
-            else if (list[mid] < c) {
+            } else if (list[mid] < c) {
                 left = mid + 1;
-            }
-            else {//list[mid] > c
+            } else {//list[mid] > c
                 result = list[mid];
                 right = mid - 1;
             }
         }
         return result;
     }
+
     // Check whether two strings are Anagram or not
-    private boolean areAnagram(String s1, String s2)
-    {
-        if(s1.length() != s2.length())
+    private boolean areAnagram(String s1, String s2) {
+        if (s1.length() != s2.length())
             return false;
         HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
         for (int i = 0; i < s1.length(); i++) {
             Character ch = s1.charAt(i);
-            Integer count = (Integer) counter.get( ch );
-            if ( count == null )
-                counter.put( ch, 1);
-            else{
-                counter.put( ch, count + 1 );
+            Integer count = (Integer) counter.get(ch);
+            if (count == null)
+                counter.put(ch, 1);
+            else {
+                counter.put(ch, count + 1);
             }
         }
         for (int i = 0; i < s2.length(); i++) {
             Character ch = s2.charAt(i);
-            Integer count = (Integer) counter.get( ch );
-            if ( count == null  || count== 0 )
+            Integer count = (Integer) counter.get(ch);
+            if (count == null || count == 0)
                 return false;
-            else{
-                counter.put( ch, count - 1 );
+            else {
+                counter.put(ch, count - 1);
             }
         }
-        return  true;
+        return true;
     }
+    //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
+    String expandAroundCenter(String s, int c1, int c2) {
+        int l = c1, r = c2;
+        int n = s.length();
+        while (l >= 0 && r <= n - 1 && s.charAt(l) == s.charAt(r)) {
+            l--;
+            r++;
+        }
+        return s.substring(l + 1, r - l - 1);
+    }
+    String longestPalindromeSimple(String s) {
+        int n = s.length();
+        if (n == 0) return "";
+        String longest = s.substring(0, 1);  // a single char itself is a palindrome
+        for (int i = 0; i < n - 1; i++) {
+            String p1 = expandAroundCenter(s, i, i);
+            if (p1.length() > longest.length())
+                longest = p1;
+
+            String p2 = expandAroundCenter(s, i, i + 1);
+            if (p2.length() > longest.length())
+                longest = p2;
+        }
+        return longest;
+    }
+    //A Program to check if strings are rotations of each other or not
+    //given s1 = ABCD and s2 = CDAB, return true
+    boolean areRotations(String s1, String s2)
+    {
+        String temp = s1+s1;
+        if(temp.contains(s2))
+            return true;
+        return false;
+    }
+
 }
 
