@@ -317,24 +317,18 @@ public class Tree {
             nodetoDelete = successor;
         }
     }
-    private Node FindParent(int key, Node Parent)
-    {
-        Node node = root;
-        while (node != null)
-        {
-            if (node.data == key)
-                return node;
-            if (key < node.data)
-            {
-                Parent = node;
-                node = node.left;
-            }
-            else
-            {
-                Parent = node;
-                node = node.right;
-            }
+    private Node findParent(Node node, Node parent, int target){
+        if (node.data == target) {
+            return parent;
         }
+        if (node.left == null) return null;
+        Node temp = findParent(node.left, node, target);
+        if(temp != null)
+            return temp;
+        if (node.right == null) return null;
+        temp = findParent(node.right, node, target);
+        if(temp != null)
+            return temp;
         return null;
     }
     private Node FindSuccessor(Node startNode, Node parent)
