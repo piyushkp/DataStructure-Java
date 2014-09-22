@@ -853,5 +853,32 @@ public class Tree {
         int min = Math.min(minLeft, minRight);
         return 1 + min;
     }
+    //Inorder Successor in Binary Search Tree
+    private Node inOrderSuccessor(Node root, Node n)
+    {
+        if(n.right != null)
+            return minValue(n.right);
+        Node succ = null;
+        while(root != null)
+        {
+            if(n.data < root.data)
+            {
+                succ = root;
+                root = root.left;
+            }
+            else if (n.data > root.data)
+                root = root.right;
+            else
+                break;
+        }
+        return succ;
+    }
+    private Node minValue(Node node)
+    {
+        Node curr = node;
+        while(curr.left != null)
+            curr = curr.left;
+        return curr;
+    }
 }
 
