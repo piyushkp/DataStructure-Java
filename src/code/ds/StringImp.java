@@ -527,5 +527,31 @@ public class StringImp {
         }
         return result;
     }
+    // Check whether two strings are Anagram or not
+    private boolean areAnagram(String s1, String s2)
+    {
+        if(s1.length() != s2.length())
+            return false;
+        HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
+        for (int i = 0; i < s1.length(); i++) {
+            Character ch = s1.charAt(i);
+            Integer count = (Integer) counter.get( ch );
+            if ( count == null )
+                counter.put( ch, 1);
+            else{
+                counter.put( ch, count + 1 );
+            }
+        }
+        for (int i = 0; i < s2.length(); i++) {
+            Character ch = s2.charAt(i);
+            Integer count = (Integer) counter.get( ch );
+            if ( count == null  || count== 0 )
+                return false;
+            else{
+                counter.put( ch, count - 1 );
+            }
+        }
+        return  true;
+    }
 }
 
