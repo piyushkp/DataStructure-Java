@@ -674,7 +674,6 @@ public class Tree {
             return root.left;
         return null;
     }
-
     // Given a Binary Search Tree and a value, find the closest element to the given value in BST.
     private void closest_element(Node root, int value, int minValue) {
         if (root == null)
