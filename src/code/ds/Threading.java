@@ -67,5 +67,4 @@ public class Threading
         t1.start();
         t2.start();
     }
-    //Implement a delayed scheduler for jobs using pthread apis
 }

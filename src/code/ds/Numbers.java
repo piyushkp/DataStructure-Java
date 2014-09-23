@@ -20,7 +20,6 @@ public class Numbers {
         else
             return x * temp * temp;
     }
-
     /* Extended version of power function that can work for float x and negative y*/
     float power(float x, int y) {
         float temp;
@@ -36,7 +35,6 @@ public class Numbers {
                 return (temp * temp) / x;
         }
     }
-
     //Implement decimal to roman and vice versa
     public static String IntegerToRomanNumeral(int input) {
         if (input < 1 || input > 3999)
@@ -96,7 +94,6 @@ public class Numbers {
         }
         return s;
     }
-
     //Find the Nearest points in A Plane O(nlogm)
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point {
