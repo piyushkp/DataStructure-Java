@@ -306,6 +306,17 @@ public class Array
                 endIndex = i;
         }
     }
+    //Find duplicates in O(n) time and O(1) extra space
+    void printRepeating(int arr[])
+    {
+        for (int i = 0; i < arr.length; i++)
+        {
+            if (arr[Math.abs(arr[i])] >= 0)
+                arr[Math.abs(arr[i])] = -arr[Math.abs(arr[i])];
+            else
+                System.out.print(Math.abs(arr[i]));
+        }
+    }
     //Given an array arr[] of n integers, construct a Product Array prod[] (of same size)
     //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
     //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
