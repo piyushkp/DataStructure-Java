@@ -378,5 +378,39 @@ public class Array
                 k++;
         }
     }
+    //Given an unsorted array arr[] and two numbers x and y, find the minimum distance between x and y in arr[]
+    //arr[] = {3, 4, 5}, x = 3, y = 5 Minimum distance between 3 and 5 is 2
+    int minDist(int arr[], int n, int x, int y)
+    {
+        int i = 0;
+        int min_dist = Integer.MAX_VALUE;
+        int prev;
+        for (i = 0; i < n; i++)
+        {
+            if (arr[i] == x || arr[i] == y)
+            {
+                prev = i;
+                break;
+            }
+        }
+        // Traverse after the first occurence
+        for ( ; i < n; i++)
+        {
+            if (arr[i] == x || arr[i] == y)
+            {
+                // If the current element matches with any of the two then
+                // check if current element and prev element are different
+                // Also check if this value is smaller than minimm distance so far
+                if ( arr[prev] != arr[i] && (i - prev) < min_dist )
+                {
+                    min_dist = i - prev;
+                    prev = i;
+                }
+                else
+                    prev = i;
+            }
+        }
+        return min_dist;
+    }
 }
 

@@ -67,8 +67,7 @@ public class StringImp {
         }
         return null;
     }
-
-    // Find the first occurrence of number.
+    // Find the first occurrence of number in a Array.
     private int findFirstoccrrence(int[] A, int k) {
         int low = 0;
         int high = A.length;
@@ -238,7 +237,6 @@ public class StringImp {
             }
         }
     }
-
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
     public static int count_runs(String target) {
@@ -258,7 +256,6 @@ public class StringImp {
         }
         return rpt;
     }
-
     //Remove duplicate characters in a given string keeping only the first occurrences.
     private String removeDuplicate(String s) {
         if (s == null)
@@ -274,7 +271,6 @@ public class StringImp {
         }
         return result.toString();
     }
-
     //Permutations of the string
     void permute(String str) {
         int length = str.length();
@@ -283,7 +279,6 @@ public class StringImp {
         char[] in = str.toCharArray();
         doPermute(in, out, used, length, 0);
     }
-
     void doPermute(char[] in, StringBuffer out,
                    boolean[] used, int length, int level) {
         if (level == length) {
@@ -368,30 +363,70 @@ public class StringImp {
         }
         return true;
     }
-
-    //Find distance between words in a string
-    //eg: String => "I am a good girl" distance between "I" and "good" is 3
-    public static void distBetWords(String str, String word1, String word2) {
-        StringTokenizer st = new StringTokenizer(str);
-        int numberOfWords = 0;
-        boolean start = false;
-        while (st.hasMoreTokens()) {
-            String token = st.nextToken();
-            if (token.equals(word1)) {
-                start = true;
-                continue;
+    //Find minimum distance between two words (order preserved) in a big string
+    //eg: For e.g 1. "hello how are you" - distance between "hello" and "you" is 3.
+    // e.g 2. "hello how are hello you" - distance is 1
+    // e.g 3. "you are hello" - distance is -1. Order of "hello" and "you" should be preserved.
+    public static int findDistanceBetweenWords(String inputBody, String pair1, String pair2) {
+        if (inputBody.isEmpty() || pair1.isEmpty() || pair2.isEmpty()) {
+            return -1;
+        }
+        if (pair1.equals(pair2)) {
+            return 0;
+        }
+        StringTokenizer stringTokenizer = new StringTokenizer(inputBody, " ");
+        int distance = 0, globalDistance = Integer.MAX_VALUE;
+        String token;
+        while (stringTokenizer.hasMoreTokens()) {
+            token = stringTokenizer.nextToken();
+            if (token.equals(pair1)) {
+                distance = 0;
+            } else if (token.equals(pair2)) {
+                globalDistance = Math.min(distance, globalDistance);
             }
-            if (start) {
-                if (token.equals(word2)) {
-                    start = false;
-                } else {
-                    numberOfWords++;
+            distance++;
+        }
+        if (globalDistance == Integer.MAX_VALUE || globalDistance == 0) {
+            return -1;
+        } else {
+            return globalDistance;
+        }
+    }
+    /* Input pair can be considered in any order. For e.g. "A B C D A" - Min distance between A and D is 1. With order
+     * preserved it would have been 3.*/
+    public static int findDistanceBetweenWordsUnOrdered(String inputBody, String pair1, String pair2) {
+        if (inputBody.isEmpty() || pair1.isEmpty() || pair2.isEmpty()) {
+            return -1;
+        }
+        if (pair1.equals(pair2)) {
+            return 0;
+        }
+        StringTokenizer stringTokenizer = new StringTokenizer(inputBody, " ");
+        int distance = 0, globalDistance = Integer.MAX_VALUE;
+        String previous = "";
+        while (stringTokenizer.hasMoreTokens()) {
+            String token = stringTokenizer.nextToken();
+            if (previous.isEmpty())
+            {
+                if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
+                    previous = token;
                 }
             }
+            else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
+                if (!token.equalsIgnoreCase(previous)) {
+                    globalDistance = Math.min(globalDistance, distance);
+                    previous = token;
+                }
+                distance = 0;
+            }
+            distance++;
         }
-        System.out.println(numberOfWords);
+        // None of the pairs were found in inputBody.
+        if (previous.isEmpty() || globalDistance == Integer.MAX_VALUE) {
+            return -1;
+        }
+        return globalDistance;
     }
-
     //Reverse words in a string
     public static String reverseWords(String sentence) {
         StringBuilder sb = new StringBuilder(sentence.length() + 1);
