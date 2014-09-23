@@ -22,7 +22,6 @@ public class StringImp {
         }
         System.out.printf("%c%d", first, count);
     }
-
     //Finds first non repeated character in a String in just one pass.
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
@@ -40,7 +39,6 @@ public class StringImp {
         }
         return nonrepeating.get(0);
     }
-
     //Return maximum occurring character in the input string
     public static String getMaxRepeatedChar(String txt) {
         if ((txt != null)) {
@@ -87,7 +85,6 @@ public class StringImp {
         }
         return result;
     }
-
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
@@ -137,7 +134,6 @@ public class StringImp {
             }
         }
     }
-
     //Given set of characters and a string, find smallest substring which contains all characters
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
     public String minSubString(String S, String T) {
@@ -212,7 +208,6 @@ public class StringImp {
         }
         return maxLength;
     }
-
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
     // The sequences returned i.e. the output must be sorted alphabetically
     //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
@@ -294,7 +289,6 @@ public class StringImp {
             out.setLength(out.length() - 1);
         }
     }
-
     //combination of the string
     void combine(String str) {
         int length = str.length();
@@ -302,7 +296,6 @@ public class StringImp {
         StringBuilder outstr = new StringBuilder();
         doCombine(instr, outstr, length, 0, 0);
     }
-
     void doCombine(char[] instr, StringBuilder outstr, int length,
                    int level, int start) {
         for (int i = start; i < length; i++) {
@@ -314,7 +307,6 @@ public class StringImp {
             outstr.setLength(outstr.length() - 1);
         }
     }
-
     //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
     //given "turtle", "tletur"; returns true
     private static class Mapping {
@@ -434,7 +426,6 @@ public class StringImp {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
-
     //find count of common characters presented in an array of strings or array of character arrays
     private void CountOfCommonCharacters(String s, String S1, String S2) {
         char[] _chars = s.toCharArray();
@@ -447,7 +438,6 @@ public class StringImp {
         for (String string : _set)
             System.out.println(string);
     }
-
     //word wrap
     void wrapthis(String para, int w) {
         String c[] = para.split(" ");
@@ -515,7 +505,6 @@ public class StringImp {
             }
         }
     }
-
     //Return the smallest character that is strictly larger than the search character,
     //If no such character exists, return the smallest character in the array
     //given sorted list of letters, sorted in ascending order
