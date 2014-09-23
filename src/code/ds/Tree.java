@@ -265,7 +265,7 @@ public class Tree {
     {
         Node parent = null;
 
-        Node nodetoDelete = FindParent(key, parent);
+        Node nodetoDelete = findParent(root, parent, key);
 
         if (nodetoDelete.left == null && nodetoDelete.right == null)
         {
