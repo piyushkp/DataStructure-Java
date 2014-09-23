@@ -325,16 +325,13 @@ public class StringImp {
             this.c = c;
             this.integers = integers;
         }
-
         private Character getC() {
             return c;
         }
-
         private List<Integer> getIntegers() {
             return integers;
         }
     }
-
     public static List<Mapping> getMap(String s) throws Exception {
         if (s == null || s.isEmpty()) throw new Exception("String cannot be null or empty");
         LinkedHashMap<Character, List<Integer>> map = new LinkedHashMap<Character, List<Integer>>();
@@ -348,7 +345,6 @@ public class StringImp {
             result.add(new Mapping(c, map.get(c)));
         return result;
     }
-
     public static boolean areIsomorphic(String a, String b) throws Exception {
         if (a.length() != b.length()) return false;
         List<Mapping> mapA = getMap(a);
@@ -412,7 +408,8 @@ public class StringImp {
                     previous = token;
                 }
             }
-            else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
+            else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2))
+            {
                 if (!token.equalsIgnoreCase(previous)) {
                     globalDistance = Math.min(globalDistance, distance);
                     previous = token;
