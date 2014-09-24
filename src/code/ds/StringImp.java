@@ -243,8 +243,8 @@ public class StringImp {
             char curr = target.charAt(i);
             if (curr == prev) {
                 rpt++;
-
-                while (i < target.length() - 1 && (target.charAt(i + 1) == curr || target.charAt(i + 1) == ' ' || target.charAt(i + 1) == '.')) {
+                while (i < target.length() - 1 &&
+                        (target.charAt(i + 1) == curr || target.charAt(i + 1) == ' ' || target.charAt(i + 1) == '.')) {
                     i++;
                 }
             } else {
@@ -314,7 +314,6 @@ public class StringImp {
     private static class Mapping {
         private final Character c;
         private final List<Integer> integers;
-
         public Mapping(Character c, List<Integer> integers) {
             this.c = c;
             this.integers = integers;
