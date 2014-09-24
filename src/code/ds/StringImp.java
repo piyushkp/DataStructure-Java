@@ -528,7 +528,6 @@ public class StringImp {
         }
         return result;
     }
-
     // Check whether two strings are Anagram or not
     private boolean areAnagram(String s1, String s2) {
         if (s1.length() != s2.length())

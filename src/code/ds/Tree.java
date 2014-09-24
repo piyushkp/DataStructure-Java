@@ -98,7 +98,6 @@ public class Tree {
         Queue<Node> _queue = null;
         Node tmp = null;
         _queue.add(root);
-
         while (_queue.size() > 0) {
             tmp = _queue.remove();
             if (tmp.data == target)
@@ -209,7 +208,6 @@ public class Tree {
             return;
         Stack<Node> nodeStack = new Stack<Node>();
         nodeStack.push(root);
-
             /* Pop all items one by one. Do following for every popped item
                a) print it
                b) push its right child
@@ -255,9 +253,7 @@ public class Tree {
     // Delete node from tree
     public void delete(int key) {
         Node parent = null;
-
         Node nodetoDelete = findParent(root, parent, key);
-
         if (nodetoDelete.left == null && nodetoDelete.right == null) {
             if (parent != null) {
                 if (parent.left == nodetoDelete)
@@ -395,13 +391,10 @@ public class Tree {
     public int diameterOfBinaryTree(Node node) {
         if (node == null)
             return 0;
-
         int leftHeight = heightOfBinaryTree(node.left);
         int rightHeight = heightOfBinaryTree(node.right);
-
         int leftDiameter = diameterOfBinaryTree(node.left);
         int rightDiameter = diameterOfBinaryTree(node.right);
-
         return Math.max(leftHeight + rightHeight + 1, Math.max(leftDiameter, rightDiameter));
     }
     public int heightOfBinaryTree(Node node) {
@@ -423,16 +416,17 @@ public class Tree {
         return tree;
     }
     // Find out if given tree is Binary Search Tree or not
-    private Boolean IsBSTUtil(Node root, int minValue, int maxValue) {
-        if (root == null)
+    //Integer.MIN_VALUE, Integer.MAX_VALUE
+    public static boolean validateBST(Node root, int min, int max) {
+        if (root == null) {
             return true;
-        if (root.data < minValue
-                && root.data > maxValue
-                && IsBSTUtil(root.left, minValue, root.data)
-                && IsBSTUtil(root.right, root.data, maxValue))
-            return true;
-        else
+        }
+        // not in range
+        if (root.data <= min || root.data >= max) {
             return false;
+        }
+        // left subtree must be < root.val && right subtree must be > root.val
+        return validateBST(root.left, min, root.data) && validateBST(root.right, root.data, max);
     }
     Node prev;
     private Boolean isBST(Node root) {
@@ -443,7 +437,6 @@ public class Tree {
             if (prev != null && root.data <= prev.data)
                 return false;
             prev = root;
-
             return isBST(root.right);
         }
         return true;
@@ -468,7 +461,6 @@ public class Tree {
             }
         }
     }
-
     public Node getMin() {
         temp = root;
         while (true) {
