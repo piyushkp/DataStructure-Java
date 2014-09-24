@@ -404,14 +404,14 @@ public class Array
                 break;
             }
         }
-        // Traverse after the first occurrence
+        //Traverse after the first occurrence
         for ( ; i < n; i++)
         {
             if (arr[i] == x || arr[i] == y)
             {
                 // If the current element matches with any of the two then
                 // check if current element and prev element are different
-                // Also check if this value is smaller than minimm distance so far
+                // Also check if this value is smaller than minimum distance so far
                 if ( arr[prev] != arr[i] && (i - prev) < min_dist )
                 {
                     min_dist = i - prev;
