@@ -19,9 +19,7 @@ public class Trie
             this.letter=letter;
         }
     }
-
     Node root = new Node();
-
     boolean contains(java.lang.String word){
         Node current = root;
         char[] word_ = word.toCharArray();
@@ -32,8 +30,6 @@ public class Trie
         }
         return current.isTerminal;
     }
-
-
     List<Integer> getItem(java.lang.String word){
         Node current = root;
         char[] word_ = word.toCharArray();
@@ -45,13 +41,11 @@ public class Trie
         current.isTerminal=true;
         return current.positions;
     }
-
     void print(){
         List<Node> l = new ArrayList<Node>();
         l.add(root);
         output(l,"");
     }
-
     //Depth First Search
     void output(List<Node> currentPath, java.lang.String indent){
         Node current = currentPath.get(currentPath.size()-1);

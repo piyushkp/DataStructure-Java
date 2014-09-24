@@ -42,7 +42,6 @@ public class HashTableImp {
                 cur.setNext(new Entry(key,value));//add it to end of table
             }
         }
-
         public V get(K key)
         {
             int index = hash(key.hashCode())%table.length;
@@ -63,10 +62,8 @@ public class HashTableImp {
                 return null;// not in map!
             }
         }
-
         public void resize()// resize the table by creating a new table of length=1.5* old table length
-//instantiate new table
-//copy all elements from old table to new table and return it
+        //instantiate new table copy all elements from old table to new table and return it
         {
             int newSize = table.length*1.5;
             Entry[] newTable = new Entry[newSize];

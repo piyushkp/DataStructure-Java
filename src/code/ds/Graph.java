@@ -97,6 +97,4 @@ public class Graph
         }
         return res;
     }
-
-    //how would you distribute graph across machines.
 }

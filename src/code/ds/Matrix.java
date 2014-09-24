@@ -58,4 +58,17 @@ public class Matrix
     {
         return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
     }
+    //Given a grid of size m by n, write an algorithm that
+    //computes all paths from 0,0 to m,n such that you can always step horizontally or vertically but cannot reverse.
+    int FindAllPaths(int x, int y, int Xmax, int Ymax)
+    {
+        int nResult = 0;
+        if (x == Xmax && y == Ymax)
+            return 1;
+        if (x < Xmax)
+            nResult += FindAllPaths(x + 1, y, Xmax, Ymax);
+        if (y < Ymax)
+            nResult += FindAllPaths(x, y + 1, Xmax, Ymax);
+        return nResult;
+    }
 }

@@ -587,6 +587,5 @@ public class StringImp {
             return true;
         return false;
     }
-
 }
 

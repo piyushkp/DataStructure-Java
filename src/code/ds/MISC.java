@@ -142,7 +142,6 @@ public class MISC
         }
         return -1;
     }
-
     public class Singleton {
         private static Singleton uniqInstance;
         private Singleton() {
