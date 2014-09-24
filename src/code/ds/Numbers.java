@@ -135,6 +135,7 @@ public class Numbers {
         return  heap;
     }
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
+    // {{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8}
     class Interval
     {
         int start;
@@ -145,22 +146,17 @@ public class Numbers {
         // Test if the given set has at least one interval
         if (intervals.size() <= 0)
             return;
-
         // Create an empty stack of intervals
         Stack<Interval> s = new Stack<Interval>();
-
         // sort the intervals based on start time
         sort(intervals.begin(), intervals.end(), compareInterval);
-
         // push the first interval to stack
         s.push(intervals.get(0));
-
         // Start from the next interval and merge if necessary
         for (int i = 1 ; i < intervals.size(); i++)
         {
             // get interval from stack top
             Interval top = s.peek();
-
             // if current interval is not overlapping with stack top,
             // push it to the stack
             if (top.end < intervals.get(i).start)

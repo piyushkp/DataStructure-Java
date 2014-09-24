@@ -210,7 +210,7 @@ public class LinkedList
         // as that is now the current head of the reversed list
         head = prevNode;
     }
-    // Find List List is circular or not
+    // Find List is circular or not
     Boolean findCircular(Node head)
     {
         Node slower,  faster;
