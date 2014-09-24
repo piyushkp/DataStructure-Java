@@ -125,8 +125,8 @@ public class Array
             quickSort(array, idx, endIdx);
         }
     }
-     //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s. Count the number of zeroes in the given array.
-    // A wrapper over recursive function firstZero()
+     //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s.
+     // Count the number of zeroes in the given array.
     int countOnes(int[] arr, int n)
     {
         // Find index of first zero in given array
@@ -306,7 +306,7 @@ public class Array
                 endIndex = i;
         }
     }
-    //Find duplicates in O(n) time and O(1) extra space
+    //Find duplicates in an Array in O(n) time and O(1) extra space
     void printRepeating(int arr[])
     {
         for (int i = 0; i < arr.length; i++)
