@@ -108,30 +108,38 @@ public class StringImp {
         }
         return false;
     }
-
-    /* Regular Expression Matching
-    Implement regular expression matching with support for '.' and '*'.
+    /* Implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
-    private static boolean match(String s, int ss, String p, int sp) {
-        // if (sp > p.length()) return false; // works both with and without this line
-        if (sp == p.length()) return ss == s.length();
-        if (sp + 1 < p.length() && p.charAt(sp + 1) == '*') {
-            if (match(s, ss, p, sp + 2)) return true; // **important**
-            while (ss < s.length()) {
-                if ((s.charAt(ss) == p.charAt(sp) || p.charAt(sp) == '.')) { // **important**
-                    ss++; // **important**
-                    if (match(s, ss, p, sp + 2)) return true; // **important**
-                } // **important**
-                else return false; // **important**
+    public boolean isMatch(String s, String p) {
+        if (s == null)
+            return p == null;
+        if (p == null)
+            return s == null;
+        int lenS = s.length();
+        int lenP = p.length();
+        if (lenP == 0)
+            return lenS == 0;
+        if (lenP == 1) {
+            if (p.equals(s) || p.equals(".") && s.length() == 1) {
+                return true;
+            } else
+                return false;
+        }
+        if (p.charAt(1) != '*') {
+            if (s.length() > 0
+                    && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                return isMatch(s.substring(1), p.substring(1));
             }
             return false;
         } else {
-            if (ss < s.length()) {
-                return (p.charAt(sp) == s.charAt(ss) || p.charAt(sp) == '.') && match(s, ss + 1, p, sp + 1);
-            } else {
-                return false;
+            while (s.length() > 0
+                    && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                if (isMatch(s, p.substring(2)))
+                    return true;
+                s = s.substring(1);
             }
+            return isMatch(s, p.substring(2));
         }
     }
     //Given set of characters and a string, find smallest substring which contains all characters
