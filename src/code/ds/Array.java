@@ -404,7 +404,7 @@ public class Array
                 break;
             }
         }
-        // Traverse after the first occurence
+        // Traverse after the first occurrence
         for ( ; i < n; i++)
         {
             if (arr[i] == x || arr[i] == y)
