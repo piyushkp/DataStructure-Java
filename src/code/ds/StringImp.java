@@ -83,7 +83,7 @@ public class StringImp {
                 low = mid + 1;
             }
         }
-        return result;
+        return A[result];
     }
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
