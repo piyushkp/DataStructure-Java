@@ -193,28 +193,22 @@ public class StringImp {
         }
         return S.substring(minStart, minEnd + 1);
     }
-
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
-    public int lengthOfLongestSubstring(String s) {
-        int i = 0;
-        int maxLength = 0;
-        while (i < s.length()) {
-            int len = 0;
-            Hashtable<Character, Integer> h = new Hashtable<Character, Integer>();
-            while (i < s.length() && h.get((Character) s.charAt(i)) == null) {
-                h.put(s.charAt(i), i);
-                i++;
-                len++;
-                maxLength = Math.max(maxLength, len);
-            }
-            if (i == s.length()) {
-                break;
+    public static int lengthOfLongestSubstring(String s) {
+        char[] arr = s.toCharArray();
+        int pre = 0;
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        for (int i = 0; i < arr.length; i++) {
+            if (!map.containsKey(arr[i])) {
+                map.put(arr[i], i);
             } else {
-                i = h.get(s.charAt(i)) + 1;
+                pre = pre > map.size() ? pre : map.size();
+                i = map.get(arr[i]);
+                map.clear();
             }
         }
-        return maxLength;
+        return Math.max(pre, map.size());
     }
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
     // The sequences returned i.e. the output must be sorted alphabetically
