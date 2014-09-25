@@ -667,16 +667,24 @@ public class Tree {
         return null;
     }
     // Given a Binary Search Tree and a value, find the closest element to the given value in BST.
-    private void closest_element(Node root, int value, int minValue) {
-        if (root == null)
-            return;
-        int diff = Math.abs(root.data - value);
-        if (minValue > diff)
-            minValue = diff;
-        if (root.data > value)
-            closest_element(root.left, value, minValue);
+     int min_diff(int a, int b,int key) {
+        if (Math.abs(a - key) <= Math.abs(b - key))
+            return a;
         else
-            closest_element(root.right, value, minValue);
+            return b;
+    }
+    int searchClosest(Node root,int key) {
+        int close = Integer.MAX_VALUE;
+        if (root == null)
+            return 0;
+        if (key == root.data)
+            return key;
+        close = min_diff(close, root.data, key);
+        if (key > root.data && root.right != null)
+            close = min_diff(close, searchClosest(root.right, key), key);
+        if (key < root.data && root.left != null)
+            close = min_diff(close, searchClosest(root.left, key), key);
+        return close;
     }
     //Given a binary search tree, sum all the nodes which are at on the same vertical line.
     int HD_OFFSET = 16;

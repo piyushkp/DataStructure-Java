@@ -437,5 +437,7 @@ public class Array
         }
         return a[min];
     }
+    //Find k closest elements to a given value
+
 }
 
