@@ -135,7 +135,7 @@ public class Numbers {
         return  heap;
     }
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
-    // {{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8}
+    //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8}
     class Interval
     {
         int start;
