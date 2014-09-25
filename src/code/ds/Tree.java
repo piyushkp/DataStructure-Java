@@ -780,6 +780,35 @@ public class Tree {
             curr = curr.left;
         return curr;
     }
+    //Get Level of a node in a Binary Tree, level = 1
+    private int getLevel(Node node, int data, int level)
+    {
+        if (node == null)
+            return 0;
+        if (node.data == data)
+            return level;
+        int downlevel = getLevel(node.left, data, level+1);
+        if (downlevel != 0)
+            return downlevel;
+        downlevel = getLevel(node.right, data, level+1);
+        return downlevel;
+    }
+    // Recursive function to check if two Nodes are siblings
+    Boolean isSibling(Node root, Node a, Node b)
+    {
+        if (root== null)  return false;
+        return ((root.left==a && root.right==b)||
+                (root.left==b && root.right==a)||
+                isSibling(root.left, a, b)||
+                isSibling(root.right, a, b));
+    }
+    //Check if two nodes are cousins in a Binary Tree
+    private Boolean isCousin(Node root, Node a, Node b)
+    {
+        if ((getLevel(root,a.data,1) == getLevel(root,b.data,1)) && !(isSibling(root,a,b)))
+            return true;
+        return false;
+    }
 }
 
 
