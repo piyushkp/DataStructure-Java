@@ -423,5 +423,19 @@ public class Array
         }
         return min_dist;
     }
+    //Find the first repeating element in an array of integers. O(n)
+    private int findFirstRepeating(int a[])
+    {
+        int min = -1;
+        HashSet<Integer> _hash = new HashSet<Integer>();
+        for(int i = a.length; i > 0; i--)
+        {
+            if(_hash.contains(a[i]))
+                min = i;
+            else
+                _hash.add(a[i]);
+        }
+        return a[min];
+    }
 }
 
