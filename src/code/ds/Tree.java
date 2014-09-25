@@ -673,7 +673,7 @@ public class Tree {
         else
             return b;
     }
-    int searchClosest(Node root,int key) {
+    int searchClosest(Node root, int key) {
         int close = Integer.MAX_VALUE;
         if (root == null)
             return 0;
