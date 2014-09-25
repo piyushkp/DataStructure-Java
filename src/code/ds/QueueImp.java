@@ -31,7 +31,6 @@ public class QueueImp
     {
         private List queue = new LinkedList();
         private int  limit = 10;
-
         public BlockingQueue(int limit){
             this.limit = limit;
         }
@@ -40,9 +39,7 @@ public class QueueImp
             while(this.queue.size() == this.limit) {
                 wait();
             }
-            if(this.queue.size() == 0) {
-                notifyAll();
-            }
+            notifyAll();
             this.queue.add(item);
         }
         public synchronized Object dequeue()
@@ -50,9 +47,7 @@ public class QueueImp
             while(this.queue.size() == 0){
                 wait();
             }
-            if(this.queue.size() == this.limit){
-                notifyAll();
-            }
+             notifyAll();
             return this.queue.remove(0);
         }
     }

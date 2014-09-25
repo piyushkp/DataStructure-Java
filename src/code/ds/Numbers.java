@@ -209,9 +209,7 @@ public class Numbers {
      private int getListSum(List<NestedInteger> lni, int depth)
      {
          int sum = 0;
-         NestedInteger ni = null;
-         while(lni.hasNext()){
-             ni = lni.next();
+         for(NestedInteger ni: lni){
              if(ni.isInteger()) sum += ni.getInteger() * depth;
              else sum += getListSum(ni.getList(), depth + 1);
          }
