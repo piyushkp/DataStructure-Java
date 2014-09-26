@@ -243,4 +243,27 @@ public class Numbers {
         }
         return low;
     }
- }
+    //In "the 100 game," two players take turns adding, to a running total, any integer from 1..10.
+    // The player who first causes the running total to reach or exceed 100 wins.
+    boolean canIWin(int maxChoosableInteger, int desiredTotal) {
+        int[] numbers = new int[maxChoosableInteger];
+        int sum = 0;
+        for (int i = 0; i < maxChoosableInteger; ++i) {
+            numbers[i] = i + 1;
+        }
+        return canWin(numbers, desiredTotal, sum);
+    }
+    boolean canWin(int numbers[], int desiredTotal, int sum)
+    {
+        for(int i=0;i<numbers.length; i++)
+        {
+            int temp = sum + numbers[i];
+            if((desiredTotal - temp) % 11 == 0) {
+                sum = temp;
+            }
+        }
+        if(sum >= 100)
+            return true;
+        return false;
+    }
+}
