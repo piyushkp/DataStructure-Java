@@ -123,7 +123,7 @@ public class MISC
         return result;
     }
     /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
-    followingMatrix[i][j] == true iff user i is following user j
+    followingMatrix[i][j] == true if user i is following user j
     thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
     Let's also agree that followingMatrix[i][i] == false */
     //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
