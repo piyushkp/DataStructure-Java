@@ -311,46 +311,29 @@ public class StringImp {
     }
     //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
     //given "turtle", "tletur"; returns true
-    private static class Mapping {
-        private final Character c;
-        private final List<Integer> integers;
-        public Mapping(Character c, List<Integer> integers) {
-            this.c = c;
-            this.integers = integers;
+    //Ordered only i.e. ofo won't map to app encoding would be 010 and 011
+    public static boolean isIsomorphic(String s1, String s2) {
+        if (s1.length() != s2.length())
+            return false;
+        else if (s1.length() == 1)
+            return true;
+        else {
+            Map<Character, Integer> map1 = new HashMap<Character, Integer>();
+            StringBuffer encodingString1 = new StringBuffer();
+            Map<Character, Integer> map2 = new HashMap<Character, Integer>();
+            StringBuffer encodingString2 = new StringBuffer();
+            for (int i = 0; i < s1.length(); i++) {
+                if (!map1.containsKey(s1.charAt(i))) {
+                    map1.put(s1.charAt(i), i);
+                }
+                encodingString1.append(map1.get(s1.charAt(i)));
+                if (!map2.containsKey(s2.charAt(i))) {
+                    map2.put(s2.charAt(i), i);
+                }
+                encodingString2.append(map2.get(s2.charAt(i)));
+            }
+            return encodingString1.toString().equals(encodingString2.toString());
         }
-        private Character getC() {
-            return c;
-        }
-        private List<Integer> getIntegers() {
-            return integers;
-        }
-    }
-    public static List<Mapping> getMap(String s) throws Exception {
-        if (s == null || s.isEmpty()) throw new Exception("String cannot be null or empty");
-        LinkedHashMap<Character, List<Integer>> map = new LinkedHashMap<Character, List<Integer>>();
-        char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            if (!map.containsKey(chars[i])) map.put(chars[i], new ArrayList<Integer>());
-            map.get(chars[i]).add(i);
-        }
-        List<Mapping> result = new ArrayList<Mapping>();
-        for (Character c : map.keySet())
-            result.add(new Mapping(c, map.get(c)));
-        return result;
-    }
-    public static boolean areIsomorphic(String a, String b) throws Exception {
-        if (a.length() != b.length()) return false;
-        List<Mapping> mapA = getMap(a);
-        List<Mapping> mapB = getMap(b);
-        if (mapA.size() != mapB.size()) return false;
-        for (int i = 0; i < mapA.size(); i++) {
-            Mapping fromA = mapA.get(i);
-            Mapping fromB = mapB.get(i);
-            if (fromA.getIntegers().size() != fromB.getIntegers().size()) return false;
-            for (int j = 0; j < fromA.getIntegers().size(); j++)
-                if (fromA.getIntegers().get(j) != fromB.getIntegers().get(j)) return false;
-        }
-        return true;
     }
     //Find minimum distance between two words (order preserved) in a big string
     //eg: For e.g 1. "hello how are you" - distance between "hello" and "you" is 3.
