@@ -11,9 +11,10 @@ public class MISC
         int start;
         int end;
     }
-    void mergeIntervals(ArrayList<Interval> intervals) {
+    ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
+        ArrayList<Interval> _output = new ArrayList<Interval>();
         // Test if the given set has at least one interval
-        if (intervals.size() <= 0) return;
+        if (intervals.size() <= 0) return null;
         // Create an empty stack of intervals
         Stack<Interval> s = new Stack<Interval>();
         // sort the intervals based on start time
@@ -37,10 +38,29 @@ public class MISC
         }
         while (!s.empty()) {
             Interval t = s.peek();
+            _output.add(t);
             System.out.print("{" + t.start + "," + t.end + "}" + " ");
             s.pop();
         }
+        return _output;
     }
+    /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
+    covered. e.g: [(1,3),(2,5),(8,9)] should return 5
+    a) 1 2 3 = 2 unique intervals (1 to 2, 2 to 3)
+    b) 2 3 4 5 = 2 unique intervals ( 3 to 4, 4 to 5) We did not count 2 - 3 since it was already counted.
+    c) 8 9 = 1 unique interval
+    result = 2 + 2 + 1 = 5 */
+    private int getCoverageOfIntervals(ArrayList<Interval> intervals)
+    {
+        int range = 0;
+        ArrayList<Interval> mergeIntervals = mergeIntervals(intervals);
+        for (Interval _interval : mergeIntervals)
+        {
+            range += (_interval.end - _interval.start);
+        }
+        return  range;
+    }
+    // Method to convert infix to postfix:
     private boolean isOperator(char c) {
         return c == '+'  ||  c == '-'  ||  c == '*'  ||  c == '/'  ||  c == '^'
                 || c=='(' || c==')';
