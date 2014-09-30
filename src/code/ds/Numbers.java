@@ -128,42 +128,6 @@ public class Numbers {
         }
         return heap;
     }
-    //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
-    //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8} Time Complexity: O(n Log n)
-    class Interval {
-        int start;
-        int end;
-    }
-    void mergeIntervals(ArrayList<Interval> intervals) {
-        // Test if the given set has at least one interval
-        if (intervals.size() <= 0) return;
-        // Create an empty stack of intervals
-        Stack<Interval> s = new Stack<Interval>();
-        // sort the intervals based on start time
-        intervals.sort(new Comparator<Interval>() {
-            @Override
-            public int compare(Interval i1, Interval i2) {
-                return (i1.start < i2.start) ? i1.start : i2.start;
-            }
-        });
-        s.push(intervals.get(0));
-        for (int i = 1; i < intervals.size(); i++) {
-            Interval top = s.peek();
-            if (top.end < intervals.get(i).start) {
-                s.push(intervals.get(i));
-            }
-            else if (top.end < intervals.get(i).end) {
-                top.end = intervals.get(i).end;
-                s.pop();
-                s.push(top);
-            }
-        }
-        while (!s.empty()) {
-            Interval t = s.peek();
-            System.out.print("{" + t.start + "," + t.end + "}" + " ");
-            s.pop();
-        }
-    }
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {
         if (h < 0 || m < 0 || h > 12 || m > 60) System.out.print("Wrong input");
