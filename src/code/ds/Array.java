@@ -117,7 +117,7 @@ public class Array {
         }
         return -1;
     }
-    //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
+    //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
     private int maxSubArraySum(int a[]) {
         int max_so_far = a[0];
         int curr_max = a[0];
@@ -135,8 +135,7 @@ public class Array {
         int min_ending_here = 1;
         // Initialize overall max product
         int max_so_far = 1;
-    /* Traverse throught the array. Following values are maintained after the ith iteration:
-       max_ending_here is always 1 or some positive product ending with arr[i]
+    /* max_ending_here is always 1 or some positive product ending with arr[i]
        min_ending_here is always 1 or some negative product ending with arr[i] */
         for (int i = 0; i < arr.length; i++) {
         /* If this element is positive, update max_ending_here. Update
@@ -147,7 +146,7 @@ public class Array {
             }
         /* If this element is 0, then the maximum product cannot
            end here, make both max_ending_here and min_ending_here 0
-           Assumption: Output is alway greater than or equal to 1. */
+           Assumption: Output is always greater than or equal to 1. */
             else if (arr[i] == 0) {
                 max_ending_here = 1;
                 min_ending_here = 1;
