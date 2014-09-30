@@ -1,11 +1,7 @@
 package code.ds;
-
-
 import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.HashMap;
 import java.util.*;
-
 /**
  * Created by Piyush Patel.
  */
@@ -405,6 +401,7 @@ public class Array {
         }
         return a[min];
     }
+
     //Find k closest elements to a given value
     //Input: K = 4, X = 35 arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56}
     //Output: 30 39 42 45
@@ -428,6 +425,7 @@ public class Array {
             return findCrossOver(arr, mid + 1, high, x);
         return findCrossOver(arr, low, mid - 1, x);
     }
+
     // This function prints k closest elements to x in arr[].
     // n is the number of elements in arr[]
     void printKclosest(int arr[], int x, int k, int n) {
@@ -450,11 +448,12 @@ public class Array {
         // If there are no more elements on right side, then
         // print left elements
         while (count < k && l >= 0)
-            System.out.print(arr[l--]);count++;
+            System.out.print(arr[l--]);
+        count++;
         // If there are no more elements on left side, then
         // print right elements
         while (count < k && r < n)
-            System.out.print(arr[r++]); count++;
+            System.out.print(arr[r++]);
+        count++;
     }
 }
-
