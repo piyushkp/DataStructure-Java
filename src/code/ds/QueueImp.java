@@ -56,10 +56,10 @@ public class QueueImp
         private int size;
         private int head;
         private int tail;
-        private int q[];
+        private Object q[];
         public CircularQueue(int s) {
             size = s;
-            q = new int[s+1];
+            q = new Object[s+1];
             head = 0;
             tail = 0;
         }
@@ -67,17 +67,39 @@ public class QueueImp
             head = 0;
             tail = 0;
         }
-        public synchronized boolean enqueue(int v) {
-            int tmp = (tail+1) % size;
-            if (tmp == head) return false;
-            q[tail] = v;
-            tail = tmp;
-            return true;
+        public int size() {
+            if(tail > head)
+                return tail - head;
+            return size - head + tail;
         }
-        public synchronized int dequeue() throws Exception{
-            if (head == tail) throw new Exception("queue underflow!");
-            int tmp = q[head];
-            head = (head + 1) % size;
+        public boolean isEmpty() {
+            return (tail == head) ? true : false;
+        }
+        public boolean isFull() {
+            int diff = tail - head;
+            if(diff == -1 || diff == (size -1))
+                return true;
+            return false;
+        }
+        public synchronized void enqueue(Object v) throws Exception{
+            if(isFull())
+            {
+                throw new Exception("Queue is Full.");
+            }
+            else {
+                q[tail] = v;
+                tail = (tail + 1) % size;
+            }
+        }
+        public synchronized Object dequeue() throws Exception{
+            Object tmp;
+            if (isEmpty())
+                throw new Exception("queue underflow!");
+            else {
+                tmp = q[head];
+                q[head] = null;
+                head = (head + 1) % size;
+            }
             return tmp;
         }
     }
