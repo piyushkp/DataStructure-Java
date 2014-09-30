@@ -17,7 +17,6 @@ public class Numbers {
         if (y % 2 == 0) return temp * temp;
         else return x * temp * temp;
     }
-
     /* Extended version of power function that can work for float x and negative y*/
     float power(float x, int y) {
         float temp;
@@ -29,7 +28,6 @@ public class Numbers {
             else return (temp * temp) / x;
         }
     }
-
     //Implement decimal to roman and vice versa
     public static String IntegerToRomanNumeral(int input) {
         if (input < 1 || input > 3999) return "Invalid Roman Number Value";
@@ -88,7 +86,6 @@ public class Numbers {
         }
         return s;
     }
-
     //Find the Nearest points in A Plane O(nlogm)
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point {
@@ -114,7 +111,6 @@ public class Numbers {
             return Math.pow((center.getX() - p.getX()), 2) + Math.pow((center.getY() - p.getY()), 2);
         }
     }
-
     public PriorityQueue<Point> findNearest(ArrayList<Point> points, Point center, int m) {
         PriorityQueue<Point> heap = new PriorityQueue<Point>(m, new Comparator<Point>() { //max heap
             @Override
@@ -135,14 +131,12 @@ public class Numbers {
         }
         return heap;
     }
-
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
     //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8}
     class Interval {
         int start;
         int end;
     }
-
     void mergeIntervals(ArrayList<Interval> intervals) {
         // Test if the given set has at least one interval
         if (intervals.size() <= 0) return;
@@ -176,7 +170,6 @@ public class Numbers {
             s.pop();
         }
     }
-
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {
         if (h < 0 || m < 0 || h > 12 || m > 60) System.out.print("Wrong input");
@@ -190,7 +183,6 @@ public class Numbers {
         angle = Math.min(360 - angle, angle);
         return angle;
     }
-
     //Returns true if the input string is a number and false otherwise
     public static boolean isNumber(String toTest) {
         boolean flag = false;
@@ -199,7 +191,6 @@ public class Numbers {
         flag = toTest.matches(pattern);
         return flag;
     }
-
     /*Given a nested list of integers, returns the sum of all integers in the list weighted by their depth
     * For example, given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1)
     * Given the list {1,{4,{6}}} the function should return 27 (one 1 at depth 1, one 4 at depth 2, one 6 at depth2)*/
@@ -211,12 +202,10 @@ public class Numbers {
         }
         return sum;
     }
-
     public int getSum(NestedInteger ni) {
         if (ni.isInteger()) return ni.getInteger();
         else return getListSum(ni.getList(), 1);
     }
-
     //Squareroot of a Number - O(logN)
     //2^0.5logN
     private int sqrt(int num) {
@@ -235,7 +224,6 @@ public class Numbers {
         }
         return low;
     }
-
     //In "the 100 game," two players take turns adding, to a running total, any integer from 1..10.
     // The player who first causes the running total to reach or exceed 100 wins.
     boolean canIWin(int maxChoosableInteger, int desiredTotal) {
@@ -246,7 +234,6 @@ public class Numbers {
         }
         return canWin(numbers, desiredTotal, sum);
     }
-
     boolean canWin(int numbers[], int desiredTotal, int sum) {
         for (int i = 0; i < numbers.length; i++) {
             int temp = sum + numbers[i];

@@ -11,18 +11,13 @@ public class Array {
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;
         while (i < a.length && j < b.length) {
-            if (a[i] < b[j])
-                answer[k++] = a[i++];
-            else
-                answer[k++] = b[j++];
+            if (a[i] < b[j]) answer[k++] = a[i++];
+            else answer[k++] = b[j++];
         }
-        while (i < a.length)
-            answer[k++] = a[i++];
-        while (j < b.length)
-            answer[k++] = b[j++];
+        while (i < a.length) answer[k++] = a[i++];
+        while (j < b.length) answer[k++] = b[j++];
         return answer;
     }
-
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(logk)
     public int findKthElement(int k, int[] array1, int start1, int end1, int[] array2, int start2, int end2) {
@@ -45,7 +40,6 @@ public class Array {
             return findKthElement(k - mid, array1, start1, end1, array2, start2 + sub2, end2);
         }
     }
-
     //Given two unsorted int arrays, find the kth smallest element in the merged, sorted array.
     private void MergeUnsortedArray(int[] A1, int[] A2) {
         int[] c = new int[A1.length + A2.length];
@@ -59,7 +53,6 @@ public class Array {
         }
         quickselect(c, 0, c.length, 3);
     }
-
     private int quickselect(int[] G, int first, int last, int k) {
         if (first <= last) {
             int pivot = partition(G, first, last);
@@ -68,12 +61,10 @@ public class Array {
             }
             if (pivot > k) {
                 return quickselect(G, first, pivot - 1, k);
-            } else
-                return quickselect(G, pivot + 1, last, k);
+            } else return quickselect(G, pivot + 1, last, k);
         }
         return 0;
     }
-
     private int partition(int[] G, int first, int last) {
         int pivot = G[last];
         int pIndex = first;
@@ -86,13 +77,11 @@ public class Array {
         swap(G, pIndex, last);
         return pIndex;
     }
-
     private void swap(int[] G, int x, int y) {
         G[x] ^= G[y];
         G[y] ^= G[x];
         G[x] ^= G[y];
     }
-
     //Quick sort
     public void quickSort(int[] array, int startIdx, int endIdx) {
         int idx = partition(array, startIdx, endIdx);
@@ -105,26 +94,22 @@ public class Array {
             quickSort(array, idx, endIdx);
         }
     }
-
     //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s.
     // Count the number of zeroes in the given array.
     int countOnes(int[] arr, int n) {
         // Find index of first zero in given array
         int first = firstZero(arr, 0, n - 1);
         // If 0 is not present at all, return 0
-        if (first == -1)
-            return 0;
+        if (first == -1) return 0;
         return (n - first);
     }
-
     /* if 0 is present in arr[] then returns the index of FIRST occurrence
     of 0 in arr[low..high], otherwise returns -1.  Time Complexity: O(Logn)*/
     int firstZero(int[] arr, int low, int high) {
         if (high >= low) {
             // Check if mid element is first 0
             int mid = low + (high - low) / 2;
-            if ((mid == 0 || arr[mid - 1] == 1) && arr[mid] == 0)
-                return mid;
+            if ((mid == 0 || arr[mid - 1] == 1) && arr[mid] == 0) return mid;
             if (arr[mid] == 1)  // If mid element is not 0
                 return firstZero(arr, (mid + 1), high);
             else  // If mid element is 0, but not first 0
@@ -132,7 +117,6 @@ public class Array {
         }
         return -1;
     }
-
     //find the sum of contiguous sub array within a one-dimensional array of numbers which has the largest sum.
     private int maxSubArraySum(int a[]) {
         int max_so_far = a[0];
@@ -143,7 +127,6 @@ public class Array {
         }
         return max_so_far;
     }
-
     //Given an array that contains both positive and negative integers, find the product of the maximum product subarray.
     int maxSubarrayProduct(int arr[]) {
         // max positive product ending at the current position
@@ -181,12 +164,10 @@ public class Array {
                 min_ending_here = temp * arr[i];
             }
             // update max_so_far, if needed
-            if (max_so_far < max_ending_here)
-                max_so_far = max_ending_here;
+            if (max_so_far < max_ending_here) max_so_far = max_ending_here;
         }
         return max_so_far;
     }
-
     //Write a program to find the element in an array that is repeated more than half number of times.
     // Return -1 if no such element is found.
     private int MoreThanHalfElem(int a[], int n) {
@@ -208,7 +189,6 @@ public class Array {
         }
         return -1;
     }
-
     //Searching an Element in a Rotated Sorted Array
     private int rotated_binary_search(int A[], int N, int key) {
         int L = 0;
@@ -218,22 +198,17 @@ public class Array {
             int M = L + ((R - L) / 2);
             // the bottom half is sorted
             if (A[L] <= A[M]) {
-                if (A[L] <= key && key < A[M])
-                    R = M - 1;
-                else
-                    L = M + 1;
+                if (A[L] <= key && key < A[M]) R = M - 1;
+                else L = M + 1;
             }
             // the upper half is sorted
             else {
-                if (A[M] < key && key <= A[R])
-                    L = M + 1;
-                else
-                    R = M - 1;
+                if (A[M] < key && key <= A[R]) L = M + 1;
+                else R = M - 1;
             }
         }
         return -1;
     }
-
     //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
     private void findMinofabc(int a[], int b[], int c[]) {
         quickSort(a, 0, a.length);
@@ -250,43 +225,33 @@ public class Array {
                 index2 = j;
                 index3 = k;
             }
-            if (a[i] < b[j] && a[i] < c[k])
-                i++;
-            else if (b[j] < a[i] && b[j] < c[k])
-                j++;
-            else
-                k++;
+            if (a[i] < b[j] && a[i] < c[k]) i++;
+            else if (b[j] < a[i] && b[j] < c[k]) j++;
+            else k++;
         }
         System.out.print(a[index1] + " " + b[index2] + " " + c[index3]);
     }
-
     //Given a sorted array with duplicates and a number, find the range in the
     //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).
     private void findRange(int a[], int num) {
         int startIndex = -1, endIndex = -1;
         boolean flag = true;
-        if (a.length == 0)
-            return;
+        if (a.length == 0) return;
         for (int i = 0; i < a.length; i++) {
             if (a[i] == num && flag) {
                 startIndex = i;
                 endIndex = i;
                 flag = false;
-            } else if (a[i] == num)
-                endIndex = i;
+            } else if (a[i] == num) endIndex = i;
         }
     }
-
     //Find duplicates in an Array in O(n) time and O(1) extra space
     void printRepeating(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
-            if (arr[Math.abs(arr[i])] >= 0)
-                arr[Math.abs(arr[i])] = -arr[Math.abs(arr[i])];
-            else
-                System.out.print(Math.abs(arr[i]));
+            if (arr[Math.abs(arr[i])] >= 0) arr[Math.abs(arr[i])] = -arr[Math.abs(arr[i])];
+            else System.out.print(Math.abs(arr[i]));
         }
     }
-
     //Given an array arr[] of n integers, construct a Product Array prod[] (of same size)
     //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
     //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
@@ -304,7 +269,6 @@ public class Array {
         }
         return prod;
     }
-
     //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the set which gives the sum of zero.
     //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1)
     HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
@@ -325,8 +289,7 @@ public class Array {
                     triplet.set(0, arr[i]);
                     triplet.set(1, arr[j]);
                     triplet.set(2, arr[k]);
-                    if (!triplets.contains(triplet))
-                        triplets.add(triplet);
+                    if (!triplets.contains(triplet)) triplets.add(triplet);
                     j++;
                     k--;
                 }
@@ -334,7 +297,6 @@ public class Array {
         }
         return triplets;
     }
-
     //Given three arrays sorted in non-decreasing order, print all common elements in these arrays.
     //e.g.ar1[] = {1, 5, 10, 20, 40, 80} ar2[] = {6, 7, 20, 80} ar3[] = {3, 4, 15, 20, 30, 80} Output: 20, 80
     void findCommon(int ar1[], int ar2[], int ar3[], int n1, int n2, int n3) {
@@ -350,17 +312,13 @@ public class Array {
                 k++;
             }
             // x < y
-            else if (ar1[i] < ar2[j])
-                i++;
+            else if (ar1[i] < ar2[j]) i++;
                 // y < z
-            else if (ar2[j] < ar3[k])
-                j++;
+            else if (ar2[j] < ar3[k]) j++;
                 // We reach here when x > y and z < y, i.e., z is smallest
-            else
-                k++;
+            else k++;
         }
     }
-
     //Given an unsorted array arr[] and two numbers x and y, find the minimum distance between x and y in arr[]
     //arr[] = {3, 4, 5}, x = 3, y = 5 Minimum distance between 3 and 5 is 2
     int minDist(int arr[], int n, int x, int y) {
@@ -382,26 +340,21 @@ public class Array {
                 if (arr[prev] != arr[i] && (i - prev) < min_dist) {
                     min_dist = i - prev;
                     prev = i;
-                } else
-                    prev = i;
+                } else prev = i;
             }
         }
         return min_dist;
     }
-
     //Find the first repeating element in an array of integers. O(n)
     private int findFirstRepeating(int a[]) {
         int min = -1;
         HashSet<Integer> _hash = new HashSet<Integer>();
         for (int i = a.length; i > 0; i--) {
-            if (_hash.contains(a[i]))
-                min = i;
-            else
-                _hash.add(a[i]);
+            if (_hash.contains(a[i])) min = i;
+            else _hash.add(a[i]);
         }
         return a[min];
     }
-
     //Find k closest elements to a given value
     //Input: K = 4, X = 35 arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56}
     //Output: 30 39 42 45
@@ -417,15 +370,12 @@ public class Array {
         // Find the middle point
         int mid = (low + high) / 2;  /* low + (high - low)/2 */
         /* If x is same as middle element, then return mid */
-        if (arr[mid] <= x && arr[mid + 1] > x)
-            return mid;
+        if (arr[mid] <= x && arr[mid + 1] > x) return mid;
         /* If x is greater than arr[mid], then either arr[mid + 1]
         is ceiling of x or ceiling lies in arr[mid+1...high] */
-        if (arr[mid] < x)
-            return findCrossOver(arr, mid + 1, high, x);
+        if (arr[mid] < x) return findCrossOver(arr, mid + 1, high, x);
         return findCrossOver(arr, low, mid - 1, x);
     }
-
     // This function prints k closest elements to x in arr[].
     // n is the number of elements in arr[]
     void printKclosest(int arr[], int x, int k, int n) {
@@ -439,21 +389,17 @@ public class Array {
         // Compare elements on left and right of crossover
         // point to find the k closest elements
         while (l >= 0 && r < n && count < k) {
-            if (x - arr[l] < arr[r] - x)
-                System.out.print(arr[l--]);
-            else
-                System.out.print(arr[r++]);
+            if (x - arr[l] < arr[r] - x) System.out.print(arr[l--]);
+            else System.out.print(arr[r++]);
             count++;
         }
         // If there are no more elements on right side, then
         // print left elements
-        while (count < k && l >= 0)
-            System.out.print(arr[l--]);
+        while (count < k && l >= 0) System.out.print(arr[l--]);
         count++;
         // If there are no more elements on left side, then
         // print right elements
-        while (count < k && r < n)
-            System.out.print(arr[r++]);
+        while (count < k && r < n) System.out.print(arr[r++]);
         count++;
     }
 }
