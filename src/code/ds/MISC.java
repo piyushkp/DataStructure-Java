@@ -33,7 +33,7 @@ public class MISC
     // Method to convert infix to postfix:
     public String infixToPostfix(String infix) {
         // Return a postfix representation of the expression in infix.
-        Stack operatorStack = new Stack();  // the stack of operators
+        Stack<String> operatorStack = new Stack<String>();  // the stack of operators
         char c;       // the first character of a token
         StringTokenizer parser = new StringTokenizer(infix,"+-*/^() ",true);
         // StringTokenizer for the input string
@@ -45,17 +45,17 @@ public class MISC
             if ( (token.length() == 1) && isOperator(c) )
             {    // if token is an operator
                 while (!operatorStack.empty() &&
-                        !lowerPrecedence(((String)operatorStack.peek()).charAt(0), c))
+                        !lowerPrecedence((operatorStack.peek()).charAt(0), c))
                     // (Operator on the stack does not have lower precedence, so
                     //  it goes before this one.)
-                    postfix.append(" ").append((String)operatorStack.pop());
+                    postfix.append(" ").append(operatorStack.pop());
                 if (c==')')
                 {
                     // Output the remaining operators in the parenthesized part.
-                    String operator = (String)operatorStack.pop();
+                    String operator = operatorStack.pop();
                     while (operator.charAt(0)!='(') {
                         postfix.append(" ").append(operator);
-                        operator = (String)operatorStack.pop();
+                        operator = operatorStack.pop();
                     }
                 }
                 else
@@ -71,7 +71,7 @@ public class MISC
         }
         // Output the remaining operators on the stack.
         while (!operatorStack.empty())
-            postfix.append(" ").append((String)operatorStack.pop());
+            postfix.append(" ").append(operatorStack.pop());
         // Return the result.
         return postfix.toString();
     }
