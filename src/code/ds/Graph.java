@@ -88,7 +88,7 @@ public class Graph
         return count;
     }
 
-    // DFS traversal of the graph
+    //DFS traversal of the graph
     Vertex[] adjLists;
     public void dfs() {
         boolean[] visited = new boolean[adjLists.length];
@@ -109,7 +109,7 @@ public class Graph
             }
         }
     }
-    // BFS traversal of graph
+    //BFS traversal of graph
     private void breadthFirst(Graph graph, LinkedList<String> visited) {
         LinkedList<String> nodes = graph.adjacentNodes(visited.getLast());
         // examine adjacent nodes
