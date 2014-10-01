@@ -201,6 +201,21 @@ public class Tree {
             preOrder(root.right);
         }
     }
+    // an iterative inOrder traversal
+    public void inorder(Node root ) {
+        Node node = root;
+        Stack<Node> stack = new Stack<Node>();
+        while (!stack.isEmpty() || node != null) {
+            if (node != null) {
+                stack.push(node);
+                node = node.left;
+            } else {
+                node = stack.pop();
+                System.out.print(node.data + " ");
+                node = node.right;
+            }
+        }
+    }
     // An iterative process to print preorder traversal of Binary tree
     void iterativePreorder(Node root) {
         // Base Case
@@ -787,10 +802,10 @@ public class Tree {
             return 0;
         if (node.data == data)
             return level;
-        int downlevel = getLevel(node.left, data, level+1);
+        int downlevel = getLevel(node.left, data, level + 1);
         if (downlevel != 0)
             return downlevel;
-        downlevel = getLevel(node.right, data, level+1);
+        downlevel = getLevel(node.right, data, level + 1);
         return downlevel;
     }
     // Recursive function to check if two Nodes are siblings
@@ -805,7 +820,7 @@ public class Tree {
     //Check if two nodes are cousins in a Binary Tree
     private Boolean isCousin(Node root, Node a, Node b)
     {
-        if ((getLevel(root,a.data,1) == getLevel(root,b.data,1)) && !(isSibling(root,a,b)))
+        if ((getLevel(root, a.data, 1) == getLevel(root, b.data, 1)) && !(isSibling(root,a,b)))
             return true;
         return false;
     }
