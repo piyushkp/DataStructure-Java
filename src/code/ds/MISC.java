@@ -13,9 +13,7 @@ public class MISC
     }
     ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
         ArrayList<Interval> _output = new ArrayList<Interval>();
-        // Test if the given set has at least one interval
         if (intervals.size() <= 0) return null;
-        // Create an empty stack of intervals
         Stack<Interval> s = new Stack<Interval>();
         // sort the intervals based on start time
         intervals.sort(new Comparator<Interval>() {
@@ -183,18 +181,22 @@ public class MISC
     thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
     Let's also agree that followingMatrix[i][i] == false */
     //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
-    int getInfluencer(Array [][] M) {
-        for(int i=0; i<M.length; i++) {
+    private int getInfluencer(Boolean [][] M)
+    {
+        for(int influencer =0; influencer <M.length; influencer ++)
+        {
             boolean is_influencer = true;
-            for(int j=0; j<M.length; j++) {
-                if( i==j ) continue;
-                if( M[i][j] || !M[j][i] ) {
+            for(int followedBy=0; followedBy<M.length; followedBy++)
+            {
+                if( influencer == followedBy ) continue; //the same user, check the next user
+                if( M[influencer][followedBy] || !M[followedBy][influencer] )
+                {
                     is_influencer = false;
                     break;
                 }
             }
             if( is_influencer )
-                return i;
+                return influencer;
         }
         return -1;
     }
