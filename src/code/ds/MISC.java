@@ -21,7 +21,7 @@ public class MISC
         intervals.sort(new Comparator<Interval>() {
             @Override
             public int compare(Interval i1, Interval i2) {
-                return (i1.start < i2.start) ? i1.start : i2.start;
+                return (i1.start < i2.start) ? 1 : 0;
             }
         });
         s.push(intervals.get(0));
