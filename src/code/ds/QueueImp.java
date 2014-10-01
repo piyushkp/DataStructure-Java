@@ -39,8 +39,8 @@ public class QueueImp
             while(this.queue.size() == this.limit) {
                 wait();
             }
-            notifyAll();
             this.queue.add(item);
+            notifyAll();
         }
         public synchronized Object dequeue()
                 throws InterruptedException{
