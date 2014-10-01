@@ -87,46 +87,54 @@ public class Numbers {
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point {
         double x, y;
-
         public double getX() {
             return x;
         }
-
         public void setX(double x) {
             this.x = x;
         }
-
         public double getY() {
             return y;
         }
-
         public void setY(double y) {
             this.y = y;
         }
-
-        private double distance2(Point center) {
+    }
+    public interface PointsOnAPlane {
+        void addPoint(Point point);
+        Collection<Point> findNearest(Point center, int m);
+    }
+    public abstract class PointsOnAPlaneImpl implements PointsOnAPlane {
+        ArrayList<Point> points = new ArrayList<Point>();
+        @Override
+        public void addPoint(Point point) {
+            points.add(point);
+        }
+        private double distance2(Point center, Point p) {
             return Math.pow((center.getX() - p.getX()), 2) + Math.pow((center.getY() - p.getY()), 2);
         }
-    }
-    public PriorityQueue<Point> findNearest(ArrayList<Point> points, Point center, int m) {
-        PriorityQueue<Point> heap = new PriorityQueue<Point>(m, new Comparator<Point>() { //max heap
-            @Override
-            public int compare(Point a, Point b) {
-                return (b.distance2(center),a.distance2(center));
-            }
-        }); for (int i = 0; i < points.size(); i++) { //O(n)
-            Point p = points.get(i);
-            if (p == center)
-                continue; //use reference equals as there may be other points with the same coordinates as the center.
-            if (heap.size() < m) heap.add(p);
-            else {
-                if (p.distance2(center) < heap.peek().distance2(center)) { //O(1)
-                    heap.remove(); //O(log(m));
-                    heap.add(p); //O(log(m))
+        @Override
+        public Collection<Point> findNearest(ArrayList<Point> points, final Point center, int m) {
+            //max heap
+            PriorityQueue<Point> heap = new PriorityQueue<Point>(m, new Comparator<Point>() {
+                @Override
+                public int compare(Point a, Point b) {
+                    return Double.compare(distance2(center, b), distance2(center, a));
+                }
+            });
+            for (int i = 0; i < points.size(); i++) { //O(n)
+                Point p = points.get(i);
+                if (p == center) continue; //use reference equals as there may be other points with the same coordinates as the center.
+                if (heap.size() < m) heap.add(p);
+                else {
+                    if (distance2(center, p) < distance2(center, heap.peek())) { //O(1)
+                        heap.remove(); //O(log(m));
+                        heap.add(p); //O(log(m))
+                    }
                 }
             }
+            return heap;
         }
-        return heap;
     }
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {

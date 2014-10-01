@@ -251,10 +251,10 @@ public class Array {
             else System.out.print(Math.abs(arr[i]));
         }
     }
-    //Given an array arr[] of n integers, construct a Product Array prod[] (of same size)
+    //Given an array arr[] of n integers, construct a Product Array prod[] (Self Excluding)
     //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
     //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
-    private int[] productArray(int a[]) {
+    private int[] selfExcludingProduct(int a[]) {
         int temp = 1;
         int[] prod = new int[a.length];
         for (int i = 0; i < a.length; i++) {
