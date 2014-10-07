@@ -195,6 +195,7 @@ public class Array {
         while (L <= R) {
             // Avoid overflow, same as M=(L+R)/2
             int M = L + ((R - L) / 2);
+            if(A[M] == key) return M;
             // the bottom half is sorted
             if (A[L] <= A[M]) {
                 if (A[L] <= key && key < A[M]) R = M - 1;
