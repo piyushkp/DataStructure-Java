@@ -548,13 +548,13 @@ public class StringImp {
         {
             //for odd case
             int left = mid;
-            int right = (input.length % 2 > 0) ? mid : mid + 1;//for example 12321 when we choose 3 as mid
-            while (left >= 0 && right < input.length)//make sure both indexes are valid
+            int right = mid;//for example 12321 when we choose 3 as mid
+            while(left>=0 && right<input.length)//make sure both indexes are valid
             {
-                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
+                if(input[left]==input[right])//if still palindrome match by one step further each loop cycle
                 {
                     //we need decide if to update global start/end
-                    if (right - left > longestEnd - longestStart)//the longer is found!
+                    if(right-left>longestEnd-longestStart)//the longer is found!
                     {
                         longestStart = left;
                         longestEnd = right;
@@ -563,7 +563,24 @@ public class StringImp {
                 left--;
                 right++;//sorry added in wrong place, should be in either case per mid choice
             }
-        }		//after the loop we return
+            //well for even case we need replicate the previous code by making one change
+            left = mid;
+            right = mid+1;//for example 123321 when we choose 33 as mid
+            while(left>=0 && right<input.length)//make sure both indexes are valid
+            {
+                if(input[left]==input[right])//if still palindrome match by one step further each loop cycle
+                {
+                    //we need decide if to update global start/end
+                    if(right-left>longestEnd-longestStart)//the longer is found!
+                    {
+                        longestStart = left;
+                        longestEnd = right;
+                    }
+                }
+                left--;
+                right++;
+            }
+        }
         return in.substring(longestStart, longestEnd+1);
     }
     //A Program to check if strings are rotations of each other or not
