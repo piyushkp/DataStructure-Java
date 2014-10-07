@@ -538,29 +538,33 @@ public class StringImp {
         return true;
     }
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
-    String expandAroundCenter(String s, int c1, int c2) {
-        int l = c1, r = c2;
-        int n = s.length();
-        while (l >= 0 && r <= n - 1 && s.charAt(l) == s.charAt(r)) {
-            l--;
-            r++;
-        }
-        return s.substring(l + 1, r - l - 1);
-    }
-    String longestPalindromeSimple(String s) {
-        int n = s.length();
-        if (n == 0) return "";
-        String longest = s.substring(0, 1);  // a single char itself is a palindrome
-        for (int i = 0; i < n - 1; i++) {
-            String p1 = expandAroundCenter(s, i, i);
-            if (p1.length() > longest.length())
-                longest = p1;
-
-            String p2 = expandAroundCenter(s, i, i + 1);
-            if (p2.length() > longest.length())
-                longest = p2;
-        }
-        return longest;
+    public static String LongestPalindromeImprove(String in)
+    {
+        char[] input = in.toCharArray();
+        int longestStart = 0;
+        int longestEnd = 0;//we also need global start/end to keep track of the current best as we process
+        //now the key is to scan from mid to both ends
+        for(int mid=0; mid<input.length;mid++)//we name it as mid for easy interpretation
+        {
+            //for odd case
+            int left = mid;
+            int right = (input.length % 2 > 0) ? mid : mid + 1;//for example 12321 when we choose 3 as mid
+            while (left >= 0 && right < input.length)//make sure both indexes are valid
+            {
+                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
+                {
+                    //we need decide if to update global start/end
+                    if (right - left > longestEnd - longestStart)//the longer is found!
+                    {
+                        longestStart = left;
+                        longestEnd = right;
+                    }
+                } else break;
+                left--;
+                right++;//sorry added in wrong place, should be in either case per mid choice
+            }
+        }		//after the loop we return
+        return in.substring(longestStart, longestEnd+1);
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
