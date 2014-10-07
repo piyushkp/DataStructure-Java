@@ -213,7 +213,7 @@ public class Numbers {
     // Given a stream of unsorted integers, find the median element in sorted order at any given time.
     int numOfElements = 0;
     PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
-    PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(10, new Comparator<Integer>()
+    PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>()
     {@Override
      public int compare(Integer o1, Integer o2)
         {
@@ -246,5 +246,4 @@ public class Numbers {
         else
             return (maxHeap.peek() + minHeap.peek()) / 2.0;
     }
-
 }
