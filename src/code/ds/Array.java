@@ -82,17 +82,24 @@ public class Array {
         G[y] ^= G[x];
         G[x] ^= G[y];
     }
-    //Quick sort
-    public void quickSort(int[] array, int startIdx, int endIdx) {
-        int idx = partition(array, startIdx, endIdx);
-        // Recursively call quicksort with left part of the partitioned array
-        if (startIdx < idx - 1) {
-            quickSort(array, startIdx, idx - 1);
+    //Find k maximum integers from an array of infinite integers.
+    // using Min Heap takes O(n log k) (assumption is that k is significantly lesser than n)
+    public static int[] getTopElements(int[] arr, int k) {
+        PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
+        for (int i = 0; i < arr.length; ++i) {
+            int currentNum = arr[i];
+            if (minHeap.size() < k) minHeap.add(currentNum);
+            else if (currentNum > minHeap.peek()) {
+                minHeap.poll();
+                minHeap.add(currentNum);
+            }
         }
-        // Recursively call quick sort with right part of the partitioned array
-        if (endIdx > idx) {
-            quickSort(array, idx, endIdx);
+        int[] result = new int[minHeap.size()];
+        int index = 0;
+        while (!minHeap.isEmpty()) {
+            result[index++] = minHeap.poll();
         }
+        return result;
     }
     //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s.
     // Count the number of zeroes in the given array.
