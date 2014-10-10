@@ -412,7 +412,7 @@ public class Array {
         count++;
     }
     //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized algos
-    void segregate0and1(int arr[], int size)
+    void sort0and1(int arr[], int size)
     {
         int left = 0, right = size-1;
         while(left < right)
