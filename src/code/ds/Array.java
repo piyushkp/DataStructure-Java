@@ -411,4 +411,23 @@ public class Array {
         while (count < k && r < n) System.out.print(arr[r++]);
         count++;
     }
+    //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized algos
+    void segregate0and1(int arr[], int size)
+    {
+        int left = 0, right = size-1;
+        while(left < right)
+        {
+            while(arr[left] == 0 && left < right)
+                left++;
+            while(arr[right] == 1 && left < right)
+                right--;
+            if(left < right)
+            {
+                arr[left] = 0;
+                arr[right] = 1;
+                left++;
+                right--;
+            }
+        }
+    }
 }
