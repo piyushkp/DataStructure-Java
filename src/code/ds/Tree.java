@@ -499,7 +499,10 @@ public class Tree {
         return null;
     }
     private int findLeftTreeSize(Node root) {
-        return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
+        if(root == null)
+            return 0;
+        else
+            return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
     /* A O(n) iterative program for construction of BST from preorder traversal */
     public Node constuctTreeFromPreOrder(int[] preOrder) {
@@ -826,4 +829,33 @@ public class Tree {
     }
     //Find distance between two given keys of a Binary Tree
     //Dist(n1, n2) = Dist(root, n1) + Dist(root, n2) - 2*Dist(root, lca)
+
+    //Morris in-order traversal, Find the median of the BST
+    public void morrisTraverse(Node root){
+
+        while(root!=null)
+        {
+            if(root.left==null){
+                System.out.println(root.data);
+                root=root.right;
+            }
+            else{
+                Node ptr=root.left;
+                while(ptr.right!=null && ptr.right!= root)
+                    ptr=ptr.right;
+
+                if(ptr.right==null){
+                    ptr.right = root;
+                    root=root.left;
+                }
+
+                else{
+                    ptr.right = null;
+                    System.out.println(root.data);
+                    root=root.right;
+                }
+            }
+        }
+    }
+
 }
