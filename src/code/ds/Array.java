@@ -430,4 +430,22 @@ public class Array {
             }
         }
     }
+    //Sort an array of 0s,1s,2s
+    void sort012(int[] a) {
+        int low = 0;
+        int mid = 0;
+        int high = a.length;
+        while (mid < high) {
+            if (a[mid] == 0) {
+                swap(a, low, mid);
+                low++;
+                mid++;
+            } else if (a[mid] == 1) {
+                mid++;
+            } else if (a[mid] == 2) {
+                swap(a, mid, high);
+                high--;
+            }
+        }
+    }
 }
