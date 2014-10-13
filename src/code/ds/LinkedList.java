@@ -9,7 +9,6 @@ public class LinkedList {
         Node next;
         Node random;
     }
-
     // Traverse Linked List
     void PrintLinkedList(Node start) {
         System.out.print("\nHEAD .");
@@ -19,10 +18,8 @@ public class LinkedList {
         }
         System.out.print("null\n\n");
     }
-
     //insert a node at the beginning of the list
     Node head;
-
     void InsertNodeInLinkedListAtFront(int data) {
         // assumption: head is already defined elsewhere in the program
         // 1. create the new node
@@ -34,7 +31,6 @@ public class LinkedList {
         // 3. update the head to point to this new node
         head = temp;
     }
-
     //insert a node at the end of the list
     void InsertNodeInLinkedListAtEnd(int data) {
         // assumption: head is already defined elsewhere in the program
@@ -49,13 +45,11 @@ public class LinkedList {
         } else {
             // 2. traverse the list till the end
             Node traveller = head;
-            while (traveller.next != null)
-                traveller = traveller.next;
+            while (traveller.next != null) traveller = traveller.next;
             // 3. update the last node to point to this new node
             traveller.next = temp;
         }
     }
-
     // insert a node in a given location in a list
     void InsertNodeInLinkedList(int data, int position) {
         // assumption: head is already defined elsewhere in the program
@@ -88,12 +82,10 @@ public class LinkedList {
             t.next = temp;
         }
     }
-
     //delete a node at a specific location
     int DeleteNodeFromLinkedList(int position) {
         // if the list is empty, return 0
-        if (head == null)
-            return 0;
+        if (head == null) return 0;
         // special case: deleting first element
         if (position == 1) {
             // set the head to point to the node
@@ -112,15 +104,12 @@ public class LinkedList {
             }
             // now comes the tricky part
             // you have to point the current node to its next node
-            if (t.next != null)
-                t.next = t.next.next; // NOTE THIS
-            else
-                return 0; // could not find the correct node
+            if (t.next != null) t.next = t.next.next; // NOTE THIS
+            else return 0; // could not find the correct node
         }
         // deletion successful
         return 1;
     }
-
     // Sort Link List
     void Sort() {
         // traverse the entire list
@@ -145,33 +134,27 @@ public class LinkedList {
         // loop through the entire list
         while (currentNode != null) {
             // if we have a match
-            if (currentNode.data == value)
-                return currentNode;
+            if (currentNode.data == value) return currentNode;
             else // move to the next element
                 currentNode = currentNode.next;
         }
         return null;
     }
-
     // Find maximum and minimum in a linked list
     int MaxMinInList(int max, int min) {
         // start at the root
         Node currentNode = head;
-        if (currentNode == null)
-            return 0; // list is empty
+        if (currentNode == null) return 0; // list is empty
         // initialize the max and min values to the first node
         max = min = currentNode.data;
         // loop through the list
         for (currentNode = currentNode.next; currentNode != null; currentNode = currentNode.next) {
-            if (currentNode.data > max)
-                max = currentNode.data;
-            else if (currentNode.data < min)
-                min = currentNode.data;
+            if (currentNode.data > max) max = currentNode.data;
+            else if (currentNode.data < min) min = currentNode.data;
         }
         // we found our answer
         return 1;
     }
-
     // Reverse Linked List
     void Reverse() {
         // Initialize currentNode pointer to the start of the list
@@ -194,7 +177,6 @@ public class LinkedList {
         // as that is now the current head of the reversed list
         head = prevNode;
     }
-
     // Find List is circular or not
     Boolean findCircular(Node head) {
         Node slower, faster;
@@ -202,12 +184,10 @@ public class LinkedList {
         faster = head;
         while (true) {
             // if the faster pointer encounters a null element
-            if (faster != null || faster.next != null)
-                return false;
+            if (faster != null || faster.next != null) return false;
                 //if faster pointer ever equals slower or faster's next
                 //pointer is ever equal to slow then it's a circular list
-            else if (faster == slower || faster.next == slower)
-                return true;
+            else if (faster == slower || faster.next == slower) return true;
             else {
                 // advance the pointers
                 slower = slower.next;
@@ -215,7 +195,6 @@ public class LinkedList {
             }
         }
     }
-
     //Write a function that would return the 5th element from the tail (or end) of a singly linked list of integers
     void printNthFromLast(Node head, int n) {
         Node main_ptr = head;
