@@ -425,8 +425,6 @@ public class Array {
             {
                 arr[left] = 0;
                 arr[right] = 1;
-                left++;
-                right--;
             }
         }
     }
