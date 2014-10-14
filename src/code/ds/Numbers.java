@@ -1,7 +1,5 @@
 package code.ds;
-
 import java.util.*;
-
 /**
  * Created by ppatel2 on 9/8/2014.
  */
@@ -122,10 +120,12 @@ public class Numbers {
             this.y = y;
         }
     }
+
     public interface PointsOnAPlane {
         void addPoint(Point point);
         Collection<Point> findNearest(Point center, int m);
     }
+
     public abstract class PointsOnAPlaneImpl implements PointsOnAPlane {
         ArrayList<Point> points = new ArrayList<Point>();
         @Override
@@ -235,37 +235,83 @@ public class Numbers {
     // Given a stream of unsorted integers, find the median element in sorted order at any given time.
     int numOfElements = 0;
     PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
-    PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>()
-    {@Override
-     public int compare(Integer o1, Integer o2)
-        {
+    PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new Comparator<Integer>() {
+        @Override
+        public int compare(Integer o1, Integer o2) {
             return o2 - o1;
         }
     });
     public void addNumberToStream(Integer num) {
         maxHeap.add(num);
-        if (numOfElements%2 == 0)
-        {
+        if (numOfElements % 2 == 0) {
             if (minHeap.isEmpty()) {
                 numOfElements++;
                 return;
-            }
-            else if (maxHeap.peek() > minHeap.peek()) {
+            } else if (maxHeap.peek() > minHeap.peek()) {
                 Integer maxHeapRoot = maxHeap.poll();
                 Integer minHeapRoot = minHeap.poll();
                 maxHeap.add(minHeapRoot);
                 minHeap.add(maxHeapRoot);
             }
-        }
-        else {
+        } else {
             minHeap.add(maxHeap.poll());
         }
         numOfElements++;
     }
     public Double getMedian() {
-        if (numOfElements%2 != 0)
-            return new Double(maxHeap.peek());
-        else
-            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+        if (numOfElements % 2 != 0) return new Double(maxHeap.peek());
+        else return (maxHeap.peek() + minHeap.peek()) / 2.0;
     }
+    // Returns the maximum value that can be put in a knapsack of capacity W
+    int knapSack(int W, int wt[], int val[], int n) {
+        int i, j;
+        int K[][] = new int[n + 1][W + 1];
+        // Build table K[][] in bottom up manner
+        for (i = 0; i <= n; i++) {
+            for (j = 0; j <= W; j++) {
+                if (i == 0 || j == 0) K[i][j] = 0;
+                else if (wt[i - 1] <= j) K[i][j] = Math.max(val[i - 1] + K[i - 1][j - wt[i - 1]], K[i - 1][j]);
+                else K[i][j] = K[i - 1][j];
+            }
+        }
+        return K[n][W];
+    }
+    //price array of a given stock on day i.If you were only permitted to complete at most one transaction find the maximum profit.
+    public int maxProfit(int[] prices) {
+        if (prices == null || prices.length < 2) {
+            return 0;
+        }
+        int min = Integer.MAX_VALUE;
+        int diff = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < min) {
+                min = prices[i];
+            }
+            if (diff < prices[i] - min) {
+                diff = prices[i] - min;
+            }
+        }
+        return diff;
+    }
+    // Stock problem: multiple transactions are allowed. you must sell the stock before you buy again
+    public int maxProfitMultiTrans(int[] prices) {
+        if (prices == null || prices.length <= 1) {
+            return 0;
+        }
+        // used to record max profit can get until each day
+        int[] maxProfit = new int[prices.length];
+        maxProfit[0] = 0;
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+        // price go up, max profit is max profit get by yesterday plus new profit
+                maxProfit[i] = prices[i] - prices[i - 1] + maxProfit[i - 1];
+            } else {
+        // price go down, max profit can get by today should be equal to yesterday.
+                maxProfit[i] = maxProfit[i - 1];
+            }
+        }
+        return maxProfit[maxProfit.length - 1];
+    }
+}
+
 }
