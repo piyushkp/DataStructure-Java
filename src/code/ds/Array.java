@@ -446,4 +446,99 @@ public class Array {
             }
         }
     }
+    //Rearrange positive and negative numbers in O(n) time and O(1) extra space
+    //input array is [-1, 2, -3, 4, 5, 6, -7, 8, 9] output should be [9, -7, 8, -3, 5, -1, 2, 4, 6]
+    void rearrange(int arr[], int n)
+    {
+        // The following few lines are similar to partition process
+        // of QuickSort.  The idea is to consider 0 as pivot and
+        // divide the array around it.
+        int i = -1;
+        for (int j = 0; j < n; j++)
+        {
+            if (arr[j] < 0)
+            {
+                i++;
+                swap(arr, arr[i], arr[j]);
+            }
+        }
+        // Now all positive numbers are at end and negative numbers at
+        // the beginning of array. Initialize indexes for starting point
+        // of positive and negative numbers to be swapped
+        int pos = i+1, neg = 0;
+        // Increment the negative index by 2 and positive index by 1, i.e.,
+        // swap every alternate negative number with next positive number
+        while (pos < n && neg < pos && arr[neg] < 0)
+        {
+            swap(arr, arr[neg], arr[pos]);
+            pos++;
+            neg += 2;
+        }
+    }
+    //Rearrange array in alternating positive & negative items with O(1) extra space
+    // maintaining the order of appearance
+    void rearrangeWithOrder(int arr[], int n)
+    {
+        int outofplace = -1;
+        for (int index = 0; index < n; index ++)
+        {
+            if (outofplace >= 0)
+            {
+                // find the item which must be moved into the out-of-place
+                // entry if out-of-place entry is positive and current
+                // entry is negative OR if out-of-place entry is negative
+                // and current entry is negative then right rotate
+                // [...-3, -4, -5, 6...] -->   [...6, -3, -4, -5...]
+                //      ^                          ^
+                //     outofplace      -->      outofplace
+                if (((arr[index] >= 0) && (arr[outofplace] < 0))
+                        || ((arr[index] < 0) && (arr[outofplace] >= 0)))
+                {
+                    rightrotate(arr, n, outofplace, index);
+
+                    // the new out-of-place entry is now 2 steps ahead
+                    if (index - outofplace > 2)
+                        outofplace = outofplace + 2;
+                    else
+                        outofplace = -1;
+                }
+            }
+            // if no entry has been flagged out-of-place
+            if (outofplace == -1)
+            {
+                //An element is out of place if it is negative and at odd index, or it is positive and at even index.
+                if (((arr[index] >= 0) && (index & 0x01) == 0)
+                        || ((arr[index] < 0) && (index & 0x01) != 0))
+                {
+                    outofplace = index;
+                }
+            }
+        }
+    }
+    // Utility function to right rotate all elements between [outofplace, cur]
+    void rightrotate(int arr[], int n, int outofplace, int cur)
+    {
+        int tmp = arr[cur];
+        for (int i = cur; i > outofplace; i--)
+            arr[i] = arr[i-1];
+        arr[outofplace] = tmp;
+    }
+    //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 < s2 > s3 < s4.
+    // without order maintaining
+    private void arrange(int a[])
+    {
+        for ( int i = 0; i < a.length - 2; i++)
+        {
+            if(i % 2 == 0) //even
+            {
+                if(a[i] > a[i+1])
+                    swap(a, i, i+1);
+            }
+            else //odd
+            {
+                if(a[i] < a[i+1])
+                    swap(a, i, i+1);
+            }
+        }
+    }
 }
