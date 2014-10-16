@@ -28,8 +28,7 @@ public class StringImp {
         List<Character> nonrepeating = new ArrayList<Character>();
         for (int i = 0; i < word.length(); i++) {
             char letter = word.charAt(i);
-            if (repeating.contains(letter))
-                continue;
+            if (repeating.contains(letter)) continue;
             if (nonrepeating.contains(letter)) {
                 nonrepeating.remove(letter);
                 repeating.add(letter);
@@ -90,8 +89,7 @@ public class StringImp {
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
     ' * ' always appear after a a-z character. */
     Boolean isMatch(String sA, String sB, int iALength, int iBLength) {
-        if (iALength == 0 && iBLength == 0)
-            return true;
+        if (iALength == 0 && iBLength == 0) return true;
         else {
             if (iALength > 0) {
                 if (sA.charAt(iALength - 1) == '*')
@@ -99,10 +97,8 @@ public class StringImp {
                 if (sA.charAt(iALength - 1) == '.')
                     return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 1, iBLength - 1);
                 if (iBLength > 0) {
-                    if (sA.charAt(iALength - 1) == sB.charAt(iBLength - 1))
-                        return true;
-                    else
-                        return false;
+                    if (sA.charAt(iALength - 1) == sB.charAt(iBLength - 1)) return true;
+                    else return false;
                 }
             }
         }
@@ -112,31 +108,24 @@ public class StringImp {
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
     public boolean isMatch(String s, String p) {
-        if (s == null)
-            return p == null;
-        if (p == null)
-            return s == null;
+        if (s == null) return p == null;
+        if (p == null) return s == null;
         int lenS = s.length();
         int lenP = p.length();
-        if (lenP == 0)
-            return lenS == 0;
+        if (lenP == 0) return lenS == 0;
         if (lenP == 1) {
             if (p.equals(s) || p.equals(".") && s.length() == 1) {
                 return true;
-            } else
-                return false;
+            } else return false;
         }
         if (p.charAt(1) != '*') {
-            if (s.length() > 0
-                    && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+            if (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
                 return isMatch(s.substring(1), p.substring(1));
             }
             return false;
         } else {
-            while (s.length() > 0
-                    && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
-                if (isMatch(s, p.substring(2)))
-                    return true;
+            while (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                if (isMatch(s, p.substring(2))) return true;
                 s = s.substring(1);
             }
             return isMatch(s, p.substring(2));
@@ -175,8 +164,7 @@ public class StringImp {
                     len++;
                 }
                 if (len == T.length()) {
-                    while (!needFind.containsKey(S.charAt(start))
-                            || alreadyFind.get(S.charAt(start)) > needFind.get(S.charAt(start))) {
+                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start)) > needFind.get(S.charAt(start))) {
                         if (needFind.containsKey(S.charAt(start))) {
                             alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start)) - 1);
                         }
@@ -244,8 +232,7 @@ public class StringImp {
             char curr = target.charAt(i);
             if (curr == prev) {
                 rpt++;
-                while (i < target.length() - 1 &&
-                        (target.charAt(i + 1) == curr || target.charAt(i + 1) == ' ' || target.charAt(i + 1) == '.')) {
+                while (i < target.length() - 1 && (target.charAt(i + 1) == curr || target.charAt(i + 1) == ' ' || target.charAt(i + 1) == '.')) {
                     i++;
                 }
             } else {
@@ -256,8 +243,7 @@ public class StringImp {
     }
     //Remove duplicate characters in a given string keeping only the first occurrences.
     private String removeDuplicate(String s) {
-        if (s == null)
-            return null;
+        if (s == null) return null;
         HashSet<Character> _set = new HashSet<Character>();
         StringBuffer result = new StringBuffer();
         char[] _ch = s.toCharArray();
@@ -277,8 +263,7 @@ public class StringImp {
         char[] in = str.toCharArray();
         doPermute(in, out, used, length, 0);
     }
-    void doPermute(char[] in, StringBuffer out,
-                   boolean[] used, int length, int level) {
+    void doPermute(char[] in, StringBuffer out, boolean[] used, int length, int level) {
         if (level == length) {
             System.out.println(out.toString());
             return;
@@ -299,8 +284,7 @@ public class StringImp {
         StringBuilder outstr = new StringBuilder();
         doCombine(instr, outstr, length, 0, 0);
     }
-    void doCombine(char[] instr, StringBuilder outstr, int length,
-                   int level, int start) {
+    void doCombine(char[] instr, StringBuilder outstr, int length, int level, int start) {
         for (int i = start; i < length; i++) {
             outstr.append(instr[i]);
             System.out.println(outstr);
@@ -314,10 +298,8 @@ public class StringImp {
     //given "turtle", "tletur"; returns true
     //Ordered only i.e. ofo won't map to app encoding would be 010 and 011
     public static boolean isIsomorphic(String s1, String s2) {
-        if (s1.length() != s2.length())
-            return false;
-        else if (s1.length() == 1)
-            return true;
+        if (s1.length() != s2.length()) return false;
+        else if (s1.length() == 1) return true;
         else {
             Map<Character, Integer> map1 = new HashMap<Character, Integer>();
             StringBuffer encodingString1 = new StringBuffer();
@@ -379,14 +361,11 @@ public class StringImp {
         String previous = "";
         while (stringTokenizer.hasMoreTokens()) {
             String token = stringTokenizer.nextToken();
-            if (previous.isEmpty())
-            {
+            if (previous.isEmpty()) {
                 if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
                     previous = token;
                 }
-            }
-            else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2))
-            {
+            } else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
                 if (!token.equalsIgnoreCase(previous)) {
                     globalDistance = Math.min(globalDistance, distance);
                     previous = token;
@@ -417,8 +396,7 @@ public class StringImp {
         Set<String> _set = new HashSet<String>();
         for (int i = 0; i < _chars.length; i++) {
             char c = _chars[i];
-            if (S1.indexOf(c) != -1 && S2.indexOf(c) != -1)
-                _set.add(String.valueOf(c));
+            if (S1.indexOf(c) != -1 && S2.indexOf(c) != -1) _set.add(String.valueOf(c));
         }
         for (String string : _set)
             System.out.println(string);
@@ -514,14 +492,12 @@ public class StringImp {
     }
     // Check whether two strings are admin1234#   or not
     private boolean areAnagram(String s1, String s2) {
-        if (s1.length() != s2.length())
-            return false;
+        if (s1.length() != s2.length()) return false;
         HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
         for (int i = 0; i < s1.length(); i++) {
             Character ch = s1.charAt(i);
             Integer count = (Integer) counter.get(ch);
-            if (count == null)
-                counter.put(ch, 1);
+            if (count == null) counter.put(ch, 1);
             else {
                 counter.put(ch, count + 1);
             }
@@ -529,8 +505,7 @@ public class StringImp {
         for (int i = 0; i < s2.length(); i++) {
             Character ch = s2.charAt(i);
             Integer count = (Integer) counter.get(ch);
-            if (count == null || count == 0)
-                return false;
+            if (count == null || count == 0) return false;
             else {
                 counter.put(ch, count - 1);
             }
@@ -538,23 +513,22 @@ public class StringImp {
         return true;
     }
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
-    public static String LongestPalindromeImprove(String in)
-    {
+    public static String LongestPalindromeImprove(String in) {
         char[] input = in.toCharArray();
         int longestStart = 0;
         int longestEnd = 0;//we also need global start/end to keep track of the current best as we process
         //now the key is to scan from mid to both ends
-        for(int mid=0; mid<input.length;mid++)//we name it as mid for easy interpretation
+        for (int mid = 0; mid < input.length; mid++)//we name it as mid for easy interpretation
         {
             //for odd case
             int left = mid;
             int right = mid;//for example 12321 when we choose 3 as mid
-            while(left>=0 && right<input.length)//make sure both indexes are valid
+            while (left >= 0 && right < input.length)//make sure both indexes are valid
             {
-                if(input[left]==input[right])//if still palindrome match by one step further each loop cycle
+                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
                 {
                     //we need decide if to update global start/end
-                    if(right-left>longestEnd-longestStart)//the longer is found!
+                    if (right - left > longestEnd - longestStart)//the longer is found!
                     {
                         longestStart = left;
                         longestEnd = right;
@@ -565,13 +539,13 @@ public class StringImp {
             }
             //well for even case we need replicate the previous code by making one change
             left = mid;
-            right = mid+1;//for example 123321 when we choose 33 as mid
-            while(left>=0 && right<input.length)//make sure both indexes are valid
+            right = mid + 1;//for example 123321 when we choose 33 as mid
+            while (left >= 0 && right < input.length)//make sure both indexes are valid
             {
-                if(input[left]==input[right])//if still palindrome match by one step further each loop cycle
+                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
                 {
                     //we need decide if to update global start/end
-                    if(right-left>longestEnd-longestStart)//the longer is found!
+                    if (right - left > longestEnd - longestStart)//the longer is found!
                     {
                         longestStart = left;
                         longestEnd = right;
@@ -581,16 +555,26 @@ public class StringImp {
                 right++;
             }
         }
-        return in.substring(longestStart, longestEnd+1);
+        return in.substring(longestStart, longestEnd + 1);
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
-    boolean areRotations(String s1, String s2)
-    {
-        String temp = s1+s1;
-        if(temp.contains(s2))
-            return true;
+    boolean areRotations(String s1, String s2) {
+        String temp = s1 + s1;
+        if (temp.contains(s2)) return true;
         return false;
+    }
+    //Output top N positive integer in string comparison order.
+    // For example, let's say N=1000, output should be 1, 10, 100, 1000, 101, 102, ... 109, 11, 110,
+    public static void main(String[] args) {
+        for (int i = 1; i < 10; i++)
+            printRec("" + i, 1000);
+    }
+    static void printRec(String str, int n) {
+        if (Integer.parseInt(str) > n) return;
+        System.out.println(str);
+        for (int i = 0; i < 10; i++)
+            printRec(str + i, n);
     }
 }
 
