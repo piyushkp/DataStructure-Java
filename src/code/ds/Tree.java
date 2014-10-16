@@ -857,4 +857,69 @@ public class Tree {
             }
         }
     }
+    //Find two node in BST that add up to given number x in O(logn) space and O(n) time
+    List<Integer> find_sum(int search, Node root)
+    {
+        Stack<Node> s1 = new Stack<Node>();
+        Stack<Node> s2 = new Stack<Node>();
+        Node curr1 = root;
+        Node curr2 = root;
+        boolean done1, done2;
+        done1 = done2 = false;
+        int val1 = 0, val2 = 0;
+        List<Integer> result = new ArrayList<Integer>();
+        while(true)
+        {
+            while(!done1)
+            {
+                if(curr1 != null)
+                {
+                    s1.push(curr1);
+                    curr1 = curr1.left;
+                }
+                else
+                {
+                    if(s1.empty()) done1 = true;
+                    else
+                    {
+                        curr1 = s1.pop();
+                        val1 = curr1.data;
+                        curr1 = curr1.right;
+                        done1 = true;
+                    }
+                }
+            }
+            while(!done2)
+            {
+                if(curr2 != null)
+                {
+                    s2.push(curr2);
+                    curr2 = curr2.right;
+                }
+                else
+                {
+                    if(s2.empty()) done2 = true;
+                    else
+                    {
+                        curr2 = s2.pop();
+                        val2 = curr2.data;
+                        curr2 = curr2.left;
+                        done2 = true;
+                    }
+                }
+            }
+            if(val1 + val2 == search)
+            {
+                result.add(val1);
+                result.add(val2);
+                return result;
+            }
+            else if(val1 + val2 > search)
+            {
+                done2 = false;
+            }
+            else
+                done1 = false;
+        }
+    }
 }
