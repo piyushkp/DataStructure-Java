@@ -670,7 +670,7 @@ public class Tree {
         return newNode;
     }
     //Given the root of a binary search tree and 2 numbers min and max,
-    // trim the tree such that all the numbers in the new tree are between min and max (inclusive).
+    //trim the tree such that all the numbers in the new tree are between min and max (inclusive).
     private Node trimBST(Node root, int minValue, int maxValue) {
         if (root == null)
             return null;
