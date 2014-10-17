@@ -556,7 +556,6 @@ public class Array {
     /* Get one set bit in the xor2. We get rightmost set bit
      in the following line as it is easy to get */
         set_bit_no = xor2 & ~(xor2-1);
-
     /* Now divide elements in two sets:
     1) The elements having the corresponding bit as 1.
     2) The elements having the corresponding bit as 0.  */
