@@ -475,53 +475,54 @@ public class Array {
             neg += 2;
         }
     }
-    //Rearrange array in alternating positive & negative items with O(1) extra space
-    // maintaining the order of appearance
-    void rearrangeWithOrder(int arr[], int n)
-    {
-        int outofplace = -1;
-        for (int index = 0; index < n; index ++)
-        {
-            if (outofplace >= 0)
-            {
-                // find the item which must be moved into the out-of-place
-                // entry if out-of-place entry is positive and current
-                // entry is negative OR if out-of-place entry is negative
-                // and current entry is negative then right rotate
-                // [...-3, -4, -5, 6...] -->   [...6, -3, -4, -5...]
-                //      ^                          ^
-                //     outofplace      -->      outofplace
-                if (((arr[index] >= 0) && (arr[outofplace] < 0))
-                        || ((arr[index] < 0) && (arr[outofplace] >= 0)))
-                {
-                    rightrotate(arr, n, outofplace, index);
-
-                    // the new out-of-place entry is now 2 steps ahead
-                    if (index - outofplace > 2)
-                        outofplace = outofplace + 2;
-                    else
-                        outofplace = -1;
+    //Rearrange array in alternating positive & negative items with O(1) extra space time O(N2)
+    // maintaining the order of appearance. eg. -1 1 3 -2 2 ans: -1 -2 1 3 2.
+    public static void sortNegPos(int[] arr) {
+        int[] neg = new int[arr.length];
+        int numNegSoFar = 0;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (numNegSoFar != 0 && arr[i] >= 0) {
+                arr[i + numNegSoFar] = arr[i];
+                int temp = arr[i];
+                for (int k = 0; k < numNegSoFar; k++) {
+                    arr[i + k] = arr[i + k + 1];
                 }
+                arr[i + numNegSoFar] = temp;
             }
-            // if no entry has been flagged out-of-place
-            if (outofplace == -1)
-            {
-                //An element is out of place if it is negative and at odd index, or it is positive and at even index.
-                if (((arr[index] >= 0) && (index & 0x01) == 0)
-                        || ((arr[index] < 0) && (index & 0x01) != 0))
-                {
-                    outofplace = index;
-                }
+            if (arr[i] < 0) {
+                numNegSoFar++;
             }
         }
     }
-    // Utility function to right rotate all elements between [outofplace, cur]
-    void rightrotate(int arr[], int n, int outofplace, int cur)
+    //Time: O(N), Space O(N)
+    //Rearrange array in alternating positive & negative items
+    public static void sortNegPosSwap(int[] arr)
     {
-        int tmp = arr[cur];
-        for (int i = cur; i > outofplace; i--)
-            arr[i] = arr[i-1];
-        arr[outofplace] = tmp;
+        int[] neg = new int[arr.length];
+        int numNeg = 0;
+        int numNegSoFar = 0;
+        for(int i = 0; i < arr.length; i++)
+        {
+            if(arr[i] < 0)
+            {
+                neg[numNeg++] = arr[i];
+            }
+        }
+        for(int i = arr.length - 1; i >= 0; i--)
+        {
+            if(numNegSoFar != 0 && arr[i] >= 0)
+            {
+                arr[i + numNegSoFar] = arr[i];
+            }
+            if(arr[i] < 0)
+            {
+                numNegSoFar++;
+            }
+        }
+        for(int i = 0; i < numNeg; i++)
+        {
+            arr[i] = neg[i];
+        }
     }
     //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 < s2 > s3 < s4.
     // without order maintaining
