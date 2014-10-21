@@ -576,5 +576,20 @@ public class StringImp {
         for (int i = 0; i < 10; i++)
             printRec(str + i, n);
     }
+    //Find the longest sequence of prefix shared by all the words in a string.
+    //"abcdef abcdxxx abcdabcdef abcyy" => "abc"
+    public String longPrefix(String str){
+        String arr[] = str.split(" ");
+        int len = arr[0].length();
+        int p;
+        for(int i =1; i < arr.length;i++){
+            p=0;
+            while(p < len && p < arr[i].length()
+                    && arr[0].charAt(p) == arr[i].charAt(p))
+                p++;
+            len = p;
+        }
+        return arr[0].substring(0,len);
+    }
 }
 
