@@ -613,7 +613,6 @@ public class Array {
         //System.out.println(Arrays.toString(pre));
         for(int i=index-1;i>=0;--i){
             if(s.matches(pre[i])){
-
                 if(s.length()==strings[i].length()){
                     //System.out.println("Can't update the previous one, need to update this one");
                     pre[index] = strings[index].substring(0, s.length()+1);
