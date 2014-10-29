@@ -573,4 +573,23 @@ public class Array {
         }
         System.out.print(x + " "+ y);
     }
+    //Length of the largest sub-array with contiguous elements
+    //Input:  arr[] = {10, 12, 12, 10, 10, 11, 10} Output: 2 Time Complexity: O(n^2)
+    private int findContiguousLength(int a[]) {
+        int n = a.length;
+        int max_len = 1;
+        for (int i = 0; i < n - 1; i++) {
+            HashSet<Integer> set = new HashSet<Integer>();
+            set.add(a[i]);
+            int mn = a[i], mx = a[i];
+            for (int j = i + 1; j < n; j++) {
+                if (set.contains(a[j])) break;
+                set.add(a[j]);
+                mn = Math.min(mn, a[j]);
+                mx = Math.max(mx, a[j]);
+                if (mx - mn == j - i) max_len = Math.max(max_len, mx - mn + 1);
+            }
+        }
+        return max_len;
+    }
 }
