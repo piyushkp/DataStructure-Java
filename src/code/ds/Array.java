@@ -592,4 +592,41 @@ public class Array {
         }
         return max_len;
     }
+    //Finding Shortest unique Prefixes for Strings in an Array
+    public static void findPrefixes(String[] strings){
+        System.out.println();
+        String[] pre = new String[strings.length];
+
+        for(int i=0;i<pre.length;++i){
+            if(i>0){
+                if(strings[i].matches(strings[i-1])){
+                    System.out.println("Duplicate string - Error!"); continue;
+                }
+            }
+            pre[i]=Character.toString(strings[i].charAt(0));
+            checkPrefix(strings, pre, pre[i], i);
+        }
+        System.out.println(Arrays.toString(strings));
+        System.out.println(Arrays.toString(pre));
+    }
+    public static void checkPrefix(String[] strings, String[] pre, String s, int index){
+        //System.out.println(Arrays.toString(pre));
+        for(int i=index-1;i>=0;--i){
+            if(s.matches(pre[i])){
+
+                if(s.length()==strings[i].length()){
+                    //System.out.println("Can't update the previous one, need to update this one");
+                    pre[index] = strings[index].substring(0, s.length()+1);
+                    checkPrefix(strings, pre, pre[index], index);
+                    return;
+                }
+                else if(s.length() < strings[i].length()){
+                    //System.out.println("Can update the previous one");
+                    pre[i] = strings[i].substring(0, s.length()+1);
+                    checkPrefix(strings, pre, pre[i], i);
+                    return;
+                }
+            }
+        }
+    }
 }
