@@ -218,9 +218,9 @@ public class Array {
     }
     //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
     private void findMinofabc(int a[], int b[], int c[]) {
-        quickSort(a, 0, a.length);
-        quickSort(b, 0, a.length);
-        quickSort(c, 0, a.length);
+        //quickSort(a, 0, a.length);
+        //quickSort(b, 0, a.length);
+        //quickSort(c, 0, a.length);
         int min = Integer.MAX_VALUE;
         int i = 0, j = 0, k = 0;
         int index1 = 0, index2 = 0, index3 = 0;
@@ -333,7 +333,7 @@ public class Array {
     int minDist(int arr[], int n, int x, int y) {
         int i = 0;
         int min_dist = Integer.MAX_VALUE;
-        int prev;
+        int prev=0;
         for (i = 0; i < n; i++) {
             if (arr[i] == x || arr[i] == y) {
                 prev = i;
