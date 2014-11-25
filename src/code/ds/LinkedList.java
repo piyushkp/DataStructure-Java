@@ -272,4 +272,30 @@ public class LinkedList {
         // Append the even list at the end of odd list
         odd.next = even;
     }
+    //Given a linked list and two integers M and N. Traverse the linked list such that you retain M nodes then delete next N nodes,
+    //continue the same till end of the linked list.M = 2, N = 2 Input: 1->2->3->4->5->6->7->8  Output: 1->2->5->6
+    // Function to skip M nodes and then delete N nodes of the linked list.
+    void skipMdeleteN(Node  head, int M, int N)
+    {
+        Node curr = head, t;
+        int count;
+        while (curr != null)
+        {
+            // Skip M nodes
+            for (count = 1; count<M && curr!= null; count++)
+                curr = curr.next;
+            // If we reached end of list, then return
+            if (curr == null)
+                return;
+            // Start from next node and delete N nodes
+            t = curr.next;
+            for (count = 1; count<=N && t!= null; count++)
+            {
+                Node temp = t;
+                t = t.next;
+            }
+            curr.next = t; // Link the previous list with remaining nodes
+            curr = t;
+        }
+    }
 }
