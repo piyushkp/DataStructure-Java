@@ -922,4 +922,43 @@ public class Tree {
                 done1 = false;
         }
     }
+    //Perfect Binary Tree Specific Level Order Traversal
+    //1 2 3 4 7 5 6 8 15 9 14 10 13 11 12 16 31 17 30 18 29 19 28 20 27 21 26  22 25 23 24
+    //the enqueue order will be: 1st node’s left child, 2nd node’s right child, 1st node’s right child and 2nd node’s left child.
+    void printSpecificLevelOrder(Node root)
+    {
+        if (root == null)
+            return;
+        System.out.print(root.data);
+        // / Since it is perfect Binary Tree, right is not checked
+        if (root.left != null)
+            System.out.print(root.left.data + " " + root.right.data);
+        if (root.left.left == null)
+            return;
+        // Create a queue and enqueue left and right children of root
+        Queue <Node> q = null;
+        q.add(root.left);
+        q.add(root.right);
+        // We process two nodes at a time, so we need two variables to store two front items of queue
+        Node first = null, second = null;
+        while (!q.isEmpty())
+        {
+            // Pop two items from queue
+            first = q.peek();
+            q.poll();
+            second = q.peek();
+            q.poll();
+            // Print children of first and second in reverse order
+            System.out.print(first.left.data + " " + second.right.data);
+            System.out.print(first.right.data + " " + second.left.data);
+            // If first and second have grandchildren, enqueue them in reverse order
+            if (first.left.left != null)
+            {
+                q.add(first.left);
+                q.add(second.right);
+                q.add(first.right);
+                q.add(second.left);
+            }
+        }
+    }
 }
