@@ -591,5 +591,45 @@ public class StringImp {
         }
         return arr[0].substring(0,len);
     }
+    //Given two strings, find if first string is a subsequence of second
+    //Input: str1 = "AXY", str2 = "ADXCPY"  Output: True (str1 is a subsequence of str2)
+    // Returns true if str1[] is a subsequence of str2[]. m is
+    // length of str1 and n is length of str2
+    boolean isSubSequence(char str1[], char str2[], int m, int n)
+    {
+        int j = 0; // For index of str1 (or subsequence
+        // Traverse str2 and str1, and compare current character
+        // of str2 with first unmatched char of str1, if matched
+        // then move ahead in str1
+        for (int i=0; i<n&&j<m; i++)
+            if (str1[j] == str2[i])
+                j++;
+        // If all characters of str1 were found in str2
+        return (j==m);
+    }
+    //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function to search the index of subString
+    //Naive Pattern Searching. Best case O(n) worst case  O(m*(n-m+1))
+    // Better approach is KMP (Knuth Morris Pratt) Pattern Searching
+    void search(String pat, String txt)
+    {
+        int M = pat.length();
+        int N = txt.length();
+        /* A loop to slide pat[] one by one */
+        for (int i = 0; i <= N - M; i++)
+        {
+            int j;
+        /* For current index i, check for pattern match */
+            for (j = 0; j < M; j++)
+            {
+                if (txt.indexOf(i+j) != pat.indexOf(j))
+                    break;
+            }
+            if (j == M)  // if pat[0...M-1] = txt[i, i+1, ...i+M-1]
+            {
+                System.out.print("Pattern found at index " + i);
+            }
+        }
+    }
+
 }
 
