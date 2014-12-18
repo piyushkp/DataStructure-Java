@@ -83,6 +83,7 @@ public class Array {
         G[x] ^= G[y];
     }
     //Find k maximum integers from an array of infinite integers.
+    // Find first 100 maximum numbers from the billion numbers
     // using Min Heap takes O(n log k) (assumption is that k is significantly lesser than n)
     public static int[] getTopElements(int[] arr, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();

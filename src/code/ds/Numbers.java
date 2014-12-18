@@ -313,5 +313,3 @@ public class Numbers {
         return maxProfit[maxProfit.length - 1];
     }
 }
-
-}
