@@ -630,6 +630,30 @@ public class StringImp {
             }
         }
     }
+    //Determine the 10 most frequent words given a terabyte of strings.
+    void find10FrequentWords(String[] s)
+    {
+       HashMap<String, Integer> _hash = new HashMap<String, Integer>();
+       PriorityQueue<String> _minHeap = new PriorityQueue<String>();
+       for(int i = 0; i <s.length; i++)
+       {
+           if(i < 10)
+           {
+                if(_hash.containsKey(s[i]))
+                {
+                    int count = _hash.get(s[i]);
+                    _hash.put(s[i],count + 1);
+                }
+               else
+                _hash.put(s[i],0);
+
+           }
+           else
+           {
+
+           }
+       }
+    }
 
 }
 
