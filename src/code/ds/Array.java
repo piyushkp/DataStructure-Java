@@ -759,4 +759,18 @@ public class Array {
         // Return the partition index of an array based on the pivot element of other array.
         return i;
     }
+    //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
+    private boolean checkDuplicatesWithinK(int a[], int k)
+    {
+        HashSet<Integer> hash = new HashSet<Integer>();
+        for(int i = 0; i < a.length; i++)
+        {
+            if(hash.contains(a[i]))
+                return  true;
+            hash.add(a[i]);
+            if(i >= k)
+                hash.remove(a[i-k]);
+        }
+        return  false;
+    }
 }
