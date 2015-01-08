@@ -180,6 +180,7 @@ public class Graph
     }
     //Shortest path with exactly k edges in a directed and weighted graph
     // A naive recursive function to count walks from u to v with k edges
+    //The worst case time complexity of the above function is O(Vk) where V is the number of vertices
     int shortestPath(int graph[][], int u, int v, int k)
     {
         // Base cases
