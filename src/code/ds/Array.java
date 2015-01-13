@@ -19,7 +19,7 @@ public class Array {
         return answer;
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    // Time Complexity :  O(logk)
+    // Time Complexity :  O(log m + log n)
     public int findKthElement(int k, int[] array1, int start1, int end1, int[] array2, int start2, int end2) {
         // if (k>m+n) exception
         if (k == 0) {
