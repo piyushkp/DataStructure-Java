@@ -544,6 +544,8 @@ public class Array {
         }
     }
     //Find the two numbers with odd occurrences in an unsorted array
+    //Input: {12, 23, 34, 12, 12, 23, 12, 45}
+    //Output: 34 and 45
     void printTwoOdd(int arr[], int size)
     {
         int xor2 = arr[0]; /* Will hold XOR of two odd occurring elements */
