@@ -427,7 +427,6 @@ public class StringImp {
         wordIdx = prevWordLastIdx;
         wordMidIdx = (arr.length + wordIdx) / 2;
         reverse(arr, wordIdx, wordMidIdx, arr.length);
-
         return arr;
     }
     private static void reverse(char[] arr, int wordIdx, int wordMidIdx,
