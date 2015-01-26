@@ -594,8 +594,7 @@ public class StringImp {
     }
     //Given two strings, find if first string is a subsequence of second
     //Input: str1 = "AXY", str2 = "ADXCPY"  Output: True (str1 is a subsequence of str2)
-    // Returns true if str1[] is a subsequence of str2[]. m is
-    // length of str1 and n is length of str2
+    // Returns true if str1[] is a subsequence of str2[]. m is length of str1 and n is length of str2
     boolean isSubSequence(char str1[], char str2[], int m, int n)
     {
         int j = 0; // For index of str1 (or subsequence
