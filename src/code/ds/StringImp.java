@@ -491,6 +491,7 @@ public class StringImp {
         return result;
     }
     // Check whether two strings are anagram  or not
+    // For example, “abcd” and “dabc” are anagram of each other.
     private boolean areAnagram(String s1, String s2) {
         if (s1.length() != s2.length()) return false;
         HashMap<Character, Integer> counter = new HashMap<Character, Integer>();

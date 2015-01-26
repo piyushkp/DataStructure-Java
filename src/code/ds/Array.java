@@ -717,20 +717,20 @@ public class Array {
         return max_index;
     }
     //Given a set of n nuts of different sizes and n bolts of different sizes.
-    // There is a one-one mapping between nuts and bolts. Match nuts and bolts efficiently.
-    // Nuts and bolts are represented as array of characters
+    //There is a one-one mapping between nuts and bolts. Match nuts and bolts efficiently.
+    //Nuts and bolts are represented as array of characters
     //char nuts[] = {'@', '#', '$', '%', '^', '&'};
     //char bolts[] = {'$', '%', '&', '^', '@', '#'};
-    // Method which works just like quick sort
+    //Method which works just like quick sort
     private static void matchPairs(char[] nuts, char[] bolts, int low, int high)
     {
         if (low < high)
         {
-            // Choose last character of bolts array for nuts partition.
+            //Choose last character of bolts array for nuts partition.
             int pivot = partition(nuts, low, high, bolts[high]);
-            // Now using the partition of nuts choose that for bolts partition.
+            //Now using the partition of nuts choose that for bolts partition.
             partition(bolts, low, high, nuts[pivot]);
-            // Recur for [low...pivot-1] & [pivot+1...high] for nuts and bolts array.
+            //Recur for [low...pivot-1] & [pivot+1...high] for nuts and bolts array.
             matchPairs(nuts, bolts, low, pivot-1);
             matchPairs(nuts, bolts, pivot+1, high);
         }
