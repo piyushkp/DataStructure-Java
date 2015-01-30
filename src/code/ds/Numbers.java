@@ -281,17 +281,17 @@ public class Numbers {
         if (prices == null || prices.length < 2) {
             return 0;
         }
-        int min = Integer.MAX_VALUE;
-        int diff = 0;
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < min) {
-                min = prices[i];
-            }
-            if (diff < prices[i] - min) {
-                diff = prices[i] - min;
-            }
+        int max_diff = prices[1] - prices[0];
+        int min_element = prices[0];
+        int i;
+        for(i = 1; i < prices.length; i++)
+        {
+            if(prices[i] - min_element > max_diff)
+                max_diff = prices[i] - min_element;
+            if(prices[i] < min_element)
+                min_element = prices[i];
         }
-        return diff;
+        return max_diff;
     }
     // Stock problem: multiple transactions are allowed. you must sell the stock before you buy again
     public int maxProfitMultiTrans(int[] prices) {
