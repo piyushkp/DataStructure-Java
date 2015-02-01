@@ -975,4 +975,30 @@ public class Tree {
             }
         }
     }
+    //Find sum of all left leaves in a given Binary Tree. O(n)
+    int leftLeavesSum(Node root)
+    {
+        int res = 0;
+        // Update result if root is not NULL
+        if (root != null)
+        {
+            // If left of root is NULL, then add key of left child
+            if (isLeaf(root.left))
+                res += root.left.data;
+            else // Else recur for left child of root
+                res += leftLeavesSum(root.left);
+            // Recur for right child of root and update res
+            res += leftLeavesSum(root.right);
+        }
+        return res;
+    }
+    Boolean isLeaf(Node node)
+    {
+        if (node == null)
+            return false;
+        if (node.left == null && node.right == null)
+            return true;
+        return false;
+    }
+
 }
