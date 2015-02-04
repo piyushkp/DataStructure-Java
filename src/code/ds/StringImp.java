@@ -727,7 +727,7 @@ public class StringImp {
     // used in KMP string matching algorithm.
     void computeLPSArray(char str[], int M, int lps[])
     {
-        int len = 0; //lenght of the previous longest prefix suffix
+        int len = 0; //length of the previous longest prefix suffix
         int i;
         lps[0] = 0; //lps[0] is always 0
         i = 1;
