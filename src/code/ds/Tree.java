@@ -1000,5 +1000,26 @@ public class Tree {
             return true;
         return false;
     }
+    //convert a binary tree to a circular doubly-linked list
+    Node prev = null;
+    Node head = null;
+    void treeToDoublyList(Node root, Node prev, Node head)
+    {
+        if (root == null) return;
+        treeToDoublyList(root.left, prev, head);
+        // current node's left points to previous node
+        root.left = prev;
+        if (prev != null)
+            prev.right = root; // previous node's right points to current node
+        else
+            head = root;        // if previous is NULL that current node is head
+        Node right = root.right; //Saving right node
+        //Now we need to make list created till now as circular
+        head.left = root;
+        root.right = head;
+        //For right-subtree/parent, current node is in-order predecessor
+        prev = root;
+        treeToDoublyList(right, prev, head);
+    }
 
 }
