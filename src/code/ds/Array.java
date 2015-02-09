@@ -804,4 +804,46 @@ public class Array {
         }
         return jumps[n-1];
     }
+    //Given an array and a value, how to implement a function to remove all instances of that value in place and return the new length?
+    //input - {4, 3, 2, 1, 2, 3, 6} and 2 output: 5
+    public int removeNumber(int[] A, int n) {
+
+        if (A == null || A.length == 0) return 0;
+        int i = 0;
+        for (int j=0; j<A.length; j++)
+            if (A[j] != n) A[i++] = A[j];
+        return i; // The new dimension of the array
+    }
+    //Given an array of numbers and a sliding window size, how to get the maximal numbers in all sliding windows?
+    //Maximum of all subarrays of size k
+    //input: {2, 3, 4, 2, 6, 2, 5, 1} output: {4, 4, 6, 6, 6, 5}
+    void findMaxSliding(int[] x, int k)
+    {
+        Deque<Integer> q=new ArrayDeque<Integer>();
+        int i = 0;
+        for(;i<k;i++)
+        {
+        // For every element, the previous smaller elements are useless so remove them from q
+            while(!q.isEmpty() && x[q.peekLast()]<=x[i]){
+                q.removeLast();
+            }
+            q.addLast(i); // Add new element at rear of queue
+        }
+        for ( ; i <x.length; ++i)
+        {
+            // The element at the front of the queue is the largest element of previous window, so print it
+            System.out.println(x[q.peek()]);
+            // Remove the elements which are out of this window
+            while(!q.isEmpty() && q.peekFirst()<=i-k){
+                q.removeFirst();// Remove from rear
+            }
+            // Remove all elements smaller than the currently being added element (remove useless elements)
+            while(!q.isEmpty() && x[q.peekLast()]<=x[i]){
+                q.removeLast();
+            }
+            q.addLast(i);
+        }
+        System.out.println(x[q.peek()]);
+    }
+
 }
