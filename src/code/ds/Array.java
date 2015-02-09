@@ -253,7 +253,7 @@ public class Array {
             } else if (a[i] == num) endIndex = i;
         }
     }
-    //Find duplicates in an Array in O(n) time and O(1) extra space
+    //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
     void printRepeating(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[Math.abs(arr[i])] >= 0)
