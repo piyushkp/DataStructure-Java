@@ -312,28 +312,5 @@ public class Numbers {
         }
         return maxProfit[maxProfit.length - 1];
     }
-    //Division without divide and %
-    private int divisionWithoutDivide(int N, int D)
-    {
-        int quotient = 0;
-        int currDivisor = D;
-        int curreBase = 1;
-        while(N >= D)
-        {
-            if(N >= currDivisor)
-            {
-                N -= currDivisor;
-                quotient += curreBase;
-                currDivisor *=2;
-                curreBase *=2;
-            }
-            else
-            {
-                currDivisor /=2;
-                curreBase /=2;
-            }
-        }
-        return quotient;
-    }
 }
 
