@@ -310,47 +310,28 @@ public class Numbers {
         return maxProfit[maxProfit.length - 1];
     }
     //Divide without Division
-    public void divide(int N, int D) {
-        int result = 0;
-        if (D == 0) {
-            System.out.println("Cannot divide by 0");
-        } else if (N == 0) {
-            System.out.println(0);
-        } else if (N == D) {
-            System.out.println(1);
-        } else if (N > 0 && D > 0 && N < D) {
-            System.out.println(0);
-        } else {
-            // both negative
-            if (N < 0 && D < 0) {
-                while (N <= D) {
-                    N += -1 * D;
-                    result++;
-                }
-                System.out.println(result);
+    //When remainder > Divisor then double the divisor else half the divisor
+    // N=10, D = 2 output:1 + 2 + 2
+    public int divide(int N, int D) {
+        int quotient = 0;
+        int currBase = 1;
+        int currDiv = D;
+        while(N >= D)
+        {
+            if(N >= currDiv)
+            {
+                N -= currDiv;
+                quotient += currBase;
+                currDiv *= 2;
+                currBase *= 2;
             }
-            // either N or D negative
-            else if (N < 0 || D < 0) {
-                if (N < 0) {
-                    N = -1 * N;
-                } else {
-                    D = -1 * D;
-                }
-                while (N >= D) {
-                    N -= D;
-                    result--;
-                }
-                System.out.println(result);
-            }
-            // both positive
-            else {
-                while (N >= D) {
-                    N -= D;
-                    result++;
-                }
-                System.out.println(result);
+            else
+            {
+                currDiv /= 2;
+                currBase /= 2;
             }
         }
+        return quotient;
     }
 }
 
