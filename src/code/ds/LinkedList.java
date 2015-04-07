@@ -298,4 +298,34 @@ public class LinkedList {
             curr = t;
         }
     }
+    //Swap nodes in a linked list without swapping data
+    //Input:  10->15->12->13->20->14,  x = 12, y = 20   Output: 10->15->20->13->12->14
+    void swapNode(Node head, int x, int y)
+    {
+        if(x == y)
+            return;
+        Node prevX = null;Node currX = head;
+        while(currX != null && currX.data != x)
+        {
+            prevX = currX;
+            currX = currX.next;
+        }
+        Node prevY = null;Node currY = head;
+        while(currY != null && currY.data != y)
+        {
+            prevY = currY;
+            currY = currY.next;
+        }
+        if(prevX != null)
+            prevX.next = currY;
+        else
+            head = currY;
+        if(prevY != null)
+            prevY.next = currX;
+        else
+            head = currX;
+        Node temp = currY.next;
+        currY.next = currX.next;
+        currX.next = temp;
+    }
 }
