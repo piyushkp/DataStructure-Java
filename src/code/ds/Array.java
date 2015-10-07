@@ -41,7 +41,7 @@ public class Array {
         }
     }
     //Given two unsorted int arrays, find the kth smallest element in the merged, sorted array.
-    private void MergeUnsortedArray(int[] A1, int[] A2) {
+    private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
         int[] c = new int[A1.length + A2.length];
         int length = 0;
         for (int i = 0; i < A1.length; i++) {
@@ -51,7 +51,7 @@ public class Array {
         for (int j = 0; j < A2.length; j++) {
             c[length + j + 1] = A2[j];
         }
-        quickselect(c, 0, c.length, 3);
+        quickselect(c, 0, c.length, K);
     }
     private int quickselect(int[] G, int first, int last, int k) {
         if (first <= last) {
