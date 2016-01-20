@@ -352,5 +352,21 @@ public class Numbers {
             }
         }
     }
+
+    //Given a decimal number, write a function that returns its negabinary (i.e. negative 2-base) representation as a string.
+    // 2 = 1 1 0 , 15  = 110001
+    private static String negaBinary(int x) {
+        StringBuilder sb = new StringBuilder();
+        while (x != 0) {
+            int rem = x % -2;
+            x = x / -2;
+            if (rem < 0) {
+                rem += 2;
+                x += 1;
+            }
+            sb.append(rem);
+        }
+        return sb.reverse().toString();
+    }
 }
 
