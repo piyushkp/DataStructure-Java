@@ -268,7 +268,9 @@ public class Tree {
     // Delete node from tree
     public void delete(int key) {
         Node parent = null;
-        Node nodetoDelete = findParent(root, parent, key);
+        Node nodetoDelete = null;
+        boolean isLeft = false;
+        parent = getParent(root, key, nodetoDelete, isLeft);
         if (nodetoDelete.left == null && nodetoDelete.right == null) {
             if (parent != null) {
                 if (parent.left == nodetoDelete)
@@ -296,31 +298,45 @@ public class Tree {
             } else
                 root = nodetoDelete.left;
         } else {
-            Node successor = FindSuccessor(nodetoDelete, parent);
-            parent.left = successor.right;
-            nodetoDelete = successor;
+            Node successor = FinMinValue(nodetoDelete.right);
+            if (parent != null) {
+                if(!isLeft)
+                    parent.right = successor;
+                else
+                    parent.left = successor;
+            }
+            else
+                root = successor;
         }
     }
-    private Node findParent(Node node, Node parent, int target) {
-        if (node.data == target) {
-            return parent;
+    private Node getParent(Node root, int target, Node NodetoDelete, boolean isLeft) {
+        if (root != null)
+        {
+            if (root.left != null)
+            {
+                if ((root.left.data == target))
+                {
+                    NodetoDelete = root.left;
+                    isLeft = true;
+                    return root;
+                }
+            }
+            if (root.right != null)
+            {
+                if ((root.right.data == target))
+                {
+                    NodetoDelete = root.right;
+                    return root;
+                }
+            }
+            getParent(root.left, target, NodetoDelete, false);
+            getParent(root.right, target, NodetoDelete, false);
         }
-        if (node.left == null) return null;
-        Node temp = findParent(node.left, node, target);
-        if (temp != null)
-            return temp;
-        if (node.right == null) return null;
-        temp = findParent(node.right, node, target);
-        if (temp != null)
-            return temp;
-        return null;
+        return root;
     }
-    private Node FindSuccessor(Node startNode, Node parent) {
-        parent = startNode;
-        startNode = startNode.right;
+    private Node FinMinValue(Node startNode) {
         while (startNode.left != null) {
-            parent = startNode;
-            startNode = startNode.right;
+            startNode = startNode.left;
         }
         return startNode;
     }
@@ -443,7 +459,7 @@ public class Tree {
         // left subtree must be < root.val && right subtree must be > root.val
         return validateBST(root.left, min, root.data) && validateBST(root.right, root.data, max);
     }
-    Node prev;
+
     private Boolean isBST(Node root) {
         // do inorder traversal and check it is sorted or not
         if (root != null) {

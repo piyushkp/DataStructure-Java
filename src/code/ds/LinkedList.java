@@ -25,7 +25,6 @@ public class LinkedList {
         // 1. create the new node
         Node temp = new Node();
         temp.data = data;
-        temp.next = null; // this line is not really needed
         // 2. insert it at the first position
         temp.next = head;
         // 3. update the head to point to this new node

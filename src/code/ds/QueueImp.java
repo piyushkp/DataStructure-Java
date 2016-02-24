@@ -39,15 +39,18 @@ public class QueueImp
             while(this.queue.size() == this.limit) {
                 wait();
             }
+            if(this.queue.size() == 0)
+                notifyAll();
             this.queue.add(item);
-            notifyAll();
+
         }
         public synchronized Object dequeue()
                 throws InterruptedException{
             while(this.queue.size() == 0){
                 wait();
             }
-             notifyAll();
+            if(this.queue.size() == this.limit)
+                notifyAll();
             return this.queue.remove(0);
         }
     }
