@@ -265,7 +265,7 @@ public class Tree {
         Collections.reverse(res);
         return res;
     }
-    // Delete node from tree
+    // Delete node from binary tree
     public void delete(int key) {
         Node parent = null;
         Node nodetoDelete = null;
@@ -343,6 +343,41 @@ public class Tree {
             parent.left = null;
         return startNode;
     }
+
+    // Delete node from BST recursive
+    Node deleteRec(Node root, int key){
+        /* Base Case: If the tree is empty */
+        if (root == null)  return root;
+        /* Otherwise, recur down the tree */
+        if (key < root.data)
+            root.left = deleteRec(root.left, key);
+        else if (key > root.data)
+            root.right = deleteRec(root.right, key);
+        // if key is same as root's key, then This is the node to be deleted
+        else
+        {
+            // node with only one child or no child
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+            // node with two children: Get the inorder successor (smallest
+            // in the right subtree)
+            root.data = minValuedata(root.right);
+            // Delete the inorder successor
+            root.right = deleteRec(root.right, root.data);
+        }
+        return root;
+    }
+    int minValuedata(Node root){
+        int minv = root.data;
+        while (root.left != null){
+            minv = root.left.data;
+            root = root.left;
+        }
+        return minv;
+    }
+
     //In a binary search tree, find the lowest common ancestor.
     private Node FindLCA(Node root, Node one, Node two) {
         while (root != null) {
