@@ -377,7 +377,6 @@ public class Tree {
         }
         return minv;
     }
-
     //In a binary search tree, find the lowest common ancestor.
     private Node FindLCA(Node root, Node one, Node two) {
         while (root != null) {
