@@ -270,7 +270,11 @@ public class Tree {
         Node parent = null;
         Node nodetoDelete = null;
         boolean isLeft = false;
-        parent = getParent(root, key, nodetoDelete, isLeft);
+        if(root.data == key) {
+            nodetoDelete = root;
+        }
+        else
+          parent = getParent(root, key, nodetoDelete, isLeft);
         if (nodetoDelete.left == null && nodetoDelete.right == null) {
             if (parent != null) {
                 if (parent.left == nodetoDelete)
@@ -310,21 +314,16 @@ public class Tree {
         }
     }
     private Node getParent(Node root, int target, Node NodetoDelete, boolean isLeft) {
-        if (root != null)
-        {
-            if (root.left != null)
-            {
-                if ((root.left.data == target))
-                {
+        if (root != null) {
+            if (root.left != null) {
+                if ((root.left.data == target)) {
                     NodetoDelete = root.left;
                     isLeft = true;
                     return root;
                 }
             }
-            if (root.right != null)
-            {
-                if ((root.right.data == target))
-                {
+            if (root.right != null) {
+                if ((root.right.data == target)) {
                     NodetoDelete = root.right;
                     return root;
                 }
@@ -335,9 +334,13 @@ public class Tree {
         return root;
     }
     private Node FinMinValue(Node startNode) {
+        Node parent = null;
         while (startNode.left != null) {
+            parent = startNode;
             startNode = startNode.left;
         }
+        if(parent != null)
+            parent.left = null;
         return startNode;
     }
     //In a binary search tree, find the lowest common ancestor.
