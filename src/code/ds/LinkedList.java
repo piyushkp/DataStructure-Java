@@ -127,55 +127,41 @@ public class LinkedList {
     }
 
     //Merge Sort LinkList Time Complexity O(nlogn)
-    private static class Split {
-        Node a, b;
-    }
-    public Node sort(Node head) {
-        if (head == null || head.next == null)
+    public static Node mergeSort(Node head){
+        if(head == null || head.next == null)
             return head;
-        Split split = new Split();
-        doSplit(head, split);
-        Node a = split.a;
-        Node b = split.b;
-        a = sort(a);
-        b = sort(b);
-        head = merge(a, b);
-        return head;
+        Node first = head;
+        Node middle = findMiddle(head);
+        Node second = middle.next;
+        middle.next = null;
+        return merge(mergeSort(first),mergeSort(second));
     }
-    private Node merge(Node a, Node b) {
-        Node result;
-        if (a == null)
-            return b;
-        if (b == null)
-            return a;
-        if (a.data < b.data) {
-            result = a;
-            result.next = merge(a.next, b);
+    public static Node merge(Node first, Node second) {
+        Node result = null;
+  /* Base cases */
+        if (first == null)
+            return (second);
+        else if (second == null)
+            return (first);
+  /* Pick either a or b, and recur */
+        if (first.data <= second.data) {
+            result = first;
+            result.next = merge(first.next, second);
         } else {
-            result = b;
-            result.next = merge(a, b.next);
+            result = second;
+            result.next = merge(first, second.next);
         }
-        return result;
+        return (result);
     }
-    private void doSplit(Node head, Split split) {
-        Node fast = head.next, slow = head;
-        if (head == null || head.next == null) {
-            split.a = head;
-            split.b = null;
-        } else {
-            while (fast != null) {
-                fast = fast.next;
-                if (fast != null) {
-                    slow = slow.next;
-                    fast = fast.next;
-                }
-            }
-            split.a = head;
-            split.b = slow.next;
-            slow.next = null;
+    public static Node findMiddle(Node head){
+        Node slow = head;
+        Node fast = head;
+        while(fast.next != null && fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
         }
+        return slow;
     }
-
     //Search an element in linked list
     Node Find(int value) {
         // start at the root
@@ -197,7 +183,8 @@ public class LinkedList {
         // initialize the max and min values to the first node
         max = min = currentNode.data;
         // loop through the list
-        for (currentNode = currentNode.next; currentNode != null; currentNode = currentNode.next) {
+        while(currentNode.next != null) {
+            currentNode = currentNode.next;
             if (currentNode.data > max) max = currentNode.data;
             else if (currentNode.data < min) min = currentNode.data;
         }
