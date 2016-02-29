@@ -177,7 +177,6 @@ public class LinkedList {
     }
     // Find maximum and minimum in a linked list
     int MaxMinInList(int max, int min) {
-        // start at the root
         Node currentNode = head;
         if (currentNode == null) return 0; // list is empty
         // initialize the max and min values to the first node
@@ -188,13 +187,11 @@ public class LinkedList {
             if (currentNode.data > max) max = currentNode.data;
             else if (currentNode.data < min) min = currentNode.data;
         }
-        // we found our answer
         return 1;
     }
     // Reverse Linked List
     void Reverse() {
-        // Initialize currentNode pointer to the start of the list
-        // and prevNode to null
+        // Initialize currentNode pointer to the start of the list and prevNode to null
         // (as the new list is currently pointing to null).
         Node currentNode = head;
         Node prevNode = null;
@@ -213,23 +210,15 @@ public class LinkedList {
         // as that is now the current head of the reversed list
         head = prevNode;
     }
-    // Find List is circular or not
+    // Find List is circular or not. time O(n) space O(1)
     Boolean findCircular(Node head) {
-        Node slower, faster;
-        slower = head;
-        faster = head;
-        while (true) {
-            // if the faster pointer encounters a null element
-            if (faster != null || faster.next != null) return false;
-                //if faster pointer ever equals slower or faster's next
-                //pointer is ever equal to slow then it's a circular list
-            else if (faster == slower || faster.next == slower) return true;
-            else {
-                // advance the pointers
-                slower = slower.next;
-                faster = faster.next.next;
-            }
+        Node slower = head, faster = head;
+        while (slower != null && faster != null && faster.next != null) {
+            slower = slower.next;
+            faster = faster.next.next;
+            if (faster == slower ) return true;
         }
+        return  false;
     }
     //Write a function that would return the 5th element from the tail (or end) of a singly linked list of integers
     void printNthFromLast(Node head, int n) {
