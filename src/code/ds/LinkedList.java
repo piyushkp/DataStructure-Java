@@ -126,6 +126,56 @@ public class LinkedList {
         }
     }
 
+    //Merge Sort LinkList Time Complexity O(nlogn)
+    private static class Split {
+        Node a, b;
+    }
+    public Node sort(Node head) {
+        if (head == null || head.next == null)
+            return head;
+        Split split = new Split();
+        doSplit(head, split);
+        Node a = split.a;
+        Node b = split.b;
+        a = sort(a);
+        b = sort(b);
+        head = merge(a, b);
+        return head;
+    }
+    private Node merge(Node a, Node b) {
+        Node result;
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+        if (a.data < b.data) {
+            result = a;
+            result.next = merge(a.next, b);
+        } else {
+            result = b;
+            result.next = merge(a, b.next);
+        }
+        return result;
+    }
+    private void doSplit(Node head, Split split) {
+        Node fast = head.next, slow = head;
+        if (head == null || head.next == null) {
+            split.a = head;
+            split.b = null;
+        } else {
+            while (fast != null) {
+                fast = fast.next;
+                if (fast != null) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+            }
+            split.a = head;
+            split.b = slow.next;
+            slow.next = null;
+        }
+    }
+
     //Search an element in linked list
     Node Find(int value) {
         // start at the root
