@@ -19,6 +19,34 @@ public class Array {
         return answer;
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
+    //Time : O(K) worst case can be O(N)
+    private static int find(int[] A, int[] B, int k) {
+        int a = 0;    //pointer of array A
+        int b = 0;    //pointer of array B
+        if(A.length + B.length < k)
+            return -1;
+        while(a < A.length && b < B.length){    //start traversing both arrays
+            if(A[a] < B[b]){    //if the current element from A is smaller than the current element from B, increment a
+                if(a+b+1 == k)    //+2, since the enumeration in the arrays in Java starts from 0
+                    return  A[a];
+                a++;
+            } else {    //do the same as before, but for the case when A[a]>=B[b]
+                if(a+b+1 == k)
+                    return B[b];
+                b++;
+            }
+        }
+        if(a == A.length) {    //if we have traversed the whole array A, but there are some elements from B left
+            while(a+b+1<k)
+                b++;
+            return B[b];
+        } else {    //if we have traversed the whole array B, but there are some elements from A left
+            while(a+b+1<k)
+                a++;
+            return A[a];
+        }
+    }
+    //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(log m + log n)
     public int findKthElement(int k, int[] array1, int start1, int end1, int[] array2, int start2, int end2) {
         // if (k>m+n) exception
