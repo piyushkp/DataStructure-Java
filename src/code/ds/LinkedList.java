@@ -280,8 +280,7 @@ public class LinkedList {
             if (copy == null) copy = ptr.next;
             else prev.next = ptr.next;
             prev = ptr.next;
-            ptr.next = ptr.next.next;
-            ptr = ptr.next;
+            ptr = ptr.next.next;
         }
         return copy;
     }
@@ -334,9 +333,7 @@ public class LinkedList {
                 return;
             // Start from next node and delete N nodes
             t = curr.next;
-            for (count = 1; count<=N && t!= null; count++)
-            {
-                Node temp = t;
+            for (count = 1; count<=N && t!= null; count++){
                 t = t.next;
             }
             curr.next = t; // Link the previous list with remaining nodes
