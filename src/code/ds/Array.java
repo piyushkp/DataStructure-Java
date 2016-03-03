@@ -1,4 +1,5 @@
 package code.ds;
+import com.sun.javafx.scene.layout.region.Margins;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.HashMap;
 import java.util.*;
@@ -69,6 +70,8 @@ public class Array {
         }
     }
     //Given two unsorted int arrays, find the kth smallest element in the merged, sorted array.
+    // Assumption is array elements are distinct
+    // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
         int[] c = new int[A1.length + A2.length];
         int length = 0;
@@ -93,6 +96,13 @@ public class Array {
         }
         return 0;
     }
+    // Picks a random pivot element between l and r and partitions
+    int randomPartition(int arr[], int l, int r){
+        int n = r-l;
+        int pivot = (int)(Math.random()) % n;
+        swap(arr, pivot, r);
+        return partition(arr, l, r);
+    }
     private int partition(int[] G, int first, int last) {
         int pivot = G[last];
         int pIndex = first;
@@ -110,9 +120,9 @@ public class Array {
         G[y] ^= G[x];
         G[x] ^= G[y];
     }
-    //Find k maximum integers from an array of infinite integers.
-    // Find first 100 maximum numbers from the billion numbers
-    // using Min Heap takes O(n log k) (assumption is that k is significantly lesser than n)
+    //Find k maximum integers from an array of infinite integers. Find first 100 maximum numbers from billion numbers
+    // Time Complexity: O(k + (n-k)Logk) without sorted output.If sorted output is needed then O(k + (n-k)Logk + kLogk)
+    // (assumption is that k is significantly lesser than n)
     public static int[] getTopElements(int[] arr, int k) {
         PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
         for (int i = 0; i < arr.length; ++i) {
