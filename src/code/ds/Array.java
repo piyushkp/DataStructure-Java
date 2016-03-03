@@ -69,8 +69,7 @@ public class Array {
             return findKthElement(k - mid, array1, start1, end1, array2, start2 + sub2, end2);
         }
     }
-    //Given two unsorted int arrays, find the kth smallest element in the merged, sorted array.
-    // Assumption is array elements are distinct
+    //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
         int[] c = new int[A1.length + A2.length];
@@ -450,11 +449,9 @@ public class Array {
         count++;
     }
     //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized algos
-    void sort0and1(int arr[], int size)
-    {
+    void sort0and1(int arr[], int size){
         int left = 0, right = size-1;
-        while(left < right)
-        {
+        while(left < right){
             while(arr[left] == 0 && left < right)
                 left++;
             while(arr[right] == 1 && left < right)
@@ -492,10 +489,8 @@ public class Array {
         // of QuickSort.  The idea is to consider 0 as pivot and
         // divide the array around it.
         int i = -1;
-        for (int j = 0; j < n; j++)
-        {
-            if (arr[j] < 0)
-            {
+        for (int j = 0; j < n; j++)        {
+            if (arr[j] < 0)            {
                 i++;
                 swap(arr, arr[i], arr[j]);
             }
