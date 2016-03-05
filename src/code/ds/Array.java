@@ -172,7 +172,7 @@ public class Array {
         }
         return max_so_far;
     }
-    //Given an array that contains both positive and negative integers, find the product of the maximum product subarray.
+    //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
         // max positive product ending at the current position
         int max_ending_here = 1;
@@ -213,7 +213,7 @@ public class Array {
         return max_so_far;
     }
     //Write a program to find the element in an array that is repeated more than half number of times.
-    // Return -1 if no such element is found.
+    // Return -1 if no such element is found. Time = O(n) space O(n)
     private int MoreThanHalfElem(int a[], int n) {
         int ln = a.length;
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -233,6 +233,43 @@ public class Array {
         }
         return -1;
     }
+    //Time complexity = O(n), space O(1)
+    int MoreThanHalfElem(int a[]){
+        /* Find the candidate for Majority*/
+        int cand = findCandidate(a);
+        /* Print the candidate if it is Majority*/
+        if(isMajority(a, cand))
+            return cand;
+        return -1;
+    }
+    /* Function to find the candidate for Majority, based on Moore’s Voting Algorithm.*/
+    int findCandidate(int a[]){
+        int maj_index = 0, count = 1;
+        int i;
+        for(i = 1; i < a.length; i++) {
+            if(a[maj_index] == a[i])
+                count++;
+            else
+                count--;
+            if(count == 0){
+                maj_index = i;
+                count = 1;
+            }
+        }
+        return a[maj_index];
+    }
+    /* Function to check if the candidate occurs more than n/2 times */
+    boolean isMajority(int a[], int cand) {
+        int i, count = 0;
+        for (i = 0; i < a.length; i++)
+            if(a[i] == cand)
+                count++;
+        if (count > a.length/2)
+            return true;
+        else
+            return false;
+    }
+
     //Searching an Element in a Rotated Sorted Array
     private int rotated_binary_search(int A[], int N, int key) {
         int L = 0;
