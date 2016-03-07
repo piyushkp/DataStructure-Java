@@ -279,16 +279,57 @@ public class Array {
             if(A[M] == key) return M;
             // the bottom half is sorted
             if (A[L] <= A[M]) {
-                if (A[L] <= key && key < A[M]) R = M - 1;
+                if ( key >= A[L] && key < A[M]) R = M - 1;
                 else L = M + 1;
             }
             // the upper half is sorted
             else {
-                if (A[M] < key && key <= A[R]) L = M + 1;
+                if (key > A[M] && key <= A[R]) L = M + 1;
                 else R = M - 1;
             }
         }
         return -1;
+    }
+    //Find the minimum element in a sorted and rotated array. Assumes that all elements are distinct.Time O(logn)
+    //Input: {5, 6, 1, 2, 3, 4}     Output: 1
+    private int findMin(int arr[], int low, int high){
+        // If there is only one element left
+        if (high == low) return arr[low];
+        // Find mid
+        int mid = low + (high - low)/2; /*(low + high)/2;*/
+        // Check if element (mid+1) is minimum element. Consider the cases like {3, 4, 5, 1, 2}
+        if (mid < high && arr[mid+1] < arr[mid])
+            return arr[mid+1];
+        // Check if mid itself is minimum element
+        if (mid > low && arr[mid] < arr[mid - 1])
+            return arr[mid];
+        // Decide whether we need to go to left half or right half
+        if (arr[high] > arr[mid])
+            return findMin(arr, low, mid-1);
+        return findMin(arr, mid+1, high);
+    }
+    // The function that handles duplicates.  It can be O(n) in worst case.
+    //Input: {3, 3, 3, 4, 4, 4, 4, 5, 3, 3} output = 3
+    static int findMinDuplicate(int arr[], int low, int high){
+        // This condition is needed to handle the case when array is not rotated at all
+        if (high < low)  return arr[0];
+        // If there is only one element left
+        if (high == low) return arr[low];
+        // Find mid
+        int mid = low + (high - low)/2; /*(low + high)/2;*/
+        // Check if element (mid+1) is minimum element. Consider the cases like {1, 1, 0, 1}
+        if (mid < high && arr[mid+1] < arr[mid])
+            return arr[mid+1];
+        // This case causes O(n) time
+        if (arr[low] == arr[mid] && arr[high] == arr[mid])
+            return Math.min(findMinDuplicate(arr, low, mid - 1), findMinDuplicate(arr, mid + 1, high));
+        // Check if mid itself is minimum element
+        if (mid > low && arr[mid] < arr[mid - 1])
+            return arr[mid];
+        // Decide whether we need to go to left half or right half
+        if (arr[high] > arr[mid])
+            return findMinDuplicate(arr, low, mid - 1);
+        return findMinDuplicate(arr, mid+1, high);
     }
     //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
     private void findMinofabc(int a[], int b[], int c[]) {
