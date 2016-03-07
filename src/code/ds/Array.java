@@ -213,7 +213,7 @@ public class Array {
         return max_so_far;
     }
     //Write a program to find the element in an array that is repeated more than half number of times.
-    // Return -1 if no such element is found. Time = O(n) space O(n)
+    // Return -1 if no such element is found. Time = O(n) Aux space O(n)
     private int MoreThanHalfElem(int a[], int n) {
         int ln = a.length;
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -233,7 +233,7 @@ public class Array {
         }
         return -1;
     }
-    //Time complexity = O(n), space O(1)
+    //Time complexity = O(n), aux space O(1)
     int MoreThanHalfElem(int a[]){
         /* Find the candidate for Majority*/
         int cand = findCandidate(a);
@@ -269,7 +269,6 @@ public class Array {
         else
             return false;
     }
-
     //Searching an Element in a Rotated Sorted Array
     private int rotated_binary_search(int A[], int N, int key) {
         int L = 0;
