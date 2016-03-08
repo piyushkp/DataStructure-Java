@@ -305,8 +305,8 @@ public class Array {
             return arr[mid];
         // Decide whether we need to go to left half or right half
         if (arr[high] > arr[mid])
-            return findMin(arr, low, mid-1);
-        return findMin(arr, mid+1, high);
+            return findMin(arr, low, mid - 1);
+        return findMin(arr, mid + 1, high);
     }
     // The function that handles duplicates.  It can be O(n) in worst case.
     //Input: {3, 3, 3, 4, 4, 4, 4, 5, 3, 3} output = 3
@@ -332,10 +332,10 @@ public class Array {
         return findMinDuplicate(arr, mid+1, high);
     }
     //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
-    private void findMinofabc(int a[], int b[], int c[]) {
+    private void findMinOfabc(int a[], int b[], int c[]) {
         //quickSort(a, 0, a.length);
-        //quickSort(b, 0, a.length);
-        //quickSort(c, 0, a.length);
+        //quickSort(b, 0, b.length);
+        //quickSort(c, 0, c.length);
         int min = Integer.MAX_VALUE;
         int i = 0, j = 0, k = 0;
         int index1 = 0, index2 = 0, index3 = 0;
@@ -353,19 +353,50 @@ public class Array {
         }
         System.out.print(a[index1] + " " + b[index2] + " " + c[index3]);
     }
-    //Given a sorted array with duplicates and a number, find the range in the
-    //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).
-    private void findRange(int a[], int num) {
-        int startIndex = -1, endIndex = -1;
-        boolean flag = true;
-        if (a.length == 0) return;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] == num && flag) {
-                startIndex = i;
-                endIndex = i;
-                flag = false;
-            } else if (a[i] == num) endIndex = i;
+    //Given a sorted array with duplicates and a positive number, find the range in the
+    //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).Time = O(logn)
+    private int[] findRange(int a[], int num) {
+        ;
+        int i; // index of first occurrence of x in arr[0..n-1]
+        int j; // index of last occurrence of x in arr[0..n-1]
+        /* get the index of first occurrence of x */
+        i = first(a, 0, a.length-1, num, a.length);
+        /* If x doesn't exist in arr[] then return -1 */
+        if(i == -1)
+            return null;
+        /* Else get the index of last occurrence of x. Note that we are only looking in the subarray after first occurrence */
+         j = last(a, i, a.length-1, num, a.length);
+        int[] output = {i,j};
+        return output;
+    }
+    /* if x is present in arr[] then returns the index of FIRST occurrence of x in arr[0..n-1], otherwise returns -1 */
+    int first(int arr[], int low, int high, int x, int n){
+        if(high >= low)
+        {
+            int mid = (low + high)/2;  /*low + (high - low)/2;*/
+            if( ( mid == 0 || x > arr[mid-1]) && arr[mid] == x)
+                return mid;
+            else if(x > arr[mid])
+                return first(arr, (mid + 1), high, x, n);
+            else
+                return first(arr, low, (mid -1), x, n);
         }
+        return -1;
+    }
+    /* if x is present in arr[] then returns the index of LAST occurrence of x in arr[0..n-1], otherwise returns -1 */
+    int last(int arr[], int low, int high, int x, int n)
+    {
+        if(high >= low)
+        {
+            int mid = (low + high)/2;  /*low + (high - low)/2;*/
+            if( ( mid == n-1 || x < arr[mid+1]) && arr[mid] == x )
+                return mid;
+            else if(x < arr[mid])
+                return last(arr, low, (mid -1), x, n);
+            else
+                return last(arr, (mid + 1), high, x, n);
+        }
+        return -1;
     }
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
     void printRepeating(int arr[]) {
