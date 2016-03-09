@@ -425,7 +425,7 @@ public class Array {
         return prod;
     }
     //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the set which gives the sum of zero.
-    //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1)
+    //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
     HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
         Arrays.sort(arr);
         HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
@@ -454,6 +454,7 @@ public class Array {
     }
     //Given three arrays sorted in non-decreasing order, print all common elements in these arrays.
     //e.g.ar1[] = {1, 5, 10, 20, 40, 80} ar2[] = {6, 7, 20, 80} ar3[] = {3, 4, 15, 20, 30, 80} Output: 20, 80
+    // Time Complexity = O(n1 + n2 + n3)
     void findCommon(int ar1[], int ar2[], int ar3[], int n1, int n2, int n3) {
         // Initialize starting indexes for ar1[], ar2[] and ar3[]
         int i = 0, j = 0, k = 0;
@@ -510,49 +511,39 @@ public class Array {
         }
         return a[min];
     }
-    //Find k closest elements to a given value
-    //Input: K = 4, X = 35 arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56}
-    //Output: 30 39 42 45
-    /* Function to find the cross over point (the point before which elements are smaller than or equal to x and after
-   which greater than x)*/
+    //Find k closest elements to a given value. Assumption: all elements in arr[] are distinct. Time = O(k) + O(logn)
+    //Input: K = 4, X = 35 arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56} Output: 30 39 42 45
+    //Function to find the cross over point (the point before which elements are smaller than or equal to x and after
+    //which greater than x)
     int findCrossOver(int arr[], int low, int high, int x) {
-        // Base cases
         if (arr[high] <= x) // x is greater than all
             return high;
         if (arr[low] > x)  // x is smaller than all
             return low;
-        // Find the middle point
         int mid = (low + high) / 2;  /* low + (high - low)/2 */
         /* If x is same as middle element, then return mid */
         if (arr[mid] <= x && arr[mid + 1] > x) return mid;
-        /* If x is greater than arr[mid], then either arr[mid + 1]
-        is ceiling of x or ceiling lies in arr[mid+1...high] */
         if (arr[mid] < x) return findCrossOver(arr, mid + 1, high, x);
         return findCrossOver(arr, low, mid - 1, x);
     }
-    // This function prints k closest elements to x in arr[].
-    // n is the number of elements in arr[]
+    // This function prints k closest elements to x in arr[]. n is the number of elements in arr[]
     void printKclosest(int arr[], int x, int k, int n) {
         // Find the crossover point
         int l = findCrossOver(arr, 0, n - 1, x); // le
         int r = l + 1;   // Right index to search
         int count = 0; // To keep track of count of elements already printed
         // If x is present in arr[], then reduce left index
-        // Assumption: all elements in arr[] are distinct
         if (arr[l] == x) l--;
-        // Compare elements on left and right of crossover
-        // point to find the k closest elements
+        // Compare elements on left and right of crossover point to find the k closest elements
         while (l >= 0 && r < n && count < k) {
             if (x - arr[l] < arr[r] - x) System.out.print(arr[l--]);
             else System.out.print(arr[r++]);
             count++;
         }
-        // If there are no more elements on right side, then
-        // print left elements
+        // If there are no more elements on right side, then print left elements
         while (count < k && l >= 0) System.out.print(arr[l--]);
         count++;
-        // If there are no more elements on left side, then
-        // print right elements
+        // If there are no more elements on left side, then print right elements
         while (count < k && r < n) System.out.print(arr[r++]);
         count++;
     }
