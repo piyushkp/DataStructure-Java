@@ -329,7 +329,7 @@ public class Array {
         // Decide whether we need to go to left half or right half
         if (arr[high] > arr[mid])
             return findMinDuplicate(arr, low, mid - 1);
-        return findMinDuplicate(arr, mid+1, high);
+        return findMinDuplicate(arr, mid + 1, high);
     }
     //Given 3 arrays, pick 3 nos, one from each array, say a,b,c such that |a-b|+|b-c|+|c-a| is minimum
     private void findMinOfabc(int a[], int b[], int c[]) {
@@ -392,7 +392,7 @@ public class Array {
             if( ( mid == n-1 || x < arr[mid+1]) && arr[mid] == x )
                 return mid;
             else if(x < arr[mid])
-                return last(arr, low, (mid -1), x, n);
+                return last(arr, low, (mid - 1), x, n);
             else
                 return last(arr, (mid + 1), high, x, n);
         }
@@ -562,7 +562,7 @@ public class Array {
             }
         }
     }
-    //Sort an array of 0s,1s,2s
+    //Sort an array of 0s,1s,2s. Input={0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1} Output={0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2}
     void sort012(int[] a) {
         int low = 0;
         int mid = 0;
@@ -580,105 +580,89 @@ public class Array {
             }
         }
     }
-    //Rearrange positive and negative numbers in O(n) time and O(1) extra space
-    //input array is [-1, 2, -3, 4, 5, 6, -7, 8, 9] output should be [9, -7, 8, -3, 5, -1, 2, 4, 6]
-    void rearrange(int arr[], int n)
-    {
-        // The following few lines are similar to partition process
-        // of QuickSort.  The idea is to consider 0 as pivot and
-        // divide the array around it.
-        int i = -1;
-        for (int j = 0; j < n; j++)        {
-            if (arr[j] < 0)            {
-                i++;
-                swap(arr, arr[i], arr[j]);
-            }
-        }
-        // Now all positive numbers are at end and negative numbers at
-        // the beginning of array. Initialize indexes for starting point
-        // of positive and negative numbers to be swapped
-        int pos = i+1, neg = 0;
-        // Increment the negative index by 2 and positive index by 1, i.e.,
-        // swap every alternate negative number with next positive number
-        while (pos < n && neg < pos && arr[neg] < 0)
-        {
-            swap(arr, arr[neg], arr[pos]);
-            pos++;
-            neg += 2;
-        }
-    }
-    //Rearrange array in alternating positive & negative items with O(1) extra space time O(N2)
-    // maintaining the order of appearance. eg. -1 1 3 -2 2 ans: -1 -2 1 3 2.
-    public static void sortNegPos(int[] arr) {
-        int[] neg = new int[arr.length];
-        int numNegSoFar = 0;
-        for (int i = arr.length - 1; i >= 0; i--) {
-            if (numNegSoFar != 0 && arr[i] >= 0) {
-                arr[i + numNegSoFar] = arr[i];
-                int temp = arr[i];
-                for (int k = 0; k < numNegSoFar; k++) {
-                    arr[i + k] = arr[i + k + 1];
-                }
-                arr[i + numNegSoFar] = temp;
-            }
-            if (arr[i] < 0) {
-                numNegSoFar++;
+    //Give you an array which has n integers,it has both  positive and negative integers.Now you need sort this array
+    //in a special way.After that,the negative integers should in the front,and the positive integers should in the back.
+    //Also the relative position should not be changed.eg. -1 1 3 -2 2 ans: -1 -2 1 3 2. should be Time= O(n) and Space O(1)
+    //below function doest not maintain the order of positive numbers
+    public void sortNegPos(int[] arr) {
+        int left = 0, right = arr.length-1;
+        while(left < right){
+            while(arr[left] < 0 && left < right)
+                left++;
+            while(arr[right] > 0 && left < right)
+                right--;
+            if(left < right) {
+                swap(arr,left,right);
             }
         }
     }
     //Time: O(N), Space O(N)
     //Rearrange array in alternating positive & negative items
-    public static void sortNegPosSwap(int[] arr)
-    {
+    public static void sortNegPosSwap(int[] arr) {
         int[] neg = new int[arr.length];
         int numNeg = 0;
         int numNegSoFar = 0;
-        for(int i = 0; i < arr.length; i++)
-        {
-            if(arr[i] < 0)
-            {
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i] < 0) {
                 neg[numNeg++] = arr[i];
             }
         }
-        for(int i = arr.length - 1; i >= 0; i--)
-        {
-            if(numNegSoFar != 0 && arr[i] >= 0)
-            {
+        for(int i = arr.length - 1; i >= 0; i--) {
+            if(numNegSoFar != 0 && arr[i] >= 0) {
                 arr[i + numNegSoFar] = arr[i];
             }
-            if(arr[i] < 0)
-            {
+            if(arr[i] < 0) {
                 numNegSoFar++;
             }
         }
-        for(int i = 0; i < numNeg; i++)
-        {
+        for(int i = 0; i < numNeg; i++) {
             arr[i] = neg[i];
+        }
+    }
+    //Rearrange positive and negative numbers in O(n) time and O(1) extra space
+    //input array is [-1, 2, -3, 4, 5, 6, -7, 8, 9] output should be [9, -7, 8, -3, 5, -1, 2, 4, 6]
+    //Rearrange the array elements so that positive and negative numbers are placed alternatively. Number of positive
+    //and negative numbers need not be equal. If there are more positive numbers they appear at the end of the array.
+    //If there are more negative numbers, they too appear in the end of the array.
+    void rearrange(int arr[], int n){
+        // The following few lines are similar to partition process of QuickSort.  The idea is to consider 0 as pivot and
+        // divide the array around it.
+        int i = -1;
+        for (int j = 0; j < n; j++){
+            if (arr[j] < 0){
+                i++;
+                swap(arr, arr[i], arr[j]);
+            }
+        }
+        // Now all positive numbers are at end and negative numbers at the beginning of array. Initialize indexes for starting point
+        // of positive and negative numbers to be swapped
+        int pos = i+1, neg = 0;
+        // Increment the negative index by 2 and positive index by 1, i.e.,
+        // swap every alternate negative number with next positive number
+        while (pos < n && neg < pos && arr[neg] < 0){
+            swap(arr, arr[neg], arr[pos]);
+            pos++;
+            neg += 2;
         }
     }
     //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 < s2 > s3 < s4.
     // without order maintaining
-    private void arrange(int a[])
-    {
-        for ( int i = 0; i < a.length - 2; i++)
-        {
-            if(i % 2 == 0) //even
+    private void arrange(int a[]){
+        for ( int i = 0; i < a.length - 2; i++) {
+            if(i % 2 == 0 && a[i] > a[i+1]) //even
             {
-                if(a[i] > a[i+1])
-                    swap(a, i, i+1);
+              swap(a, i, i+1);
             }
-            else //odd
+            else if( i%2 != 0 && a[i] < a[i+1])//odd
             {
-                if(a[i] < a[i+1])
-                    swap(a, i, i+1);
+              swap(a, i, i+1);
             }
         }
     }
     //Find the two numbers with odd occurrences in an unsorted array
     //Input: {12, 23, 34, 12, 12, 23, 12, 45}
     //Output: 34 and 45
-    void printTwoOdd(int arr[], int size)
-    {
+    void printTwoOdd(int arr[], int size){
         int xor2 = arr[0]; /* Will hold XOR of two odd occurring elements */
         int set_bit_no;  /* Will have only single set bit of xor2 */
         int i;
@@ -694,8 +678,7 @@ public class Array {
     /* Now divide elements in two sets:
     1) The elements having the corresponding bit as 1.
     2) The elements having the corresponding bit as 0.  */
-        for(i = 0; i < size; i++)
-        {
+        for(i = 0; i < size; i++){
     /* XOR of first set is finally going to hold one odd
        occurring number x */
             if((arr[i] & set_bit_no) == 0)
@@ -952,8 +935,7 @@ public class Array {
     {
         Deque<Integer> q=new ArrayDeque<Integer>();
         int i = 0;
-        for(;i<k;i++)
-        {
+        for(;i<k;i++){
         // For every element, the previous smaller elements are useless so remove them from q
             while(!q.isEmpty() && x[q.peekLast()]<=x[i]){
                 q.removeLast();
