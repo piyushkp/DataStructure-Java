@@ -690,7 +690,26 @@ public class Array {
         }
         System.out.print(x + " "+ y);
     }
-    //Length of the largest sub-array with contiguous elements
+    //Given an array of distinct integers, find length of the longest subarray which contains numbers that can be
+    // arranged in a continuous sequence. input = {14, 12, 11, 20}; output = 2
+    int findLength(int arr[], int n) {
+        int max_len = 1;  // Initialize result
+        for (int i=0; i<n-1; i++) {
+            // Initialize min and max for all subarrays starting with i
+            int mn = arr[i], mx = arr[i];
+            // Consider all subarrays starting with i and ending with j
+            for (int j=i+1; j<n; j++){
+                // Update min and max in this subarray if needed
+                mn = Math.min(mn, arr[j]);
+                mx = Math.max(mx, arr[j]);
+                // If current subarray has all contiguous elements
+                if ((mx - mn) == j-i)
+                    max_len = Math.max(max_len, mx - mn + 1);
+            }
+        }
+        return max_len;  // Return result
+    }
+    //Given an array of duplicate integers, Find the Length of the largest sub-array with contiguous elements
     //Input:  arr[] = {10, 12, 12, 10, 10, 11, 10} Output: 2 Time Complexity: O(n^2)
     private int findContiguousLength(int a[]) {
         int n = a.length;
