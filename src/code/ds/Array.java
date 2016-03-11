@@ -729,6 +729,7 @@ public class Array {
         return max_len;
     }
     //Finding Shortest unique Prefixes for Strings in an Array
+    // Input = {"zebra", "dog", "duck", "dove"}     Output: dog, dov, du, z
     public static void findPrefixes(String[] strings){
         System.out.println();
         String[] pre = new String[strings.length];
