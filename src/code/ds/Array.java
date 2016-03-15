@@ -20,7 +20,7 @@ public class Array {
         return answer;
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    //Time : O(K) worst case can be O(N)
+    //Time : O(K) worst case can be O(N) where N is total number of elements of A and B
     private static int find(int[] A, int[] B, int k) {
         int a = 0;    //pointer of array A
         int b = 0;    //pointer of array B
@@ -48,27 +48,49 @@ public class Array {
         }
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    // Time Complexity :  O(log m + log n)
-    public int findKthSmallestElement(int a[], int b[], int sizeA, int sizeB, int k, int offset){
-        /* to maintain uniformaty, we will assume that size_a is smaller than size_b else we will swap array in call :) */
-        if(sizeA > sizeB)
-          return findKthSmallestElement(b, a, sizeB, sizeA, k, offset);
-        /* Now case when size of smaller array is 0 i.e there is no elemt in one array*/
-        if(sizeA == 0 && sizeB >0)
-            return b[k-1]; // due to zero based index
-        /* case where K ==1 that means we have hit limit */
-        if(k ==1)
-           return Math.min(a[0], b[0]);
-       /* Now the divide and conquer part */
-        int i =  Math.min(sizeA, k / 2) ; // K should be less than the size of array
-        int j =  Math.min(sizeB, k / 2) ; // K should be less than the size of array
-        if(a[offset + i-1] > b[offset + j-1])
+    // Time Complexity :  O(log m + log n) for some input it doesn't work
+    public static int findKthSmallestElement(int[] a, int[] b, int sizeA, int sizeB, int k){
+            /* to maintain uniformaty, we will assume that size_a is smaller than size_b else we will swap array in call :) */
+        if (sizeA > sizeB)
+            return findKthSmallestElement(b, a, sizeB, sizeA, k);
+            /* Now case when size of smaller array is 0 i.e there is no elemt in one array*/
+        if (sizeA == 0 && sizeB > 0)
+            return b[k - 1]; // due to zero based index
+            /* case where K ==1 that means we have hit limit */
+        if (k == 1)
+            return Math.min(a[0], b[0]);
+            /* Now the divide and conquer part */
+        int i = Math.min(sizeA, k / 2); // K should be less than the size of array
+        int j = Math.min(sizeB, k / 2); // K should be less than the size of array
+        if (a[i - 1] > b[j - 1]){
+            int[] bb = new int[b.length - (j)];
+            int qq = 0;
+            for (int q = j; q < b.length; q++){
+                bb[qq++] = b[q];
+            }
+            int[] aaa = new int[i];
+            qq = 0;
+            for (int q = 0; q < i; q++){
+                aaa[qq++] = a[q];
+            }
             // Now we need to find only K-j th element
-            return findKthSmallestElement(a, b, i, (sizeB-j), k-j, j);
+            return findKthSmallestElement(aaa, bb, aaa.length, bb.length, k - j);
+        }
         else
-           return findKthSmallestElement(a, b, (sizeA-i), j, k-i,i);
+        {
+            int[] aa = new int[a.length - (i)];
+            int pp = 0;
+            for (int p = i; p < a.length; p++){
+                aa[pp++] = a[p];
+            }
+            int[] bbb = new int[j];
+            pp = 0;
+            for (int p = 0; p < j; p++){
+                bbb[pp++] = b[p];
+            }
+            return findKthSmallestElement(aa, bbb, aa.length, bbb.length, k - i);
+        }
     }
-
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
