@@ -49,26 +49,26 @@ public class Array {
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(log m + log n)
-    public int findKthElement(int k, int[] array1, int start1, int end1, int[] array2, int start2, int end2) {
-        // if (k>m+n) exception
-        if (k == 0) {
-            return Math.min(array1[start1], array2[start2]);
-        }
-        if (start1 == end1) {
-            return array2[k];
-        }
-        if (start2 == end2) {
-            return array1[k];
-        }
-        int mid = k / 2;
-        int sub1 = Math.min(mid, end1 - start1);
-        int sub2 = Math.min(mid, end2 - start2);
-        if (array1[start1 + sub1] < array2[start2 + sub2]) {
-            return findKthElement(k - mid, array1, start1 + sub1, end1, array2, start2, end2);
-        } else {
-            return findKthElement(k - mid, array1, start1, end1, array2, start2 + sub2, end2);
-        }
+    public int findKthSmallestElement(int a[], int b[], int sizeA, int sizeB, int k, int offset){
+        /* to maintain uniformaty, we will assume that size_a is smaller than size_b else we will swap array in call :) */
+        if(sizeA > sizeB)
+          return findKthSmallestElement(b, a, sizeB, sizeA, k, offset);
+        /* Now case when size of smaller array is 0 i.e there is no elemt in one array*/
+        if(sizeA == 0 && sizeB >0)
+            return b[k-1]; // due to zero based index
+        /* case where K ==1 that means we have hit limit */
+        if(k ==1)
+           return Math.min(a[0], b[0]);
+       /* Now the divide and conquer part */
+        int i =  Math.min(sizeA, k / 2) ; // K should be less than the size of array
+        int j =  Math.min(sizeB, k / 2) ; // K should be less than the size of array
+        if(a[offset + i-1] > b[offset + j-1])
+            // Now we need to find only K-j th element
+            return findKthSmallestElement(a, b, i, (sizeB-j), k-j, j);
+        else
+           return findKthSmallestElement(a, b, (sizeA-i), j, k-i,i);
     }
+
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
@@ -490,8 +490,7 @@ public class Array {
         //Traverse after the first occurrence
         for (; i < n; i++) {
             if (arr[i] == x || arr[i] == y) {
-                // If the current element matches with any of the two then
-                // check if current element and prev element are different
+                // If the current element matches with any of the two then check if current element and prev element are different
                 // Also check if this value is smaller than minimum distance so far
                 if (arr[prev] != arr[i] && (i - prev) < min_dist) {
                     min_dist = i - prev;
@@ -529,7 +528,7 @@ public class Array {
     // This function prints k closest elements to x in arr[]. n is the number of elements in arr[]
     void printKclosest(int arr[], int x, int k, int n) {
         // Find the crossover point
-        int l = findCrossOver(arr, 0, n - 1, x); // le
+        int l = findCrossOver(arr, 0, n - 1, x);
         int r = l + 1;   // Right index to search
         int count = 0; // To keep track of count of elements already printed
         // If x is present in arr[], then reduce left index
@@ -566,8 +565,8 @@ public class Array {
     void sort012(int[] a) {
         int low = 0;
         int mid = 0;
-        int high = a.length;
-        while (mid < high) {
+        int high = a.length - 1;
+        while (mid <= high) {
             if (a[mid] == 0) {
                 swap(a, low, mid);
                 low++;
@@ -596,29 +595,53 @@ public class Array {
             }
         }
     }
-    //Time: O(N), Space O(N)
-    //Rearrange array in alternating positive & negative items
-    public static void sortNegPosSwap(int[] arr) {
-        int[] neg = new int[arr.length];
-        int numNeg = 0;
-        int numNegSoFar = 0;
-        for(int i = 0; i < arr.length; i++) {
-            if(arr[i] < 0) {
-                neg[numNeg++] = arr[i];
+    //Time: O(N), Space O(1)
+    //Given an array of positive and negative numbers, arrange them in an alternate fashion such that every
+    //positive number is followed by negative and vice-versa maintaining the order of appearance.
+    //input = {1, 2, 3, -4, -1, 4}  Output: arr[] = {-4, 1, -1, 2, 3, 4}
+    void rearrangeWithOrder(int arr[], int n){
+        int outofplace = -1;
+        for (int index = 0; index < n; index ++){
+            if (outofplace >= 0){
+                // find the item which must be moved into the out-of-place
+                // entry if out-of-place entry is positive and current
+                // entry is negative OR if out-of-place entry is negative
+                // and current entry is negative then right rotate
+                //
+                // [...-3, -4, -5, 6...] -->   [...6, -3, -4, -5...]
+                //      ^                          ^
+                //      |                          |
+                //     outofplace      -->      outofplace
+                //
+                if (((arr[index] >= 0) && (arr[outofplace] < 0))
+                        || ((arr[index] < 0) && (arr[outofplace] >= 0)))
+                {
+                    rightrotate(arr, n, outofplace, index);
+                    // the new out-of-place entry is now 2 steps ahead
+                    if (index - outofplace > 2)
+                        outofplace = outofplace + 2;
+                    else
+                        outofplace = -1;
+                }
             }
-        }
-        for(int i = arr.length - 1; i >= 0; i--) {
-            if(numNegSoFar != 0 && arr[i] >= 0) {
-                arr[i + numNegSoFar] = arr[i];
+            // if no entry has been flagged out-of-place
+            if (outofplace == -1){
+                // check if current entry is out-of-place
+                if (((arr[index] >= 0) && (index %2 == 0)) || ((arr[index] < 0) && (index %2 != 0))) {
+                    outofplace = index;
+                }
             }
-            if(arr[i] < 0) {
-                numNegSoFar++;
-            }
-        }
-        for(int i = 0; i < numNeg; i++) {
-            arr[i] = neg[i];
         }
     }
+    // Utility function to right rotate all elements between [outofplace, cur]
+    void rightrotate(int arr[], int n, int outofplace, int cur)
+    {
+        int tmp = arr[cur];
+        for (int i = cur; i > outofplace; i--)
+            arr[i] = arr[i-1];
+        arr[outofplace] = tmp;
+    }
+
     //Rearrange positive and negative numbers in O(n) time and O(1) extra space
     //input array is [-1, 2, -3, 4, 5, 6, -7, 8, 9] output should be [9, -7, 8, -3, 5, -1, 2, 4, 6]
     //Rearrange the array elements so that positive and negative numbers are placed alternatively. Number of positive
@@ -728,43 +751,7 @@ public class Array {
         }
         return max_len;
     }
-    //Finding Shortest unique Prefixes for Strings in an Array
-    // Input = {"zebra", "dog", "duck", "dove"}     Output: dog, dov, du, z
-    public static void findPrefixes(String[] strings){
-        System.out.println();
-        String[] pre = new String[strings.length];
 
-        for(int i=0;i<pre.length;++i){
-            if(i>0){
-                if(strings[i].matches(strings[i-1])){
-                    System.out.println("Duplicate string - Error!"); continue;
-                }
-            }
-            pre[i]=Character.toString(strings[i].charAt(0));
-            checkPrefix(strings, pre, pre[i], i);
-        }
-        System.out.println(Arrays.toString(strings));
-        System.out.println(Arrays.toString(pre));
-    }
-    public static void checkPrefix(String[] strings, String[] pre, String s, int index){
-        //System.out.println(Arrays.toString(pre));
-        for(int i=index-1;i>=0;--i){
-            if(s.matches(pre[i])){
-                if(s.length()==strings[i].length()){
-                    //System.out.println("Can't update the previous one, need to update this one");
-                    pre[index] = strings[index].substring(0, s.length()+1);
-                    checkPrefix(strings, pre, pre[index], index);
-                    return;
-                }
-                else if(s.length() < strings[i].length()){
-                    //System.out.println("Can update the previous one");
-                    pre[i] = strings[i].substring(0, s.length()+1);
-                    checkPrefix(strings, pre, pre[i], i);
-                    return;
-                }
-            }
-        }
-    }
     //Given two sorted arrays and a number x, find the pair whose sum is closest to x and the pair has an element from each array.
     //ar1[] = {1, 4, 5, 7}; ar2[] = {10, 20, 30, 40};    x = 32     Output:  1 and 30
     void printClosest(int ar1[], int ar2[], int m, int n, int x)
