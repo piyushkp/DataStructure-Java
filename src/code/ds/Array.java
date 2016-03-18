@@ -736,7 +736,7 @@ public class Array {
         System.out.print(x + " "+ y);
     }
     //Given an array of distinct integers, find length of the longest subarray which contains numbers that can be
-    // arranged in a continuous sequence. input = {14, 12, 11, 20}; output = 2
+    //arranged in a continuous sequence. input = {14, 12, 11, 20}; output = 2
     int findLength(int arr[], int n) {
         int max_len = 1;  // Initialize result
         for (int i=0; i<n-1; i++) {
