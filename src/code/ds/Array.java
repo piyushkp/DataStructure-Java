@@ -799,9 +799,11 @@ public class Array {
         }
         System.out.print(ar1[res_l] + " " + ar2[res_r]);
     }
-    //Given arrival and departure times of all trains that reach a railway station, find the minimum number of platforms required for the railway station so that no train waits.
+    //Given arrival and departure times of all trains that reach a railway station, find the minimum number of platforms
+    //required for the railway station so that no train waits.
     //Input:  arr[]  = {9:00,  9:40, 9:50,  11:00, 15:00, 18:00} O(nLogn) time.
-    //dep[]  = {9:10, 12:00, 11:20, 11:30, 19:00, 20:00}  Output: 3 There are at-most three trains at a time (time between 11:00 to 11:20)
+    //dep[]          = {9:10, 12:00, 11:20, 11:30, 19:00, 20:00}
+    //Output: 3 There are at-most three trains at a time (time between 11:00 to 11:20)
     int findPlatform(int arr[], int dep[], int n)
     {
         // Sort arrival and departure arrays
@@ -837,15 +839,11 @@ public class Array {
         int max_index = -1;      // for storing result
         int prev_zero = -1;  // index of previous zero
         int prev_prev_zero = -1; // index of previous to previous zero
-        for (int curr=0; curr<n; ++curr)
-        {
-            // If current element is 0, then calculate the difference
-            // between curr and prev_prev_zero
-            if (arr[curr] == 0)
-            {
+        for (int curr=0; curr<n; curr++){
+            // If current element is 0, then calculate the difference between curr and prev_prev_zero
+            if (arr[curr] == 0){
                 // Update result if count of 1s around prev_zero is more
-                if (curr - prev_prev_zero > max_count)
-                {
+                if (curr - prev_prev_zero > max_count){
                     max_count = curr - prev_prev_zero;
                     max_index = prev_zero;
                 }
