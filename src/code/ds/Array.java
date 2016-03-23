@@ -833,8 +833,7 @@ public class Array {
     }
     //Find Index of 0 to be replaced with 1 to get longest continuous sequence of 1s in a binary array
     //Input: arr[] =  {1, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1} Output:Index 9
-    int maxOnesIndex(int arr[], int n)
-    {
+    int maxOnesIndex(int arr[], int n){
         int max_count = 0;  // for maximum number of 1 around a zero
         int max_index = -1;      // for storing result
         int prev_zero = -1;  // index of previous zero
@@ -862,11 +861,9 @@ public class Array {
     //Nuts and bolts are represented as array of characters
     //char nuts[] = {'@', '#', '$', '%', '^', '&'};
     //char bolts[] = {'$', '%', '&', '^', '@', '#'};
-    //Method which works just like quick sort
-    private static void matchPairs(char[] nuts, char[] bolts, int low, int high)
-    {
-        if (low < high)
-        {
+    //Method which works just like quick sort Time = O(nLogn)
+    private static void matchPairs(char[] nuts, char[] bolts, int low, int high){
+        if (low < high){
             //Choose last character of bolts array for nuts partition.
             int pivot = partition(nuts, low, high, bolts[high]);
             //Now using the partition of nuts choose that for bolts partition.
@@ -878,12 +875,10 @@ public class Array {
     }
     // Similar to standard partition method. Here we pass the pivot element
     // too instead of choosing it inside the method.
-    private static int partition(char[] arr, int low, int high, char pivot)
-    {
+    private static int partition(char[] arr, int low, int high, char pivot){
         int i = low;
         char temp1, temp2;
-        for (int j = low; j < high; j++)
-        {
+        for (int j = low; j < high; j++){
             if (arr[j] < pivot){
                 temp1 = arr[i];
                 arr[i] = arr[j];
