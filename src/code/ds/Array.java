@@ -980,4 +980,32 @@ public class Array {
         }
         System.out.println(x[q.peek()]);
     }
+    //Given a sorted array of positive integers, rearrange the array alternately
+    //i.e first element should be maximum value, second minimum value, third second max, fourth second min and so on.
+    //Time = O(n)
+    void rearrange(int arr[], int n){
+        for (int i=0; i<n; i++){
+            int temp = arr[i];
+            // If number is negative then we have already processed it. Else process all numbers which
+            // are to be replaced by each other in cyclic way
+            while (temp > 0){
+                // Find the index where arr[i] should go
+                int j = (i < n/2)? 2*i + 1 : 2*(n-1-i);
+                // If arr[i] is already at its correct position, mark it as negative
+                if (i == j){
+                    arr[i] = -temp;
+                    break;
+                }
+                // Swap the number 'temp' with the current number at its target position
+                swap(temp, arr[j]);
+                // Mark the number as processed
+                arr[j] = -arr[j];
+                // Next process the previous number at target position
+                i = j;
+            }
+        }
+        // Change the number to original value
+        for (int i=0; i<n; i++)
+            arr[i] = -arr[i];
+    }
 }
