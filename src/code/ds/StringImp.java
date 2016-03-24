@@ -85,6 +85,35 @@ public class StringImp {
         }
         return A[result];
     }
+    //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
+    //{(abc)22}[14(xyz)2] should pass
+    static boolean isBalanced(String input) {
+        Stack<Character> stack = new Stack<Character>();
+        for (char c : input.toCharArray()) {
+            if (isOpeningBracket(c)) {
+                stack.push(c);
+            } else if (isClosingBracket(c)) {
+                if (stack.isEmpty() || !isMatchingBrackets(stack.pop(), c)) {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+    private static boolean isOpeningBracket(char c) {
+        return "({[".indexOf(c) > -1;
+    }
+    private static boolean isClosingBracket(char c) {
+        return ")}]".indexOf(c) > -1;
+    }
+    private static boolean isMatchingBrackets(char opening, char closing) {
+        switch (opening) {
+            case '(': return closing == ')';
+            case '{': return closing == '}';
+            case '[': return closing == ']';
+            default: return false;
+        }
+    }
     //Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of edits
     // (operations) required to convert ‘str1′ into ‘str2′. Edit Distance problem/Levenshtein distance
     //Input:   str1 = "geek", str2 = "gesek"     Output:  1
