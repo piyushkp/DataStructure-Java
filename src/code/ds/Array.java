@@ -264,7 +264,7 @@ public class Array {
             return cand;
         return -1;
     }
-    /* Function to find the candidate for Majority, based on Moore’s Voting Algorithm.*/
+    /* Function to find the candidate for Majority, based on Mooreï¿½s Voting Algorithm.*/
     int findCandidate(int a[]){
         int maj_index = 0, count = 1;
         int i;
@@ -953,8 +953,8 @@ public class Array {
     //Given an array of numbers and a sliding window size, how to get the maximal numbers in all sliding windows?
     //Maximum of all subarrays of size k
     //input: {2, 3, 4, 2, 6, 2, 5, 1} output: {4, 4, 6, 6, 6, 5}
-    void findMaxSliding(int[] x, int k)
-    {
+    //Time  = O(n) and Aux Space complexity O(K)
+    void findMaxSliding(int[] x, int k){
         Deque<Integer> q=new ArrayDeque<Integer>();
         int i = 0;
         for(;i<k;i++){
@@ -980,5 +980,4 @@ public class Array {
         }
         System.out.println(x[q.peek()]);
     }
-
 }
