@@ -898,11 +898,9 @@ public class Array {
         return i;
     }
     //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
-    private boolean checkDuplicatesWithinK(int a[], int k)
-    {
+    private boolean checkDuplicatesWithinK(int a[], int k){
         HashSet<Integer> hash = new HashSet<Integer>();
-        for(int i = 0; i < a.length; i++)
-        {
+        for(int i = 0; i < a.length; i++){
             if(hash.contains(a[i]))
                 return  true;
             hash.add(a[i]);
@@ -916,23 +914,18 @@ public class Array {
     //Returns minimum number of jumps to reach arr[n-1] from arr[0]. Dynamic Programming time O(n^2)
     //Input: arr[] = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9}
     //Output: 3 (1-> 3 -> 8 ->9)
-    int minJumps(int arr[])
-    {
+    int minJumps(int arr[]){
         int n = arr.length;
         int[] jumps = new int[n];  // jumps[n-1] will hold the result
         int i, j;
         if (n == 0 || arr[0] == 0)
             return Integer.MAX_VALUE;
         jumps[0] = 0;
-        // Find the minimum number of jumps to reach arr[i]
-        // from arr[0], and assign this value to jumps[i]
-        for (i = 1; i < n; i++)
-        {
+        // Find the minimum number of jumps to reach arr[i] from arr[0], and assign this value to jumps[i]
+        for (i = 1; i < n; i++){
             jumps[i] = Integer.MAX_VALUE;
-            for (j = 0; j < i; j++)
-            {
-                if (i <= j + arr[j] && jumps[j] != Integer.MAX_VALUE)
-                {
+            for (j = 0; j < i; j++){
+                if (i <= j + arr[j] && jumps[j] != Integer.MAX_VALUE){
                     jumps[i] = Math.min(jumps[i], jumps[j] + 1);
                     break;
                 }
@@ -943,18 +936,16 @@ public class Array {
     //Given an array and a value, how to implement a function to remove all instances of that value in place and return the new length?
     //input - {4, 3, 2, 1, 2, 3, 6} and 2 output: 5
     public int removeNumber(int[] A, int n) {
-
         if (A == null || A.length == 0) return 0;
         int i = 0;
         for (int j=0; j<A.length; j++)
             if (A[j] != n) A[i++] = A[j];
         return i; // The new dimension of the array
     }
-    //Given an array of numbers and a sliding window size, how to get the maximal numbers in all sliding windows?
+    //Given an array of numbers and a sliding window k size, how to get the maximal numbers in all sliding windows?
     //Maximum of all subarrays of size k
-    //input: {2, 3, 4, 2, 6, 2, 5, 1} output: {4, 4, 6, 6, 6, 5}
-    void findMaxSliding(int[] x, int k)
-    {
+    //input: {2, 3, 4, 2, 6, 2, 5, 1} k = 3 output: {4, 4, 6, 6, 6, 5}
+    void findMaxSliding(int[] x, int k){
         Deque<Integer> q=new ArrayDeque<Integer>();
         int i = 0;
         for(;i<k;i++){
@@ -964,8 +955,7 @@ public class Array {
             }
             q.addLast(i); // Add new element at rear of queue
         }
-        for ( ; i <x.length; ++i)
-        {
+        for(;i <x.length; ++i){
             // The element at the front of the queue is the largest element of previous window, so print it
             System.out.println(x[q.peek()]);
             // Remove the elements which are out of this window
@@ -980,5 +970,4 @@ public class Array {
         }
         System.out.println(x[q.peek()]);
     }
-
 }
