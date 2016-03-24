@@ -5,7 +5,8 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class StringImp {
-    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
+
+   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
         char[] string = s.toCharArray();
         if (string.length == 0) return;
@@ -83,6 +84,36 @@ public class StringImp {
             }
         }
         return A[result];
+    }
+    //Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of edits
+    // (operations) required to convert ‘str1′ into ‘str2′. Edit Distance problem/Levenshtein distance
+    //Input:   str1 = "geek", str2 = "gesek"     Output:  1
+    //We can convert str1 into str2 by inserting a 's'.
+    //Time Complexity: O(m x n)     Auxiliary Space: O(m x n)
+    int editDistDP(String str1, String str2, int m, int n) {
+        // Create a table to store results of subproblems
+        int dp[][] = new int[m+1][n+1];
+        // Fill d[][] in bottom up manner
+        for (int i=0; i<=m; i++){
+            for (int j=0; j<=n; j++){
+                // If first string is empty, only option is to isnert all characters of second string
+                if (i==0)
+                    dp[i][j] = j;  // Min. operations = j
+                    // If second string is empty, only option is to remove all characters of second string
+                else if (j==0)
+                    dp[i][j] = i; // Min. operations = i
+                    // If last characters are same, ignore last char and recur for remaining string
+                else if (str1.charAt(i-1) == str2.charAt(j-1))
+                    dp[i][j] = dp[i-1][j-1];
+                    //If last characters are not same, consider all three operations on last character of first string,
+                    //recursively compute minimum cost for all three operations and take minimum of three values.
+                else
+                    dp[i][j] = 1 + Math.min(Math.min(dp[i][j-1],  // Insert
+                                    dp[i-1][j]),  // Remove
+                            dp[i-1][j-1]); // Replace
+            }
+        }
+        return dp[m][n];
     }
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
