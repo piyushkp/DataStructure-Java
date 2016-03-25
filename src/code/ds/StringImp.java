@@ -1,11 +1,9 @@
 package code.ds;
 import java.util.*;
-
 /**
  * Created by Piyush Patel.
  */
 public class StringImp {
-
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
         char[] string = s.toCharArray();
@@ -65,27 +63,7 @@ public class StringImp {
         }
         return null;
     }
-    // Find the first occurrence of number in a Array.
-    private int findFirstoccrrence(int[] A, int k) {
-        int low = 0;
-        int high = A.length;
-        int result = -1;
-        while (low <= high) {
-            int mid = (low + high) / 2;
-            if (k == A[mid]) {
-                result = mid;
-                high = mid - 1;
-                // for the last occurrence
-                // low = mid + 1;
-            } else if (k < A[mid]) {
-                high = mid - 1;
-            } else if (k > A[mid]) {
-                low = mid + 1;
-            }
-        }
-        return A[result];
-    }
-    //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
+    //Write an algorithm to determine if all of the delimiters in   an expression are matched and closed
     //{(abc)22}[14(xyz)2] should pass
     static boolean isBalanced(String input) {
         Stack<Character> stack = new Stack<Character>();
@@ -115,7 +93,7 @@ public class StringImp {
         }
     }
     //Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of edits
-    // (operations) required to convert ‘str1′ into ‘str2′. Edit Distance problem/Levenshtein distance
+    //(operations) required to convert ‘str1′ into ‘str2′. Edit Distance problem/Levenshtein distance
     //Input:   str1 = "geek", str2 = "gesek"     Output:  1
     //We can convert str1 into str2 by inserting a 's'.
     //Time Complexity: O(m x n)     Auxiliary Space: O(m x n)

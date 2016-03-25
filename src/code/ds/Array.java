@@ -393,8 +393,7 @@ public class Array {
     }
     /* if x is present in arr[] then returns the index of FIRST occurrence of x in arr[0..n-1], otherwise returns -1 */
     int first(int arr[], int low, int high, int x, int n){
-        if(high >= low)
-        {
+        if(high >= low){
             int mid = (low + high)/2;  /*low + (high - low)/2;*/
             if( ( mid == 0 || x > arr[mid-1]) && arr[mid] == x)
                 return mid;
@@ -406,10 +405,8 @@ public class Array {
         return -1;
     }
     /* if x is present in arr[] then returns the index of LAST occurrence of x in arr[0..n-1], otherwise returns -1 */
-    int last(int arr[], int low, int high, int x, int n)
-    {
-        if(high >= low)
-        {
+    int last(int arr[], int low, int high, int x, int n){
+        if(high >= low){
             int mid = (low + high)/2;  /*low + (high - low)/2;*/
             if( ( mid == n-1 || x < arr[mid+1]) && arr[mid] == x )
                 return mid;
