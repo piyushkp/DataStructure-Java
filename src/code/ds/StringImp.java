@@ -126,6 +126,75 @@ public class StringImp {
         }
         return dp[m][n];
     }
+    //Given an input string and a dictionary of words, find out if the input string can be segmented into a
+    //space-separated sequence of dictionary words.
+    //Consider the following dictionary { i, like, sam, sung, samsung, mobile, ice,cream, icecream, man, go, mango}
+    //Input:  ilike  Output: Yes The string can be segmented as "i like".
+    Boolean wordBreak(String str){
+        int size = str.length();
+        if (size == 0)   return true;
+        // Create the DP table to store results of subroblems. The value wb[i] will be true if str[0..i-1]
+        // can be segmented into dictionary words, otherwise false.
+        boolean[] wb = new boolean[size+1];
+        wb[0] = false; // Initialize all values as false.
+        for (int i=1; i<=size; i++){
+            // if wb[i] is false, then check if current prefix can make it true.
+            // Current prefix is "str.substr(0, i)"
+            if (wb[i] == false && dictionaryContains( str.substring(0, i) ))
+                wb[i] = true;
+            // wb[i] is true, then check for all substrings starting from (i+1)th character and store their results.
+            if (wb[i] == true){
+                // If we reached the last prefix
+                if (i == size)
+                    return true;
+                for (int j = i+1; j <= size; j++){
+                    //Update wb[j] if it is false and can be updated Note the parameter passed to dictionaryContains() is
+                    //substring starting from index 'i' and length 'j-i'
+                    if (wb[j] == false && dictionaryContains( str.substring(i, j-i) ))
+                        wb[j] = true;
+                    //If we reached the last character
+                    if (j == size && wb[j] == true)
+                        return true;
+                }
+            }
+        }
+        // If we have tried all prefixes and none of them worked
+        return false;
+    }
+    /*A utility function to check whether a word is present in dictionary or not.An array of strings is used for
+     dictionary.Using array of strings for dictionary is definitely not a good idea. We have used for simplicity of
+    the program*/
+    Boolean dictionaryContains(String word){
+        String dictionary[] = {"mobile","samsung","sam","sung","man","mango","icecream","and","go","i","like","ice","cream"};
+        for (int i = 0; i < dictionary.length; i++)
+            if (dictionary[i].compareTo(word) == 0)
+                return true;
+        return false;
+    }
+    //Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a
+    //valid dictionary word. Return all such possible sentences.
+    //s = "catsanddog", dict = ["cat", "cats", "and", "sand", "dog"], the solution is ["cats and dog", "cat sand dog"].
+    void wordBreakUtil(String str, int size, String result){
+        //Process all prefixes one by one
+        for (int i=1; i<=size; i++){
+            //extract substring from 0 to i in prefix
+            String prefix = str.substring(0, i);
+            // if dictionary conatins this prefix, then we check for remaining string. Otherwise we ignore this prefix
+            // (there is no else for this if) and try next
+            if (dictionaryContains(prefix)){
+                // if no more elements are there, print it
+                if (i == size){
+                    // add this element to previous prefix
+                    result += prefix;
+                    System.out.println(result);
+                    return;
+                }
+                wordBreakUtil(str.substring(i, size-i), size-i, result+prefix+" ");
+            }
+        }
+    }
+
+
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
