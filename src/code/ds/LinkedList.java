@@ -239,7 +239,6 @@ public class LinkedList {
             }
         }
     }
-
     //Write a function that would return the 5th element from the tail (or end) of a singly linked list of integers
     void printNthFromLast(Node head, int n) {
         Node main_ptr = head;
@@ -369,5 +368,94 @@ public class LinkedList {
         Node temp = currY.next;
         currY.next = currX.next;
         currX.next = temp;
+    }
+    //Compare two strings represented as linked lists
+    //Input: list1 = g->e->e->k->s->a list2 = g->e->e->k->s->b   Output: -1
+    int compare(Node node1, Node node2) {
+        if (node1 == null && node2 == null) {
+            return 1;
+        }
+        while (node1 != null && node2 != null && node1.data == node2.data) {
+            node1 = node1.next;
+            node2 = node2.next;
+        }
+        // if the list are diffrent in size
+        if (node1 != null && node2 != null) {
+            return (node1.data > node2.data ? 1 : -1);
+        }
+        // if either of the list has reached end
+        if (node1 != null && node2 == null) {
+            return 1;
+        }
+        if (node1 == null && node2 != null) {
+            return -1;
+        }
+        return 0;
+    }
+    //Merge a linked list into another linked list at alternate positions
+    //function that inserts nodes of linked list q into p at alternate positions.
+    void merge(LinkedList q){
+        Node p_curr = head, q_curr = q.head;
+        Node p_next, q_next;
+        // While there are available positions in p;
+        while (p_curr != null && q_curr != null) {
+            // Save next pointers
+            p_next = p_curr.next;
+            q_next = q_curr.next;
+            // make q_curr as next of p_curr
+            q_curr.next = p_next; // change next pointer of q_curr
+            p_curr.next = q_curr; // change next pointer of p_curr
+            // update current pointers for next iteration
+            p_curr = p_next;
+            q_curr = q_next;
+        }
+        q.head = q_curr;
+    }
+    //Reverse a Linked List in groups of given size
+    //Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3  Output:  3->2->1->6->5->4->8->7->NULL.
+    Node reverse(Node head, int k){
+        Node current = head;
+        Node next = null;
+        Node prev = null;
+        int count = 0;
+       /* Reverse first k nodes of linked list */
+        while (count < k && current != null){
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+            count++;
+        }
+       /*next is now a pointer to (k+1)th node Recursively call for the list starting from current.
+        And make rest of the list as next of first node */
+        if (next != null)
+            head.next = reverse(next, k);
+        // prev is now head of input list
+        return prev;
+    }
+    //Given a singly linked list, select a random node from linked list (the probability of picking a node should be
+    //1/N if there are N nodes in list).
+    // A reservoir sampling based function to print a random node from a linked list
+    void printrandom(Node node) {
+        // If list is empty
+        if (node == null) {
+            return;
+        }
+        // Use a different seed value so that we don't get same result each time we run this program
+        Math.abs(java.util.UUID.randomUUID().getMostSignificantBits());
+        // Initialize result as first node
+        int result = node.data;
+        // Iterate from the (k+1)th element to nth element
+        Node current = node;
+        int n;
+        for (n = 2; current != null; n++) {
+            // change result with probability 1/n
+            if (Math.random() % n == 0) {
+                result = current.data;
+            }
+            // Move to next node
+            current = current.next;
+        }
+        System.out.println("Randomly selected key is " + result);
     }
 }
