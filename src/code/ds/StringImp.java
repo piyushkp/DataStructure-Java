@@ -748,8 +748,7 @@ public class StringImp {
     //Given two strings, find if first string is a subsequence of second
     //Input: str1 = "AXY", str2 = "ADXCPY"  Output: True (str1 is a subsequence of str2)
     // Returns true if str1[] is a subsequence of str2[]. m is length of str1 and n is length of str2
-    boolean isSubSequence(char str1[], char str2[], int m, int n)
-    {
+    boolean isSubSequence(char str1[], char str2[], int m, int n){
         int j = 0; // For index of str1 (or subsequence
         // Traverse str2 and str1, and compare current character
         // of str2 with first unmatched char of str1, if matched
@@ -762,27 +761,62 @@ public class StringImp {
     }
     //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function to search the index of subString
     //Naive Pattern Searching. Best case O(n) worst case  O(m*(n-m+1))
-    // Better approach is KMP (Knuth Morris Pratt) Pattern Searching
-    void search(String pat, String txt)
-    {
+    //Better approach is KMP (Knuth Morris Pratt) Pattern Searching
+    void search(String pat, String txt){
         int M = pat.length();
         int N = txt.length();
         /* A loop to slide pat[] one by one */
-        for (int i = 0; i <= N - M; i++)
-        {
+        for (int i = 0; i <= N - M; i++){
             int j;
         /* For current index i, check for pattern match */
-            for (j = 0; j < M; j++)
-            {
-                if (txt.indexOf(i+j) != pat.indexOf(j))
+            for (j = 0; j < M; j++){
+                if (txt.charAt(i+j) != pat.charAt(j))
                     break;
             }
             if (j == M)  // if pat[0...M-1] = txt[i, i+1, ...i+M-1]
-            {
-                System.out.print("Pattern found at index " + i);
+               System.out.print("Pattern found at index " + i);
+        }
+    }
+    //KMP Algorithm to find substing in a string. Time complexity is O(n)
+    //http://tekmarathon.com/2013/05/14/algorithm-to-find-substring-in-a-string-kmp-algorithm/
+    public void searchSubString(char[] text, char[] ptrn) {
+        int i = 0, j = 0;
+        // pattern and text lengths
+        int ptrnLen = ptrn.length;
+        int txtLen = text.length;
+        // initialize new array and preprocess the pattern
+        int[] b = preProcessPattern(ptrn);
+        while (i < txtLen) {
+            while (j >= 0 && text[i] != ptrn[j]) {
+                j = b[j];
+            }
+            i++;
+            j++;
+            // a match is found
+            if (j == ptrnLen) {
+                System.out.println("found substring at index:" + (i - ptrnLen));
+                j = b[j];
             }
         }
     }
+    public int[] preProcessPattern(char[] ptrn) {
+        int i = 0, j = -1;
+        int ptrnLen = ptrn.length;
+        int[] b = new int[ptrnLen + 1];
+        b[i] = j;
+        while (i < ptrnLen) {
+            while (j >= 0 && ptrn[i] != ptrn[j]) {
+                // if there is mismatch consider the next widest border The borders to be examined are obtained
+                // in decreasing order from the values b[i], b[b[i]] etc.
+                j = b[j];
+            }
+            i++;
+            j++;
+            b[i] = j;
+        }
+        return b;
+    }
+
     //Determine the 10 most frequent words given a terabyte of strings.
     void find10FrequentWords(String[] s)
     {
