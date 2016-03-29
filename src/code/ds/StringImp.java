@@ -844,10 +844,8 @@ public class StringImp {
     //Find if a given string can be represented from a substring by iterating the substring “n” times
     //Input: str = "abcabcabc"  Output: true The given string is 3 times repetition of "abc"
     // Returns true if str is repetition of one of its sub Strings else return false.
-    Boolean isRepeat(char str[])
-    {
-        // Find length of string and create an array to
-        // store lps values used in KMP
+    Boolean isRepeat(char str[]){
+        // Find length of string and create an array to store lps values used in KMP
         int n = str.length;
         int [] lps = new int[n];
         // Pre-process the pattern (calculate lps[] array)
@@ -863,37 +861,30 @@ public class StringImp {
     }
     // A utility function to fill lps[] or compute prefix funcrion
     // used in KMP string matching algorithm.
-    void computeLPSArray(char str[], int M, int lps[])
-    {
+    void computeLPSArray(char str[], int M, int lps[]){
         int len = 0; //length of the previous longest prefix suffix
         int i;
         lps[0] = 0; //lps[0] is always 0
         i = 1;
         // the loop calculates lps[i] for i = 1 to M-1
-        while (i < M)
-        {
-            if (str[i] == str[len])
-            {
+        while (i < M){
+            if (str[i] == str[len]){
                 len++;
                 lps[i] = len;
                 i++;
             }
-            else // (pat[i] != pat[len])
-            {
-                if (len != 0)
-                {
+            else {// (pat[i] != pat[len])
+                if (len != 0){
                     // This is tricky. Consider the example AAACAAAA and i = 7.
                     len = lps[len-1];
                     // Also, note that we do not increment i here
                 }
-                else // if (len == 0)
-                {
+                else{ // if (len == 0)
                     lps[i] = 0;
                     i++;
                 }
             }
         }
     }
-
 }
 
