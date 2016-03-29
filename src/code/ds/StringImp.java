@@ -309,7 +309,7 @@ public class StringImp {
         return Math.max(pre, map.size());
     }
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
-    // The sequences returned i.e. the output must be sorted alphabetically
+    //The sequences returned i.e. the output must be sorted alphabetically
     //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
     //Input String: "ABCABCA" repeated sub-string length: 2 Output: AB, BC, CA
     public static void printRepeatingStrings(String inputString, int sequenceLength) {
@@ -317,7 +317,7 @@ public class StringImp {
             System.out.println("Invalid input");
         } else {
             int i = 0;
-            int j = i + sequenceLength;
+            int j = sequenceLength;
             Set<String> tempSet = new HashSet<String>();
             Set<String> repeatingSequences = new TreeSet<String>();
             while (j <= inputString.length()) {
@@ -490,8 +490,7 @@ public class StringImp {
         return globalDistance;
     }
     //reverse the string
-    private String ReverseString(String str)
-    {
+    private String ReverseString(String str){
         char[] inputstream = str.toCharArray();
         int length = str.length() - 1;
         for (int i =0; i < length; i++, length--)
@@ -630,23 +629,19 @@ public class StringImp {
     //If no such character exists, return the smallest character in the array
     //given sorted list of letters, sorted in ascending order
     //e.g  ['c', 'f', 'j', 'p', 'v'], 'k' => 'p' and ['c', 'f', 'j', 'p', 'v'], 'z' => 'c'
-    public static char findNextChar(char[] list, char c) {
-        assert list.length > 0;
-        int left = 0, right = list.length - 1;
-        char result = list[0];
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            if (list[mid] == c) {
-                if (mid < list.length - 1) return list[mid + 1];
-                else return result;
-            } else if (list[mid] < c) {
-                left = mid + 1;
-            } else {//list[mid] > c
-                result = list[mid];
-                right = mid - 1;
+    public char smallest_character(String str, char c) {
+        int l = 0, r = str.length() - 1;
+        char ret = str.charAt(0);
+        while(l <= r) {
+            int m = l + (r-l) / 2;
+            if(str.charAt(m) > c) {
+                ret = str.charAt(m);
+                r = m - 1;
+            } else {
+                l = m + 1;
             }
         }
-        return result;
+        return ret;
     }
     // Check whether two strings are anagram  or not
     // For example, “abcd” and “dabc” are anagram of each other.
