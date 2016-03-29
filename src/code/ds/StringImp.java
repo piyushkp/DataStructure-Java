@@ -816,30 +816,30 @@ public class StringImp {
         }
         return b;
     }
-
-    //Determine the 10 most frequent words given a terabyte of strings.
-    void find10FrequentWords(String[] s)
-    {
-       HashMap<String, Integer> _hash = new HashMap<String, Integer>();
-       PriorityQueue<String> _minHeap = new PriorityQueue<String>();
-       for(int i = 0; i <s.length; i++)
-       {
-           if(i < 10)
-           {
-                if(_hash.containsKey(s[i]))
-                {
-                    int count = _hash.get(s[i]);
-                    _hash.put(s[i],count + 1);
-                }
-               else
-                _hash.put(s[i],0);
-
-           }
-           else
-           {
-
-           }
-       }
+    //Determine the K most frequent words given a terabyte of strings.
+    void find10FrequentWords(String[] s, int k) {
+        HashMap<String, Integer> _hash = new HashMap<String, Integer>();
+        PriorityQueue<Integer> _minHeap = new PriorityQueue<Integer>();
+        for (int i = 0; i < s.length; i++) {
+            if (_hash.containsKey(s[i])) {
+                int count = _hash.get(s[i]);
+                _hash.put(s[i], count + 1);
+            } else _hash.put(s[i], 1);
+        }
+        int count = 0;
+        for (Map.Entry<String, Integer> entry : _hash.entrySet()) {
+            if(count < k) {
+                _minHeap.add(entry.getValue());
+                count++;
+            }
+            else if(entry.getValue() > _minHeap.peek()){
+                _minHeap.poll();
+                _minHeap.add(entry.getValue());
+            }
+        }
+        while (!_minHeap.isEmpty()) {
+            System.out.println(_hash.get(_minHeap.poll()));
+        }
     }
     //Find if a given string can be represented from a substring by iterating the substring “n” times
     //Input: str = "abcabcabc"  Output: true The given string is 3 times repetition of "abc"
