@@ -291,12 +291,11 @@ public class Tree {
     public void delete(int key) {
         Node parent = null;
         Node nodetoDelete = null;
-        boolean isLeft = false;
         if(root.data == key) {
             nodetoDelete = root;
         }
         else
-          parent = getParent(root, key, nodetoDelete, isLeft);
+          parent = getParent(root, key, nodetoDelete);
         if (nodetoDelete.left == null && nodetoDelete.right == null) {
             if (parent != null) {
                 if (parent.left == nodetoDelete)
@@ -326,7 +325,7 @@ public class Tree {
         } else {
             Node successor = FinMinValue(nodetoDelete.right);
             if (parent != null) {
-                if(!isLeft)
+                if(parent.right == nodetoDelete)
                     parent.right = successor;
                 else
                     parent.left = successor;
@@ -335,12 +334,11 @@ public class Tree {
                 root = successor;
         }
     }
-    private Node getParent(Node root, int target, Node NodetoDelete, boolean isLeft) {
+    private Node getParent(Node root, int target, Node NodetoDelete) {
         if (root != null) {
             if (root.left != null) {
                 if ((root.left.data == target)) {
                     NodetoDelete = root.left;
-                    isLeft = true;
                     return root;
                 }
             }
@@ -350,8 +348,8 @@ public class Tree {
                     return root;
                 }
             }
-            getParent(root.left, target, NodetoDelete, false);
-            getParent(root.right, target, NodetoDelete, false);
+            getParent(root.left, target, NodetoDelete);
+            getParent(root.right, target, NodetoDelete);
         }
         return root;
     }
