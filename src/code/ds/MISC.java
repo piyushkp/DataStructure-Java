@@ -72,7 +72,7 @@ public class MISC
         for (int i = 0; i < index; i++)
             System.out.print(arr[i].start+ ", " + arr[i].end);
     }
-    
+
 
     /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
     covered. e.g: [(1,3),(2,5),(8,9)] should return 5
