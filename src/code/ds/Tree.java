@@ -90,8 +90,7 @@ public class Tree {
         }
         return false;
     }
-    // BFS : Implement a breadth first search algorithm.
-    // Level order traversal
+    // BFS : Implement a breadth first search algorithm. Level order traversal
     private Boolean BFS(Node root, int target) {
         if (root == null)
             return false;
@@ -110,29 +109,29 @@ public class Tree {
         return false;
     }
     //Print binary tree level by level in new line
-    // Level order search
-    public static void printLevels(Node tree) {
-        Queue<Node> queue = new java.util.LinkedList<Node>();
-        Queue<Integer> levels = new java.util.LinkedList<Integer>();
-        queue.add(tree);
-        levels.add(0);
-        int lastLevel = 0;
-        while (queue.size() > 0) {
-            Node node = queue.remove();
-            int level = levels.remove();
-            if (level != lastLevel) {
-                System.out.println();
-                lastLevel = level;
+    public static void printLevels(Node root) {
+        if (root == null)  return;
+        // Create an empty queue for level order tarversal
+        Queue<Node> q = null ;
+        // Enqueue Root and initialize height
+        q.add(root);
+        while (true){
+            // nodeCount (queue size) indicates number of nodes at current level.
+            int nodeCount = q.size();
+            if (nodeCount == 0)
+                break;
+            // Dequeue all nodes of current level and Enqueue all nodes of next level
+            while (nodeCount > 0){
+                Node node = q.peek();
+                System.out.print(node.data);
+                q.remove();
+                if (node.left != null)
+                    q.add(node.left);
+                if (node.right != null)
+                    q.add(node.right);
+                nodeCount--;
             }
-            System.out.print(node.data + " ");
-            if (node.left != null) {
-                queue.add(node.left);
-                levels.add(level + 1);
-            }
-            if (node.right != null) {
-                queue.add(node.right);
-                levels.add(level + 1);
-            }
+            System.out.println();
         }
     }
     /* Given a binary tree, print its nodes in reverse level order */
@@ -164,25 +163,22 @@ public class Tree {
     private void spiralLevelOrderTraversal(Node root) {
         if (root == null)
             return;
-        ;
         Stack<Node> _stack1 = new Stack<Node>();
         Stack<Node> _stack2 = new Stack<Node>();
         _stack1.push(root);
-        while (!_stack1.empty()) {
-            Node node = _stack1.pop();
-            System.out.print(node.data);
-            if (node.right != null)
-                _stack2.add(node.right);
-            if (node.left != null)
-                _stack2.add(node.left);
-        }
-        while (!_stack2.isEmpty()) {
-            Node node = _stack2.pop();
-            System.out.print(node.data);
-            if (node.left != null)
-                _stack1.add(node.left);
-            if (node.right != null)
-                _stack1.add(node.right);
+        while (!_stack1.empty() || !_stack2.empty()) {
+            while (!_stack1.empty()) {
+                Node node = _stack1.pop();
+                System.out.print(node.data);
+                if (node.right != null) _stack2.add(node.right);
+                if (node.left != null) _stack2.add(node.left);
+            }
+            while (!_stack2.isEmpty()) {
+                Node node = _stack2.pop();
+                System.out.print(node.data);
+                if (node.left != null) _stack1.add(node.left);
+                if (node.right != null) _stack1.add(node.right);
+            }
         }
     }
     // Inorder traversal of BST
@@ -496,7 +492,6 @@ public class Tree {
         // left subtree must be < root.val && right subtree must be > root.val
         return validateBST(root.left, min, root.data) && validateBST(root.right, root.data, max);
     }
-
     private Boolean isBST(Node root) {
         // do inorder traversal and check it is sorted or not
         if (root != null) {
@@ -899,9 +894,7 @@ public class Tree {
 
     //Morris in-order traversal, Find the median of the BST
     public void morrisTraverse(Node root){
-
-        while(root!=null)
-        {
+        while(root!=null){
             if(root.left==null){
                 System.out.println(root.data);
                 root=root.right;
@@ -925,8 +918,7 @@ public class Tree {
         }
     }
     //Find two node in BST that add up to given number x in O(logn) space and O(n) time
-    List<Integer> find_sum(int search, Node root)
-    {
+    List<Integer> find_sum(int search, Node root){
         Stack<Node> s1 = new Stack<Node>();
         Stack<Node> s2 = new Stack<Node>();
         Node curr1 = root;
@@ -935,17 +927,13 @@ public class Tree {
         done1 = done2 = false;
         int val1 = 0, val2 = 0;
         List<Integer> result = new ArrayList<Integer>();
-        while(true)
-        {
-            while(!done1)
-            {
-                if(curr1 != null)
-                {
+        while(true){
+            while(!done1){
+                if(curr1 != null){
                     s1.push(curr1);
                     curr1 = curr1.left;
                 }
-                else
-                {
+                els
                     if(s1.empty()) done1 = true;
                     else
                     {
