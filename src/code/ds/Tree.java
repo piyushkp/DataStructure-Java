@@ -214,7 +214,6 @@ public class Tree {
     }
     // An iterative process to print preorder traversal of Binary tree
     void iterativePreorder(Node root) {
-        // Base Case
         if (root == null)
             return;
         Stack<Node> nodeStack = new Stack<Node>();
@@ -244,22 +243,49 @@ public class Tree {
         }
     }
     // An iterative function to do postorder traversal of a given binary tree
-    public ArrayList<Integer> postorderTraversal(Node root) {
-        ArrayList<Integer> res = new ArrayList<Integer>();
-        Stack<Node> stack = new Stack<Node>();
-        Node cur = root;
-        while (cur != null || !stack.empty()) {
-            if (cur != null) {
-                res.add(cur.data);
-                stack.push(cur);
-                cur = cur.right;
-            } else {
-                cur = stack.pop();
-                cur = cur.left;
-            }
+    // Post order with two stack
+    /*  1. Push root to first stack.
+        2. Loop while first stack is not empty
+            2.1 Pop a node from first stack and push it to second stack
+            2.2 Push left and right children of the popped node to first stack
+        3. Print contents of second stack*/
+    // below is solution with one stack
+    public void postOrderIterative(Node node) {
+        Stack<Node> S = new Stack<Node>();
+        // Check for empty tree
+        if (node == null) {
+            return;
         }
-        Collections.reverse(res);
-        return res;
+        S.push(node);
+        Node prev = null;
+        while (!S.isEmpty()) {
+            Node current = S.peek();
+            /* go down the tree in search of a leaf an if so process it and pop sack otherwise move down */
+            if (prev == null || prev.left == current || prev.right == current) {
+                if (current.left != null) {
+                    S.push(current.left);
+                } else if (current.right != null) {
+                    S.push(current.right);
+                } else {
+                    S.pop();
+                    System.out.print(current.data);
+                }
+                /* go up the tree from left node, if the child is right
+                push it onto stack otherwise process parent and pop stack */
+            } else if (current.left == prev) {
+                if (current.right != null) {
+                    S.push(current.right);
+                } else {
+                    S.pop();
+                    System.out.print(current.data);
+                }
+                /* go up the tree from right node and after coming back from right node process parent and pop stack */
+            } else if (current.right == prev) {
+                S.pop();
+                System.out.print(current.data);
+            }
+            prev = current;
+        }
     }
     // Delete node from binary tree
     public void delete(int key) {
