@@ -22,6 +22,7 @@ public class MISC
                 return (i1.start < i2.start) ? 1 : 0;
             }
         });
+        int index = 0;
         s.push(intervals.get(0));
         for (int i = 1; i < intervals.size(); i++) {
             Interval top = s.peek();
@@ -42,6 +43,37 @@ public class MISC
         }
         return _output;
     }
+    //Without extra Space
+    void mergeIntervals(Interval arr[], int n){
+        // Sort Intervals in decreasing order of
+        // start time
+        sort(arr, arr+n, mycomp);
+        int index = 0; // Stores index of last element
+        // in output array (modified arr[])
+        // Traverse all input Intervals
+        for (int i=0; i<n; i++){
+            // If this is not first Interval and overlaps with the previous one
+            if (index != 0 && arr[index-1].start <= arr[i].end)
+            {
+                while (index != 0 && arr[index-1].start <= arr[i].end)
+                {
+                    // Merge previous and current Intervals
+                    arr[index-1].end = Math.max(arr[index-1].end, arr[i].end);
+                    arr[index-1].start = Math.min(arr[index-1].start, arr[i].start);
+                    index--;
+                }
+            }
+            else // Doesn't overlap with previous, add to
+                // solution
+                arr[index] = arr[i];
+            index++;
+        }
+        // Now arr[0..index-1] stores the merged Intervals
+        for (int i = 0; i < index; i++)
+            System.out.print(arr[i].start+ ", " + arr[i].end);
+    }
+    
+
     /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
     covered. e.g: [(1,3),(2,5),(8,9)] should return 5
     a) 1 2 3 = 2 unique intervals (1 to 2, 2 to 3)
