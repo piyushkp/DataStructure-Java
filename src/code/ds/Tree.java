@@ -477,21 +477,25 @@ public class Tree {
         return null;
     }
     // Find the Diameter of Binary Tree
-    public int diameterOfBinaryTree(Node node) {
-        if (node == null)
-            return 0;
-        int leftHeight = heightOfBinaryTree(node.left);
-        int rightHeight = heightOfBinaryTree(node.right);
-        int leftDiameter = diameterOfBinaryTree(node.left);
-        int rightDiameter = diameterOfBinaryTree(node.right);
-        return Math.max(leftHeight + rightHeight + 1, Math.max(leftDiameter, rightDiameter));
+    private class HeightWrapper {
+        int height = 0;
     }
-    public int heightOfBinaryTree(Node node) {
-        if (node == null)
-            return 0;
-        else {
-            return 1 + Math.max(heightOfBinaryTree(node.left), heightOfBinaryTree(node.right));
+    private int getDiameter_helper(Node root, HeightWrapper wrapper) {
+        if (root == null) {
+            return 0; // diameter and height are 0
         }
+    /* wrappers for heights of the left and right subtrees */
+        HeightWrapper lhWrapper = new HeightWrapper();
+        HeightWrapper rhWrapper = new HeightWrapper();
+    /* get heights of left and right subtrees and their diameters */
+        int leftDiameter = getDiameter_helper(root.left, lhWrapper);
+        int rightDiameter = getDiameter_helper(root.right, rhWrapper);
+    /* calculate root diameter */
+        int rootDiameter = lhWrapper.height + rhWrapper.height + 1;
+    /* calculate height of current node */
+        wrapper.height = Math.max(lhWrapper.height, rhWrapper.height) + 1;
+    /* calculate the diameter */
+        return Math.max(rootDiameter, Math.max(leftDiameter, rightDiameter));
     }
     // Convert sorted array into balanced tree
     private Node sortedArraytoBST(int[] arr, int start, int end) {
