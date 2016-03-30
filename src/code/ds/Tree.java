@@ -363,8 +363,7 @@ public class Tree {
             parent.left = null;
         return startNode;
     }
-
-    // Delete node from BST recursive
+    /* Given a binary search tree and a key, this function deletes the key and returns the new root */
     Node deleteRec(Node root, int key){
         /* Base Case: If the tree is empty */
         if (root == null)  return root;
@@ -374,13 +373,15 @@ public class Tree {
         else if (key > root.data)
             root.right = deleteRec(root.right, key);
         // if key is same as root's key, then This is the node to be deleted
-        else
-        {
+        else{
             // node with only one child or no child
-            if (root.left == null)
-                return root.right;
-            else if (root.right == null)
-                return root.left;
+            if (root.left == null) {
+                Node temp = root.right;
+                return temp;
+            }
+            else if (root.right == null){
+                Node temp = root.left;
+                return temp;}
             // node with two children: Get the inorder successor (smallest
             // in the right subtree)
             root.data = minValuedata(root.right);
