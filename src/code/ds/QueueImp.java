@@ -8,11 +8,9 @@ import java.util.LinkedList;
 public class QueueImp
 {
     //Implement the Queue using two Stack
-    public class Queue<E>
-    {
+    public class Queue<E>{
         private Stack<E> Inbox = new Stack<E>();
         private Stack<E> Outbox = new Stack<E>();
-
         public void EnQueue(E item) {
             Inbox.push(item);
         }
@@ -27,8 +25,7 @@ public class QueueImp
     }
     //Blocking Queue  is a queue that blocks when you try to dequeue from it when the queue is empty
     // or if you try to enqueue items to it when the queue is already full.
-    public class BlockingQueue
-    {
+    public class BlockingQueue {
         private List queue = new LinkedList();
         private int  limit = 10;
         public BlockingQueue(int limit){
@@ -42,7 +39,6 @@ public class QueueImp
             if(this.queue.size() == 0)
                 notifyAll();
             this.queue.add(item);
-
         }
         public synchronized Object dequeue()
                 throws InterruptedException{
@@ -85,8 +81,7 @@ public class QueueImp
             return false;
         }
         public synchronized void enqueue(Object v) throws Exception{
-            if(isFull())
-            {
+            if(isFull()){
                 throw new Exception("Queue is Full.");
             }
             else {
