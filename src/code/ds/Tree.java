@@ -534,33 +534,15 @@ public class Tree {
         return true;
     }
     // Find the Kth smallest element from the BST
-    Node temp;
-    public Node getNthMin(int target) {
-        if (target == 1)
-            return getMin();
-        else {
-            int counter = 1;
-            temp = getMin();
-            while (true) {
-                temp = temp.parent;
-                counter++;
-                if (counter == target)
-                    return temp;
-                if (temp.right != null)
-                    counter++;
-                if (counter == target)
-                    return temp.right;
-            }
+    void find_kth_smallest(Node root, int n, int K){
+        if(root == null) return;
+        find_kth_smallest(root.left, n, K);
+        n++;
+        if(K == n){
+            System.out.print(root.data);
+            return;
         }
-    }
-    public Node getMin() {
-        temp = root;
-        while (true) {
-            if (temp.left == null)
-                return temp;
-            else
-                temp = root.left;
-        }
+        find_kth_smallest(root.right, n, K);
     }
     //given a binary search tree and you are asked to find the Kth smallest element in that tree.
     private Node findKthNode(Node root, int k) {
