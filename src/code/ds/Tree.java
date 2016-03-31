@@ -1061,5 +1061,48 @@ public class Tree {
         prev = root;
         treeToDoublyList(right, prev, head);
     }
+    //Serialize/Deserialize the binary tree
+    // ‘is used to indicate an internal node set bit, and ‘/’ is used as NULL marker for node which has one child
+    void Serialize(Node root) {
+        if (root == null)
+            return;
+        Stack<Node> nodeStack = new Stack<Node>();
+        nodeStack.push(root);
+        StringBuffer sb = new StringBuffer();
+        while (nodeStack.size() > 0) {
+            // Pop the top item from stack and print it
+            Node node = nodeStack.peek();
+            nodeStack.pop();
+            if(node != null) {
+                if(node.left != null && node.right != null) {
+                    sb.append(node.data + "'");
+                    nodeStack.push(node.right);
+                    nodeStack.push(node.left);
+                }
+                else if(node.left == null && node.right == null)
+                    sb.append(node.data);
+                else {
+                    sb.append(node.data + "'");
+                    nodeStack.push(node.right);
+                    nodeStack.push(node.left);
+                }
+            }
+            else{
+                sb.append( "/");
+            }
+        }
+    }
+    public Node Deserialize(StringTokenizer st) {
+        if (!st.hasMoreTokens())
+            return null;
+        String val = st.nextToken();
+        if (val != "'")
+            return null;
+        Node root = new Node();
+        root.data = Integer.parseInt(val);
+        root.left = Deserialize(st);
+        root.right = Deserialize(st);
+        return root;
+    }
 
 }
