@@ -11,6 +11,8 @@ public class Tree {
         public Node left;
         public Node right;
         public Node parent;
+        Node(int data)
+        {data = data;}
     }
     public Node root;
     // insert node in BST
@@ -564,23 +566,18 @@ public class Tree {
             return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
     /* A O(n) iterative program for construction of BST from preorder traversal */
-    public Node constuctTreeFromPreOrder(int[] preOrder) {
-        Node root = new Node();
-        root.data = preOrder[0];
-        Stack<Node> _stack = new Stack<Node>();
-        Node temp;
-        for (int i = 1; i < preOrder.length; i++) {
-            temp = null;
-            while (_stack.size() > 0 && preOrder[i] > _stack.peek().data) {
-                temp = _stack.pop();
-            }
-            if (temp != null) {
-                temp.right.data = preOrder[i];
-                _stack.push(temp.right);
-            } else {
-                temp.left.data = preOrder[i];
-                _stack.push(temp.left);
-            }
+    int[] currIndex = new int[1];
+    currIndex[0] = 0;
+    int min  = Integer.MIN_VALUE;
+    int max  = Integer.MAX_VALUE;
+    private Node deserializeArrayOptimized(int[] preorder, int[] currIndex, int min, int max){
+        if (currIndex[0] >= preorder.length) return null;
+        Node root = null;
+        if ((preorder[currIndex[0]] > min) && (preorder[currIndex[0]] < max)){
+            root = new Node(preorder[currIndex[0]]);
+            currIndex[0] += 1;
+            root.left = deserializeArrayOptimized(preorder, currIndex, min, root.data);
+            root.right = deserializeArrayOptimized(preorder, currIndex, root.data, max);
         }
         return root;
     }
@@ -1092,16 +1089,16 @@ public class Tree {
             }
         }
     }
-    public Node Deserialize(StringTokenizer st) {
-        if (!st.hasMoreTokens())
+    public Node Deserialize(char [] arr, int i) {
+        if (i > arr.length)
             return null;
-        String val = st.nextToken();
-        if (val != "'")
+        char val = arr[i];
+        if (val != '\'')
             return null;
         Node root = new Node();
-        root.data = Integer.parseInt(val);
-        root.left = Deserialize(st);
-        root.right = Deserialize(st);
+        root.data = (int)val;
+        root.left = Deserialize(arr, i + 1);
+        root.right = Deserialize(arr, i + 1);
         return root;
     }
 
