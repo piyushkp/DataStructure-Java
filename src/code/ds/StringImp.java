@@ -947,5 +947,51 @@ public class StringImp {
             }
         }
     }
+    /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any charater)
+    Input: hello world,"b,c\n",Piyush Patel\nfoo,bar,bax
+    Output:[[hello world],["b,c\n"],[Piyush Patel],[foo,bar,bax]]*/
+    static ArrayList<ArrayList<Character>> CSVParser(char[] arr) {
+        ArrayList<ArrayList<Character>> _output = new ArrayList<ArrayList<Character>>();
+        ArrayList<Character> _out = new ArrayList<Character>();
+        boolean inField = false;
+        boolean inQuotedField = false;
+        boolean evenQuotesSeen = true;
+        int len = arr.length;
+        int fieldID = 0;
+        for (int i = 0; i < len; i++) {
+            char b = arr[i];
+            inField = true;
+            if (inQuotedField) {
+                if (b == '"') {
+                    evenQuotesSeen = !evenQuotesSeen;
+                    if (evenQuotesSeen) {
+                        _out.add('"');
+                    }
+                } else if (!evenQuotesSeen && (b == ',' || b == '\n')) {
+                    inQuotedField = false;
+                    inField = false;
+                    _output.add(_out);
+                    _out.clear();
+                } else {
+                    _out.add(b);
+                }
+            } else if (b == '"') {
+                inQuotedField = true;
+                evenQuotesSeen = true;
+            } else if (b == ',') {
+                inField = false;
+                _output.add(_out);
+                _out.clear();
+            } else {
+                evenQuotesSeen = true;
+                _out.add(b);
+            }
+        }
+        if (inField) {
+            _output.add(_out);
+            _out.clear();
+        }
+        return _output;
+    }
 }
 
