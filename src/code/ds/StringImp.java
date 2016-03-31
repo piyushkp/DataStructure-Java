@@ -194,6 +194,7 @@ public class StringImp {
         }
     }
     //Given two sequences, find the length of longest subsequence present in both of them.
+    // Time  O(mn)
     int lcs( char []X, char []Y, int m, int n ){
         int L[][] = new int [m+1][n+1];
         int i, j;
