@@ -13,6 +13,7 @@ public class Tree {
         public Node parent;
         Node(int data)
         {data = data;}
+        Node(){}
     }
     public Node root;
     // insert node in BST
@@ -1089,16 +1090,24 @@ public class Tree {
             }
         }
     }
-    public Node Deserialize(char [] arr, int i) {
-        if (i > arr.length)
+    int currentIndex = 0;
+    public Node Deserialize(String str) {
+        if (currentIndex > str.length()) return null;
+        else if (str.charAt(currentIndex) == '/')
             return null;
-        char val = arr[i];
-        if (val != '\'')
-            return null;
-        Node root = new Node();
-        root.data = (int)val;
-        root.left = Deserialize(arr, i + 1);
-        root.right = Deserialize(arr, i + 1);
+        else if(str.charAt(currentIndex + 1) == '\'') {
+            Node root = new Node(str.charAt(currentIndex));
+            currentIndex += 2;
+            root.left = Deserialize(str);
+            root.right = Deserialize(str);
+        }
+        else{
+            Node root = new Node(str.charAt(currentIndex));
+            root.left = null;
+            root.right = null;
+            currentIndex++;
+            return root;
+        }
         return root;
     }
 
