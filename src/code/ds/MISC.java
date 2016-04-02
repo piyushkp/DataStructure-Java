@@ -243,4 +243,40 @@ public class MISC
             return uniqInstance;
         }
     }
+    //implement Java Iterable interface to read a file.
+    class Line<T>{
+
+    }
+    class FileReaderIterable<E> implements Iterable<E>{
+        byte[] Data;
+        FileReaderIterable(byte[] data)
+        {this.Data = data;}
+        public Iterator<E> iterator() {
+            return new FileReaderIterator<E>(Data);
+        }
+    }
+    class FileReaderIterator<T> implements Iterator<T> {
+        private byte[] data;
+        private Queue<Byte> buffer = new java.util.LinkedList<Byte>();
+        public FileReaderIterator(byte[] dat) {
+            this.data = dat;
+        }
+        public boolean hasNext() {
+            if (this.buffer.isEmpty()) {
+                for (byte item : this.data) {
+                    this.buffer.add(item);
+                }
+            }
+            return !this.buffer.isEmpty();
+        }
+        public Byte next() {
+            if (!this.hasNext()) {
+                throw new NoSuchElementException("Nothing left");
+            }
+            return this.buffer.poll();
+        }
+        public void remove() {
+            throw new UnsupportedOperationException("It is read-only");
+        }
+    }
 }

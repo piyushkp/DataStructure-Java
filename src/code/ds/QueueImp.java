@@ -33,21 +33,32 @@ public class QueueImp
         }
         public synchronized void enqueue(Object item)
                 throws InterruptedException  {
-            while(this.queue.size() == this.limit) {
-                wait();
+            try {
+                while (this.queue.size() == this.limit) {
+                    wait();
+                }
+            }catch (InterruptedException ie) {
+                notify();
+                throw  ie;
             }
-            if(this.queue.size() == 0)
-                notifyAll();
             this.queue.add(item);
+            if(this.queue.size() < limit)
+                notify();
         }
         public synchronized Object dequeue()
                 throws InterruptedException{
-            while(this.queue.size() == 0){
-                wait();
+            try {
+                while (this.queue.size() == 0) {
+                    wait();
+                }
+            }catch (InterruptedException ie) {
+                notify();
+                throw  ie;
             }
-            if(this.queue.size() == this.limit)
-                notifyAll();
-            return this.queue.remove(0);
+            Object x = this.queue.remove(0);
+            if(this.queue.size() > 1)
+                notify();
+            return x;
         }
     }
     //Implemented simple thread safe circular queue
