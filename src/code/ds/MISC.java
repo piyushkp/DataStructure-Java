@@ -245,7 +245,8 @@ public class MISC
     }
     //implement Java Iterable interface to read a file.
     class Line<T>{
-
+        int LineNumber;
+        byte[] LineData;
     }
     class FileReaderIterable<E> implements Iterable<E>{
         byte[] Data;
@@ -261,19 +262,22 @@ public class MISC
         public FileReaderIterator(byte[] dat) {
             this.data = dat;
         }
-        public boolean hasNext() {
-            if (this.buffer.isEmpty()) {
-                for (byte item : this.data) {
-                    this.buffer.add(item);
-                }
-            }
+        public synchronized boolean hasNext() {
+            tryGetNext();
             return !this.buffer.isEmpty();
         }
-        public Byte next() {
+        public synchronized Byte next() {
             if (!this.hasNext()) {
                 throw new NoSuchElementException("Nothing left");
             }
             return this.buffer.poll();
+        }
+        private void tryGetNext() {
+            if (this.buffer.isEmpty()){
+                for (byte item : this.data) {
+                    this.buffer.add(item);
+                }
+            }
         }
         public void remove() {
             throw new UnsupportedOperationException("It is read-only");
