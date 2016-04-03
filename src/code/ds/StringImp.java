@@ -759,7 +759,7 @@ public class StringImp {
                 ++high;
             }
         }
-        return in.substring(start, start + maxLength);
+        return in.substring(start, start + maxLength -1);
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
