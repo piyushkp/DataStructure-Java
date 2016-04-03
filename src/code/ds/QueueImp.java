@@ -67,8 +67,7 @@ public class QueueImp
             while (!hasCapacity(objs.size())) {
                 try {
                     wait();
-                } catch (final InterruptedException e) {
-                }
+                } catch (final InterruptedException e) { }
             }
             for (final Object obj : objs) {
                 Objects.requireNonNull(obj);
