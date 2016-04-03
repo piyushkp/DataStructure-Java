@@ -60,6 +60,25 @@ public class QueueImp
                 notify();
             return x;
         }
+        public synchronized void multiput(List<Object> objs) throws Exception {
+            if (objs.size() > limit) {
+                throw new IllegalArgumentException();
+            }
+            while (!hasCapacity(objs.size())) {
+                try {
+                    wait();
+                } catch (final InterruptedException e) {
+                }
+            }
+            for (final Object obj : objs) {
+                Objects.requireNonNull(obj);
+                this.queue.add(obj);
+            }
+            notifyAll();
+        }
+        private synchronized boolean hasCapacity(int n) {
+            return (this.queue.size() + n <= limit);
+        }
     }
     //Implemented simple thread safe circular queue
     public class CircularQueue {
