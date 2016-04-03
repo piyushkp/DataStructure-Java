@@ -729,48 +729,37 @@ public class StringImp {
     }
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
     public static String LongestPalindromeImprove(String in) {
-        char[] input = in.toCharArray();
-        int longestStart = 0;
-        int longestEnd = 0;//we also need global start/end to keep track of the current best as we process
-        //now the key is to scan from mid to both ends
-        for (int mid = 0; mid < input.length; mid++)//we name it as mid for easy interpretation
-        {
-            //for odd case
-            int left = mid;
-            int right = mid;//for example 12321 when we choose 3 as mid
-            while (left >= 0 && right < input.length)//make sure both indexes are valid
-            {
-                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
-                {
-                    //we need decide if to update global start/end
-                    if (right - left > longestEnd - longestStart)//the longer is found!
-                    {
-                        longestStart = left;
-                        longestEnd = right;
-                    }
-                } else break;
-                left--;
-                right++;//sorry added in wrong place, should be in either case per mid choice
-            }
-            //well for even case we need replicate the previous code by making one change
-            left = mid;
-            right = mid + 1;//for example 123321 when we choose 33 as mid
-            while (left >= 0 && right < input.length)//make sure both indexes are valid
-            {
-                if (input[left] == input[right])//if still palindrome match by one step further each loop cycle
-                {
-                    //we need decide if to update global start/end
-                    if (right - left > longestEnd - longestStart)//the longer is found!
-                    {
-                        longestStart = left;
-                        longestEnd = right;
-                    }
+        char[] str = in.toCharArray();
+        int maxLength = 1;  // The result (length of LPS)
+        int start = 0;
+        int len = str.length;
+        int low, high;
+        // One by one consider every character as center point of even and length palindromes
+        for (int i = 1; i < len; ++i){
+            // Find the longest even length palindrome with center points as i-1 and i.
+            low = i - 1;
+            high = i;
+            while (low >= 0 && high < len && str[low] == str[high]){
+                if (high - low + 1 > maxLength){
+                    start = low;
+                    maxLength = high - low + 1;
                 }
-                left--;
-                right++;
+                --low;
+                ++high;
+            }
+            // Find the longest odd length palindrome with center point as i
+            low = i - 1;
+            high = i + 1;
+            while (low >= 0 && high < len && str[low] == str[high]){
+                if (high - low + 1 > maxLength){
+                    start = low;
+                    maxLength = high - low + 1;
+                }
+                --low;
+                ++high;
             }
         }
-        return in.substring(longestStart, longestEnd + 1);
+        return in.substring(start, start + maxLength);
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
