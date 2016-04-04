@@ -252,8 +252,6 @@ public class StringImp {
         }
         return result;
     }
-
-
     /*Given a regular expression with characters a-z, ' * ', ' . '
     the task was to find if that string could match another string with characters from: a-z
     where ' * ' can delete the character before it, and ' . ' could match whatever character.
