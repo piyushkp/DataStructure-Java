@@ -705,13 +705,14 @@ public class Tree {
             return;
         } else {
             Node temp;
-            /* do the subtrees */
-            mirror(node.left);
-            mirror(node.right);
-            /* swap the objects/values in this node */
+             /* swap the objects/values in this node */
             temp = node.left;
             node.left = node.right;
             node.right = temp;
+            /* do the subtrees */
+            mirror(node.left);
+            mirror(node.right);
+
         }
     }
     //with new tree
