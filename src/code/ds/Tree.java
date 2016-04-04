@@ -699,6 +699,22 @@ public class Tree {
         rightViewUtil(root.left, level + 1, max_level);
     }
     // Given a Binary Tree mirror it with left and right subtree
+    //modify the existing binary tree
+    void mirror(Node node) {
+        if (node == null) {
+            return;
+        } else {
+            Node temp;
+            /* do the subtrees */
+            mirror(node.left);
+            mirror(node.right);
+            /* swap the objects/values in this node */
+            temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+        }
+    }
+    //with new tree
     private Node mirrorTree(Node root) {
         Node newNode = new Node();
         if (root == null)
