@@ -373,25 +373,30 @@ public class StringImp {
     //The sequences returned i.e. the output must be sorted alphabetically
     //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
     //Input String: "ABCABCA" repeated sub-string length: 2 Output: AB, BC, CA
-    public static void printRepeatingStrings(String inputString, int sequenceLength) {
-        if (inputString.isEmpty() || sequenceLength <= 0 || sequenceLength >= inputString.length()) {
-            System.out.println("Invalid input");
-        } else {
-            int i = 0;
-            int j = sequenceLength;
-            Set<String> tempSet = new HashSet<String>();
-            Set<String> repeatingSequences = new TreeSet<String>();
-            while (j <= inputString.length()) {
-                if (!tempSet.add(inputString.substring(i, j))) {
-                    repeatingSequences.add(inputString.substring(i, j));
-                }
-                i++;
-                j = i + sequenceLength;
-            }
-            for (String str : repeatingSequences) {
-                System.out.println(str);
-            }
+    public static void lrs(String s, int sequenceLength) {
+        // form the N suffixes
+        int N  = s.length();
+        String[] suffixes = new String[N];
+        for (int i = 0; i < N; i++) {
+            suffixes[i] = s.substring(i, N);
         }
+        // sort them
+        Arrays.sort(suffixes);
+        // find longest repeated substring by comparing adjacent sorted suffixes
+        String lrs = "";
+        for (int i = 0; i < N - 1; i++) {
+            String x = lrsUtil(suffixes[i], suffixes[i+1], sequenceLength);
+            if (x.length() == sequenceLength)
+                System.out.println(x);
+        }
+    }
+    public static String lrsUtil(String s, String t, int sequenceLength) {
+        int n = Math.min(s.length(), t.length());
+        if(n >= sequenceLength) {
+            if (s.substring(0, sequenceLength) == t.substring(0, sequenceLength))
+                return s.substring(0, sequenceLength);
+        }
+        return "";
     }
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
