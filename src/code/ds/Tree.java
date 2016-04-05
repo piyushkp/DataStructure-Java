@@ -760,7 +760,6 @@ public class Tree {
         // if neither of the above conditions is true then root1 and root2 are mirror images
         return false;
     }
-
     //Given the root of a binary search tree and 2 numbers min and max,
     //trim the tree such that all the numbers in the new tree are between min and max (inclusive).
     private Node trimBST(Node root, int minValue, int maxValue) {
