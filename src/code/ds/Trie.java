@@ -6,8 +6,7 @@ import java.lang.*;
 /**
  * Created by ppatel2 on 8/26/2014.
  */
-public class Trie
-{
+public class Trie{
     //Given a text file and a word, find the positions that the word occurs in the file.
     class Node{
         char letter;
@@ -69,7 +68,6 @@ public class Trie
         trieNode child[];
         int freq;  // To store frequency
     };
-
     // Function to create a new trie node.
     trieNode newTrieNode(){
     trieNode newNode = new trieNode();
@@ -77,8 +75,7 @@ public class Trie
     for (int i = 0; i<MAX; i++)
         newNode->child[i] = NULL;
     return newNode;
-}
-
+    }
     // Method to insert a new string into Trie
     void insert(trieNode root, String str){
         int len = str.length();
@@ -96,7 +93,6 @@ public class Trie
             pCrawl = pCrawl.child[index];
         }
     }
-
     // This function prints unique prefix for every word stored in Trie. Prefixes one by one are stored in prefix[].
     // 'ind' is current index of prefix[]
     void findPrefixesUtil(trieNode root, char prefix[],int ind){
