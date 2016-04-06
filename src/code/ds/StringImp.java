@@ -555,7 +555,6 @@ public class StringImp {
     }
     HashMap<String, List<Integer>> _map = new HashMap<String, List<Integer>>();
     public void WordDistanceFinder (List<String> words) {
-        // implementation here
         for (int i = 0; i <words.size() ; i++) {
             if(!_map.containsKey(words.get(i))) {
                 List<Integer> _list = new ArrayList<Integer>();
@@ -570,7 +569,6 @@ public class StringImp {
         }
     }
     public int distance (String wordOne, String wordTwo) {
-        // implementation here
         List<Integer> _list1 = _map.get(wordOne);
         List<Integer> _list2 = _map.get(wordTwo);
         int _minDistance = Integer.MAX_VALUE;
