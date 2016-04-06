@@ -1,5 +1,7 @@
 package code.ds;
 import java.util.*;
+import java.util.LinkedList;
+
 /**
  * Created by Piyush Patel.
  */
@@ -491,90 +493,26 @@ public class StringImp {
             return encodingString1.toString().equals(encodingString2.toString());
         }
     }
-    //Find minimum distance between two words (order preserved) in a big string
-    //eg: For e.g 1. "hello how are you" - distance between "hello" and "you" is 3.
-    // e.g 2. "hello how are hello you" - distance is 1
-    // e.g 3. "you are hello" - distance is -1. Order of "hello" and "you" should be preserved.
-    public static int findDistanceBetweenWords(String inputBody, String pair1, String pair2) {
-        if (inputBody.isEmpty() || pair1.isEmpty() || pair2.isEmpty()) {
-            return -1;
-        }
-        if (pair1.equals(pair2)) {
-            return 0;
-        }
-        StringTokenizer stringTokenizer = new StringTokenizer(inputBody, " ");
-        int distance = 0, globalDistance = Integer.MAX_VALUE;
-        String token;
-        while (stringTokenizer.hasMoreTokens()) {
-            token = stringTokenizer.nextToken();
-            if (token.equals(pair1)) {
-                distance = 0;
-            } else if (token.equals(pair2)) {
-                globalDistance = Math.min(distance, globalDistance);
-            }
-            distance++;
-        }
-        if (globalDistance == Integer.MAX_VALUE || globalDistance == 0) {
-            return -1;
-        } else {
-            return globalDistance;
-        }
-    }
     /* Input pair can be considered in any order. For e.g. "A B C D A" - Min distance between A and D is 1. With order
      * preserved it would have been 3.*/
-    public static int findDistanceBetweenWordsUnOrdered(String inputBody, String pair1, String pair2) {
-        if (inputBody.isEmpty() || pair1.isEmpty() || pair2.isEmpty()) {
-            return -1;
-        }
-        if (pair1.equals(pair2)) {
-            return 0;
-        }
-        StringTokenizer stringTokenizer = new StringTokenizer(inputBody, " ");
-        int distance = 0, globalDistance = Integer.MAX_VALUE;
-        String previous = "";
-        while (stringTokenizer.hasMoreTokens()) {
-            String token = stringTokenizer.nextToken();
-            if (previous.isEmpty()) {
-                if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
-                    previous = token;
-                }
-            } else if (token.equalsIgnoreCase(pair1) || token.equalsIgnoreCase(pair2)) {
-                if (!token.equalsIgnoreCase(previous)) {
-                    globalDistance = Math.min(globalDistance, distance);
-                    previous = token;
-                }
-                distance = 0;
-            }
-            distance++;
-        }
-        // None of the pairs were found in inputBody.
-        if (previous.isEmpty() || globalDistance == Integer.MAX_VALUE) {
-            return -1;
-        }
-        return globalDistance;
-    }
     HashMap<String, List<Integer>> _map = new HashMap<String, List<Integer>>();
     public void WordDistanceFinder (List<String> words) {
         for (int i = 0; i <words.size() ; i++) {
             if(!_map.containsKey(words.get(i))) {
-                List<Integer> _list = new ArrayList<Integer>();
-                _list.add(i);
-                _map.put(words.get(i), _list);
+                _map.put(words.get(i), new LinkedList<Integer>());
             }
-            else{
-                List<Integer> _list = _map.get(words.get(i));
-                _list.add(i);
-                _map.put(words.get(i),_list);
-            }
+            _map.get(words.get(i)).add(i);
         }
     }
     public int distance (String wordOne, String wordTwo) {
-        List<Integer> _list1 = _map.get(wordOne);
-        List<Integer> _list2 = _map.get(wordTwo);
+        if(!_map.containsKey(wordOne) || !_map.containsKey(wordTwo))
+            return -1;
+        if(wordOne.equals(wordTwo))
+            return 0;
         int _minDistance = Integer.MAX_VALUE;
-        for ( int i = 0;i<_list1.size();i++ ){
-            for ( int j = 0; j < _list2.size();j++){
-                _minDistance = Math.min(_minDistance,Math.abs(_list1.get(i) - _list2.get(i)));
+        for(int i : _map.get(wordOne)){
+            for(int j : _map.get(wordTwo)){
+                _minDistance = Math.min(_minDistance,Math.abs(i-j));
             }
         }
         return _minDistance;
