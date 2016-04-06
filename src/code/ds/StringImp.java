@@ -553,6 +553,34 @@ public class StringImp {
         }
         return globalDistance;
     }
+    HashMap<String, List<Integer>> _map = new HashMap<String, List<Integer>>();
+    public void WordDistanceFinder (List<String> words) {
+        // implementation here
+        for (int i = 0; i <words.size() ; i++) {
+            if(!_map.containsKey(words.get(i))) {
+                List<Integer> _list = new ArrayList<Integer>();
+                _list.add(i);
+                _map.put(words.get(i), _list);
+            }
+            else{
+                List<Integer> _list = _map.get(words.get(i));
+                _list.add(i);
+                _map.put(words.get(i),_list);
+            }
+        }
+    }
+    public int distance (String wordOne, String wordTwo) {
+        // implementation here
+        List<Integer> _list1 = _map.get(wordOne);
+        List<Integer> _list2 = _map.get(wordTwo);
+        int _minDistance = Integer.MAX_VALUE;
+        for ( int i = 0;i<_list1.size();i++ ){
+            for ( int j = 0; j < _list2.size();j++){
+                _minDistance = Math.min(_minDistance,Math.abs(_list1.get(i) - _list2.get(i)));
+            }
+        }
+        return _minDistance;
+    }
     //reverse the string
     private String ReverseString(String str){
         char[] inputstream = str.toCharArray();
