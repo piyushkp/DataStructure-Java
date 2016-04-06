@@ -517,6 +517,21 @@ public class StringImp {
         }
         return _minDistance;
     }
+    //Given an array of words, print all anagrams together. For example, if the given array is
+    // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
+    void printAnagramsUtil(List<String> input){
+        HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
+        for (int i = 0; i <input.size() ; i++) {
+            if (!map.containsKey(input.get(i))) {
+                map.put(input.get(i), new LinkedList<Integer>());
+            }
+            map.get(input.get(i)).add(i);
+        }
+        for (String s : map.keySet())
+            for (Integer i: map.get(s))
+                System.out.println(input.get(i));
+    }
+
     //reverse the string
     private String ReverseString(String str){
         char[] inputstream = str.toCharArray();
