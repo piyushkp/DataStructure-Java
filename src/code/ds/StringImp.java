@@ -430,6 +430,24 @@ public class StringImp {
         }
         return result.toString();
     }
+    //Remove duplicate with O(n) and no space. It can also be used to find whether all chars are unique or not
+    public static void RemoveDuplicates(char[] str){
+        int check = 0;
+        for(int i = 0; i < str.length; i++){
+            int val = str[i] - 'a';
+            if((check & (1 << val)) > 0){
+                str[i] = '\0';
+                continue;
+            }
+            check = check | (1 << val);
+        }
+        for(int j = 0; j < str.length; j++){
+            if(str[j] == '\0')
+                continue;
+            else
+                System.out.print(str[j]);
+        }
+    }
     //Permutations of the string
     void permute(String str) {
         int length = str.length();
@@ -600,24 +618,6 @@ public class StringImp {
         }
         for (String string : _set)
             System.out.println(string);
-    }
-    //Remove duplicate with O(n) and no space. It can also be used to find whether all chars are unique or not
-    public static void RemoveDuplicates(char[] str){
-        int check = 0;
-        for(int i = 0; i < str.length; i++){
-            int val = str[i] - 'a';
-            if((check & (1 << val)) > 0){
-                str[i] = '\0';
-                continue;
-            }
-            check = check | (1 << val);
-        }
-        for(int j = 0; j < str.length; j++){
-            if(str[j] == '\0')
-                continue;
-            else
-                System.out.print(str[j]);
-        }
     }
     //word wrap
     void wrapthis(String para, int w) {
