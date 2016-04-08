@@ -5,45 +5,36 @@ import java.text.*;
  */
 public class Matrix {
     //Matrix Region Sum
-    private int[][] matrix;
-    private long[][] sumMatrix;
-    public void MatrixRegionSum(int[][] matrix) {
-        if (matrix == null) {
-            throw new NullPointerException("null matrix is not allowed.");
-        }
-        this.matrix = matrix;
-        this.sumMatrix = new long[matrix.length][];
-        preComputeSums();
+    // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
+    // of elements from (0,0) to (i,j) Time = O(MN)
+    void preProcess(int mat[][], int aux[][], int M, int N){
+        // Copy first row of mat[][] to aux[][]
+        for (int i=0; i<N; i++)
+            aux[0][i] = mat[0][i];
+        // Do column wise sum
+        for (int i=1; i<M; i++)
+            for (int j=0; j<N; j++)
+                aux[i][j] = mat[i][j] + aux[i-1][j];
+        // Do row wise sum
+        for (int i=0; i<M; i++)
+            for (int j=1; j<N; j++)
+                aux[i][j] += aux[i][j-1];
     }
-    private void preComputeSums() {
-        for (int col = 0; col < matrix[0].length; col++) {
-            sumMatrix[0][col] += matrix[0][col];
-        }
-        for (int row = 1; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[0].length; col++) {
-                sumMatrix[row][col] = sumMatrix[row - 1][col] + matrix[row][col];
-            }
-        }
-        for (int row = matrix.length - 1; row >= 0; row--) {
-            for (int col = 1; col < matrix[0].length; col++) {
-                sumMatrix[row][col] += sumMatrix[row][col - 1];
-            }
-        }
-    }
-    // (lx, ly) is the top left co-ordinate of the rectangle.
-    // (rx, ry) is the bottom right co-ordinate of the rectangle.
-    public long findSum(int lx, int ly, int rx, int ry) {
-        if (!valid(lx, ly) || !valid(rx, ry)) {
-            throw new IllegalArgumentException("The co-ordinates: are not valid co-ordinates.");
-        }
-        long sum = sumMatrix[rx][ry];
-        sum -= (ly == 0 ? 0 : sumMatrix[rx][ly - 1]);
-        sum -= (lx == 0 ? 0 : sumMatrix[lx - 1][ry]);
-        sum += (lx == 0 || ly == 0 ? 0 : sumMatrix[lx - 1][ly - 1]);
-        return sum;
-    }
-    public boolean valid(int x, int y) {
-        return x >= 0 && x < matrix.length && y >= 0 && y < matrix[0].length;
+    // A O(1) time function to compute sum of submatrix between (tli, tlj) and (rbi, rbj) using aux[][]
+    // which is built by the preprocess function
+    int sumQuery(int aux[][], int tli, int tlj, int rbi, int rbj){
+        // result is now sum of elements between (0, 0) and rbi, rbj)
+        int res = aux[rbi][rbj];
+        // Remove elements between (0, 0) and (tli-1, rbj)
+        if (tli > 0)
+            res = res - aux[tli-1][rbj];
+        // Remove elements between (0, 0) and (rbi, tlj-1)
+        if (tlj > 0)
+            res = res - aux[rbi][tlj-1];
+        // Add aux[tli-1][tlj-1] as elements between (0, 0) and (tli-1, tlj-1) are subtracted twice
+        if (tli > 0 && tlj > 0)
+            res = res + aux[tli-1][tlj-1];
+        return res;
     }
     //Given a grid of size m by n, write an algorithm that
     //computes all paths from 0,0 to m,n such that you can always step horizontally or vertically but cannot reverse.
@@ -109,6 +100,4 @@ public class Matrix {
             }
         }
     }
-
-
 }

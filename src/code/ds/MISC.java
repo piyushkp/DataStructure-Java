@@ -283,4 +283,7 @@ public class MISC
             throw new UnsupportedOperationException("It is read-only");
         }
     }
+    //Check if a given sequence of moves for a robot is circular or not
+    // G - Go one unit     L - Turn left     R - Turn right
+    //Input = "GLGLGLG" output = yes
 }
