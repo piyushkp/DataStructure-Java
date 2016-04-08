@@ -535,6 +535,29 @@ public class StringImp {
         }
         return _minDistance;
     }
+    // Check whether two strings are anagram  or not
+    // For example, “abcd” and “dabc” are anagram of each other.
+    private boolean areAnagram(String s1, String s2) {
+        if (s1.length() != s2.length()) return false;
+        HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
+        for (int i = 0; i < s1.length(); i++) {
+            Character ch = s1.charAt(i);
+            Integer count = (Integer) counter.get(ch);
+            if (count == null) counter.put(ch, 1);
+            else {
+                counter.put(ch, count + 1);
+            }
+        }
+        for (int i = 0; i < s2.length(); i++) {
+            Character ch = s2.charAt(i);
+            Integer count = (Integer) counter.get(ch);
+            if (count == null || count == 0) return false;
+            else {
+                counter.put(ch, count - 1);
+            }
+        }
+        return true;
+    }
     //Given an array of words, print all anagrams together. For example, if the given array is
     // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
     void printAnagramsUtil(List<String> input){
@@ -704,29 +727,7 @@ public class StringImp {
         }
         return ret;
     }
-    // Check whether two strings are anagram  or not
-    // For example, “abcd” and “dabc” are anagram of each other.
-    private boolean areAnagram(String s1, String s2) {
-        if (s1.length() != s2.length()) return false;
-        HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
-        for (int i = 0; i < s1.length(); i++) {
-            Character ch = s1.charAt(i);
-            Integer count = (Integer) counter.get(ch);
-            if (count == null) counter.put(ch, 1);
-            else {
-                counter.put(ch, count + 1);
-            }
-        }
-        for (int i = 0; i < s2.length(); i++) {
-            Character ch = s2.charAt(i);
-            Integer count = (Integer) counter.get(ch);
-            if (count == null || count == 0) return false;
-            else {
-                counter.put(ch, count - 1);
-            }
-        }
-        return true;
-    }
+
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
     public static String LongestPalindromeImprove(String in) {
         char[] str = in.toCharArray();
