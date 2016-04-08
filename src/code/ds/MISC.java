@@ -47,7 +47,7 @@ public class MISC
     void mergeIntervals(Interval arr[], int n){
         // Sort Intervals in decreasing order of
         // start time
-        sort(arr, arr+n, mycomp);
+        Arrays.sort(arr);
         int index = 0; // Stores index of last element
         // in output array (modified arr[])
         // Traverse all input Intervals
@@ -315,5 +315,26 @@ public class MISC
         }
         // If robot comes back to (0, 0), then path is cyclic
         return (x == 0 && y == 0);
+    }
+    //Egg dropping problem. eggs should be dropped so that total number of trials are minimized
+    //Time Complexity: O(nk^2)  Auxiliary Space: O(nk) where n is eggs and K is floors
+    public int calculate(int eggs, int floors){
+        int T[][] = new int[eggs+1][floors+1];
+        int c =0;
+        for(int i=0; i <= floors; i++){
+            T[1][i] = i;
+        }
+        for(int e = 2; e <= eggs; e++){
+            for(int f = 1; f <=floors; f++){
+                T[e][f] = Integer.MAX_VALUE;
+                for(int k = 1; k <=f ; k++){
+                    c = 1 + Math.max(T[e-1][k-1], T[e][f-k]);
+                    if(c < T[e][f]){
+                        T[e][f] = c;
+                    }
+                }
+            }
+        }
+        return T[eggs][floors];
     }
 }
