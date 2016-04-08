@@ -286,4 +286,34 @@ public class MISC
     //Check if a given sequence of moves for a robot is circular or not
     // G - Go one unit     L - Turn left     R - Turn right
     //Input = "GLGLGLG" output = yes
+    // This function returns true if the given path is circular, else false
+    boolean isCircular(char path[]){
+        int N = 0, E = 1, S = 2, W = 3;
+        // Initialize starting point for robot as (0, 0) and starting direction as N North
+        int x = 0, y = 0;
+        int dir = N;
+        // Travers the path given for robot
+        for (int i=0; i< path.length; i++){
+            // Find current move
+            char move = path[i];
+            // If move is left or right, then change direction
+            if (move == 'R')
+                dir = (dir + 1)% 4;
+            else if (move == 'L')
+                dir = (4 + dir - 1)% 4;
+                // If move is Go, then change  x or y according to current direction
+            else {// if (move == 'G')
+                if (dir == N)
+                    y++;
+                else if (dir == E)
+                    x++;
+                else if (dir == S)
+                    y--;
+                else // dir == W
+                    x--;
+            }
+        }
+        // If robot comes back to (0, 0), then path is cyclic
+        return (x == 0 && y == 0);
+    }
 }
