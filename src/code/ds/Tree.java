@@ -479,6 +479,27 @@ public class Tree {
         if (right != null) return right;
         return null;
     }
+    //LCA of Binary tree
+    public static Node findFirstCommonAncestor(Node root, Node n1, Node n2) {
+        if (root == null) return null;
+        if(!contains(root,n1) || !contains(root,n2)) return null;
+        if (root == n1 || root == n2 ) return root;
+        boolean n1OnLeft = contains(root.left, n1);
+        boolean n2OnLeft = contains(root.left, n2);
+        if (n1OnLeft != n2OnLeft) {
+            return root;
+        } else if (n1OnLeft && n2OnLeft) {
+            return findFirstCommonAncestor(root.left, n1, n2);
+        } else if (!n1OnLeft && !n2OnLeft) {
+            return findFirstCommonAncestor(root.right, n1, n2);
+        }
+        return null;
+    }
+    private static boolean contains(Node root, Node n) {
+        if (root == null) return false;
+        if (root == n) return true;
+        return contains(root.left, n) || contains(root.right, n);
+    }
     // Find the Diameter of Binary Tree
     private class HeightWrapper {
         int height = 0;
