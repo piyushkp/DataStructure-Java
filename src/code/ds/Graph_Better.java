@@ -60,3 +60,45 @@ public class Graph_Better {
         return false;
     }
 }
+class GraphNode {
+    public int value;
+    public boolean isVisited;
+    public ArrayList<GraphNode> adjacent;
+
+    public GraphNode(int x) {
+        value = x;
+        isVisited = false;
+        adjacent = new ArrayList<GraphNode>();
+    }
+    //Given a directed graph, design an algorithm to find out whether there is a route between two nodes.
+    public static boolean DFSIterative(GraphNode n1, GraphNode n2) {
+        if (n1 == null || n2 == null) return false;
+        Stack<GraphNode> stack = new Stack<GraphNode>();
+        stack.push(n1);
+        while (!stack.isEmpty()) {
+            GraphNode n = stack.pop();
+            if (!n.isVisited) {
+                n.isVisited = true;
+                if (n == n2) return true;
+                stack.addAll(n.adjacent);
+            }
+        }
+        return false;
+    }
+    public static boolean BFS(GraphNode g, GraphNode n1, GraphNode n2) {
+        if (n1 == null || n2 == null) return false;
+        Queue<GraphNode> queue = new java.util.LinkedList<GraphNode>();
+        for (GraphNode n : g.getNodes()) n.isVisited = false;
+        queue.add(n1);
+        while (!queue.isEmpty()) {
+            GraphNode n = queue.remove();
+            if (!n.isVisited) {
+                n.isVisited = true;
+                if (n == n2) return true;
+                queue.addAll(n.adjacent);
+            }
+        }
+        return false;
+    }
+}
+
