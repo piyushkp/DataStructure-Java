@@ -247,7 +247,6 @@ public class LinkedList {
         }
         return false;
     }
-
     //Detect loop and remove it from linkList
     void detectAndRemoveLoop(Node node) {
         Node slow = head;
@@ -267,7 +266,6 @@ public class LinkedList {
             }
         }
     }
-
     //Write a function that would return the 5th element from the tail (or end) of a singly linked list of integers
     void printNthFromLast(Node head, int n) {
         Node main_ptr = head;
