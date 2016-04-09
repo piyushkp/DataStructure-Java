@@ -117,6 +117,18 @@ public class LinkedList {
         // deletion successful
         return 1;
     }
+    //Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node
+    //The solution to this is to simply copy the data from the next node into this node and then delete the next node
+    public static boolean deleteNode(Node n) {
+        if (n == null || n.next == null) {
+            return false; // Failure
+        }
+        Node next = n.next;
+        n.data = next.data;
+        n.next = next.next;
+        return true;
+    }
+
 
     // Sort Link List
     void Sort() {
@@ -514,4 +526,27 @@ public class LinkedList {
             n = n.next;
         }
     }
+    //You have two numbers represented by a linked list, where each node contains a sin-gle digit The digits are stored
+    //in reverse order, such that the 1’s digit is at the head of the list Write a function that adds the two numbers
+    //and returns the sum as a linked list. Input= (3-1-5),(5-9-2) out = 8-0-8
+    Node addLists(Node l1, Node l2,int carry) {
+        if (l1 == null && l2 == null) {
+            return null;
+        }
+        Node result = new Node();
+        int value = carry;
+        if (l1 != null) {
+            value += l1.data;
+        }
+        if (l2 != null) {
+            value += l2.data;
+        }
+        result.data = value % 10;
+        Node more = addLists(l1 == null ? null : l1.next,
+                l2 == null ? null : l2.next,
+                value > 10 ? 1 : 0);
+        result.next = more;
+        return result;
+    }
+
 }
