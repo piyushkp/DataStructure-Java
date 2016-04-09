@@ -842,30 +842,19 @@ public class Tree {
         }
     }
     //Check if tree is a balanced tree.
-    public static boolean isTreeBalanced(Node rootNode) {
-        int maxDepth = maxDepth(rootNode);
-        int minDepth = minDepth(rootNode);
-        System.out.println("max depth " + maxDepth);
-        System.out.println("min depth " + minDepth);
-        return maxDepth - minDepth <= 1;
+    //This code runs in 0(N) time and 0(H) space, where H is the height of the tree.
+    public static boolean isBalanced3(Node n) {
+        return getHeightBalanced(n) != -1;
     }
-    private static int maxDepth(Node currentNode) {
-        if (currentNode == null) {
-            return 0;
-        }
-        int maxLeft = maxDepth(currentNode.left);
-        int maxRight = maxDepth(currentNode.right);
-        int max = Math.max(maxLeft, maxRight);
-        return 1 + max;
-    }
-    private static int minDepth(Node currentNode) {
-        if (currentNode == null) {
-            return 0;
-        }
-        int minLeft = minDepth(currentNode.left);
-        int minRight = minDepth(currentNode.right);
-        int min = Math.min(minLeft, minRight);
-        return 1 + min;
+    private static int getHeightBalanced(Node n) {
+        if (n == null) return 0;
+        int leftHeight = getHeightBalanced(n.left);
+        if (leftHeight == -1)
+            return -1;
+        int rightHeight = getHeightBalanced(n.right);
+        if (rightHeight == -1) return -1;
+        if (Math.abs(leftHeight - rightHeight) > 1) return -1;
+        return 1 + Math.max(leftHeight, rightHeight);
     }
     //Inorder Successor in Binary Search Tree
     private Node inOrderSuccessor(Node root, Node n) {
