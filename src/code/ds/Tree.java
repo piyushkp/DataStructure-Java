@@ -1133,5 +1133,15 @@ public class Tree {
         }
         return root;
     }
+    /** Given a sorted (increasing order) array with unique integer elements, write an algorithm to create a
+     * binary search tree with minimal height.   */
+    private Node createBST(int[] a, int start, int end) {
+        if (start > end) return null;
+        int mid = start + (end - start) / 2;
+        Node n = new Node(a[mid]);
+        n.left = createBST(a, start, mid - 1);
+        n.right = createBST(a, mid + 1, end);
+        return n;
+    }
 
 }
