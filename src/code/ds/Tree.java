@@ -857,40 +857,68 @@ public class Tree {
         return 1 + Math.max(leftHeight, rightHeight);
     }
     //Inorder Successor in Binary Search Tree
-    private Node inOrderSuccessor(Node root, Node n) {
-        if (n.right != null)
-            return minValue(n.right);
-        Node succ = null;
-        while (root != null) {
-            if (n.data < root.data) {
-                succ = root;
-                root = root.left;
-            } else if (n.data > root.data)
-                root = root.right;
-            else
-                break;
+    public static Node inorderSuccessor(Node n) {
+        if (n == null) return null;
+        // case 1: n has right subtree ->
+        //         return leftmost node of right subtree
+        if (n.right != null) return leftmostChild(n.right);
+        // case 2:   n has no right subtree
+        // case 2.1: n is left child of its parent ->
+        //           just return its parent
+        // case 2.2: n is right child of its parent ->
+        //           n goes up until n is left child of its parent,
+        //           then return this parent
+        // case 3:   n is the last node in traversal ->
+        //           return root's parent, ie., null
+        while (n.parent != null && n.parent.right == n) {
+            n = n.parent;
         }
-        return succ;
+        return n.parent;
     }
-    Node inOrderSuccessorWithParent(Node root, Node n)
-    {
-        // step 1 of the above algorithm
-        if( n.right != null )
-            return minValue(n.right);
-        // step 2 of the above algorithm
-       Node p = n.parent;
-        while(p != null && n == p.right)
-        {
-            n = p;
-            p = p.parent;
+    private static Node leftmostChild(Node n) {
+        if (n.left == null) return n;
+        return leftmostChild(n.left);
+    }
+    //PreOrder Successor in Binary Search Tree
+    public static Node preorderSuccessor(Node n) {
+        if (n == null) return null;
+        // case 1: n has a child ->
+        //         just return that child (left if exists, otherwise right)
+        if (n.left != null) return n.left;
+        else if (n.right != null) return n.right;
+        // case 2: n has no child ->
+        //         n climbs up until reaching a parent that has a right child
+        //         (which is not n), then return this right child
+        while (n.parent != null && (n.parent.right == null || n.parent.right == n)) {
+            n = n.parent;
         }
-        return p;
+        // case 3: n is the last node in traversal ->
+        //         return root's parent, ie., null
+        if (n.parent == null) return null;
+        return n.parent.right;
     }
-    private Node minValue(Node node) {
-        Node curr = node;
-        while (curr.left != null)
-            curr = curr.left;
-        return curr;
+    //Postorder Successor in Binary Search Tree
+    public static Node postorderSuccessor(Node n) {
+        // case 1: n is the last node in traversal ->
+        //         return root's parent, ie., null
+        if (n == null || n.parent == null) return null;
+        // case 2:   n is left child of its parent ->
+        //           just return parent
+        // case 3:   n is right child of its parent
+        // case 3.1: parent has no right child ->
+        //           just return parent
+        if (n.parent.right == n || n.parent.right == null) return n.parent;
+        // case 3.2: parent has right child ->
+        //           return leftmost bottom node of parent's right subtree
+        return leftmostBottomChild(n.parent.right);
+    }
+    private static Node leftmostBottomChild(Node n) {
+        if (n.left == null && n.right == null) return n;
+        if (n.left != null) {
+            return leftmostBottomChild(n.left);
+        } else {
+            return leftmostBottomChild(n.right);
+        }
     }
     //Get Level of a node in a Binary Tree, level = 1
     private int getLevel(Node node, int data, int level)
@@ -1142,6 +1170,23 @@ public class Tree {
         n.left = createBST(a, start, mid - 1);
         n.right = createBST(a, mid + 1, end);
         return n;
+    }
+    //Given a binary tree, design an algorithm which creates a linked list of all the nodes at each depth
+    //(e.g., if you have a tree with depth D, you'll have D linked lists). Time = O(N)
+    public static ArrayList<java.util.LinkedList<Node>> createLevelLinkedList(Node root) {
+        ArrayList<java.util.LinkedList<Node>> result = new ArrayList<java.util.LinkedList<Node>>();
+        java.util.LinkedList<Node> current = new java.util.LinkedList<Node>();
+        if (root != null) current.add(root);
+        while (!current.isEmpty()) {
+            result.add(current);
+            java.util.LinkedList<Node> parents = current;
+            current = new java.util.LinkedList<Node>();
+            for (Node parent : parents) {
+                if (parent.left != null) current.add(parent.left);
+                if (parent.right != null) current.add(parent.right);
+            }
+        }
+        return result;
     }
 
 }
