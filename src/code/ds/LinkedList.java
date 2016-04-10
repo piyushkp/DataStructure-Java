@@ -311,6 +311,24 @@ public class LinkedList {
         }
         return copy;
     }
+    //Implement a function to check if a linked list is a palindrome (like 0->1->2->1->0)
+    boolean isPalindrome(Node head) {
+        if (head == null) return false;
+        Node p1 = head, p2 = head;
+        java.util.Stack<Integer> s = new java.util.Stack<Integer>();
+        while (p2 != null && p2.next != null) {
+            s.push(p1.data);
+            p1 = p1.next;
+            p2 = p2.next.next;
+        }
+        // handle odd nodes
+        if (p2 != null) p1 = p1.next;
+        while (p1 != null) {
+            if(p1.data != s.pop()) return false;
+            p1 = p1.next;
+        }
+        return true;
+    }
 
     //Given a linked list, reverse alternate nodes and append them to end of list. Extra allowed space is O(1)
     //Input List:  1->2->3->4->5->6    Output List: 1->3->5->6->4->2
