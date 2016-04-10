@@ -563,10 +563,13 @@ public class StringImp {
     void printAnagramsUtil(List<String> input){
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
         for (int i = 0; i <input.size() ; i++) {
-            if (!map.containsKey(input.get(i))) {
-                map.put(input.get(i), new LinkedList<Integer>());
+            char[] content = input.get(i).toCharArray();
+            Arrays.sort(content);
+            String key = new String(content);
+            if (!map.containsKey(key)) {
+                map.put(key, new LinkedList<Integer>());
             }
-            map.get(input.get(i)).add(i);
+            map.get(key).add(i);
         }
         for (String s : map.keySet())
             for (Integer i: map.get(s))

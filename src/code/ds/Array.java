@@ -7,7 +7,7 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Array {
-    //Merge two sorted array into sorted array
+    //Merge two sorted array into sorted array Time = O(N+M)
     public int[] MergeArray(int[] a, int[] b) {
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;
@@ -18,6 +18,24 @@ public class Array {
         while (i < a.length) answer[k++] = a[i++];
         while (j < b.length) answer[k++] = b[j++];
         return answer;
+    }
+    //You are given two sorted arrays, A and B, where A has a large enough buffer at the end to hold B. Write a method
+    //to merge B into A in sorted order.
+    public static void merge(int[] a, int[] b, int lastA, int lastB) {
+        int indexMerged = lastB + lastA - 1; /* Index of last location of merged array */
+        int indexA = lastA - 1; /* Index of last element in array b */
+        int indexB = lastB - 1; /* Index of last element in array a */
+		/* Merge a and b, starting from the last element in each */
+        while (indexB >= 0) {
+            if (indexA >= 0 && a[indexA] > b[indexB]) { /* end of a is bigger than end of b */
+                a[indexMerged] = a[indexA]; // copy element
+                indexA--;
+            } else {
+                a[indexMerged] = b[indexB]; // copy element
+                indexB--;
+            }
+            indexMerged--; // move indices
+        }
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     //Time : O(K) worst case can be O(N) where N is total number of elements of A and B
@@ -1037,5 +1055,19 @@ public class Array {
             }
         }
         return maxProfit[maxProfit.length - 1];
+    }
+    //A magic index in an array A[0...n] is defined to be an index such that A[i] = i. Given a sorted array of duplicate
+    // integers, write a method to find a magic index, if one exists, in array A.
+    private static int getMagicIndexDup(int[] a, int start, int end) {
+        if (start > end) return -1;
+        int mid = start + (end - start) / 2;
+        if (a[mid] == mid) return mid;
+        // search left
+        int result = getMagicIndexDup(a, start, Math.min(mid - 1, a[mid]));
+        // search right
+        if (result == -1) {
+            result = getMagicIndexDup(a, Math.max(mid + 1, a[mid]), end);
+        }
+        return result;
     }
 }
