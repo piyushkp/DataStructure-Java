@@ -330,6 +330,44 @@ public class Array {
         }
         return -1;
     }
+    //Given a sorted array of n integers that has been rotated an unknown number of times, write code to find an element
+    //in the array. You may assume that the array was originally sorted in increasing order.
+    public static int searchRotatedUnknowntimes(int a[], int left, int right, int x) {
+        int mid = (left + right) / 2;
+        if (x == a[mid]) { // Found element
+            return mid;
+        }
+        if (right < left) {
+            return -1;
+        }
+        if (a[left] < a[mid]) { // Left is normally ordered.
+            if (x >= a[left] && x <= a[mid]) {
+                return searchRotatedUnknowntimes(a, left, mid - 1, x);
+            } else {
+                return searchRotatedUnknowntimes(a, mid + 1, right, x);
+            }
+        } else if (a[mid] < a[left]) { // Right is normally ordered.
+            if (x >= a[mid] && x <= a[right]) {
+                return searchRotatedUnknowntimes(a, mid + 1, right, x);
+            } else {
+                return searchRotatedUnknowntimes(a, left, mid - 1, x);
+            }
+        } else if (a[left] == a[mid]) { // Left is either all repeats OR loops around (with the right half being all dups)
+            if (a[mid] != a[right]) { // If right half is different, search there
+                return searchRotatedUnknowntimes(a, mid + 1, right, x);
+            } else { // Else, we have to search both halves
+                int result = searchRotatedUnknowntimes(a, left, mid - 1, x);
+                if (result == -1) {
+                    return searchRotatedUnknowntimes(a, mid + 1, right, x);
+                } else {
+                    return result;
+                }
+            }
+        }
+        return -1;
+    }
+
+
     //Find the minimum element in a sorted and rotated array. Assumes that all elements are distinct.Time O(logn)
     //Input: {5, 6, 1, 2, 3, 4}     Output: 1
     private int findMin(int arr[], int low, int high){
