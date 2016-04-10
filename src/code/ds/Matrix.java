@@ -122,4 +122,21 @@ public class Matrix {
             }
         }
     }
+    //Given an MX N matrix in which each row and each column is sorted in ascending order, write a method to find an element.
+    //Time O(MlogN) since there are M rows and it takes 0(log(N)) time to search each one
+    public static boolean findElement(int[][] matrix, int elem) {
+        int row = 0;
+        int col = matrix[0].length - 1;
+        while (row < matrix.length && col >= 0) {
+            if (matrix[row][col] == elem) {
+                return true;
+            } else if (matrix[row][col] > elem) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        return false;
+    }
+    //we can improve above by binary search Split the grid into quadrants. Search the bottom left and the top right
 }
