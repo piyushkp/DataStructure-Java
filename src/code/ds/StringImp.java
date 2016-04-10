@@ -766,39 +766,50 @@ public class StringImp {
         }
         return -1;
     }
-    //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
-    public static String LongestPalindromeImprove(String in) {
-        char[] str = in.toCharArray();
-        int maxLength = 1;  // The result (length of LPS)
-        int start = 0;
-        int len = str.length;
-        int low, high;
-        // One by one consider every character as center point of even and length palindromes
-        for (int i = 1; i < len; ++i){
-            // Find the longest even length palindrome with center points as i-1 and i.
-            low = i - 1;
-            high = i;
-            while (low >= 0 && high < len && str[low] == str[high]){
-                if (high - low + 1 > maxLength){
-                    start = low;
-                    maxLength = high - low + 1;
-                }
-                --low;
-                ++high;
-            }
-            // Find the longest odd length palindrome with center point as i
-            low = i - 1;
-            high = i + 1;
-            while (low >= 0 && high < len && str[low] == str[high]){
-                if (high - low + 1 > maxLength){
-                    start = low;
-                    maxLength = high - low + 1;
-                }
-                --low;
-                ++high;
+    //implement a function to find if a given string is a palindrome
+    boolean isPalindrome(String s) {
+        int n = s.length();
+        for (int i=0;i<(n / 2) + 1;++i) {
+            if (s.charAt(i) != s.charAt(n - i - 1)) {
+                return false;
             }
         }
-        return in.substring(start, start + maxLength -1);
+        return true;
+    }
+    //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
+    public static String LongestPalindromeImprove(String s) {
+        s +="^" + s;
+        int N  = s.length();
+        String[] suffixes = new String[N];
+        for (int i = 0; i < N; i++) {
+            suffixes[i] = s.substring(i, N);
+        }
+        // sort them
+        Arrays.sort(suffixes);
+        // find longest common prefix
+        int max = Integer.MIN_VALUE;
+        java.util.HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for (int i = 0; i < N - 1; i++) {
+            int x = lcp(suffixes[i], suffixes[i+1]);
+            String key = suffixes[i].substring(0,x);
+            if (!map.containsKey(key))
+                map.put(key,x);
+        }
+        Map.Entry<String, Integer> maxEntry = null;
+        for (Map.Entry<String, Integer> entry : map.entrySet()){
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+                maxEntry = entry;
+            }
+        }
+        return maxEntry.getKey();
+    }
+    // longest common prefix of s and t
+    private static int lcp(String s, String t) {
+        int N = Math.min(s.length(), t.length());
+        for (int i = 0; i < N; i++) {
+            if (s.charAt(i) != t.charAt(i)) return i;
+        }
+        return N;
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
