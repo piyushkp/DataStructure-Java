@@ -669,11 +669,52 @@ public class Tree {
             CorrectBSTUtil(root.right, first, middle, last, prev);
         }
     }
-
     public void swap(int a, int b) {
         int t = a;
         a = b;
         b = t;
+    }
+    //You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which
+    //sum to a given value. The path does not need to start or end at the root or a leaf.
+    //Time Complexity = O(NlogN) and space (logN)
+    void findSum(Node node, int sum, int[] path, int level) {
+        if (node == null) {
+            return;
+        }
+ /* Insert current node into path. */
+        path[level] = node.data;
+ /* Look for paths with a sum that ends at this node. */
+        int t = 9;
+        for (int i = level; i >= 8; i--) {
+            t += path[i];
+            if (t == sum) {
+                print(path, i, level);
+            }
+        }
+ /* Search nodes beneath this one. */
+        findSum(node.left, sum, path, level + 1);
+        findSum(node.right, sum, path, level + 1);
+ /* Remove current node from path. Not strictly necessary, since
+ * we would ignore this value, but it's good practice. */
+        path[level] = Integer.MIN_VALUE;
+    }
+    public void findSum(Node node, int sum) {
+        int depth = depth(node);
+        int[] path = new int[depth];
+        findSum(node, sum, path, 0);
+    }
+    public static void print(int[] path, int start, int end) {
+        for (int i = start; i <= end; i++) {
+            System.out.print(path[i] + " ");
+        }
+        System.out.println();
+    }
+    public int depth(Node node) {
+        if (node == null) {
+            return 0;
+        } else {
+            return 1 + Math.max(depth(node.left), depth(node.right));
+        }
     }
 
     //Binary Tree Maximum Path Sum
@@ -737,7 +778,6 @@ public class Tree {
         max_sum = MaxSumSubtree(root, max_sum);
         return max_sum;
     }
-
     private int MaxSumSubtree(Node root, int max_sum) {
         int sum = 0;
         int lsum = 0;
@@ -753,13 +793,11 @@ public class Tree {
             max_sum = sum;
         return max_sum;
     }
-
     //Print Right View of a Binary Tree
     public void rightView() {
         int max_level = 0;
         rightViewUtil(root, 1, max_level);
     }
-
     public void rightViewUtil(Node root, int level, int max_level) {
         if (root == null) return;
         if (max_level < level) {
@@ -769,7 +807,6 @@ public class Tree {
         rightViewUtil(root.right, level + 1, max_level);
         rightViewUtil(root.left, level + 1, max_level);
     }
-
     // Given a Binary Tree mirror it with left and right subtree
     //modify the existing binary tree
     void mirror(Node node) {
@@ -800,7 +837,6 @@ public class Tree {
         }
         return newNode;
     }
-
     private Node mirrorTreeIterative(Node root) {
         Node newNode = new Node();
         if (root == null)
@@ -817,7 +853,6 @@ public class Tree {
         }
         return newNode;
     }
-
     //Given a binary tree, check whether it is a mirror of itself.
     boolean isMirror(Node node1, Node node2) {
         // if both trees are empty, then they are mirror image
@@ -876,7 +911,6 @@ public class Tree {
 
     //Given a binary search tree, sum all the nodes which are at on the same vertical line.
     int HD_OFFSET = 16;
-
     private void verticalSUM(Node root, int[] sum, int hd, int min, int max) {
         int index = hd + HD_OFFSET / 2;
         if (index < min) min = index;
@@ -1177,7 +1211,6 @@ public class Tree {
     //convert a binary tree to a circular doubly-linked list
     Node prev = null;
     Node head = null;
-
     void treeToDoublyList(Node root, Node prev, Node head) {
         if (root == null) return;
         treeToDoublyList(root.left, prev, head);
@@ -1195,7 +1228,6 @@ public class Tree {
         prev = root;
         treeToDoublyList(right, prev, head);
     }
-
     //Serialize/Deserialize the binary tree
     // ‘is used to indicate an internal node set bit, and ‘/’ is used as NULL marker for node which has one child
     void Serialize(Node root) {
