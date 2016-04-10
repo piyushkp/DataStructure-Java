@@ -330,8 +330,8 @@ public class Array {
         }
         return -1;
     }
-    //Given a sorted array of n integers that has been rotated an unknown number of times, write code to find an element
-    //in the array. You may assume that the array was originally sorted in increasing order.
+    //Given a sorted array of n integers with duplicates that has been rotated an unknown number of times, write code to find an element
+    //in the array. You may assume that the array was originally sorted in increasing order. worst case O(N)
     public static int searchRotatedUnknowntimes(int a[], int left, int right, int x) {
         int mid = (left + right) / 2;
         if (x == a[mid]) { // Found element
