@@ -730,7 +730,42 @@ public class StringImp {
         }
         return ret;
     }
-
+    //Given a sorted array of strings which is interspersed with empty strings, write a method to find the location of
+    //a given string.
+    //input = stringList = {"apple", "", "", "banana", "", "", "", "carrot", "duck", "", "", "eel", "", "flower"}
+    public static int searchI(String[] strings, String str, int first, int last) {
+        while (first <= last) {
+			/* Move mid to the middle */
+            int mid = (last + first) / 2;
+			/* If mid is empty, find closest non-empty string */
+            if (strings[mid].isEmpty()) {
+                int left = mid - 1;
+                int right = mid + 1;
+                while (true) {
+                    if (left < first && right > last) {
+                        return -1;
+                    } else if (right <= last && !strings[right].isEmpty()) {
+                        mid = right;
+                        break;
+                    } else if (left >= first && !strings[left].isEmpty()) {
+                        mid = left;
+                        break;
+                    }
+                    right++;
+                    left--;
+                }
+            }
+            int res = strings[mid].compareTo(str);
+            if (res == 0) { // Found it!
+                return mid;
+            } else if (res < 0) { // Search right
+                first = mid + 1;
+            } else { // Search left
+                last = mid - 1;
+            }
+        }
+        return -1;
+    }
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
     public static String LongestPalindromeImprove(String in) {
         char[] str = in.toCharArray();
