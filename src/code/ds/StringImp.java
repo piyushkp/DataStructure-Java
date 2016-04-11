@@ -1,7 +1,6 @@
 package code.ds;
 import java.util.*;
 import java.util.LinkedList;
-
 /**
  * Created by Piyush Patel.
  */
@@ -214,93 +213,7 @@ public class StringImp {
         }
    /* L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] */
         return L[m][n];
-    }
-
-    //Given a character limit and a message, split the message up into annotated chunks without cutting words as,
-    //for example when sending the SMS "Hi Sivasrinivas, your Uber is arriving now!" with char limit 25, you should get
-    //["Hi Sivasrinivas,(1/3)", "your Uber is arriving(2/3)", "now!(3/3)"]
-    static ArrayList<String> splitText(String message, int charLimit) {
-        return splitTextAuxUsingSplit(message, charLimit);
-    }
-    static ArrayList<String> splitTextAuxUsingSplit(String message, int charLimitOriginal) {
-        //Decrease the char limit to accomodate chunk number at the end i.e. (1/3). For now assuming, the message chunks won't be more than 9
-        int charLimit = charLimitOriginal - 5;
-        //New arraylist to store message chunks
-        ArrayList<String> result = new ArrayList<String>();
-        String[] splitted = message.split(" ");
-        String temp;
-        for (int i = 0; i < splitted.length - 1; i++) {
-            temp = splitted[i];
-            //while length of temp and the next element combined is less than charLimit, temp = temp + next element
-            //Last element to be taken care of after this loop
-            while (i + 1 < splitted.length - 1 && (temp + 1 + splitted[i + 1]).length() <= charLimit) {  //+1 for space
-                temp = temp + " " + splitted[i + 1];
-                i++;
-            }
-            result.add(temp);
-        }
-        //Take care of the last element
-        //Add the last element from splitted to the last element of result if their combined length is less than charLimit
-        String lastElement = result.get(result.size() - 1);
-        if (lastElement.length() + 1 + splitted[splitted.length - 1].length() < charLimit) {  //+1 for space
-            result.set(result.size() - 1, lastElement + " " + splitted[splitted.length - 1]);
-        } else {
-            result.add(splitted[splitted.length - 1]);
-        }
-        //append message chunk number for ex (1/3)
-        int resultSize = result.size();
-        for(int i = 0; i < resultSize; i++) {
-            result.set(i, result.get(i) +"("+ (i+1) + "/" + resultSize + ")" );
-        }
-        return result;
-    }
-    /*Given a regular expression with characters a-z, ' * ', ' . '
-    the task was to find if that string could match another string with characters from: a-z
-    where ' * ' can delete the character before it, and ' . ' could match whatever character.
-    ' * ' always appear after a a-z character. */
-    Boolean isMatch(String sA, String sB, int iALength, int iBLength) {
-        if (iALength == 0 && iBLength == 0) return true;
-        else {
-            if (iALength > 0) {
-                if (sA.charAt(iALength - 1) == '*')
-                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 2, iBLength);
-                if (sA.charAt(iALength - 1) == '.')
-                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 1, iBLength - 1);
-                if (iBLength > 0) {
-                    if (sA.charAt(iALength - 1) == sB.charAt(iBLength - 1)) return true;
-                    else return false;
-                }
-            }
-        }
-        return false;
-    }
-    /* Implement regular expression matching with support for '.' and '*'.
-    '.' Matches any single character.
-    '*' Matches zero or more of the preceding element. */
-    public boolean isMatch(String s, String p) {
-        if (s == null) return p == null;
-        if (p == null) return s == null;
-        int lenS = s.length();
-        int lenP = p.length();
-        if (lenP == 0) return lenS == 0;
-        if (lenP == 1) {
-            if (p.equals(s) || p.equals(".") && s.length() == 1) {
-                return true;
-            } else return false;
-        }
-        if (p.charAt(1) != '*') {
-            if (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
-                return isMatch(s.substring(1), p.substring(1));
-            }
-            return false;
-        } else {
-            while (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
-                if (isMatch(s, p.substring(2))) return true;
-                s = s.substring(1);
-            }
-            return isMatch(s, p.substring(2));
-        }
-    }
+    } 
     //Given set of characters and a string, find smallest substring which contains all characters
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
     public String minSubString(String S, String T) {
@@ -575,9 +488,8 @@ public class StringImp {
             for (Integer i: map.get(s))
                 System.out.println(input.get(i));
     }
-
     //reverse the string
-    private String ReverseString(String str){
+    private static String ReverseString(String str){
         char[] inputstream = str.toCharArray();
         int length = str.length() - 1;
         for (int i =0; i < length; i++, length--)
@@ -778,7 +690,7 @@ public class StringImp {
     }
     //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
     public static String LongestPalindromeImprove(String s) {
-        s +="^" + s;
+        s +="^" + ReverseString(s);
         int N  = s.length();
         String[] suffixes = new String[N];
         for (int i = 0; i < N; i++) {
@@ -1031,6 +943,91 @@ public class StringImp {
             _out.clear();
         }
         return _output;
+    }
+    /*Given a regular expression with characters a-z, ' * ', ' . '
+   the task was to find if that string could match another string with characters from: a-z
+   where ' * ' can delete the character before it, and ' . ' could match whatever character.
+   ' * ' always appear after a a-z character. */
+    Boolean isMatch(String sA, String sB, int iALength, int iBLength) {
+        if (iALength == 0 && iBLength == 0) return true;
+        else {
+            if (iALength > 0) {
+                if (sA.charAt(iALength - 1) == '*')
+                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 2, iBLength);
+                if (sA.charAt(iALength - 1) == '.')
+                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 1, iBLength - 1);
+                if (iBLength > 0) {
+                    if (sA.charAt(iALength - 1) == sB.charAt(iBLength - 1)) return true;
+                    else return false;
+                }
+            }
+        }
+        return false;
+    }
+    /* Implement regular expression matching with support for '.' and '*'.
+    '.' Matches any single character.
+    '*' Matches zero or more of the preceding element. */
+    public boolean isMatch(String s, String p) {
+        if (s == null) return p == null;
+        if (p == null) return s == null;
+        int lenS = s.length();
+        int lenP = p.length();
+        if (lenP == 0) return lenS == 0;
+        if (lenP == 1) {
+            if (p.equals(s) || p.equals(".") && s.length() == 1) {
+                return true;
+            } else return false;
+        }
+        if (p.charAt(1) != '*') {
+            if (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                return isMatch(s.substring(1), p.substring(1));
+            }
+            return false;
+        } else {
+            while (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+                if (isMatch(s, p.substring(2))) return true;
+                s = s.substring(1);
+            }
+            return isMatch(s, p.substring(2));
+        }
+    }
+    //Given a character limit and a message, split the message up into annotated chunks without cutting words as,
+    //for example when sending the SMS "Hi Sivasrinivas, your Uber is arriving now!" with char limit 25, you should get
+    //["Hi Sivasrinivas,(1/3)", "your Uber is arriving(2/3)", "now!(3/3)"]
+    static ArrayList<String> splitText(String message, int charLimit) {
+        return splitTextAuxUsingSplit(message, charLimit);
+    }
+    static ArrayList<String> splitTextAuxUsingSplit(String message, int charLimitOriginal) {
+        //Decrease the char limit to accomodate chunk number at the end i.e. (1/3). For now assuming, the message chunks won't be more than 9
+        int charLimit = charLimitOriginal - 5;
+        //New arraylist to store message chunks
+        ArrayList<String> result = new ArrayList<String>();
+        String[] splitted = message.split(" ");
+        String temp;
+        for (int i = 0; i < splitted.length - 1; i++) {
+            temp = splitted[i];
+            //while length of temp and the next element combined is less than charLimit, temp = temp + next element
+            //Last element to be taken care of after this loop
+            while (i + 1 < splitted.length - 1 && (temp + 1 + splitted[i + 1]).length() <= charLimit) {  //+1 for space
+                temp = temp + " " + splitted[i + 1];
+                i++;
+            }
+            result.add(temp);
+        }
+        //Take care of the last element
+        //Add the last element from splitted to the last element of result if their combined length is less than charLimit
+        String lastElement = result.get(result.size() - 1);
+        if (lastElement.length() + 1 + splitted[splitted.length - 1].length() < charLimit) {  //+1 for space
+            result.set(result.size() - 1, lastElement + " " + splitted[splitted.length - 1]);
+        } else {
+            result.add(splitted[splitted.length - 1]);
+        }
+        //append message chunk number for ex (1/3)
+        int resultSize = result.size();
+        for(int i = 0; i < resultSize; i++) {
+            result.set(i, result.get(i) +"("+ (i+1) + "/" + resultSize + ")" );
+        }
+        return result;
     }
 }
 
