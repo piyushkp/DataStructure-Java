@@ -1108,4 +1108,13 @@ public class Array {
         }
         return result;
     }
+    //You're given an unsorted array of integers where every integer appears exactly twice, except for one integer which
+    //appears only once.  Write an algorithm that finds the integer that appears only once. TIme O(n) space O(1)
+    int oddManOut(int[] array) {
+        int val = 0;
+        for (int i = 0; i < array.length; i++) {
+            val ^= array[i];
+        }
+        return val;
+    }
 }
