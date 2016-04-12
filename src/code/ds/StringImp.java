@@ -757,6 +757,7 @@ public class StringImp {
         }
         return arr[0].substring(0,len);
     }
+    /* Write a program to determine whether an input string str1 is a substring of another input string str2.*/
     //Given two strings, find if first string is a subsequence of second
     //Input: str1 = "AXY", str2 = "ADXCPY"  Output: True (str1 is a subsequence of str2)
     // Returns true if str1[] is a subsequence of str2[]. m is length of str1 and n is length of str2

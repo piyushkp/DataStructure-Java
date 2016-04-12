@@ -564,5 +564,19 @@ public class LinkedList {
         result.next = more;
         return result;
     }
+    //Write a function to remove a single occurrence of an integer from a doubly linked list if it is present.
+    void remove(Node head, int value) {
+        Node cur = head;
+        while (cur != null) {
+            if (cur.data == value) {
+                if (cur.prev != null)
+                    cur.prev.next = cur.next;
+                if (cur.next != null)
+                    cur.next.prev = cur.prev;
+                break;
+            }
+            cur = cur.next;
+        }
+    }
 
 }
