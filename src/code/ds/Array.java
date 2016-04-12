@@ -212,6 +212,27 @@ public class Array {
         }
         return max_so_far;
     }
+    //Given an array, describe an algorithm to identify the subarray with the maximum sum.
+    private static int[] findMaxSumIndex(int[] arr){
+        int[] result = new int[3];
+        int maxSumTillNow = Integer.MIN_VALUE;
+        int tempStartIndex = 0;
+        int tempSum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            tempSum = tempSum + arr[i];
+            if(tempSum > maxSumTillNow){
+                maxSumTillNow = tempSum;
+                result[0] = tempStartIndex; // start index
+                result[1] = i;              // end index
+                result[2] = maxSumTillNow;  // largest sum
+            }
+            if(tempSum<0){
+                tempSum = 0;
+                tempStartIndex = i + 1;
+            }
+        }
+        return result;
+    }
     //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
         // max positive product ending at the current position
@@ -1061,7 +1082,8 @@ public class Array {
         for (int i=0; i<n; i++)
             arr[i] = -arr[i];
     }
-    //price array of a given stock on day i.If you were only permitted to complete at most one transaction find the maximum profit.
+    //price array of a given stock on day i.If you were only permitted to complete at most one transaction find the
+    // maximum profit.
     public int maxProfit(int[] prices) {
         if (prices == null || prices.length < 2) {
             return 0;
