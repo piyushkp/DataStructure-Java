@@ -212,6 +212,24 @@ public class Array {
         }
         return max_so_far;
     }
+    //find the length of longest increasing subarray
+    int findlen(int[] a){
+        int min = a[0];
+        int max_len = 1;
+        int count = 0;
+        for (int i = 1; i < a.length; i++){
+            if (a[i] > min){
+                count++;
+            }
+            else{
+                max_len = Math.max(max_len, count);
+                count = 1;
+            }
+            min = a[i];
+        }
+        max_len = Math.max(max_len, count);
+        return max_len;
+    }
     //Given an array, describe an algorithm to identify the subarray with the maximum sum.
     private static int[] findMaxSumIndex(int[] arr){
         int[] result = new int[3];
