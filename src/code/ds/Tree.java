@@ -628,7 +628,7 @@ public class Tree {
 
     /* A O(n) iterative program for construction of BST from preorder traversal */
     int[] currIndex = new int[1];
-    currIndex[0]=0;
+    //currIndex[0] = 0;
     int min = Integer.MIN_VALUE;
     int max = Integer.MAX_VALUE;
 

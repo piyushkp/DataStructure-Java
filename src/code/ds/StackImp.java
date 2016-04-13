@@ -1,5 +1,5 @@
 package code.ds;
-import java.util..*;
+import java.util.*;
 /**
  * Created by Piyush Patel.
  */

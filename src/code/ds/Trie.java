@@ -72,8 +72,8 @@ public class Trie{
     trieNode newTrieNode(){
     trieNode newNode = new trieNode();
     newNode.freq   = 1;
-    for (int i = 0; i<MAX; i++)
-        newNode->child[i] = NULL;
+    for (int i = 0; i< Integer.MAX_VALUE; i++)
+        newNode.child[i] = null;
     return newNode;
     }
     // Method to insert a new string into Trie

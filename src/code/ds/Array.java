@@ -1,4 +1,5 @@
 package code.ds;
+import com.sun.deploy.util.ParameterUtil;
 import com.sun.javafx.scene.layout.region.Margins;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.util.HashMap;
@@ -7,8 +8,14 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Array {
+    public static void main(String [] args)
+    {
+        int a[] = {1,2,3};
+        int b[] = {4,5,6};
+        int ans [] = MergeArray(a,b);
+    }
     //Merge two sorted array into sorted array Time = O(N+M)
-    public int[] MergeArray(int[] a, int[] b) {
+    public static int[] MergeArray(int[] a, int[] b) {
         int[] answer = new int[a.length + b.length];
         int i = 0, j = 0, k = 0;
         while (i < a.length && j < b.length) {
@@ -221,7 +228,7 @@ public class Array {
             if (a[i] > min){
                 count++;
             }
-            else{
+            else {
                 max_len = Math.max(max_len, count);
                 count = 1;
             }
