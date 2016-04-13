@@ -44,6 +44,23 @@ public class Array {
             indexMerged--; // move indices
         }
     }
+    //Find the second largest number from the array
+    static int  secondlargest(int[] a){
+        int largest = a[0];
+        int secondlargest = 0;
+        for (int i = 0; i < a.length; i++){
+            int number = a[i];
+            if (number > largest){
+                secondlargest = largest;
+                largest = number;
+            }
+            else{
+                if (number > secondlargest)
+                    secondlargest = number;
+            }
+        }
+        return secondlargest;
+    }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     //Time : O(K) worst case can be O(N) where N is total number of elements of A and B
     private static int find(int[] A, int[] B, int k) {
@@ -502,7 +519,7 @@ public class Array {
             else if(x > arr[mid])
                 return first(arr, (mid + 1), high, x, n);
             else
-                return first(arr, low, (mid -1), x, n);
+                return first(arr, low, (mid - 1), x, n);
         }
         return -1;
     }
