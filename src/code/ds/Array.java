@@ -48,7 +48,7 @@ public class Array {
     static int  secondlargest(int[] a){
         int largest = a[0];
         int secondlargest = 0;
-        for (int i = 0; i < a.length; i++){
+        for (int i = 1; i < a.length; i++){
             int number = a[i];
             if (number > largest){
                 secondlargest = largest;
@@ -1181,4 +1181,35 @@ public class Array {
         }
         return val;
     }
+    //Max product of the three numbers for a given array of size N
+    static int maxproductofThree(int[] a){
+        int largest = a[0];
+        int secondlargest = 0;
+        int thirdlargest = 0;
+        int min1 = 0;
+        int min2 = 0;
+        for (int i = 0; i < a.length; i++){
+            int number = a[i];
+            if (number > largest){
+                thirdlargest = secondlargest;
+                secondlargest = largest;
+                largest = number;
+            }
+            else if (number > secondlargest){
+                thirdlargest = secondlargest;
+                secondlargest = number;
+            }
+            else if (number > thirdlargest){
+                thirdlargest = number;
+            }
+            if (number < min1){
+                min2 = min1;
+                min1 = number;
+            }
+            else if (number < min2)
+                min2 = number;
+        }
+        return largest * Math.max((thirdlargest * secondlargest), (min1 * min2));
+    }
+
 }
