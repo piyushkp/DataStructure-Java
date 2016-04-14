@@ -43,6 +43,35 @@ public class MISC
         }
         return _output;
     }
+    //Without space require
+    ArrayList<Interval> mergeIntervals1(ArrayList<Interval> intervals) {
+        if (intervals.size() <= 0) return null;
+        // Sort Intervals in decreasing order of start time
+        intervals.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval i1, Interval i2) {
+                return (i1.start > i2.start) ? 1 : 0;
+            }
+        });
+        int index = 0; // Stores index of last element in output array (modified arr[])
+        // Traverse all input Intervals
+        for (int i=0; i<intervals.size(); i++){
+            // If this is not first Interval and overlaps with the previous one
+            if (index != 0 && intervals.get(index-1).start <= intervals.get(i).end){
+                while (index != 0 && intervals.get(index-1).start <= intervals.get(i).end){
+                    // Merge previous and current Intervals
+                    intervals.get(index-1).end = Math.max(intervals.get(index - 1).end, intervals.get(i).end);
+                    intervals.get(index-1).start = Math.min(intervals.get(index - 1).start, intervals.get(i).start);
+                    index--;
+                }
+            }
+            else // Doesn't overlap with previous, add to solution
+                intervals.set(index, intervals.get(i));
+
+            index++;
+        }
+        return intervals;
+    }
     //Without extra Space
     void mergeIntervals(Interval arr[], int n){
         // Sort Intervals in decreasing order of
