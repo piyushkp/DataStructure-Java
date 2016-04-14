@@ -593,7 +593,7 @@ public class Tree {
         return true;
     }
 
-    // Find the Kth smallest element from the BST
+    // Find the Kth smallest/largest element from the BST
     void find_kth_smallest(Node root, int n, int K) {
         if (root == null) return;
         find_kth_smallest(root.left, n, K);
@@ -604,21 +604,67 @@ public class Tree {
         }
         find_kth_smallest(root.right, n, K);
     }
+    //K’th smallest element in BST using O(1) Extra Space
+    int KSmallestUsingMorris(Node root, int k){
+        // Count to iterate over elements till we get the kth smallest number
+        int count = 0;
+        int ksmall = Integer.MIN_VALUE; // store the Kth smallest
+        Node curr = root; // to store the current node
+        while (curr != null){
+            // Like Morris traversal if current does
+            // not have left child rather than printing
+            // as we did in inorder, we will just
+            // increment the count as the number will
+            // be in an increasing order
+            if (curr.left == null){
+                count++;
+                // if count is equal to K then we found the
+                // kth smallest, so store it in ksmall
+                if (count==k)
+                    ksmall = curr.data;
+                // go to current's right child
+                curr = curr.right;
+            }
+            else{
+                // we create links to Inorder Successor and count using these links
+                Node pre = curr.left;
+                while (pre.right != null && pre.right != curr)
+                    pre = pre.right;
+                // building links
+                if (pre.right==null){
+                    //link made to Inorder Successor
+                    pre.right = curr;
+                    curr = curr.left;
+                }
+                // While breaking the links in so made temporary threaded tree we will check for the K smallest
+                // condition
+                else{
+                    // Revert the changes made in if part (break link from the Inorder Successor)
+                    pre.right = null;
+                    count++;
+                    // If count is equal to K then we found the kth smallest and so store it in ksmall
+                    if (count==k)
+                        ksmall = curr.data;
+                    curr = curr.right;
+                }
+            }
+        }
+        return ksmall; //return the found value
+    }
 
     //given a binary search tree and you are asked to find the Kth smallest element in that tree.
-    private Node findKthNode(Node root, int k) {
+    private Node findKthNode_SMALLEST(Node root, int k) {
         if (root == null)
             return null;
         int leftSize = findLeftTreeSize(root.left);
         if (leftSize == k - 1)
             return root;
         else if (leftSize < k - 1)
-            findKthNode(root.left, k);
+            findKthNode_SMALLEST(root.left, k);
         else
-            findKthNode(root.right, k - leftSize - 1);
+            findKthNode_SMALLEST(root.right, k - leftSize - 1);
         return null;
     }
-
     private int findLeftTreeSize(Node root) {
         if (root == null)
             return 0;
