@@ -33,18 +33,17 @@ public class Numbers {
         romans.put('C', 100);
         romans.put('D', 500);
         romans.put('M', 1000);
-        char[] cs = s.toCharArray();
-        int num = 0;
-        int val;
-        for (int i = 0; i < cs.length; i++) {
-            val = romans.get(cs[i]);
-            if (i == cs.length - 1 || romans.get(cs[i + 1]) <= val) {
-                num += val;
-            } else {
-                num -= val;
-            }
+        int intNum=0;
+        int prev = 0;
+        for(int i = s.length()-1; i>=0 ; i--){
+            int temp = romans.get(s.charAt(i));
+            if(temp < prev)
+                intNum-=temp;
+            else
+                intNum+=temp;
+            prev = temp;
         }
-        return num;
+        return intNum;
     }
     public static String IntegerToRomanNumeral(int input) {
         if (input < 1 || input > 3999) return "Invalid Roman Number Value";
