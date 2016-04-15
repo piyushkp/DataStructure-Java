@@ -530,16 +530,22 @@ public class LinkedList {
             ptr1 = ptr1.next;
         }
     }
-    public static void deleteDups(Node n) {
-        HashSet table = new HashSet();
-        Node previous = null;
-        while (n != null) {
-            if (table.contains(n.data)) previous.next = n.next;
-            else {
-                table.add(n.data);
-                previous = n;
+    //Remove duplicates from a sorted linked list
+    void removeDuplicates(){
+        Node current = head;
+        /* Pointer to store the next pointer of a node to be deleted*/
+        Node next_next;
+        if (head == null)
+            return;
+        while (current.next != null) {
+            /*Compare current node with the next node */
+            if (current.data == current.next.data) {
+                next_next = current.next.next;
+                current.next = null;
+                current.next = next_next;
             }
-            n = n.next;
+            else // advance if no deletion
+                current = current.next;
         }
     }
     //You have two numbers represented by a linked list, where each node contains a sin-gle digit The digits are stored
