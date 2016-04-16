@@ -372,6 +372,29 @@ public class Array {
         else
             return false;
     }
+    /* Rotate elements in an array to left k times */
+    static void leftRotate(int arr[], int k){
+        int n = arr.length;
+        rvereseArray(arr, 0, k-1);
+        rvereseArray(arr, k, n-1);
+        rvereseArray(arr, 0, n-1);
+    }
+    static void rightRotate(int arr[], int k){
+        int n = arr.length;
+        rvereseArray(arr, 0, n-k-1);
+        rvereseArray(arr, n-k, n-1);
+        rvereseArray(arr, 0, n-1);
+    }
+    /*Function to reverse arr[] from index start to end*/
+    static void rvereseArray(int arr[], int start, int end){
+        while (start < end){
+            arr[start] ^= arr[end];
+            arr[end]  ^= arr[start];
+            arr[start] ^= arr[end];
+            start++;
+            end--;
+        }
+    }
     //Searching an Element in a Rotated Sorted Array
     private int rotated_binary_search(int A[], int N, int key) {
         int L = 0;
@@ -459,7 +482,7 @@ public class Array {
         // Find mid
         int mid = low + (high - low)/2; /*(low + high)/2;*/
         // Check if element (mid+1) is minimum element. Consider the cases like {1, 1, 0, 1}
-        if (mid < high && arr[mid+1] < arr[mid])
+        if (mid < high && arr[mid + 1] < arr[mid])
             return arr[mid+1];
         // This case causes O(n) time
         if (arr[low] == arr[mid] && arr[high] == arr[mid])
@@ -518,8 +541,7 @@ public class Array {
                 return mid;
             else if(x > arr[mid])
                 return first(arr, (mid + 1), high, x, n);
-            else
-                return first(arr, low, (mid - 1), x, n);
+            else return first(arr, low, (mid - 1), x, n);
         }
         return -1;
     }
