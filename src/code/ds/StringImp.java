@@ -902,49 +902,43 @@ public class StringImp {
     /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any charater)
     Input: hello world,"b,c\n",Piyush Patel\nfoo,bar,bax
     Output:[[hello world],["b,c\n"],[Piyush Patel],[foo,bar,bax]]*/
-    static ArrayList<ArrayList<Character>> CSVParser(char[] arr) {
-        ArrayList<ArrayList<Character>> _output = new ArrayList<ArrayList<Character>>();
-        ArrayList<Character> _out = new ArrayList<Character>();
-        boolean inField = false;
-        boolean inQuotedField = false;
-        boolean evenQuotesSeen = true;
-        int len = arr.length;
-        int fieldID = 0;
-        for (int i = 0; i < len; i++) {
-            char b = arr[i];
-            inField = true;
-            if (inQuotedField) {
-                if (b == '"') {
-                    evenQuotesSeen = !evenQuotesSeen;
-                    if (evenQuotesSeen) {
-                        _out.add('"');
+    public List<String> decodeCSV(String csvString) {
+        List<String> individualValues = new ArrayList<String>();
+        char[] arr = csvString.toCharArray();
+        boolean inQuotes = false;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < arr.length; i++) {
+            char value = arr[i];
+            if (inQuotes) {
+                if (value == '"') {
+                    if (i == arr.length - 1) {
+                        individualValues.add(sb.toString());
+                        return individualValues;
+                    } else if (arr[i + 1] == '"') {
+                        sb.append('"');
+                        i++;
+                    } else {
+                        individualValues.add(sb.toString());
+                        sb.setLength(0);
+                        inQuotes = false;
+                        i++;
                     }
-                } else if (!evenQuotesSeen && (b == ',' || b == '\n')) {
-                    inQuotedField = false;
-                    inField = false;
-                    _output.add(_out);
-                    _out.clear();
                 } else {
-                    _out.add(b);
+                    sb.append(value);
                 }
-            } else if (b == '"') {
-                inQuotedField = true;
-                evenQuotesSeen = true;
-            } else if (b == ',') {
-                inField = false;
-                _output.add(_out);
-                _out.clear();
+            } else if (value == '"') {
+                inQuotes = true;
+            } else if (value == ',') {
+                individualValues.add(sb.toString());
+                sb.setLength(0);
             } else {
-                evenQuotesSeen = true;
-                _out.add(b);
+                sb.append(value);
             }
         }
-        if (inField) {
-            _output.add(_out);
-            _out.clear();
-        }
-        return _output;
+        individualValues.add(sb.toString());
+        return individualValues;
     }
+
     /*Given a regular expression with characters a-z, ' * ', ' . '
    the task was to find if that string could match another string with characters from: a-z
    where ' * ' can delete the character before it, and ' . ' could match whatever character.
