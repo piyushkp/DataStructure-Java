@@ -268,27 +268,27 @@ public class StringImp {
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
-        if (s.length() <= 1)
-            return s.length();
-        int prev = 0;
-        boolean[] letter = new boolean[256];
-        int max = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (!letter[s.charAt(i)])
-                letter[s.charAt(i)] = true;
-            else {
-                while (s.charAt(prev) != s.charAt(i)) {
-                    letter[s.charAt(prev)] = false;
-                    prev++;
+        Set<Character> uniqueSet = new HashSet<Character>();
+        int maxSize = 0;
+        int start = 0;
+        for(int i = 0; i < s.length(); i++) {
+            if(!uniqueSet.contains(s.charAt(i))) {
+                uniqueSet.add(s.charAt(i));
+                if(uniqueSet.size() > maxSize) {
+                    maxSize = uniqueSet.size();
                 }
-                prev++;
+            } else {
+                while (s.charAt(start) != s.charAt(i)) {
+                    uniqueSet.remove(s.charAt(start));
+                    start++;
+                }
+                start++;
             }
-            max = Math.max(max, i - prev + 1);
         }
-        return max;
+        return maxSize;
     }
     //Given a string, find the length of the longest substring T that contains at most k distinct characters.
-    // For example, Given s = “eceba” and k = 2,
+    //For example, Given s = “eceba” and k = 2,
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
         if (k == 0 || s.length() == 0) {
             return 0;
