@@ -1,6 +1,8 @@
 package code.ds;
 import java.util.*;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  * Created by Piyush Patel.
  */
@@ -33,6 +35,19 @@ public class StringImp {
             if(runLength >=3)
                 dest.append(runLength);
             dest.append(source.charAt(i));
+        }
+        return dest.toString();
+    }
+    public static String decode(String source) {
+        StringBuffer dest = new StringBuffer();
+        Pattern pattern = Pattern.compile("[0-9]+|[a-zA-Z]");
+        Matcher matcher = pattern.matcher(source);
+        while (matcher.find()) {
+            int number = Integer.parseInt(matcher.group());
+            matcher.find();
+            while (number-- != 0) {
+                dest.append(matcher.group());
+            }
         }
         return dest.toString();
     }
