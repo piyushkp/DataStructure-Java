@@ -706,7 +706,8 @@ public class Array {
         while (count < k && r < n) System.out.print(arr[r++]);
         count++;
     }
-    //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized algos
+    //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized
+    //Can also solve: the even numbers are on the left side of the array and all the odd numbers are on the right side
     void sort0and1(int arr[], int size){
         int left = 0, right = size-1;
         while(left < right){
