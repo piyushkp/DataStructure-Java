@@ -1180,6 +1180,17 @@ public class Array {
         }
         return maxProfit[maxProfit.length - 1];
     }
+    //one more solution
+    public int maxProfit2(int[] prices) {
+        int profit = 0;
+        for(int i=1; i<prices.length; i++){
+            int diff = prices[i]-prices[i-1];
+            if(diff > 0){
+                profit += diff;
+            }
+        }
+        return profit;
+    }
     //A magic index in an array A[0...n] is defined to be an index such that A[i] = i. Given a sorted array of duplicate
     // integers, write a method to find a magic index, if one exists, in array A.
     private static int getMagicIndexDup(int[] a, int start, int end) {
