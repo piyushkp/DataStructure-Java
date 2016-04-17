@@ -366,4 +366,59 @@ public class MISC
         }
         return T[eggs][floors];
     }
+    //Given many points on a coordinate plane, find the pair of points that is the closest among all pairs of points.
+    class Point{
+        int x;
+        int y;
+        Point(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+    private int closestPairOfPoints(Point[] px, Point[] py,int start, int end){
+        if(end - start < 3){
+            //brute force
+            //return computeMinDistance(px, start, end);
+        }
+        int mid = (start + end)/2;
+        Point[] pyLeft = new Point[mid-start+1];
+        Point[] pyRight = new Point[end-mid];
+        int i=0, j=0;
+        for(Point p : px){
+            if(p.x <= px[mid].x){
+                pyLeft[i++] = p;
+            }else{
+                pyRight[j++] = p;
+            }
+        }
+        int d1 = closestPairOfPoints(px,pyLeft,start,mid);
+        int d2 = closestPairOfPoints(px, pyRight, mid+1, end);
+        int d = Math.min(d1, d2);
+
+        List<Point> deltaPoints = new ArrayList<Point>();
+        for(Point p : px){
+            if(Math.sqrt(distance(p,px[mid])) < Math.sqrt(d)){
+                deltaPoints.add(p);
+            }
+        }
+        int d3 = closest(deltaPoints);
+        return Math.min(d3, d);
+    }
+
+    private int closest(List<Point> deltaPoints){
+        int minDistance = Integer.MAX_VALUE;
+        for(int i=0; i < deltaPoints.size(); i++){
+            for(int j=i+1; j <= i + 7 && j < deltaPoints.size() ; j++){
+                int distance = distance(deltaPoints.get(i), deltaPoints.get(j));
+                if(minDistance < distance){
+                    minDistance = distance;
+                }
+            }
+        }
+        return minDistance;
+    }
+
+    private int distance(Point p1, Point p2){
+        return (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y);
+    }
 }
