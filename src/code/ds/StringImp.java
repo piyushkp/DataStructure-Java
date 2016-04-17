@@ -267,21 +267,57 @@ public class StringImp {
     }
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
-    public static int lengthOfLongestSubstring(String s) {
-        char[] arr = s.toCharArray();
-        int pre = 0;
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        for (int i = 0; i < arr.length; i++) {
-            if (!map.containsKey(arr[i])) {
-                map.put(arr[i], i);
-            } else {
-                pre = pre > map.size() ? pre : map.size();
-                i = map.get(arr[i]);
-                map.clear();
+    public int lengthOfLongestSubstring(String s) {
+        if (s.length() <= 1)
+            return s.length();
+        int prev = 0;
+        boolean[] letter = new boolean[256];
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (!letter[s.charAt(i)])
+                letter[s.charAt(i)] = true;
+            else {
+                while (s.charAt(prev) != s.charAt(i)) {
+                    letter[s.charAt(prev)] = false;
+                    prev++;
+                }
+                prev++;
             }
+            max = Math.max(max, i - prev + 1);
         }
-        return Math.max(pre, map.size());
+        return max;
     }
+    //Given a string, find the length of the longest substring T that contains at most k distinct characters.
+    // For example, Given s = “eceba” and k = 2,
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        if (k == 0 || s.length() == 0) {
+            return 0;
+        }
+        int[] ascii = new int[256];
+        int count = 0;
+        int start = 0;
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int ch = s.charAt(i);
+            if (count < k) {
+                if (ascii[ch] == 0) {
+                    count++;
+                }
+            } else if (ascii[ch] == 0){
+                while (start < i) {
+                    char ch1 = s.charAt(start++);
+                    ascii[ch1]--;
+                    if (ascii[ch1] == 0) {
+                        break;
+                    }
+                }
+            }
+            ascii[ch]++;
+            max = Math.max(max, i - start + 1);
+        }
+        return max;
+    }
+
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
     //The sequences returned i.e. the output must be sorted alphabetically
     //Input String: "ABCACBABC" repeated sub-string length: 3 Output: ABC
@@ -688,7 +724,7 @@ public class StringImp {
         }
         return true;
     }
-    //Given a string S, find the longest palindromic substring in S. O(N2) time and O(1) space
+    //Given a string S, find the longest palindromic substring in S. O(NlogN) time and O(N) space
     public static String LongestPalindromeImprove(String s) {
         s +="^" + ReverseString(s);
         int N  = s.length();
