@@ -22,7 +22,7 @@ public class StringImp {
         }
         System.out.printf("%c%d", first, count);
     }
-    //Finds first non repeated character in a String in just one pass.
+    //Finds first non repeated character in a String in just one pass. more space but in one pass
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
         List<Character> nonrepeating = new ArrayList<Character>();
