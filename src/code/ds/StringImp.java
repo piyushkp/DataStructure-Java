@@ -536,6 +536,36 @@ public class StringImp {
         }
         return true;
     }
+    //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints
+    //all occurrences of pat[] and its permutations (or anagrams) in txt[].
+    //Find if the given string contains an anagram of another smaller string.
+    public static List<Integer> anagramsMatch(String s, String p) {
+        List<Integer> list = new ArrayList<Integer>();
+        int[] count = new int[256];
+        for (char c : p.toCharArray())
+            count[c]++;
+        int[] tc = new int[256];
+        for (int i = 0; i < p.length(); i++) {
+            tc[s.charAt(i)]++;
+        }
+        if (matchCount(count, tc))
+            list.add(0);
+        for (int i = p.length(); i < s.length(); i++) {
+            tc[s.charAt(i - p.length())]--;
+            tc[s.charAt(i)]++;
+            if (matchCount(count, tc))
+                list.add(i - p.length() + 1);
+        }
+        for (int num : list)
+            System.out.print("Found at Index " + num);
+        return list;
+    }
+    private static boolean matchCount(int[] a, int[] b) {
+        for (int i = 0; i < a.length; i++)
+            if (a[i] != b[i])
+                return false;
+        return true;
+    }
     //Given an array of words, print all anagrams together. For example, if the given array is
     // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
     void printAnagramsUtil(List<String> input){
