@@ -372,11 +372,12 @@ public class StringImp {
                 }
             } else if (ascii[ch] == 0){
                 while (start < i) {
-                    char ch1 = s.charAt(start++);
+                    char ch1 = s.charAt(start);
                     ascii[ch1]--;
                     if (ascii[ch1] == 0) {
                         break;
                     }
+                    start++;
                 }
             }
             ascii[ch]++;
