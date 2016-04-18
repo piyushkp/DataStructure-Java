@@ -1089,5 +1089,19 @@ public class StringImp {
         }
         return result;
     }
+    //Remove consecutive duplicate characters e.g AABBCDDAAB -> ABCDAB  ABBBCCD -> ABCD
+    public int removeDuplicates(char input[]){
+        int slow = 0;
+        int fast = 0;
+        int index = 0;
+        while(fast < input.length){
+            while(fast < input.length && input[slow] == input[fast]){
+                fast++;
+            }
+            input[index++] = input[slow];
+            slow = fast;
+        }
+        return index;
+    }
 }
 
