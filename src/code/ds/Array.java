@@ -452,8 +452,6 @@ public class Array {
         }
         return -1;
     }
-
-
     //Find the minimum element in a sorted and rotated array. Assumes that all elements are distinct.Time O(logn)
     //Input: {5, 6, 1, 2, 3, 4}     Output: 1
     private int findMin(int arr[], int low, int high){
@@ -1244,6 +1242,28 @@ public class Array {
                 min2 = number;
         }
         return largest * Math.max((thirdlargest * secondlargest), (min1 * min2));
+    }
+    //Given an unsorted array of positive numbers, write a function that returns true if array consists of consecutive numbers.
+    public boolean areConsecutive(int input[]){
+        int min = Integer.MAX_VALUE;
+        for(int i=0; i < input.length; i++){
+            if(input[i] < min){
+                min = input[i];
+            }
+        }
+        for(int i=0; i < input.length; i++){
+            if(Math.abs(input[i]) - min >= input.length){
+                return false;
+            }
+            if(input[Math.abs(input[i]) - min] < 0){
+                return false;
+            }
+            input[Math.abs(input[i]) - min] = -input[Math.abs(input[i]) - min];
+        }
+        for(int i=0; i < input.length ; i++){
+            input[i] = Math.abs(input[i]);
+        }
+        return true;
     }
 
 }
