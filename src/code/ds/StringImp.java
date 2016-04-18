@@ -855,7 +855,7 @@ public class StringImp {
                System.out.print("Pattern found at index " + i);
         }
     }
-    //KMP Algorithm to find substing in a string. Time complexity is O(n)
+    //KMP Algorithm to find substing in a string. Time complexity is O(m + n) where m is length of text and n is length of pattern
     //http://tekmarathon.com/2013/05/14/algorithm-to-find-substring-in-a-string-kmp-algorithm/
     public void searchSubString(char[] text, char[] ptrn) {
         int i = 0, j = 0;
