@@ -827,20 +827,83 @@ public class Array {
             neg += 2;
         }
     }
-    //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 < s2 > s3 < s4.
-    // without order maintaining
-    private void arrange(int a[]){
-        for ( int i = 0; i < a.length - 2; i++) {
-            if(i % 2 == 0 && a[i] > a[i+1]) //even
-            {
-              swap(a, i, i+1);
-            }
-            else if( i%2 != 0 && a[i] < a[i+1])//odd
-            {
-              swap(a, i, i+1);
+    //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 <= s2 >= s3 <= s4.
+    // without order maintaining. wiggle-sort
+    public void wiggleSort1(int[] nums) {
+        for (int i=1; i<nums.length; i++) {
+            int a = nums[i-1];
+            if ((i%2 == 1) == (a > nums[i])) {
+                nums[i-1] = nums[i];
+                nums[i] = a;
             }
         }
     }
+    //Given an unsorted array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
+    //Example: (1) Given nums = [1, 5, 1, 1, 6, 4], one possible answer is [1, 4, 1, 5, 1, 6].
+    private void wiggleSort(int [] nums) {
+        if (nums.length < 2) {
+            return;
+        }
+
+        int cntForMedian = (nums.length + 1) / 2;
+        int median = findKthSmallest(nums, cntForMedian, 0, nums.length - 1);
+        mapSortedArrayToWiggleInPlace(nums, median);
+    }
+    private void mapSortedArrayToWiggleInPlace(int[] nums, int median) {
+        int i  = 1;
+        int begin = 1;
+        int end = nums.length;
+        int n = nums.length;
+        while (i <= end) {
+            int Ai = indexMap(n, i);
+            if (nums[Ai] > median) {
+                swap(nums, Ai, indexMap(n, begin++));
+                i ++;
+            } else if (nums[Ai] < median) {
+                swap(nums, Ai, indexMap(n, end--));
+            } else {
+                i++;
+            }
+        }
+    }
+    private int indexMap(int n, int i) {
+        return (2 * i - 1) % (n | 1);
+    }
+    private int findKthSmallest(int [] nums, int k, int start, int end) {
+        int len = nums.length;
+        if (len < 1) {
+            return 0;
+        }
+        int left = start;
+        int right = end;
+        int pivot = nums[end];
+        while (true) {
+            while (left < right && nums[left] < pivot) {
+                left ++;
+            }
+            while (left < right && nums[right] >= pivot) {
+                right --;
+            }
+            if (left >= right) {
+                break;
+            }
+            swap1(nums, left, right);
+        }
+        swap1(nums, left, end);
+        if (k > left - start + 1) {
+            return findKthSmallest(nums, k - (left - start + 1), left + 1, end);
+        } else if (k == left - start + 1) {
+            return nums[left];
+        } else {
+            return findKthSmallest(nums, k, start, left - 1);
+        }
+    }
+    private void swap1 (int []nums, int start, int end) {
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+    }
+
     //Find the two numbers with odd occurrences in an unsorted array
     //Input: {12, 23, 34, 12, 12, 23, 12, 45}
     //Output: 34 and 45
