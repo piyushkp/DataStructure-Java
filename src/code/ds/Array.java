@@ -85,7 +85,7 @@ public class Array {
         return secondlargest;
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    // Time Complexity :  O(log m + log n)
+    // Time Complexity :  O(log (m + n))
     public int findKSmallestElement(int A[], int startA, int endA, int B[], int startB, int endB, int k) {
         int n = endA - startA;
         int m = endB - startB;
