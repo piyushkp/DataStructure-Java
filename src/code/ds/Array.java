@@ -86,7 +86,7 @@ public class Array {
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(log m + log n)
-    public int findMedianSortedArrays(int A[], int startA, int endA, int B[], int startB, int endB, int k) {
+    public int findKSmallestElement(int A[], int startA, int endA, int B[], int startB, int endB, int k) {
         int n = endA - startA;
         int m = endB - startB;
         if (n <= 0)
@@ -99,14 +99,14 @@ public class Array {
         int midB = (startB + endB) / 2;
         if (A[midA] <= B[midB]) {
             if (n / 2 + m / 2 + 1 >= k)
-                return findMedianSortedArrays(A, startA, endA, B, startB, midB, k);
+                return findKSmallestElement(A, startA, endA, B, startB, midB, k);
             else
-                return findMedianSortedArrays(A, midA + 1, endA, B, startB, endB, k - n / 2 - 1);
+                return findKSmallestElement(A, midA + 1, endA, B, startB, endB, k - n / 2 - 1);
         } else {
             if (n / 2 + m / 2 + 1 >= k)
-                return findMedianSortedArrays(A, startA, midA, B, startB, endB, k);
+                return findKSmallestElement(A, startA, midA, B, startB, endB, k);
             else
-                return findMedianSortedArrays(A, startA, endA, B, midB + 1, endB, k - m / 2 - 1);
+                return findKSmallestElement(A, startA, endA, B, midB + 1, endB, k - m / 2 - 1);
         }
     }
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
