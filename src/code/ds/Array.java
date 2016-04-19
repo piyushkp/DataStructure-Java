@@ -44,6 +44,29 @@ public class Array {
             indexMerged--; // move indices
         }
     }
+    //There are 2 sorted arrays A and B of size n each. Write an algorithm to find the median of the array obtained
+    //after merging the above 2 arrays(i.e. array of length 2n). The complexity should be O(log(n))
+    public static double findMedian_ofTwoSortedArray(int a[], int b[],int start_a, int end_a, int start_b,int end_b)
+    {
+        if((end_a -start_a == 1) && (end_b - start_b == 1))
+            return (1 * (Math.max(a[start_a],b[start_b])) + Math.min(a[end_a],b[end_b])) /2;
+        int m1_index = (start_a + end_a) /2;
+        int m2_index = (start_b + end_b) /2;
+        int m1 = a[m1_index];
+        int m2 = b[m2_index];
+        if(m1 == m2)
+            return m2;
+        if(m1 < m2){
+            start_a = m1_index;
+            end_b = m2_index;
+        }
+        else{
+            start_b = m2_index;
+            end_a = m1_index;
+        }
+        return findMedian_ofTwoSortedArray(a,b,start_a,end_a,start_b,end_b);
+    }
+
     //Find the second largest number from the array
     static int  secondlargest(int[] a){
         int largest = a[0];
@@ -62,75 +85,28 @@ public class Array {
         return secondlargest;
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    //Time : O(K) worst case can be O(N) where N is total number of elements of A and B
-    private static int find(int[] A, int[] B, int k) {
-        int a = 0;    //pointer of array A
-        int b = 0;    //pointer of array B
-        if(A.length + B.length < k)
-            return -1;
-        while(a < A.length && b < B.length){    //start traversing both arrays
-            if(A[a] < B[b]){    //if the current element from A is smaller than the current element from B, increment a
-                if(a+b+1 == k)    //+2, since the enumeration in the arrays in Java starts from 0
-                    return  A[a];
-                a++;
-            } else {    //do the same as before, but for the case when A[a]>=B[b]
-                if(a+b+1 == k)
-                    return B[b];
-                b++;
-            }
-        }
-        if(a == A.length) {    //if we have traversed the whole array A, but there are some elements from B left
-            while(a+b+1<k)
-                b++;
-            return B[b];
-        } else {    //if we have traversed the whole array B, but there are some elements from A left
-            while(a+b+1<k)
-                a++;
-            return A[a];
-        }
-    }
-    //Find the k-th Smallest Element in the Union of Two Sorted Arrays
-    // Time Complexity :  O(log m + log n) for some input it doesn't work
-    public static int findKthSmallestElement(int[] a, int[] b, int sizeA, int sizeB, int k){
-            /* to maintain uniformaty, we will assume that size_a is smaller than size_b else we will swap array in call :) */
-        if (sizeA > sizeB)
-            return findKthSmallestElement(b, a, sizeB, sizeA, k);
-            /* Now case when size of smaller array is 0 i.e there is no elemt in one array*/
-        if (sizeA == 0 && sizeB > 0)
-            return b[k - 1]; // due to zero based index
-            /* case where K ==1 that means we have hit limit */
+    // Time Complexity :  O(log m + log n)
+    public int findMedianSortedArrays(int A[], int startA, int endA, int B[], int startB, int endB, int k) {
+        int n = endA - startA;
+        int m = endB - startB;
+        if (n <= 0)
+            return B[startB + k - 1];
+        if (m <= 0)
+            return A[startA + k - 1];
         if (k == 1)
-            return Math.min(a[0], b[0]);
-            /* Now the divide and conquer part */
-        int i = Math.min(sizeA, k / 2); // K should be less than the size of array
-        int j = Math.min(sizeB, k / 2); // K should be less than the size of array
-        if (a[i - 1] > b[j - 1]){
-            int[] bb = new int[b.length - (j)];
-            int qq = 0;
-            for (int q = j; q < b.length; q++){
-                bb[qq++] = b[q];
-            }
-            int[] aaa = new int[i];
-            qq = 0;
-            for (int q = 0; q < i; q++){
-                aaa[qq++] = a[q];
-            }
-            // Now we need to find only K-j th element
-            return findKthSmallestElement(aaa, bb, aaa.length, bb.length, k - j);
-        }
-        else
-        {
-            int[] aa = new int[a.length - (i)];
-            int pp = 0;
-            for (int p = i; p < a.length; p++){
-                aa[pp++] = a[p];
-            }
-            int[] bbb = new int[j];
-            pp = 0;
-            for (int p = 0; p < j; p++){
-                bbb[pp++] = b[p];
-            }
-            return findKthSmallestElement(aa, bbb, aa.length, bbb.length, k - i);
+            return A[startA] < B[startB] ? A[startA] : B[startB];
+        int midA = (startA + endA) / 2;
+        int midB = (startB + endB) / 2;
+        if (A[midA] <= B[midB]) {
+            if (n / 2 + m / 2 + 1 >= k)
+                return findMedianSortedArrays(A, startA, endA, B, startB, midB, k);
+            else
+                return findMedianSortedArrays(A, midA + 1, endA, B, startB, endB, k - n / 2 - 1);
+        } else {
+            if (n / 2 + m / 2 + 1 >= k)
+                return findMedianSortedArrays(A, startA, midA, B, startB, endB, k);
+            else
+                return findMedianSortedArrays(A, startA, endA, B, midB + 1, endB, k - m / 2 - 1);
         }
     }
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
