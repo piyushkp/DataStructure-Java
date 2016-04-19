@@ -86,6 +86,7 @@ public class Array {
     }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(log (m + n))
+    //http://www.lifeincode.net/programming/leetcode-median-of-two-sorted-arrays-java/
     public int findKSmallestElement(int A[], int startA, int endA, int B[], int startB, int endB, int k) {
         int n = endA - startA;
         int m = endB - startB;
