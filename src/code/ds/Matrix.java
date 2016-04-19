@@ -7,33 +7,30 @@ public class Matrix {
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
     // of elements from (0,0) to (i,j) Time = O(MN)
-    void preProcess(int mat[][], int aux[][], int M, int N){
+    void preProcess(int mat[][], int aux[][], int M, int N) {
         // Copy first row of mat[][] to aux[][]
-        for (int i=0; i<N; i++)
+        for (int i = 0; i < N; i++)
             aux[0][i] = mat[0][i];
         // Do column wise sum
-        for (int i=1; i<M; i++)
-            for (int j=0; j<N; j++)
-                aux[i][j] = mat[i][j] + aux[i-1][j];
+        for (int i = 1; i < M; i++)
+            for (int j = 0; j < N; j++)
+                aux[i][j] = mat[i][j] + aux[i - 1][j];
         // Do row wise sum
-        for (int i=0; i<M; i++)
-            for (int j=1; j<N; j++)
-                aux[i][j] += aux[i][j-1];
+        for (int i = 0; i < M; i++)
+            for (int j = 1; j < N; j++)
+                aux[i][j] += aux[i][j - 1];
     }
     // A O(1) time function to compute sum of submatrix between (tli, tlj) and (rbi, rbj) using aux[][]
     // which is built by the preprocess function
-    int sumQuery(int aux[][], int tli, int tlj, int rbi, int rbj){
+    int sumQuery(int aux[][], int tli, int tlj, int rbi, int rbj) {
         // result is now sum of elements between (0, 0) and rbi, rbj)
         int res = aux[rbi][rbj];
         // Remove elements between (0, 0) and (tli-1, rbj)
-        if (tli > 0)
-            res = res - aux[tli-1][rbj];
+        if (tli > 0) res = res - aux[tli - 1][rbj];
         // Remove elements between (0, 0) and (rbi, tlj-1)
-        if (tlj > 0)
-            res = res - aux[rbi][tlj-1];
+        if (tlj > 0) res = res - aux[rbi][tlj - 1];
         // Add aux[tli-1][tlj-1] as elements between (0, 0) and (tli-1, tlj-1) are subtracted twice
-        if (tli > 0 && tlj > 0)
-            res = res + aux[tli-1][tlj-1];
+        if (tli > 0 && tlj > 0) res = res + aux[tli - 1][tlj - 1];
         return res;
     }
     //Given a grid of size m by n, write an algorithm that
@@ -82,17 +79,17 @@ public class Matrix {
     }
     //Given  an  image  represented  by  an  NxN matrix,  where  each  pixel  in  the  image  is  4 bytes, write a
     //method to rotate the image by 90 degrees Can you do this in place? time: O(n), space: O(1)
-    public static void rotate(int[][] matrix, int n){
-        for(int layer = 0; layer < n/2; layer++){
+    public static void rotate(int[][] matrix, int n) {
+        for (int layer = 0; layer < n / 2; layer++) {
             int first = layer;
             int last = n - 1 - layer;
-            for(int i = first; i < last; i++){
+            for (int i = first; i < last; i++) {
                 int offset = i - first;
                 int top = matrix[first][i]; // save top
                 //left -> top
-                matrix[first][i] = matrix[last-offset][first];
+                matrix[first][i] = matrix[last - offset][first];
                 //bottom -> left
-                matrix[last-offset][first]  = matrix[last][last - offset];
+                matrix[last - offset][first] = matrix[last][last - offset];
                 //right -> bottom
                 matrix[last][last - offset] = matrix[i][last];
                 //top -> right
@@ -139,4 +136,62 @@ public class Matrix {
         return false;
     }
     //we can improve above by binary search Split the grid into quadrants. Search the bottom left and the top right
+    class Coordinate {
+        public int row;
+        public int column;
+        public Coordinate(int r, int c) {
+            row = r;
+            column = c;
+        }
+        public boolean isBefore(Coordinate p) {
+            return row <= p.row && column <= p.column;
+        }
+        public void setToAverage(Coordinate min, Coordinate max) {
+            row = (min.row + max.row) / 2;
+            column = (min.column + max.column) / 2;
+        }
+    }
+    public Coordinate partitionAndSearch(int[][] matrix, Coordinate origin, Coordinate dest, Coordinate pivot, int x) {
+        Coordinate lowerLeftOrigin = new Coordinate(pivot.row, origin.column);
+        Coordinate lowerLeftDest = new Coordinate(dest.row, pivot.column - 1);
+        Coordinate upperRightOrigin = new Coordinate(origin.row, pivot.column);
+        Coordinate upperRightDest = new Coordinate(pivot.row - 1, dest.column);
+        Coordinate lowerLeft = findElement(matrix, lowerLeftOrigin, lowerLeftDest, x);
+        if (lowerLeft == null) {
+            return findElement(matrix, upperRightOrigin, upperRightDest, x);
+        }
+        return lowerLeft;
+    }
+    public Coordinate findElement(int[][] matrix, Coordinate origin, Coordinate dest, int x) {
+        if (matrix[origin.row][origin.column] == x) {
+            return origin;
+        } else if (!origin.isBefore(dest)) {
+            return null;
+        }
+		/* Set start to start of diagonal and end to the end of the diagonal. Since
+		 * the grid may not be square, the end of the diagonal may not equal dest.
+		 */
+        Coordinate start = origin;
+        int diagDist = Math.min(dest.row - origin.row, dest.column - origin.column);
+        Coordinate end = new Coordinate(start.row + diagDist, start.column + diagDist);
+        Coordinate p = new Coordinate(0, 0);
+		/* Do binary search on the diagonal, looking for the first element greater than x */
+        while (start.isBefore(end)) {
+            p.setToAverage(start, end);
+            if (x > matrix[p.row][p.column]) {
+                start.row = p.row + 1;
+                start.column = p.column + 1;
+            } else {
+                end.row = p.row - 1;
+                end.column = p.column - 1;
+            }
+        }
+		/* Split the grid into quadrants. Search the bottom left and the top right. */
+        return partitionAndSearch(matrix, origin, dest, start, x);
+    }
+    public Coordinate findElementWrap(int[][] matrix, int x) {
+        Coordinate origin = new Coordinate(0, 0);
+        Coordinate dest = new Coordinate(matrix.length - 1, matrix[0].length - 1);
+        return findElement(matrix, origin, dest, x);
+    }
 }
