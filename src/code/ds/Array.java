@@ -1312,5 +1312,24 @@ public class Array {
         }
         return true;
     }
+    //find missing number from array 0 to n
+    //You are given a list of n-1 integers and these integers are in the range of 1 to n. There are no duplicates in list.
+    int getMissingNo (int a[], int n){
+        int i, total;
+        total  = (n+1)*(n+2)/2;
+        for ( i = 0; i< n; i++)
+            total -= a[i];
+        return total;
+    }
+    int getMissingNo1(int a[], int n){
+        int i;
+        int x1 = a[0]; /* For xor of all the elements in array */
+        int x2 = 1; /* For xor of all the elements from 1 to n+1 */
+        for (i = 1; i< n; i++)
+            x1 = x1^a[i];
+        for ( i = 2; i <= n+1; i++)
+            x2 = x2^i;
+        return (x1^x2);
+    }
 
 }
