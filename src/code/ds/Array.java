@@ -293,27 +293,7 @@ public class Array {
         return max_so_far;
     }
     //Write a program to find the element in an array that is repeated more than half number of times.
-    // Return -1 if no such element is found. Time = O(n) Aux space O(n)
-    private int MoreThanHalfElem(int a[], int n) {
-        int ln = a.length;
-        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
-        for (int i = 0; i < a.length; i++) {
-            int freq = 0;
-            if (map.get(a[i]) == null) {
-                freq = 1;
-                map.put(a[i], 1);
-            } else {
-                freq = map.get(a[i]);
-                freq++;
-                map.put(a[i], freq);
-            }
-            if (freq > (a.length / 2)) {
-                return a[i];
-            }
-        }
-        return -1;
-    }
-    //Time complexity = O(n), aux space O(1)
+    // Return -1 if no such element is found. Time complexity = O(n), aux space O(1)
     int MoreThanHalfElem(int a[]){
         /* Find the candidate for Majority*/
         int cand = findCandidate(a);
