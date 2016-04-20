@@ -568,14 +568,12 @@ public class LinkedList {
         int carry = 0;
         // Add same size lists
         if (size1 == size2)
-        result = addSameSize(head1, head2, carry);
+            result = addSameSize(head1, head2, carry);
         else{
             int diff = Math.abs(size1 - size2);
-            // First list should always be larger than second list.
-            // If not, swap pointers
+            // First list should always be larger than second list. If not, swap pointers
             if (size1 < size2)
                 swapPointer(head1, head2);
-
             // move diff. number of nodes in first list
             cur =head1;
             while(diff > 0){
@@ -584,7 +582,6 @@ public class LinkedList {
             }
             // get addition of same size lists
             result = addSameSize(cur, head2, carry);
-
             // get addition of remaining first list and carry
             addCarryToRemaining(head1, cur, carry, result);
         }
@@ -604,8 +601,7 @@ public class LinkedList {
     // Adds two linked lists of same size represented by head1 and head2 and returns head of the resultant linked list.
     // Carry is propagated while returning from the recursion
     Node addSameSize(Node head1, Node head2, int carry){
-        // Since the function assumes linked lists are of same size,
-        // check any of the two head pointers
+        // Since the function assumes linked lists are of same size,check any of the two head pointers
         if (head1 == null)
             return null;
         int sum;
@@ -617,11 +613,10 @@ public class LinkedList {
         sum = head1.data + head2.data + carry;
         carry = sum / 10;
         sum = sum % 10;
-        // Assigne the sum to current node of resultant list
+        // Assign the sum to current node of resultant list
         result.data = sum;
         return result;
     }
-
     // This function is called after the smaller list is added to the bigger lists's sublist of same size.
     // Once the right sublist is added, the carry must be added toe left side of larger list to get the final result.
     void addCarryToRemaining(Node head1, Node cur, int carry, Node result){
