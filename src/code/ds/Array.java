@@ -1314,14 +1314,7 @@ public class Array {
     }
     //find missing number from array 0 to n
     //You are given a list of n-1 integers and these integers are in the range of 1 to n. There are no duplicates in list.
-    int getMissingNo (int a[], int n){
-        int i, total;
-        total  = (n+1)*(n+2)/2;
-        for ( i = 0; i< n; i++)
-            total -= a[i];
-        return total;
-    }
-    int getMissingNo1(int a[], int n){
+    int getMissingNo(int a[], int n){
         int i;
         int x1 = a[0]; /* For xor of all the elements in array */
         int x2 = 1; /* For xor of all the elements from 1 to n+1 */
@@ -1331,5 +1324,35 @@ public class Array {
             x2 = x2^i;
         return (x1^x2);
     }
+    //Find two missing numbers from the array with given length
+    public static void findNumbers(int[] a, int N){
+        int x = 0;
+        for (int i = 0; i < a.length; i++){
+            x = x ^ a[i];
+        }
+        for (int i = 1; i <= N; i++){
+            x = x ^ i;
+        }
+        x = x & (~(x - 1));
+        int p = 0, q = 0;
+        for (int i = 0; i < a.length; i++){
+            if ((a[i] & x) == x){
+                p = p ^ a[i];
+            }
+            else{
+                q = q ^ a[i];
+            }
+        }
+        for (int i = 1; i <= N; i++){
+            if ((i & x) == x){
+                p = p ^ i;
+            }
+            else{
+                q = q ^ i;
+            }
+        }
+        System.out.println("N1: " + p + " N2: " + q);
+    }
+
 
 }
