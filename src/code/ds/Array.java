@@ -240,6 +240,7 @@ public class Array {
         return max_so_far;
     }
     //find the length of longest increasing subarray
+    //{1,3,2,4,5} output = 3
     int findlen(int[] a){
         int min = a[0];
         int max_len = 1;
