@@ -630,13 +630,9 @@ public class LinkedList {
     }
     /* function to get the intersection point of two linked lists head1 and head2 where head1 has d more nodes than head2 */
     int _getIntesectionNode(int d, Node node1, Node node2) {
-        int i;
         Node current1 = node1;
         Node current2 = node2;
-        for (i = 0; i < d; i++) {
-            if (current1 == null) {
-                return -1;
-            }
+        for (int i = 0; i < d; i++) {
             current1 = current1.next;
         }
         while (current1 != null && current2 != null) {
@@ -646,7 +642,6 @@ public class LinkedList {
             current1 = current1.next;
             current2 = current2.next;
         }
-
         return -1;
     }
     /*Takes head pointer of the linked list and returns the count of nodes in the list */
@@ -654,8 +649,8 @@ public class LinkedList {
         Node current = node;
         int count = 0;
         while (current != null) {
-            count++;
             current = current.next;
+            count++;
         }
         return count;
     }
