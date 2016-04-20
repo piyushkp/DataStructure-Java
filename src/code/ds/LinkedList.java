@@ -550,25 +550,91 @@ public class LinkedList {
     }
     //You have two numbers represented by a linked list, where each node contains a sin-gle digit The digits are stored
     //in reverse order, such that the 1’s digit is at the head of the list Write a function that adds the two numbers
-    //and returns the sum as a linked list. Input= (3-1-5),(5-9-2) out = 8-0-8
-    Node addLists(Node l1, Node l2,int carry) {
-        if (l1 == null && l2 == null) {
+    //and returns the sum as a linked list. Input= (3-1-5),(5-9-2) out = 9-0-7
+    void addList(Node head1, Node head2, Node result){
+        Node cur;
+        // first list is empty
+        if (head1 == null){
+            result = head2;
+            return;
+        }
+        // second list is empty
+        else if (head2 == null){
+            result = head1;
+            return;
+        }
+        int size1 = getSize(head1);
+        int size2 = getSize(head2) ;
+        int carry = 0;
+        // Add same size lists
+        if (size1 == size2)
+        result = addSameSize(head1, head2, carry);
+        else{
+            int diff = Math.abs(size1 - size2);
+            // First list should always be larger than second list.
+            // If not, swap pointers
+            if (size1 < size2)
+                swapPointer(head1, head2);
+
+            // move diff. number of nodes in first list
+            cur =head1;
+            while(diff > 0){
+                cur = cur.next;
+                diff--;
+            }
+            // get addition of same size lists
+            result = addSameSize(cur, head2, carry);
+
+            // get addition of remaining first list and carry
+            addCarryToRemaining(head1, cur, carry, result);
+        }
+        // if some carry is still there, add a new node to the front of the result list. e.g. 999 and 87
+        if (carry != 0)
+            result.addAtFront(carry);
+    }
+    /* A utility function to get size of linked list */
+    int getSize(Node node){
+        int size = 0;
+        while (node != null){
+            node = node.next;
+            size++;
+        }
+        return size;
+    }
+    // Adds two linked lists of same size represented by head1 and head2 and returns head of the resultant linked list.
+    // Carry is propagated while returning from the recursion
+    Node addSameSize(Node head1, Node head2, int carry){
+        // Since the function assumes linked lists are of same size,
+        // check any of the two head pointers
+        if (head1 == null)
             return null;
-        }
+        int sum;
+        // Allocate memory for sum node of current two nodes
         Node result = new Node();
-        int value = carry;
-        if (l1 != null) {
-            value += l1.data;
-        }
-        if (l2 != null) {
-            value += l2.data;
-        }
-        result.data = value % 10;
-        Node more = addLists(l1 == null ? null : l1.next,
-                l2 == null ? null : l2.next,
-                value >= 10 ? 1 : 0);
-        result.next = more;
+        // Recursively add remaining nodes and get the carry
+        result.next = addSameSize(head1.next, head2.next, carry);
+        // add digits of current nodes and propagated carry
+        sum = head1.data + head2.data + carry;
+        carry = sum / 10;
+        sum = sum % 10;
+        // Assigne the sum to current node of resultant list
+        result.data = sum;
         return result;
+    }
+
+    // This function is called after the smaller list is added to the bigger lists's sublist of same size.
+    // Once the right sublist is added, the carry must be added toe left side of larger list to get the final result.
+    void addCarryToRemaining(Node head1, Node cur, int carry, Node result){
+        int sum;
+        // If diff. number of nodes are not traversed, add carry
+        if (head1 != cur){
+            addCarryToRemaining(head1.next, cur, carry, result);
+            sum = head1.data + carry;
+            carry = sum/10;
+            sum %= 10;
+            // add this node to the front of the result
+            result.addAtFront(sum);
+        }
     }
     //Insert an element in a sorted circular linked list.
     void sortedInsert(Node new_node){
