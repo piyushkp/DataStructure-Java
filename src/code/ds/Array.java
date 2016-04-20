@@ -203,7 +203,33 @@ public class Array {
         }
         return -1;
     }
+    //Given an unsorted array of nonnegative integers, find a continous subarray which adds to a given number.
+    //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = indexes 2 and 4
+    // Time  =O(2n)
+    int subArraySum(int arr[], int n, int sum){
+    /* Initialize curr_sum as value of first element
+       and starting point as 0 */
+        int curr_sum = arr[0], start = 0, i;
+    /* Add elements one by one to curr_sum and if the curr_sum exceeds the sum, then remove starting element */
+        for (i = 1; i <= n; i++){
+            // If curr_sum exceeds the sum, then remove the starting elements
+            while (curr_sum > sum && start < i-1){
+                curr_sum = curr_sum - arr[start];
+                start++;
+            }
+            // If curr_sum becomes equal to sum, then return true
+            if (curr_sum == sum){
+                System.out.println ("Sum found between indexes "+ start + " and "+ (i-1));
+                return 1;
+            }
+            // Add this element to curr_sum
+            if (i < n)
+                curr_sum = curr_sum + arr[i];
+        }
+        return 0;
+    }
     //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
+    // input {-2, -3, 4, -1, -2, 1, 5, -3} output = 7
     private int maxSubArraySum(int a[]) {
         int max_so_far = a[0];
         int curr_max = a[0];
