@@ -1,6 +1,7 @@
 package code.ds;
 import com.sun.org.apache.bcel.internal.generic.SWAP;
 
+import javax.swing.tree.TreeNode;
 import java.util.*;
 /**
  * Created by Piyush Patel.
@@ -1336,6 +1337,33 @@ public class Tree {
         n.left = createBST(a, start, mid - 1);
         n.right = createBST(a, mid + 1, end);
         return n;
+    }
+    //Deepest left leaf node in a binary tree
+    void deepestLeftLeafUtil(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr){
+        if (root == null)
+            return;
+        // Update result if this node is left leaf and its level is more than the maxl level of the current result
+        if (isLeft && root.left != null && root.right != null && lvl > maxlvl){
+            resPtr = root;
+            maxlvl = lvl;
+            return;
+        }
+        // Recur for left and right subtrees
+        deepestLeftLeafUtil(root.left, lvl+1, maxlvl, true, resPtr);
+        deepestLeftLeafUtil(root.right, lvl+1, maxlvl, false, resPtr);
+    }
+    //Deepest node in binary tree
+    int deepestlevel =0;
+    int value;
+    public void find(Node root, int level) {
+        if (root != null) {
+            find(root.left, level + 1);
+            if (level > deepestlevel) {
+                value = root.data;
+                deepestlevel = level;
+            }
+            find(root.right, level + 1);
+        }
     }
 
     //Given a binary tree, design an algorithm which creates a linked list of all the nodes at each depth
