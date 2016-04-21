@@ -673,12 +673,12 @@ public class Tree {
             return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
 
-    /* A O(n) iterative program for construction of BST from preorder traversal */
+    /* A O(n) iterative program for construction of BST from preorder traversal
+    * Deserialize the BST*/
     int[] currIndex = new int[1];
     //currIndex[0] = 0;
     int min = Integer.MIN_VALUE;
     int max = Integer.MAX_VALUE;
-
     private Node deserializeArrayOptimized(int[] preorder, int[] currIndex, int min, int max) {
         if (currIndex[0] >= preorder.length) return null;
         Node root = null;
@@ -1304,9 +1304,7 @@ public class Tree {
             }
         }
     }
-
     int currentIndex = 0;
-
     public Node Deserialize(String str) {
         if (currentIndex > str.length()) return null;
         else if (str.charAt(currentIndex) == '/')
