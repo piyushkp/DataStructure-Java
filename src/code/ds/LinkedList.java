@@ -237,7 +237,7 @@ public class LinkedList {
         head = prevNode;
     }
 
-    // Find List is circular or not. time O(n) space O(1)
+    // Find List is circular or not. Detect cycle time O(n) space O(1)
     Boolean findCircular(Node head) {
         Node slower = head, faster = head;
         while (slower != null && faster != null && faster.next != null) {
