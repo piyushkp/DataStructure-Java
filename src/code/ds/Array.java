@@ -203,6 +203,53 @@ public class Array {
         }
         return -1;
     }
+    //Given an array of integers, find two numbers such that they add up to a specific target number.
+    public int[] twoSum(int[] numbers, int target) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int[] result = new int[2];
+
+        for (int i = 0; i < numbers.length; i++) {
+            if (map.containsKey(numbers[i])) {
+                int index = map.get(numbers[i]);
+                result[0] = index+1 ;
+                result[1] = i+1;
+                break;
+            } else {
+                map.put(target - numbers[i], i);
+            }
+        }
+
+        return result;
+    }
+    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
+    // the set which gives the sum of zero. 3-sum problem
+    //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
+    HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
+        Arrays.sort(arr);
+        HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
+        ArrayList<Integer> triplet = new ArrayList<Integer>();
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            int j = i + 1;
+            int k = n - 1;
+            while (j < k) {
+                int sum_two = arr[i] + arr[j];
+                if (sum_two + arr[k] < 0) {
+                    j++;
+                } else if (sum_two + arr[k] > 0) {
+                    k--;
+                } else {
+                    triplet.set(0, arr[i]);
+                    triplet.set(1, arr[j]);
+                    triplet.set(2, arr[k]);
+                    if (!triplets.contains(triplet)) triplets.add(triplet);
+                    j++;
+                    k--;
+                }
+            }
+        }
+        return triplets;
+    }
     //Given an unsorted array of nonnegative integers, find a continous subarray which adds to a given number.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = indexes 2 and 4
     // Time  =O(2n)
@@ -566,35 +613,7 @@ public class Array {
         }
         return prod;
     }
-    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
-    // the set which gives the sum of zero. 3-sum problem
-    //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
-    HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
-        Arrays.sort(arr);
-        HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
-        ArrayList<Integer> triplet = new ArrayList<Integer>();
-        int n = arr.length;
-        for (int i = 0; i < n; i++) {
-            int j = i + 1;
-            int k = n - 1;
-            while (j < k) {
-                int sum_two = arr[i] + arr[j];
-                if (sum_two + arr[k] < 0) {
-                    j++;
-                } else if (sum_two + arr[k] > 0) {
-                    k--;
-                } else {
-                    triplet.set(0, arr[i]);
-                    triplet.set(1, arr[j]);
-                    triplet.set(2, arr[k]);
-                    if (!triplets.contains(triplet)) triplets.add(triplet);
-                    j++;
-                    k--;
-                }
-            }
-        }
-        return triplets;
-    }
+
     //Given three arrays sorted in non-decreasing order, print all common elements in these arrays.
     //e.g.ar1[] = {1, 5, 10, 20, 40, 80} ar2[] = {6, 7, 20, 80} ar3[] = {3, 4, 15, 20, 30, 80} Output: 20, 80
     // Time Complexity = O(n1 + n2 + n3)
@@ -939,6 +958,7 @@ public class Array {
         }
         return max_len;  // Return result
     }
+
     //Given an array of duplicate integers, Find the Length of the largest sub-array with contiguous elements
     //Input:  arr[] = {10, 12, 12, 10, 10, 11, 10} Output: 2 Time Complexity: O(n^2)
     private int findContiguousLength(int a[]) {
