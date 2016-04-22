@@ -207,7 +207,6 @@ public class Array {
     public int[] twoSum(int[] numbers, int target) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         int[] result = new int[2];
-
         for (int i = 0; i < numbers.length; i++) {
             if (map.containsKey(numbers[i])) {
                 int index = map.get(numbers[i]);
@@ -218,7 +217,6 @@ public class Array {
                 map.put(target - numbers[i], i);
             }
         }
-
         return result;
     }
     //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
@@ -251,30 +249,26 @@ public class Array {
         return triplets;
     }
     //Given an unsorted array of nonnegative integers, find a continous subarray which adds to a given number.
-    //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = indexes 2 and 4
-    // Time  =O(2n)
-    int subArraySum(int arr[], int n, int sum){
-    /* Initialize curr_sum as value of first element
-       and starting point as 0 */
-        int curr_sum = arr[0], start = 0, i;
-    /* Add elements one by one to curr_sum and if the curr_sum exceeds the sum, then remove starting element */
-        for (i = 1; i <= n; i++){
-            // If curr_sum exceeds the sum, then remove the starting elements
-            while (curr_sum > sum && start < i-1){
-                curr_sum = curr_sum - arr[start];
-                start++;
-            }
-            // If curr_sum becomes equal to sum, then return true
-            if (curr_sum == sum){
-                System.out.println ("Sum found between indexes "+ start + " and "+ (i-1));
-                return 1;
-            }
-            // Add this element to curr_sum
-            if (i < n)
-                curr_sum = curr_sum + arr[i];
+    //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
+    //Time complexity - O(input.size * total_sum)
+    //Space complexity - O(input.size*total_sum)
+    public boolean subsetSum(int input[], int total) {
+        boolean T[][] = new boolean[input.length + 1][total + 1];
+        for (int i = 0; i <= input.length; i++) {
+            T[i][0] = true;
         }
-        return 0;
+        for (int i = 1; i <= input.length; i++) {
+            for (int j = 1; j <= total; j++) {
+                if (j - input[i - 1] >= 0) {
+                    T[i][j] = T[i - 1][j] || T[i - 1][j - input[i - 1]];
+                } else {
+                    T[i][j] = T[i-1][j];
+                }
+            }
+        }
+        return T[input.length][total];
     }
+
     //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
     // input {-2, -3, 4, -1, -2, 1, 5, -3} output = 7
     private int maxSubArraySum(int a[]) {
