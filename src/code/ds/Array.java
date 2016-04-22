@@ -248,7 +248,7 @@ public class Array {
         }
         return triplets;
     }
-    //Given an unsorted array of nonnegative integers, find a continous subarray which adds to a given number.
+    //Given an unsorted array of non-negative integers, find a continous subarray which adds to a given number.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
     //Time complexity - O(input.size * total_sum)
     //Space complexity - O(input.size*total_sum)
