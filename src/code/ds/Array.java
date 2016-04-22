@@ -566,7 +566,8 @@ public class Array {
         }
         return prod;
     }
-    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the set which gives the sum of zero.
+    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
+    // the set which gives the sum of zero. 3-sum problem
     //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
     HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
         Arrays.sort(arr);
