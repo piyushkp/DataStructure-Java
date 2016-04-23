@@ -866,6 +866,7 @@ public class StringImp {
         return true;
     }
     //Given a string S, find the longest palindromic substring in S. O(NlogN) time and O(N) space
+    //Better algorithm in linear time Manacher’s Algorithm
     public static String LongestPalindromeImprove(String s) {
         s +="^" + ReverseString(s);
         int N  = s.length();
