@@ -193,6 +193,49 @@ public class StringImp {
             count++;
         return count == 1;
     }
+    //Given a dictionary as a hashtable and a word. Find the minimum # of deletions needed on the word in order to make it a valid word in the dictionary.
+    static int numberofMinDeletion(String word, HashSet<String> dic){
+        int mindelete = word.length();
+        for (String item : dic){
+            if (word == item)
+                return 0;
+            else if (item.length() >= word.length())
+                continue;
+            else{
+                mindelete = Math.min(mindelete, minDeletionToTransformWord(word, item));
+            }
+        }
+        if (mindelete == word.length())
+            return -1;
+        return mindelete;
+    }
+    static int minDeletionToTransformWord(String s1, String s2){
+        // Find lengths of given strings
+        int m = s1.length(), n = s2.length();
+        int count = 0; // Count of edits
+        int i = 0, j = 0;
+        while (i < m && j < n){
+            // If current characters don't match
+            if (s1.charAt(i) != s2.charAt(j)){
+                // If length of one string is more, then only possible edit is to remove a character
+                if (m > n)
+                    i++;
+                count++;
+            }
+            else {// If current characters match
+                i++;
+                j++;
+            }
+        }
+        // If last character is extra in word string
+        while (i < m){
+            count++;
+            i++;
+        }
+        if (j < n)
+            return m;
+        return count;
+    }
 
     //Given an input string and a dictionary of words, find out if the input string can be segmented into a
     //space-separated sequence of dictionary words.
