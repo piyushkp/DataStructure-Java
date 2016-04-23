@@ -1413,7 +1413,7 @@ public class Tree {
         return (matchTree(rl.left, r2.left) && matchTree(rl.right, r2.right));
     }
     //Approach 2: Compare whether T2's leaf-delimited traversal string (pre-order,in-order, etc) is a substring of T1's.
-    // Fast but waste memory, not good for large trees.
+    //Fast but waste memory, not good for large trees.time and memory = O(n+m)
 }
 //Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x
 // (the number of values less than or equal to x). Implement the data structures and algorithms to support these
