@@ -1215,5 +1215,57 @@ public class StringImp {
         for( i = ch; i < 256; ++i )
             --count[i];
     }
+    //Given a source word, target word and an English dictionary, transform the source word to target by
+    //changing/adding/removing 1 character at a time, while all intermediate words being valid English words.
+    public static LinkedList<String> transform(String startWord, String stopWord, Set<String> dictionary) {
+        startWord = startWord.toUpperCase();
+        stopWord = stopWord.toUpperCase();
+        Queue<String> actionQueue = new LinkedList<String>();
+        Set<String> visitedSet = new HashSet<String>();
+        Map<String, String> backtrackMap = new TreeMap<String, String>();
+        actionQueue.add(startWord);
+        visitedSet.add(startWord);
+        while (!actionQueue.isEmpty()) {
+            String w = actionQueue.poll();
+            // For each possible word v from w with one edit operation
+            for (String v : getOneEditWords(w)) {
+                if (v.equals(stopWord)) {
+                    // Found our word!  Now, back track.
+                    LinkedList<String> list = new LinkedList<String>();
+                    // Append v to list
+                    list.add(v);
+                    while (w != null) {
+                        list.add(0, w);
+                        w = backtrackMap.get(w);
+                    }
+                    return list;
+                }
+                // If v is a dictionary word
+                if (dictionary.contains(v)) {
+                    if (!visitedSet.contains(v)) {
+                        actionQueue.add(v);
+                        visitedSet.add(v); // mark visited
+                        backtrackMap.put(v, w);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    private static Set<String> getOneEditWords(String word) {
+        Set<String> words = new TreeSet<String>();
+        // for every letter
+        for (int i = 0; i < word.length(); i++) {
+            char[] wordArray = word.toCharArray();
+            // change that letter to something else
+            for (char c = 'A'; c <= 'Z'; c++) {
+                if (c != word.charAt(i)) {
+                    wordArray[i] = c;
+                    words.add(new String(wordArray));
+                }
+            }
+        }
+        return words;
+    }
 }
 
