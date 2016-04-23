@@ -1401,6 +1401,43 @@ public class Array {
         }
         System.out.println("N1: " + p + " N2: " + q);
     }
-
+    // Given a stream of unsorted integers, find the median element in sorted order at any given time.
+    //Time Complexity O(NlogN)
+    int getMedian(int e, int m, PriorityQueue<Integer> maxHeap, PriorityQueue<Integer> minHeap) {
+        if (maxHeap.size() > minHeap.size()) { // There are more elements in left (max) heap
+            if (e < m) { // current element fits in left (max) heap
+                // Remore top element from left heap and insert into right heap
+                minHeap.add(maxHeap.poll());
+                // current element fits in left (max) heap
+                maxHeap.add(e);
+            } else {
+                // current element fits in right (min) heap
+                minHeap.add(e);
+            }
+            // Both heaps are balanced
+            m = (maxHeap.peek() + minHeap.peek()) /2 ;
+        } else if (maxHeap.size() == minHeap.size()) {// The left and right heaps contain same number of elements
+            if (e < m){ // current element fits in left (max) heap
+                maxHeap.add(e);
+                m = maxHeap.peek();
+            } else {
+                // current element fits in right (min) heap
+                minHeap.add(e);
+                m = minHeap.peek();
+            }
+        } else {// There are more elements in right (min) heap
+            if (e < m) // current element fits in left (max) heap
+                maxHeap.add(e);
+            else {
+                // Remove top element from right heap and insert into left heap
+                maxHeap.add(minHeap.poll());
+                // current element fits in right (min) heap
+                minHeap.add(e);
+            }
+            // Both heaps are balanced
+            m = (maxHeap.peek() + minHeap.peek()) /2;
+        }
+        return m;
+    }
 
 }
