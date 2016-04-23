@@ -1439,5 +1439,18 @@ public class Array {
         }
         return m;
     }
+    //Given a stream of numbers, print average (or mean) of the stream at every point.
+    // Returns the new average after including x
+    float getAvg(float prev_avg, int x, int n)    {
+        return (prev_avg*n + x)/(n+1);
+    }
+    // Prints average of a stream of numbers
+    void streamAvg(int arr[], int n)    {
+        float avg = 0;
+        for(int i = 0; i < n; i++)        {
+            avg  = getAvg(avg, arr[i], i);
+            System.out.println("Average of"+ i+1 +" numbers is" + avg);
+        }
+    }
 
 }
