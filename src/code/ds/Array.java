@@ -998,6 +998,39 @@ public class Array {
         }
         System.out.print(ar1[res_l] + " " + ar2[res_r]);
     }
+    //There are N stations on route of a train. The train goes from station 0 to N-1. The ticket cost for all pair of
+    // stations (i, j) is given where j is greater than i. Find the minimum cost to reach the destination.
+    /*Input: cost[N][N] = { {0, 15, 80, 90},
+            {INF, 0, 40, 50},
+            {INF, INF, 0, 70},
+            {INF, INF, INF, 0}
+        };  The minimum cost is 65*/
+    public int minCost(int ticket[][]){
+        assert ticket != null && ticket.length > 0 && ticket.length == ticket[0].length;
+        int T[] = new int[ticket.length];
+        int T1[] = new int[ticket.length];
+        T1[0] = -1;
+        for(int i=1; i < T.length; i++){
+            T[i] = ticket[0][i];
+            T1[i] = i-1;
+        }
+        for(int i=1; i < T.length; i++){
+            for(int j=i+1; j < T.length; j++){
+                if(T[j] > T[i] + ticket[i][j]){
+                    T[j] = T[i] + ticket[i][j];
+                    T1[j] = i;
+                }
+            }
+        }
+        //printing actual stations
+        int i = ticket.length-1;
+        while(i != -1){
+            System.out.print(i + " ");
+            i = T1[i];
+        }
+        System.out.println();
+        return T[ticket.length-1];
+    }
     //Given arrival and departure times of all trains that reach a railway station, find the minimum number of platforms
     //required for the railway station so that no train waits.
     //Input:  arr[]  = {9:00,  9:40, 9:50,  11:00, 15:00, 18:00} O(nLogn) time.
