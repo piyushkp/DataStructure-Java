@@ -256,13 +256,11 @@ public class LinkedList {
             fast = fast.next.next;
             if (slow == fast) {
                 slow = head;
-                Node prev = null;
-                while (slow != fast) {
+                while (slow != fast.next) {
                     slow = slow.next;
-                    prev = fast;
                     fast = fast.next;
                 }
-                prev.next = null;
+                fast.next = null;
             }
         }
     }
