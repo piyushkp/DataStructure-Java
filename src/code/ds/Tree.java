@@ -612,15 +612,11 @@ public class Tree {
         int ksmall = Integer.MIN_VALUE; // store the Kth smallest
         Node curr = root; // to store the current node
         while (curr != null){
-            // Like Morris traversal if current does
-            // not have left child rather than printing
-            // as we did in inorder, we will just
-            // increment the count as the number will
-            // be in an increasing order
+            // Like Morris traversal if current does not have left child rather than printing as we did in inorder, we will just
+            // increment the count as the number will be in an increasing order
             if (curr.left == null){
                 count++;
-                // if count is equal to K then we found the
-                // kth smallest, so store it in ksmall
+                // if count is equal to K then we found the kth smallest, so store it in ksmall
                 if (count==k)
                     ksmall = curr.data;
                 // go to current's right child
@@ -652,7 +648,6 @@ public class Tree {
         }
         return ksmall; //return the found value
     }
-
     //given a binary search tree and you are asked to find the Kth smallest element in that tree.
     private Node findKthNode_SMALLEST(Node root, int k) {
         if (root == null)
@@ -671,6 +666,70 @@ public class Tree {
             return 0;
         else
             return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
+    }
+    //Follow up: what if the BST is modified (insert/delete operations) often and you need to find the k-th smallest frequently?
+    //Idea is to while building up the tree we can maintain number of elements of left subtree in every node.
+    class Node_t{
+        int data;
+        int lCount;
+        Node_t left;
+        Node_t right;
+    }
+    int k_smallest_element(Node_t root, int k){
+        int ret = -1;
+        if( root != null){
+            Node_t pTraverse = root;
+        /* Go to k-th smallest */
+            while(pTraverse != null){
+                if( (pTraverse.lCount + 1) == k ){
+                    ret = pTraverse.data;
+                    break;
+                }
+                else if( k > pTraverse.lCount ){
+                /*  There are less nodes on left subtree
+                    Go to right subtree */
+                    k = k - (pTraverse.lCount + 1);
+                    pTraverse = pTraverse.right;
+                }
+                else{
+                /* The node is on left subtree */
+                    pTraverse = pTraverse.left;
+                }
+            }
+        }
+        return ret;
+    }
+    //build a tree with counting left subtree nodes of every node
+    Node_t insert_node(Node_t root, Node_t node){
+        Node_t pTraverse = root;
+        Node_t currentParent = root;
+        // Traverse till appropriate node
+        while(pTraverse != null){
+            currentParent = pTraverse;
+            if( node.data < pTraverse.data ){
+            /* We are branching to left subtree increment node count */
+                pTraverse.lCount++;
+            /* left subtree */
+                pTraverse = pTraverse.left;
+            }
+            else{
+            /* right subtree */
+                pTraverse = pTraverse.right;
+            }
+        }
+    /* If the tree is empty, make it as root node */
+        if(root == null){
+            root = node;
+        }
+        else if( node.data < currentParent.data ){
+        /* Insert on left side */
+            currentParent.left = node;
+        }
+        else{
+        /* Insert on right side */
+            currentParent.right = node;
+        }
+        return root;
     }
 
     /* A O(n) iterative program for construction of BST from preorder traversal
