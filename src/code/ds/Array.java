@@ -582,6 +582,7 @@ public class Array {
         return -1;
     }
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
+    //Note that this method modifies the original array
     void printRepeating(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[Math.abs(arr[i])] >= 0)
@@ -1373,6 +1374,7 @@ public class Array {
         return (x1^x2);
     }
     //Find two missing numbers from the array with given length
+    //this function also can be used for Find the two repeating elements in a given array
     public static void findNumbers(int[] a, int N){
         int x = 0;
         for (int i = 0; i < a.length; i++){
