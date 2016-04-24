@@ -583,6 +583,7 @@ public class Array {
     }
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
     //Note that this method modifies the original array
+    //program doesn’t handle 0 case (If 0 is present multiple times in array).
     void printRepeating(int arr[]) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[Math.abs(arr[i])] >= 0)
@@ -591,6 +592,29 @@ public class Array {
                 System.out.print(Math.abs(arr[i]));
         }
     }
+    //find the single number that duplicates one or more times in an array in O(1) space and O(n) time without modifying the array
+    //Tortoise and Hair Cycle detection algorithm (pr Floyd’s cycle-finding algorithm)
+    //http://www.zrzahid.com/find-the-single-number-that-duplicates-one-or-more-times/
+    public static int findDuplicate(int[] nums) {
+        //using Tortoise & Hair algorithm by Donald Knuth to find cycle in a sequence.
+        //This algorithm also called Floyd's cycle detection algorithm
+        int n = nums.length;
+        int slow = n;
+        int fast = n;
+        do {
+            slow = nums[slow - 1];
+            fast = nums[nums[fast - 1] - 1];
+        } while (fast != slow);
+
+        //find the starting point of the cycle and distance from the front
+        slow = n;
+        while (fast != slow) {
+            slow = nums[slow - 1];
+            fast = nums[fast - 1];
+        }
+        return slow;
+    }
+
     //Given an array arr[] of n integers, construct a Product Array prod[] (Self Excluding)
     //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
     //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
@@ -1451,7 +1475,7 @@ public class Array {
         float avg = 0;
         for(int i = 0; i < n; i++)        {
             avg  = getAvg(avg, arr[i], i);
-            System.out.println("Average of"+ i+1 +" numbers is" + avg);
+            System.out.println("Average of" + i + 1 + " numbers is" + avg);
         }
     }
 
