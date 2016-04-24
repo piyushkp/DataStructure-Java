@@ -686,14 +686,11 @@ public class Tree {
                     ret = pTraverse.data;
                     break;
                 }
-                else if( k > pTraverse.lCount ){
-                /*  There are less nodes on left subtree
-                    Go to right subtree */
+                else if( k > pTraverse.lCount ){ /*  There are less nodes on left subtree Go to right subtree */
                     k = k - (pTraverse.lCount + 1);
                     pTraverse = pTraverse.right;
                 }
-                else{
-                /* The node is on left subtree */
+                else{ /* The node is on left subtree */
                     pTraverse = pTraverse.left;
                 }
             }
