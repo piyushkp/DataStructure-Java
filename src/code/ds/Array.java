@@ -596,8 +596,6 @@ public class Array {
     //Tortoise and Hair Cycle detection algorithm (pr Floyd’s cycle-finding algorithm)
     //http://www.zrzahid.com/find-the-single-number-that-duplicates-one-or-more-times/
     public static int findDuplicate(int[] nums) {
-        //using Tortoise & Hair algorithm by Donald Knuth to find cycle in a sequence.
-        //This algorithm also called Floyd's cycle detection algorithm
         int n = nums.length;
         int slow = n;
         int fast = n;
@@ -605,7 +603,6 @@ public class Array {
             slow = nums[slow - 1];
             fast = nums[nums[fast - 1] - 1];
         } while (fast != slow);
-
         //find the starting point of the cycle and distance from the front
         slow = n;
         while (fast != slow) {
