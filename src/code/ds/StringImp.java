@@ -1335,5 +1335,30 @@ public class StringImp {
         }
         return new String(str).substring(0,++i);
     }
+    //Recursively remove all adjacent duplicates
+    //Input:  azxxzy   Output: ay
+    public static String removeAdjacentDuplicates(String s){
+        if (s.length() < 2){
+            return s;
+        }
+        char[] buf = s.toCharArray();
+        char lastchar = buf[0];
+        // i: index of input char
+        // j: index of output char
+        int j = 1;
+        for (int i = 1; i < buf.length; i++){
+            if (j > 0 && buf[i] == buf[j - 1]){
+                lastchar = buf[j - 1];
+                while (j > 0 && buf[j - 1] == lastchar){
+                    j--;
+                }
+            }
+            else if (buf[i] != lastchar){
+                buf[j] = buf[i];
+                j++;
+            }
+        }
+        return new String(buf, 0, j);
+    }
 }
 
