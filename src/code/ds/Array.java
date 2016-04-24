@@ -203,7 +203,8 @@ public class Array {
         }
         return -1;
     }
-    //Given an array of integers, find two numbers such that they add up to a specific target number.
+    //Given an array of integers, find two numbers such that they add up to a specific target number. 2-sum
+    //Time = O(n) space O(n)
     public int[] twoSum(int[] numbers, int target) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         int[] result = new int[2];
@@ -218,6 +219,27 @@ public class Array {
             }
         }
         return result;
+    }
+    //Count all distinct pairs with difference equal to k (2-sum) without hash
+    //Given an integer array and a positive integer k, count all distinct pairs with difference equal to k.
+    //Time complexity = O(nlogn) space O(1)
+    int countPairsWithDiffK(int arr[], int n, int k){
+        int count = 0;
+        Arrays.sort(arr);  // Sort array elements
+        int l = 0;
+        int r = 0;
+        while(r < n){
+            if(arr[r] - arr[l] == k){
+                count++;
+                l++;
+                r++;
+            }
+            else if(arr[r] - arr[l] > k)
+                l++;
+            else // arr[r] - arr[l] < sum
+                r++;
+        }
+        return count;
     }
     //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
     // the set which gives the sum of zero. 3-sum problem
