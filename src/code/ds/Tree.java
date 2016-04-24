@@ -669,6 +669,7 @@ public class Tree {
     }
     //Follow up: what if the BST is modified (insert/delete operations) often and you need to find the k-th smallest frequently?
     //Idea is to while building up the tree we can maintain number of elements of left subtree in every node.
+    //Time complexity: O(h) where h is height of tree.
     class Node_t{
         int data;
         int lCount;
