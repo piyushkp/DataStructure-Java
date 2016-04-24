@@ -1312,7 +1312,7 @@ public class StringImp {
         return words;
     }
     //Remove “b” and “ac” from a given string
-    // input = ababaac output = aaa input = abc output =""
+    //input = ababaac output = aaa input = abc output =""
     static String Remove_Pattern_from_String(char[] str) {
         int n = str.length;
         int i = -1;  // previous character
@@ -1329,7 +1329,7 @@ public class StringImp {
                 i--;
                 j++;
             }
-                /* else copy curr char to output string */
+             /* else copy curr char to output string */
             else
                 str[++i] = str[j++];
         }
