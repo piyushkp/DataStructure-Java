@@ -442,4 +442,62 @@ public class MISC
             System.out.println();
         }
     }
+    /*Museum Problem : Given a 2D grid of rooms which can be closed, open with no guard, or open with a guard.
+    Return a grid with each square labeled with the distance to the nearest guard.
+    Idea is to start from every guard position and do BFS search in all 4 directions and maintain the distance of every
+    space from guard. If another exit in future iterator is closer than already calculated exit then update
+    the distance.
+    Space complexity is O(n*m) Time complexity is O(number of guard * m * n);*/
+    enum Room{
+        Open,
+        Closed,
+        GUARD
+    }
+    public int[][] findShortest(Room input[][]){
+        int distance[][] = new int[input.length][input[0].length];
+        for(int i=0; i < input.length; i++){
+            for(int j=0; j < input[0].length; j++){
+                distance[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        for(int i=0; i < input.length; i++){
+            for(int j =0; j < input[i].length; j++){
+                //for every guard location do a BFS starting with this guard as the origin
+                if(input[i][j] == Room.GUARD){
+                    distance[i][j] = 0;
+                    setDistance(input, i, j, distance);
+                }
+            }
+        }
+        return distance;
+    }
+    private void setDistance(Room input[][], int x, int y, int distance[][]){
+        boolean visited[][] = new boolean[input.length][input[0].length];
+        Queue<Point> q = new java.util.LinkedList<Point>();
+        q.offer(new Point(x,y));
+        //Do a BFS at keep updating distance.
+        while(!q.isEmpty()){
+            Point p = q.poll();
+            setDistanceUtil(q, input, p, getNeighbor(input, p.x+1, p.y), distance, visited);
+            setDistanceUtil(q, input, p, getNeighbor(input, p.x, p.y+1), distance, visited);
+            setDistanceUtil(q, input, p, getNeighbor(input, p.x-1, p.y), distance, visited);
+            setDistanceUtil(q, input, p, getNeighbor(input, p.x, p.y-1), distance, visited);
+        }
+    }
+
+    private void setDistanceUtil(Queue<Point> q, Room input[][], Point p, Point newPoint, int distance[][], boolean visited[][]){
+        if(newPoint != null && !visited[newPoint.x][newPoint.y]){
+            if(input[newPoint.x][newPoint.y] != Room.GUARD && input[newPoint.x][newPoint.y] != Room.Closed){
+                distance[newPoint.x][newPoint.y] = Math.min(distance[newPoint.x][newPoint.y], 1 + distance[p.x][p.y]);
+                visited[newPoint.x][newPoint.y] = true;
+                q.offer(newPoint);
+            }
+        }
+    }
+    private Point getNeighbor(Room input[][], int x, int y){
+        if(x < 0 || x >= input.length || y < 0 || y >= input[0].length ) {
+            return null;
+        }
+        return new Point(x,y);
+    }
 }
