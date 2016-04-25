@@ -1329,6 +1329,77 @@ public class Array {
         }
         return profit;
     }
+    //Given stock prices for certain days how to maximize profit by buying or selling with at most K transactions
+    //Time complexity - O(number of transactions * number of days ^ 2) Space complexity - O(number of transcations * number of days)
+    public int maxProfitSlowSolution(int prices[], int K) {
+        if (K == 0 || prices.length == 0) {
+            return 0;
+        }
+        int T[][] = new int[K+1][prices.length];
+        for (int i = 1; i < T.length; i++) {
+            for (int j = 1; j < T[0].length; j++) {
+                int maxVal = 0;
+                for (int m = 0; m < j; m++) {
+                    maxVal = Math.max(maxVal, prices[j] - prices[m] + T[i-1][m]);
+                }
+                T[i][j] = Math.max(T[i][j-1], maxVal);
+            }
+        }
+        return T[K][prices.length - 1];
+    }
+
+    //Weighted Job Scheduling problem
+    // Maximize ad revenue given a set of of advertisements with a start time, end time and revenue
+    class Ad{
+        int start, finish, revenue;
+    }
+    // Used to sort ads according to finish times
+    class JobComparator implements Comparator<Ad>{
+        public int compare(Ad a, Ad b){
+            return a.finish < b.finish ? -1 : a.finish == b.finish ? 0 : 1;
+        }
+    }
+    public int scheduleAds(Ad ads[]){
+        // Sort ads according to finish time
+        Arrays.sort(ads, new JobComparator());
+        // Create an array to store solutions of subproblems. table[i] stores the profit for ads till ads[i]
+        // (including ads[i])
+        int n = ads.length;
+        int table[] = new int[n];
+        table[0] = ads[0].revenue;
+        // Fill entries in table[] using recursive property
+        for (int i=1; i<n; i++){
+            // Find profit including the current ad
+            int inclProf = ads[i].revenue;
+            int l = binarySearch(ads, i);
+            if (l != -1)
+                inclProf += table[l];
+            // Store maximum of including and excluding
+            table[i] = Math.max(inclProf, table[i-1]);
+        }
+        return table[n-1];
+    }
+    /* A Binary Search based function to find the latest ad (before current ad) that doesn't conflict with current
+     ad. "index" is index of the current ad.  This function returns -1 if all ads before index conflict with it.
+     The array ads[] is sorted in increasing order of finish time. */
+    static public int binarySearch(Ad ads[], int index){
+        // Initialize 'lo' and 'hi' for Binary Search
+        int lo = 0, hi = index - 1;
+        // Perform binary Search iteratively
+        while (lo <= hi){
+            int mid = (lo + hi) / 2;
+            if (ads[mid].finish <= ads[index].start){
+                if (ads[mid + 1].finish <= ads[index].start)
+                    lo = mid + 1;
+                else
+                    return mid;
+            }
+            else
+                hi = mid - 1;
+        }
+        return -1;
+    }
+
     //A magic index in an array A[0...n] is defined to be an index such that A[i] = i. Given a sorted array of duplicate
     // integers, write a method to find a magic index, if one exists, in array A.
     private static int getMagicIndexDup(int[] a, int start, int end) {
