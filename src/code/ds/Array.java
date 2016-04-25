@@ -26,6 +26,35 @@ public class Array {
         while (j < b.length) answer[k++] = b[j++];
         return answer;
     }
+    //merge k sorted list/array. We can merge arrays in O(nk*Logk) time using Min Heap
+    class Triplet {
+        int pos;
+        int val;
+        int index;
+    }
+    public List<Integer> mergeUsingHeap(List<List<Integer>> chunks){
+        List<Integer> result = new ArrayList<Integer>();
+        PriorityQueue<Triplet> minHeap = new PriorityQueue<Triplet>();
+        //add first element of every chunk into queue
+        for(int i=0; i < chunks.size(); i++){
+            Triplet p = new Triplet();
+            p.pos = i;
+            p.val = chunks.get(i).get(0);
+            p.index = 1;
+            minHeap.add(p);
+        }
+        while(!minHeap.isEmpty()){
+            Triplet p = minHeap.poll();
+            result.add(p.val);
+            if(p.index < chunks.get(p.pos).size()){
+                p.val = chunks.get(p.pos).get(p.index);
+                p.index += 1;
+                minHeap.add(p);
+            }
+        }
+        return result;
+    }
+
     //You are given two sorted arrays, A and B, where A has a large enough buffer at the end to hold B. Write a method
     //to merge B into A in sorted order.
     public static void merge(int[] a, int[] b, int lastA, int lastB) {
