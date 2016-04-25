@@ -1428,6 +1428,19 @@ public class Array {
         }
         return -1;
     }
+    /*Provide a set of positive integers (an array of integers). Each integer represent number of nights user request on Airbnb.com.
+     If you are a host, you need to design and implement an algorithm to find out the maximum number a nights you can accommodate.
+     The constraint is that you have to reserve at least one day between each request,
+     input: [5, 1, 2, 6, 20, 2] => output: 27*/
+    private int findMaxDays(int arr[]) {
+        int [] maxDaysToPos = new int[arr.length + 1];
+        maxDaysToPos[0] = 0;
+        maxDaysToPos[1] = arr[0];
+        for (int i = 2; i < maxDaysToPos.length; i++) {
+            maxDaysToPos[i] = Math.max(maxDaysToPos[i - 1], maxDaysToPos[i - 2] + arr[i - 1]);
+        }
+        return maxDaysToPos[maxDaysToPos.length - 1];
+    }
 
     //A magic index in an array A[0...n] is defined to be an index such that A[i] = i. Given a sorted array of duplicate
     // integers, write a method to find a magic index, if one exists, in array A.
