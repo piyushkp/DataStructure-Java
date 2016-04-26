@@ -605,7 +605,7 @@ public class Tree {
         }
         find_kth_smallest(root.right, n, K);
     }
-    //Second largest element in BST
+    //Second largest element in BST. Time complexity of the above solution is O(h) where h is height of BST.
     void secondLargestUtil(Node root, int c){
         // Base cases, the second condition is important to avoid unnecessary recursive calls
         if (root == null || c >= 2)
@@ -615,7 +615,7 @@ public class Tree {
         c++;
         // If c becomes k now, then this is the 2nd largest
         if (c == 2){
-            System.out.print("2nd largest element is "+root.data;
+            System.out.print("2nd largest element is " + root.data);
             return;
         }
         secondLargestUtil(root.left, c);
