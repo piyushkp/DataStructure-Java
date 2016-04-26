@@ -1668,7 +1668,6 @@ public class Array {
             byte[] bLength = Integer.toString(arr[i].length()).getBytes(StandardCharsets.US_ASCII);
             byte[] bData = arr[i].getBytes(StandardCharsets.US_ASCII);
             sb.append(String.format("%8s", Integer.toBinaryString(bLength[0] & 0xFF)).replace(' ', '0'));
-            Collections.reverse(Arrays.asList(bData));
             for (byte item : bData)
                 sb.append(String.format("%8s", Integer.toBinaryString(item & 0xFF)).replace(' ', '0'));
         }
