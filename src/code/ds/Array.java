@@ -1620,6 +1620,7 @@ public class Array {
     //Input= {1, 34, 3, 98, 9, 76, 45, 4} output = 998764543431
     //we compare two numbers XY (Y appended at the end of X) and YX (X appended at the end of Y). If XY is larger,
     //then X should come before Y in output, else Y should come before.
+    //Time  = O(mlgn) where n = the size of the array and m = the total number of digits across those numbers
     public static String largestNumber(int[] num) {
         if (num == null || num.length == 0) {
             return "";
