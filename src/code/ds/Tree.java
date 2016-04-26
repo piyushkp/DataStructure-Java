@@ -605,6 +605,21 @@ public class Tree {
         }
         find_kth_smallest(root.right, n, K);
     }
+    //Second largest element in BST
+    void secondLargestUtil(Node root, int c){
+        // Base cases, the second condition is important to avoid unnecessary recursive calls
+        if (root == null || c >= 2)
+            return;
+        // Follow reverse inorder traversal so that the largest element is visited first
+        secondLargestUtil(root.right, c);
+        c++;
+        // If c becomes k now, then this is the 2nd largest
+        if (c == 2){
+            System.out.print("2nd largest element is "+root.data;
+            return;
+        }
+        secondLargestUtil(root.left, c);
+    }
     //K’th smallest element in BST using O(1) Extra Space
     int KSmallestUsingMorris(Node root, int k){
         // Count to iterate over elements till we get the kth smallest number

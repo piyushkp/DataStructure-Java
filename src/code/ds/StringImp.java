@@ -324,7 +324,7 @@ public class StringImp {
    /* L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] */
         return L[m][n];
     }
-    //Given set of characters and a string, find smallest substring which contains all characters
+    //give you two strings S and T, find the shortest string in S which contains all the characters in T
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
     public String minSubString(String S, String T) {
         if (S == null || T == null) {
