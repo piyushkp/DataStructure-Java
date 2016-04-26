@@ -1616,5 +1616,31 @@ public class Array {
             System.out.println("Average of" + i + 1 + " numbers is" + avg);
         }
     }
-
+    //Given an array of numbers, arrange them in a way that yields the largest value.
+    //Input= {1, 34, 3, 98, 9, 76, 45, 4} output = 998764543431
+    //we compare two numbers XY (Y appended at the end of X) and YX (X appended at the end of Y). If XY is larger,
+    //then X should come before Y in output, else Y should come before.
+    public static String largestNumber(int[] num) {
+        if (num == null || num.length == 0) {
+            return "";
+        }
+        String[] array = new String[num.length];
+        for (int i = 0; i < num.length; i++) {
+            array[i] = String.valueOf(num[i]);
+        }
+        Arrays.sort(array, comparator);
+        String result = "";
+        for (String str : array) {
+            result = str + result;
+        }
+        return result;
+    }
+    public static Comparator<String> comparator = new Comparator<String>() {
+        @Override
+        public int compare(String o1, String o2) {
+            String comb1 = o1 + o2;
+            String comb2 = o2 + o1;
+            return comb1.compareTo(comb2);
+        }
+    };
 }
