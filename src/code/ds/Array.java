@@ -634,10 +634,18 @@ public class Array {
     }
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
     //Note that this method modifies the original array
-    //program doesn’t handle 0 case (If 0 is present multiple times in array).
-    void printRepeating(int arr[]) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[Math.abs(arr[i])] >= 0)
+    static void findDuplicate(int[] arr){
+        int i;
+        for (i = 0; i < arr.length; i++){
+            if (arr[i] == Integer.MIN_VALUE){
+                if (arr[0] > 0)
+                    arr[0] = -arr[0];
+                else
+                    System.out.print("0");
+            }
+            else if (arr[Math.abs(arr[i])] == 0)
+                arr[Math.abs(arr[i])] = Integer.MIN_VALUE;
+            else if (arr[Math.abs(arr[i])] > 0)
                 arr[Math.abs(arr[i])] = -arr[Math.abs(arr[i])];
             else
                 System.out.print(Math.abs(arr[i]));
@@ -646,7 +654,7 @@ public class Array {
     //find the single number that duplicates one or more times in an array in O(1) space and O(n) time without modifying the array
     //Tortoise and Hair Cycle detection algorithm (pr Floyd’s cycle-finding algorithm)
     //http://www.zrzahid.com/find-the-single-number-that-duplicates-one-or-more-times/
-    public static int findDuplicate(int[] nums) {
+    public static int findDuplicate1(int[] nums) {
         int n = nums.length;
         int slow = n;
         int fast = n;
@@ -1203,11 +1211,9 @@ public class Array {
         return i;
     }
     //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
-    private boolean checkDuplicatesWithinK(int a[], int k)
-    {
+    private boolean checkDuplicatesWithinK(int a[], int k){
         HashSet<Integer> hash = new HashSet<Integer>();
-        for(int i = 0; i < a.length; i++)
-        {
+        for(int i = 0; i < a.length; i++){
             if(hash.contains(a[i]))
                 return  true;
             hash.add(a[i]);
