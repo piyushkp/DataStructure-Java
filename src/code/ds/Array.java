@@ -2,8 +2,12 @@ package code.ds;
 import com.sun.deploy.util.ParameterUtil;
 import com.sun.javafx.scene.layout.region.Margins;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.*;
+import java.lang.*;
 /**
  * Created by Piyush Patel.
  */
@@ -1655,6 +1659,48 @@ public class Array {
             arr[j] ^= arr[i];
             arr[i] ^= arr[j];
         }
+    }
+    //Given an array of strings, write a method to serialize that array into one single string, and a method to
+    //deserialize the single string back into the original array
+    static String serialize(String[] arr){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++){
+            byte[] bLength = Integer.toString(arr[i].length()).getBytes(StandardCharsets.US_ASCII);
+            byte[] bData = arr[i].getBytes(StandardCharsets.US_ASCII);
+            sb.append(String.format("%8s", Integer.toBinaryString(bLength[0] & 0xFF)).replace(' ', '0'));
+            Collections.reverse(Arrays.asList(bData));
+            for (byte item : bData)
+                sb.append(String.format("%8s", Integer.toBinaryString(item & 0xFF)).replace(' ', '0'));
+        }
+        return sb.toString();
+    }
+    static String[] deSerialize(String arr){
+        List<String> output = new ArrayList<String>();
+        byte[] bytes = GetBytes(arr);
+        for (int i = 0; i < bytes.length;){
+            int length = Integer.valueOf((new String(bytes,StandardCharsets.US_ASCII)).substring(i, i+1));
+            i++;
+            String data = (new String(bytes,StandardCharsets.US_ASCII)).substring(i, i + length);
+            i += length;
+            output.add(data);
+        }
+        return output.toArray(new String[0]);
+    }
+    private static byte[] GetBytes(String bitString){
+        int numBytes = bitString.length() / 8;
+        if (bitString.length() % 8 != 0) numBytes++;
+        byte[] bytes = new byte[numBytes];
+        int byteIndex = 0, bitIndex = 0;
+        for (int i = 0; i < bitString.length(); i++){
+            if (bitString.charAt(i) == '1')
+                bytes[byteIndex] |= (byte)(1 << (7 - bitIndex));
+            bitIndex++;
+            if (bitIndex == 8){
+                bitIndex = 0;
+                byteIndex++;
+            }
+        }
+        return bytes;
     }
 
 }
