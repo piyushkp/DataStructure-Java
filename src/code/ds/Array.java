@@ -1644,4 +1644,17 @@ public class Array {
             return comb1.compareTo(comb2);
         }
     };
+    //Shuffle a given array. Fisher–Yates shuffle Algorithm works in O(n) time complexity.
+    void randomize ( int arr[], int n ){
+        // Start from the last element and swap one by one. We don't need to run for the first element that's why i > 0
+        for (int i = n-1; i > 0; i--){
+            // Pick a random index from 0 to i
+            int j = (int) Math.random() % (i+1);
+            // Swap arr[i] with the element at random index
+            arr[i] ^= arr[j];
+            arr[j] ^= arr[i];
+            arr[i] ^= arr[j];
+        }
+    }
+
 }
