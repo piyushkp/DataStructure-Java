@@ -598,7 +598,6 @@ public class Array {
     //Given a sorted array with duplicates and a positive number, find the range in the
     //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).Time = O(logn)
     private int[] findRange(int a[], int num) {
-        ;
         int i; // index of first occurrence of x in arr[0..n-1]
         int j; // index of last occurrence of x in arr[0..n-1]
         /* get the index of first occurrence of x */
@@ -636,6 +635,60 @@ public class Array {
         }
         return -1;
     }
+    //Given a sorted array [2, 4, 4, 4, 8, 9, 9, 11], write a function to give number of elements in range [3, 10]
+    public static int findNumbersInRange(int[] a, int min, int max){
+        int left = 0;
+        int right = a.length - 1;
+        if (min > a[right] || max < a[left])
+            return -1;
+        while (left < right){
+            if (a[left] < min)
+                left++;
+            if (a[right] > max)
+                right--;
+            if((a[left] == min || a[left] > min) && (a[right] == max || a[right] < max))
+                break;
+        }
+        return right - left + 1;
+    }
+    public static int findNumbersInRange1(int[] a, int min, int max) {
+        int index_left = binarySearchForLeftRange(a, a.length, min);
+        int index_right = binarySearchForRightRange(a, a.length, max);
+
+        if (index_left==-1 || index_right==-1 || index_left>index_right)
+            return 0;
+        else
+            return index_right-index_left+1;
+    }
+    static int binarySearchForLeftRange(int a[], int length, int left_range){
+        if (a[length-1] < left_range)
+            return -1;
+        int low = 0;
+        int high = length-1;
+        while (low<=high){
+            int mid = low+((high-low)/2);
+            if(a[mid] >= left_range)
+                high = mid-1;
+            else //if(a[mid]<i)
+                low = mid+1;
+        }
+        return high+1;
+    }
+    static int binarySearchForRightRange(int a[], int length, int right_range){
+        if (a[0] > right_range)
+            return -1;
+        int low = 0;
+        int high = length-1;
+        while (low<=high){
+            int mid = low+((high-low)/2);
+            if(a[mid] > right_range)
+                high = mid-1;
+            else //if(a[mid]<i)
+                low = mid+1;
+        }
+        return low-1;
+    }
+
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
     //Note that this method modifies the original array
     static void findDuplicate(int[] arr){
