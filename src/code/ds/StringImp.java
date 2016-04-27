@@ -300,7 +300,7 @@ public class StringImp {
                     System.out.println(result);
                     return;
                 }
-                wordBreakUtil(str.substring(i, size-i), size-i, result+prefix+" ");
+                wordBreakUtil(str.substring(i, size), size-i, result+prefix+" ");
             }
         }
     }
