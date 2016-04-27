@@ -636,11 +636,12 @@ public class Array {
         return -1;
     }
     //Given a sorted array [2, 4, 4, 4, 8, 9, 9, 11], write a function to give number of elements in range [3, 10]
+    //Time O(N)
     public static int findNumbersInRange(int[] a, int min, int max){
         int left = 0;
         int right = a.length - 1;
         if (min > a[right] || max < a[left])
-            return -1;
+            return 0;
         while (left < right){
             if (a[left] < min)
                 left++;
@@ -651,42 +652,41 @@ public class Array {
         }
         return right - left + 1;
     }
-    public static int findNumbersInRange1(int[] a, int min, int max) {
-        int index_left = binarySearchForLeftRange(a, a.length, min);
-        int index_right = binarySearchForRightRange(a, a.length, max);
+    //Time O(2logN)
+    public static int findNumbersInRange1(int[] a, int min, int max){
+        if (min > a[a.length-1] || max < a[0])
+            return 0;
+        int index_left = binarySearchForLeftRange(a, 0, a.length - 1, min);
+        int index_right = binarySearchForRightRange(a, index_left, a.length - 1, max);
 
-        if (index_left==-1 || index_right==-1 || index_left>index_right)
+        if (index_left == -1 || index_right == -1 || index_left > index_right)
             return 0;
         else
-            return index_right-index_left+1;
+            return index_right - index_left + 1;
     }
-    static int binarySearchForLeftRange(int a[], int length, int left_range){
-        if (a[length-1] < left_range)
-            return -1;
-        int low = 0;
-        int high = length-1;
-        while (low<=high){
-            int mid = low+((high-low)/2);
-            if(a[mid] >= left_range)
-                high = mid-1;
+    static int binarySearchForLeftRange(int[] a, int start, int end, int left_range){
+        int low = start;
+        int high = end;
+        while (low <= high){
+            int mid = low + ((high - low) / 2);
+            if (a[mid] >= left_range)
+                high = mid - 1;
             else //if(a[mid]<i)
-                low = mid+1;
+                low = mid + 1;
         }
-        return high+1;
+        return high + 1;
     }
-    static int binarySearchForRightRange(int a[], int length, int right_range){
-        if (a[0] > right_range)
-            return -1;
-        int low = 0;
-        int high = length-1;
-        while (low<=high){
-            int mid = low+((high-low)/2);
-            if(a[mid] > right_range)
-                high = mid-1;
+    static int binarySearchForRightRange(int[] a, int start, int end, int right_range){
+        int low = start;
+        int high = end;
+        while (low <= high){
+            int mid = low + ((high - low) / 2);
+            if (a[mid] > right_range)
+                high = mid - 1;
             else //if(a[mid]<i)
-                low = mid+1;
+                low = mid + 1;
         }
-        return low-1;
+        return low - 1;
     }
 
     //Find duplicates in an Array which contains elements from 0 to n-1 in O(n) time and O(1) extra space
