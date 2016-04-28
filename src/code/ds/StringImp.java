@@ -7,6 +7,9 @@ import java.util.regex.Pattern;
  * Created by Piyush Patel.
  */
 public class StringImp {
+    public static void main(String[] args) {
+        compressString("aaaasssdff");
+    }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
         char[] string = s.toCharArray();
@@ -855,18 +858,10 @@ public class StringImp {
         }
         return -1;
     }
-    //implement a function to find if a given string is a palindrome
-    boolean isPalindrome(String s) {
-        int n = s.length();
-        for (int i=0;i<(n / 2) + 1;++i) {
-            if (s.charAt(i) != s.charAt(n - i - 1)) {
-                return false;
-            }
-        }
-        return true;
-    }
+
     //Given a string S, find the longest palindromic substring in S. O(NlogN) time and O(N) space
     //Better algorithm in linear time Manacher’s Algorithm
+    // Input = “abcbabcbabcba” output = “abcbabcba”
     public static String LongestPalindromeImprove(String s) {
         s +="^" + ReverseString(s);
         int N  = s.length();
@@ -901,6 +896,34 @@ public class StringImp {
         }
         return N;
     }
+    /*Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
+    e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
+    //Put all words in a Set. For each word, get all it’s prefix and suffix. Search for reversed(prefix) and reversed(suffix) in the Set.
+    //If found, check if the rest of the string is a palindrome or not. Time complexity O(nk^2).*/
+    public static List<List<Integer>> palindromePairs(String[] words) {
+        List<List<Integer>> ans = new ArrayList<List<Integer>>();
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        for (int i = 0; i < words.length; ++i) map.put(words[i], i);
+        for (int k = 0; k < words.length; ++k) {
+            String word = words[k];
+            int n = word.length();
+            for (int i = 0; i < n + 1; ++i) {
+                String prefix = new StringBuilder(word.substring(0, i)).reverse().toString();
+                String suffix = new StringBuilder(word.substring(i, n)).reverse().toString();
+                if (i != 0 && map.containsKey(suffix) && map.get(suffix) != k && isPalindrome(prefix))
+                    ans.add(Arrays.asList(map.get(suffix), k));
+                if (map.containsKey(prefix) && map.get(prefix) != k && isPalindrome(prefix))
+                    ans.add(Arrays.asList(k, map.get(prefix)));
+            }
+        }
+        return ans;
+    }
+    //implement a function to find if a given string is a palindrome
+    public static boolean isPalindrome(String word) {
+        for (int i = 0; i < word.length() / 2; ++i)
+            if (word.charAt(i) != word.charAt(word.length() - i - 1)) return false;
+        return true;
+    }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
     boolean areRotations(String s1, String s2) {
@@ -910,10 +933,6 @@ public class StringImp {
     }
     //Output top N positive integer in string comparison order.
     // For example, let's say N=1000, output should be 1, 10, 100, 1000, 101, 102, ... 109, 11, 110,
-    public static void main(String[] args) {
-        for (int i = 1; i < 10; i++)
-            printRec("" + i, 1000);
-    }
     static void printRec(String str, int n) {
         if (Integer.parseInt(str) > n) return;
         System.out.println(str);

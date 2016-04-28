@@ -1495,6 +1495,24 @@ public class Array {
      If you are a host, you need to design and implement an algorithm to find out the maximum number a nights you can accommodate.
      The constraint is that you have to reserve at least one day between each request,
      input: [5, 1, 2, 6, 20, 2] => output: 27*/
+    //house robbing problem. Time = O(N) space = O(1)
+    public int rob(int[] num) {
+        if(num==null || num.length == 0)
+            return 0;
+        int even = 0;
+        int odd = 0;
+        for (int i = 0; i < num.length; i++) {
+            if (i % 2 == 0) {
+                even += num[i];
+                even = even > odd ? even : odd;
+            } else {
+                odd += num[i];
+                odd = even > odd ? even : odd;
+            }
+        }
+        return even > odd ? even : odd;
+    }
+    //Using Dynamic programming Time = O(N) and Spcae = O(N)
     private int findMaxDays(int arr[]) {
         int [] maxDaysToPos = new int[arr.length + 1];
         maxDaysToPos[0] = 0;
@@ -1504,7 +1522,6 @@ public class Array {
         }
         return maxDaysToPos[maxDaysToPos.length - 1];
     }
-
     //A magic index in an array A[0...n] is defined to be an index such that A[i] = i. Given a sorted array of duplicate
     // integers, write a method to find a magic index, if one exists, in array A.
     private static int getMagicIndexDup(int[] a, int start, int end) {
