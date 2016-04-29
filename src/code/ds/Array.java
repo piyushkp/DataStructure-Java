@@ -1136,6 +1136,27 @@ public class Array {
         }
         System.out.print(ar1[res_l] + " " + ar2[res_r]);
     }
+    //You are given n activities with their start and finish times. Select the maximum number of activities that can be
+    //performed by a single person, assuming that a person can only work on a single activity at a time.
+    //start[]  =  {1, 3, 0, 5, 8, 5}; finish[] =  {2, 4, 6, 7, 9, 9}; Output =  {0, 1, 3, 4}
+    //Use greedy algorithm. choose best option each time
+    void printMaxActivities(int s[], int f[], int n){
+        //sort the finish array
+        Arrays.sort(f);
+        int i, j;
+        // The first activity always gets selected
+        i = 0;
+        System.out.print(i);
+        // Consider rest of the activities
+        for (j = 1; j < n; j++){
+            // If this activity has start time greater than or equal to the finish time of previously selected
+            // activity, then select it
+            if (s[j] >= f[i]){
+                System.out.println(j);
+                i = j;
+            }
+        }
+    }
     //There are N stations on route of a train. The train goes from station 0 to N-1. The ticket cost for all pair of
     // stations (i, j) is given where j is greater than i. Find the minimum cost to reach the destination.
     /*Input: cost[N][N] = { {0, 15, 80, 90},
@@ -1496,7 +1517,7 @@ public class Array {
      The constraint is that you have to reserve at least one day between each request,
      input: [5, 1, 2, 6, 20, 2] => output: 27*/
     //house robbing problem. Time = O(N) space = O(1)
-    public int rob(int[] num) {
+    public static int rob(int[] num) {
         if(num==null || num.length == 0)
             return 0;
         int even = 0;
@@ -1513,7 +1534,7 @@ public class Array {
         return even > odd ? even : odd;
     }
     //Using Dynamic programming Time = O(N) and Spcae = O(N)
-    private int findMaxDays(int arr[]) {
+    private static int findMaxDays(int arr[]) {
         int [] maxDaysToPos = new int[arr.length + 1];
         maxDaysToPos[0] = 0;
         maxDaysToPos[1] = arr[0];

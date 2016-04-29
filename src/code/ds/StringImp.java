@@ -239,7 +239,39 @@ public class StringImp {
             return m;
         return count;
     }
-
+    //Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a
+    //valid dictionary word. Return all such possible sentences.
+    //s = "catsanddog", dict = ["cat", "cats", "and", "sand", "dog"], the solution is ["cats and dog", "cat sand dog"].
+    //Input = "smokedhard" dict ={"smoke","smoked","hard"} output = "smoked hard"
+    //Before we solve it for any string check if we have already solve it. We can use another HashMap to store the result
+    //of already solved strings. When­ever any recur­sive call returns false, store that string in HashMap
+    public static boolean wordBreakUsingDP(String s, HashSet<String> dict, HashSet<String> memory, String answer) {
+        if (s.length() == 0) {
+            System.out.println(answer);
+            return true;
+        } else if (memory.contains(s)) {
+            return false;
+        } else {
+            int index = 0;
+            String word = "";
+            while (index < s.length()) {
+                word += s.charAt(index);// add one char at a time
+                // check if word already being solved
+                if (dict.contains(word)) {
+                    if (wordBreakUsingDP(s.substring(index + 1), dict, memory,
+                            answer + word + " ")) {
+                        return true;
+                    } else {
+                        index++;
+                    }
+                } else {
+                    index++;
+                }
+            }
+            memory.add(s);// memoization for future;
+            return false;
+        }
+    }
     //Given an input string and a dictionary of words, find out if the input string can be segmented into a
     //space-separated sequence of dictionary words.
     //Consider the following dictionary { i, like, sam, sung, samsung, mobile, ice,cream, icecream, man, go, mango}
@@ -284,28 +316,6 @@ public class StringImp {
             if (dictionary[i].compareTo(word) == 0)
                 return true;
         return false;
-    }
-    //Given a string s and a dictionary of words dict, add spaces in s to construct a sentence where each word is a
-    //valid dictionary word. Return all such possible sentences.
-    //s = "catsanddog", dict = ["cat", "cats", "and", "sand", "dog"], the solution is ["cats and dog", "cat sand dog"].
-    void wordBreakUtil(String str, int size, String result){
-        //Process all prefixes one by one
-        for (int i=1; i<=size; i++){
-            //extract substring from 0 to i in prefix
-            String prefix = str.substring(0, i);
-            // if dictionary conatins this prefix, then we check for remaining string. Otherwise we ignore this prefix
-            // (there is no else for this if) and try next
-            if (dictionaryContains(prefix)){
-                // if no more elements are there, print it
-                if (i == size){
-                    // add this element to previous prefix
-                    result += prefix;
-                    System.out.println(result);
-                    return;
-                }
-                wordBreakUtil(str.substring(i, size), size-i, result+prefix+" ");
-            }
-        }
     }
     //Given two sequences, find the length of longest common subsequence present in both of them.
     // Time  O(mn)
