@@ -1,206 +1,247 @@
 package code.ds;
 
-import java.util.*;
-import java.util.LinkedList;
 
 /**
  * Created by Piyush Patel.
  */
-public class Graph
-{
-    class Neighbor {
-        public int vertexNum;
-        public Neighbor next;
-        public Neighbor(int vnum, Neighbor nbr) {
-            this.vertexNum = vnum;
-            next = nbr;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Graph<T>{
+
+    private List<Edge<T>> allEdges;
+    private Map<Long,Vertex<T>> allVertex;
+    boolean isDirected = false;
+
+    public Graph(boolean isDirected){
+        allEdges = new ArrayList<Edge<T>>();
+        allVertex = new HashMap<Long,Vertex<T>>();
+        this.isDirected = isDirected;
+    }
+
+    public void addEdge(long id1, long id2){
+        addEdge(id1,id2,0);
+    }
+
+    //This works only for directed graph because for undirected graph we can end up
+    //adding edges two times to allEdges
+    public void addVertex(Vertex<T> vertex){
+        if(allVertex.containsKey(vertex.getId())){
+            return;
+        }
+        allVertex.put(vertex.getId(), vertex);
+        for(Edge<T> edge : vertex.getEdges()){
+            allEdges.add(edge);
         }
     }
-    class Vertex {
-        String name;
-        Neighbor adjList;
-        Vertex(String name, Neighbor neighbors) {
-            this.name = name;
-            this.adjList = neighbors;
+
+    public Vertex<T> addSingleVertex(long id){
+        if(allVertex.containsKey(id)){
+            return allVertex.get(id);
+        }
+        Vertex<T> v = new Vertex<T>(id);
+        allVertex.put(id, v);
+        return v;
+    }
+
+    public Vertex<T> getVertex(long id){
+        return allVertex.get(id);
+    }
+
+    public void addEdge(long id1,long id2, int weight){
+        Vertex<T> vertex1 = null;
+        if(allVertex.containsKey(id1)){
+            vertex1 = allVertex.get(id1);
+        }else{
+            vertex1 = new Vertex<T>(id1);
+            allVertex.put(id1, vertex1);
+        }
+        Vertex<T> vertex2 = null;
+        if(allVertex.containsKey(id2)){
+            vertex2 = allVertex.get(id2);
+        }else{
+            vertex2 = new Vertex<T>(id2);
+            allVertex.put(id2, vertex2);
+        }
+
+        Edge<T> edge = new Edge<T>(vertex1,vertex2,isDirected,weight);
+        allEdges.add(edge);
+        vertex1.addAdjacentVertex(edge, vertex2);
+        if(!isDirected){
+            vertex2.addAdjacentVertex(edge, vertex1);
+        }
+
+    }
+
+    public List<Edge<T>> getAllEdges(){
+        return allEdges;
+    }
+
+    public Collection<Vertex<T>> getAllVertex(){
+        return allVertex.values();
+    }
+    public void setDataForVertex(long id, T data){
+        if(allVertex.containsKey(id)){
+            Vertex<T> vertex = allVertex.get(id);
+            vertex.setData(data);
         }
     }
-    // Find the number of edges in undirected weighted graph
-    private int numOfEdges(int [][] adjacencyMatrix)
-    {
-        int numOfEdges = 0;
-        for(int row =0; row < adjacencyMatrix.length; row++)
-        {
-            for(int col = 0; col < row; col++)
-            {
-                if(adjacencyMatrix[row][col] != -1)
-                    numOfEdges++;
-            }
+
+    @Override
+    public String toString(){
+        StringBuffer buffer = new StringBuffer();
+        for(Edge<T> edge : getAllEdges()){
+            buffer.append(edge.getVertex1() + " " + edge.getVertex2() + " " + edge.getWeight());
+            buffer.append("\n");
         }
-        return  numOfEdges++;
+        return buffer.toString();
     }
-    //How to find if nodes in graph are exactly 1/2/3 edges apart.
-    //The idea is to build a 3D table where first dimension is source, second dimension is destination, third dimension
-    // is number of edges from source to destination, and the value is count of walks
-    // assumption: there are total k edges in graph and total V nodes
-    // Time Complexity: O (V^3 K)
-    private boolean isNodesKEdgesApart(int graph[][], int u, int v, int k)
-    {
-        int [][][] count = countWalks(graph,k,graph.length);
-        boolean flag = false;
-        for (int i = 1; i<=k; i++)
-        {
-             if(i < 4)
-             {
-                 if(count[u][v][i] > 0)
-                     flag = true;
-             }
-            else
-             {
-                 // if nodes are more than 3 edges apart return false
-                if(count[u][v][i] > 0)
-                    return false;
-             }
-        }
-        return flag;
+}
+
+
+class Vertex<T> {
+    long id;
+    private T data;
+    private List<Edge<T>> edges = new ArrayList<>();
+    private List<Vertex<T>> adjacentVertex = new ArrayList<>();
+
+    Vertex(long id){
+        this.id = id;
     }
-    int[][][] countWalks(int graph[][], int k, int V)
-    {
-        int [][][] count = new int [V][V][k+1];
-        for (int e = 0; e <= k; e++)
-        {
-            for (int i = 0; i < V; i++)  // for source
-            {
-                for (int j = 0; j < V; j++) // for destination
-                {
-                    // initialize value
-                    count[i][j][e] = 0;
-                    if (e == 0 && i == j)
-                        count[i][j][e] = 1;
-                    if (e == 1 && graph[i][j] !=-1)
-                        count[i][j][e] = 1;
-                    // go to adjacent only when number of edges is more than 1
-                    if (e > 1)
-                    {
-                        for (int a = 0; a < V; a++) // adjacent of source i
-                            if (graph[i][a] != -1)
-                                count[i][j][e] += count[a][j][e-1];
-                    }
-                }
-            }
-        }
-        return count;
+
+    public long getId(){
+        return id;
     }
-    //DFS traversal of the graph. Time Complexity: O(V+E)
-    Vertex[] adjLists;
-    public void dfs() {
-        boolean[] visited = new boolean[adjLists.length];
-        for (int v=0; v < visited.length; v++) {
-            if (!visited[v]) {
-                System.out.println("\nSTARTING AT " + adjLists[v].name);
-                dfsUtil(v, visited);
-            }
-        }
+
+    public void setData(T data){
+        this.data = data;
     }
-    private void dfsUtil(int v, boolean[] visited) {
-        visited[v] = true;
-        System.out.println("visiting " + adjLists[v].name);
-        for (Neighbor nbr=adjLists[v].adjList; nbr != null; nbr=nbr.next) {
-            if (!visited[nbr.vertexNum]) {
-                System.out.println("\n" + adjLists[v].name + "--" + adjLists[nbr.vertexNum].name);
-                dfsUtil(nbr.vertexNum, visited);
-            }
-        }
+
+    public T getData(){
+        return data;
     }
-    //BFS traversal of graph
-    private void breadthFirst(Graph graph, java.util.LinkedList<String> visited) {
-        java.util.LinkedList<String> nodes = graph.adjacentNodes(visited.getLast());
-        // examine adjacent nodes
-        for (String node : nodes) {
-            if (visited.contains(node)) {
-                continue;
-            }
-            if (node.equals(END)) {
-                visited.add(node);
-                System.out.print(visited);
-                visited.removeLast();
-                break;
-            }
-        }
-        // in breadth-first, recursion needs to come after visiting adjacent nodes
-        for (String node : nodes) {
-            if (visited.contains(node) || node.equals(END)) {
-                continue;
-            }
-            visited.addLast(node);
-            breadthFirst(graph, visited);
-            visited.removeLast();
-        }
+
+    public void addAdjacentVertex(Edge<T> e, Vertex<T> v){
+        edges.add(e);
+        adjacentVertex.add(v);
     }
-    //program to find out whether a given graph is Bipartite or not
-    // This function returns true if graph G[V][V] is Bipartite, else false
-    boolean isBipartite(int G[][], int src)
-    {
-        // Create a color array to store colors assigned to all veritces. Vertex
-        // number is used as index in this array. The value '-1' of  colorArr[i]
-        // is used to indicate that no color is assigned to vertex 'i'.  The value
-        // 1 is used to indicate first color is assigned and value 0 indicates
-        // second color is assigned.
-        int colorArr[] = new int[G.length];
-        for (int i = 0; i < G.length; ++i)
-            colorArr[i] = -1;
-        // Assign first color to source
-        colorArr[src] = 1;
-        // Create a queue (FIFO) of vertex numbers and enqueue source vertex
-        // for BFS traversal
-        Queue<Integer> q = new LinkedList<Integer>();
-        q.add(src);
-        // Run while there are vertices in queue (Similar to BFS)
-        while (q.size() > 0)
-        {
-            // Dequeue a vertex from queue ( Refer http://goo.gl/35oz8 )
-            int u = q.peek();
-            q.poll();
-            // Find all non-colored adjacent vertices
-            for (int v = 0; v < G.length; ++v)
-            {
-                // An edge from u to v exists and destination v is not colored
-                if (G[u][v] != -1 && colorArr[v] == -1)
-                {
-                    // Assign alternate color to this adjacent v of u
-                    colorArr[v] = 1 - colorArr[u];
-                    q.add(v);
-                }
-                //  An edge from u to v exists and destination v is colored with
-                // same color as u
-                else if (G[u][v] != -1 && colorArr[v] == colorArr[u])
-                    return false;
-            }
-        }
-        // If we reach here, then all adjacent vertices can be colored with
-        // alternate color
+
+    public String toString(){
+        return String.valueOf(id);
+    }
+
+    public List<Vertex<T>> getAdjacentVertexes(){
+        return adjacentVertex;
+    }
+
+    public List<Edge<T>> getEdges(){
+        return edges;
+    }
+
+    public int getDegree(){
+        return edges.size();
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (id ^ (id >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Vertex other = (Vertex) obj;
+        if (id != other.id)
+            return false;
         return true;
     }
-    //Shortest path with exactly k edges in a directed and weighted graph
-    // A naive recursive function to count walks from u to v with k edges
-    //The worst case time complexity of the above function is O(Vk) where V is the number of vertices
-    int shortestPath(int graph[][], int u, int v, int k)
-    {
-        // Base cases
-        if (k == 0 && u == v)             return 0;
-        if (k == 1 && graph[u][v] != -1) return graph[u][v];
-        if (k <= 0)                       return -1;
-        // Initialize result
-        int res = -1;
-        // Go to all adjacents of u and recur
-        for (int i = 0; i < graph.length; i++)
-        {
-            if (graph[u][i] != -1 && u != i && v != i)
-            {
-                int rec_res = shortestPath(graph, i, v, k-1);
-                if (rec_res != -1)
-                    res = Math.min(res, graph[u][i] + rec_res);
-            }
-        }
-        return res;
+}
+
+class Edge<T>{
+    private boolean isDirected = false;
+    private Vertex<T> vertex1;
+    private Vertex<T> vertex2;
+    private int weight;
+
+    Edge(Vertex<T> vertex1, Vertex<T> vertex2){
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
+    }
+
+    Edge(Vertex<T> vertex1, Vertex<T> vertex2,boolean isDirected,int weight){
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
+        this.weight = weight;
+        this.isDirected = isDirected;
+    }
+
+    Edge(Vertex<T> vertex1, Vertex<T> vertex2,boolean isDirected){
+        this.vertex1 = vertex1;
+        this.vertex2 = vertex2;
+        this.isDirected = isDirected;
+    }
+
+    Vertex<T> getVertex1(){
+        return vertex1;
+    }
+
+    Vertex<T> getVertex2(){
+        return vertex2;
+    }
+
+    int getWeight(){
+        return weight;
+    }
+
+    public boolean isDirected(){
+        return isDirected;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((vertex1 == null) ? 0 : vertex1.hashCode());
+        result = prime * result + ((vertex2 == null) ? 0 : vertex2.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Edge other = (Edge) obj;
+        if (vertex1 == null) {
+            if (other.vertex1 != null)
+                return false;
+        } else if (!vertex1.equals(other.vertex1))
+            return false;
+        if (vertex2 == null) {
+            if (other.vertex2 != null)
+                return false;
+        } else if (!vertex2.equals(other.vertex2))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Edge [isDirected=" + isDirected + ", vertex1=" + vertex1
+                + ", vertex2=" + vertex2 + ", weight=" + weight + "]";
     }
 }
