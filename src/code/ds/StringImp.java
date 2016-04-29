@@ -1110,7 +1110,7 @@ public class StringImp {
     Input: hello world,"b,c\n",Piyush Patel\nfoo,bar,bax
     Output:[[hello world],["b,c\n"],[Piyush Patel],[foo,bar,bax]]*/
     public List<String> decodeCSV(String csvString) {
-        List<String> individualValues = new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
         char[] arr = csvString.toCharArray();
         boolean inQuotes = false;
         StringBuffer sb = new StringBuffer();
@@ -1119,13 +1119,13 @@ public class StringImp {
             if (inQuotes) {
                 if (value == '"') {
                     if (i == arr.length - 1) {
-                        individualValues.add(sb.toString());
-                        return individualValues;
+                        result.add(sb.toString());
+                        return result;
                     } else if (arr[i + 1] == '"') {
                         sb.append('"');
                         i++;
                     } else {
-                        individualValues.add(sb.toString());
+                        result.add(sb.toString());
                         sb.setLength(0);
                         inQuotes = false;
                         i++;
@@ -1136,14 +1136,14 @@ public class StringImp {
             } else if (value == '"') {
                 inQuotes = true;
             } else if (value == ',') {
-                individualValues.add(sb.toString());
+                result.add(sb.toString());
                 sb.setLength(0);
             } else {
                 sb.append(value);
             }
         }
-        individualValues.add(sb.toString());
-        return individualValues;
+        result.add(sb.toString());
+        return result;
     }
 
     /*Given a regular expression with characters a-z, ' * ', ' . '
