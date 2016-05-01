@@ -325,7 +325,6 @@ public class MISC
             colId = 0;
             numRows = array.size();
         }
-
         public boolean hasNext() {
             if (array == null || array.isEmpty()) {
                 return false;
@@ -336,7 +335,6 @@ public class MISC
             }
             return rowId < numRows;
         }
-
         public int next() {
             int ret = array.get(rowId).get(colId);
             colId++;
