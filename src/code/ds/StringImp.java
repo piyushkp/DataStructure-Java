@@ -1144,6 +1144,53 @@ public class StringImp {
         result.add(sb.toString());
         return result;
     }
+    //Decode String. Given a string try lower/upper case combinations to decode the string.
+    //e.g. kljJJ324hjkS_ decodes to 848662 now given Input is : kljjj324hjks_
+    //Time complexity is exponential
+    private static Integer decodeFindHelper(int start, StringBuffer curr, String badEncString) {
+        if (start == badEncString.length()) {
+            String testEncStr = curr.toString();
+            Integer result = decodeString(testEncStr);
+            if (result != null)
+                return result;
+            else
+                return null;
+        }
+        char c = badEncString.charAt(start);
+        if (!Character.isLetter(c)) {
+            curr.append(c);
+            Integer result = decodeFindHelper(start + 1, curr, badEncString);
+            if (result != null) {
+                return result;
+            }
+            curr.deleteCharAt(curr.length() - 1);
+        } else {
+            // To lower case
+            char lower = Character.toLowerCase(c);
+            curr.append(lower);
+            Integer result = decodeFindHelper(start + 1, curr, badEncString);
+            if (result != null) {
+                return result;
+            }
+            curr.deleteCharAt(curr.length() - 1);
+            // To upper case
+            char upper = Character.toUpperCase(c);
+            curr.append(upper);
+            result = decodeFindHelper(start + 1, curr, badEncString);
+            if (result != null) {
+                return result;
+            }
+            curr.deleteCharAt(curr.length() - 1);
+        }
+        return null;
+    }
+    public static Integer decodeString(String testEncStr) {
+        String truth = "kljJJ324hijkS_";
+        if (testEncStr.equals(truth))
+            return 848662;
+        else
+            return null;
+    }
 
     /*Given a regular expression with characters a-z, ' * ', ' . '
    the task was to find if that string could match another string with characters from: a-z
