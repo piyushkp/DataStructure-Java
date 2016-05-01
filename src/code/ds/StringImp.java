@@ -1107,21 +1107,20 @@ public class StringImp {
         }
     }
     /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any charater)
-    Input: hello world,"b,c\n",Piyush Patel\nfoo,bar,bax
-    Output:[[hello world],["b,c\n"],[Piyush Patel],[foo,bar,bax]]*/
-    public List<String> decodeCSV(String csvString) {
+    Input: hello world,"b,c",Piyush Patel\nfoo,bar,bax
+    Output:[[hello world],["b,c"],[Piyush Patel],[foo,bar,bax]]*/
+    public List<String> decodeCSV(String s) {
         List<String> result = new ArrayList<String>();
-        char[] arr = csvString.toCharArray();
         boolean inQuotes = false;
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < arr.length; i++) {
-            char value = arr[i];
+        for (int i = 0; i < s.length(); i++) {
+            char value = s.charAt(i);
             if (inQuotes) {
                 if (value == '"') {
-                    if (i == arr.length - 1) {
+                    if (i == s.length() - 1) {
                         result.add(sb.toString());
                         return result;
-                    } else if (arr[i + 1] == '"') {
+                    } else if (s.charAt(i + 1) == '"') {
                         sb.append('"');
                         i++;
                     } else {
@@ -1130,9 +1129,9 @@ public class StringImp {
                         inQuotes = false;
                         i++;
                     }
-                } else {
-                    sb.append(value);
                 }
+                else
+                   sb.append(value);
             } else if (value == '"') {
                 inQuotes = true;
             } else if (value == ',') {
