@@ -253,6 +253,23 @@ public class Array {
         }
         return result;
     }
+    //Follow up: what if we need to speedup the proceess to know whether 2-sum present or not.
+    //The solution is when we store an element, we could also store the sum of the current number with all previous numbers.
+    //Then in the test, we only need to check if the sum exists.
+    Set<Integer> set = new HashSet<Integer>();
+    List<Integer> nums = new ArrayList<Integer>();
+    public void store(int input) {
+        if (!nums.isEmpty()) {
+            for (int num : nums) {
+                set.add(input + num);
+            }
+        }
+        nums.add(input);
+    }
+    public boolean faster2Sum(int val) {
+        return set.contains(val);
+    }
+
     //Count all distinct pairs with difference equal to k (2-sum) without hash
     //Given an integer array and a positive integer k, count all distinct pairs with difference equal to k.
     //Time complexity = O(nlogn) space O(1)
