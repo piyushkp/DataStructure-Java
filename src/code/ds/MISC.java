@@ -672,7 +672,6 @@ public class MISC {
                         result = stack.pop();
                     }
                 }
-
                 i++;
             }
             return result;

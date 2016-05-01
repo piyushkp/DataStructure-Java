@@ -1480,5 +1480,33 @@ public class StringImp {
         sb.append(word.charAt(word.length() - 1));
         return sb.toString();
     }
+    //Airbnb: display page by host_id. max entry into page is 12
+    public static void displayPages(List<String> input) {
+        if (input == null || input.size() == 0) {
+            return;
+        }
+        Set<String> visited = new HashSet<String>();
+        Iterator<String> iterator = input.iterator();
+        int pageNum = 1;
+        System.out.println("Page " + pageNum);
+        while (iterator.hasNext()) {
+            String curr = iterator.next();
+            String hostId = curr.split(",")[0];
+            if (!visited.contains(hostId)) {
+                System.out.println(curr);
+                visited.add(hostId);
+                iterator.remove();
+            }
+            // New page
+            if (visited.size() == 12 || (!iterator.hasNext())) {
+                visited.clear();
+                iterator = input.iterator();
+                if (!input.isEmpty()) {
+                    pageNum++;
+                    System.out.println("Page " + pageNum);
+                }
+            }
+        }
+    }
 }
 
