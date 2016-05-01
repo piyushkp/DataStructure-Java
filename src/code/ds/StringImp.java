@@ -197,6 +197,7 @@ public class StringImp {
         return count == 1;
     }
     //Given a dictionary as a hashtable and a word. Find the minimum # of deletions needed on the word in order to make it a valid word in the dictionary.
+    //Better approach is to use Trie. http://stackoverflow.com/questions/4868969/implementing-a-simple-trie-for-efficient-levenshtein-distance-calculation-java
     static int numberofMinDeletion(String word, HashSet<String> dic){
         int mindelete = word.length();
         for (String item : dic){
