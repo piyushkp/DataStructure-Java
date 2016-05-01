@@ -1481,6 +1481,9 @@ public class StringImp {
         return sb.toString();
     }
     //Airbnb: display page by host_id. max entry into page is 12
+    //There is a trick in this question. When do we need to get to a new page? There are two cases need to consider:
+    //1. When the current page has 12 entries.
+    //2. When the current page has less than 12 but the iterator has reached to the end. IN this case, we need wrap back and iterator the list again.
     public static void displayPages(List<String> input) {
         if (input == null || input.size() == 0) {
             return;
