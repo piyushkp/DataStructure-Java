@@ -1110,6 +1110,9 @@ public class StringImp {
     Input: hello world,"b,c",Piyush Patel\nfoo,bar,bax
     Output:[[hello world],["b,c"],[Piyush Patel],[foo,bar,bax]]*/
     public List<String> decodeCSV(String s) {
+        if (s == null || s.length() == 0) {
+            return null;
+        }
         List<String> result = new ArrayList<String>();
         boolean inQuotes = false;
         StringBuffer sb = new StringBuffer();
