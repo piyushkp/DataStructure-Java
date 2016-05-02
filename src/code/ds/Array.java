@@ -1916,7 +1916,21 @@ public class Array {
         }
         System.out.print("\n");
     }
-
+    //Given a total and coins of certain denominations find number of ways total
+    //can be formed from coins assuming infinity supply of coins
+    //https://github.com/mission-peace/interview/blob/master/src/com/interview/dynamic/CoinChanging.java
+    public int numberOfSolutionsOnSpace(int total, int arr[]){
+        int temp[] = new int[total+1];
+        temp[0] = 1;
+        for(int i=0; i < arr.length; i++){
+            for(int j=1; j <= total ; j++){
+                if(j >= arr[i]){
+                    temp[j] += temp[j-arr[i]];
+                }
+            }
+        }
+        return temp[total];
+    }
 
 
 }
