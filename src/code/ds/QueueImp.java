@@ -80,6 +80,7 @@ public class QueueImp
         }
     }
     //Implemented simple thread safe circular queue
+    //http://www.museful.net/2012/software-development/circulararraylist-for-java
     public class CircularQueue {
         private int size;
         private int head;
