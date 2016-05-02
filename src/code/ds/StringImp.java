@@ -1593,5 +1593,35 @@ public class StringImp {
             }
         }
     }
+    //Boggle implementation: Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell
+    //has one character. Find all possible words that can be formed by a sequence of adjacent charactersNote that we can
+    //move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.
+    int x[]={-1, -1, -1, 0, 1, 1, 1, 0};
+    int y[]={1, 0, -1, -1, -1, 0, 1, 1};
+    public void getWords(char boggle[][],HashSet<String> dict){
+        int m=boggle.length;
+        int n=boggle[0].length;
+        boolean visited[][]=new boolean[m][n];
+        for(int i=0;i<m;++i){
+            for(int j=0;j<n;++j){
+                String str="";
+                findWord(boggle,dict,visited,i,j,m,n,str);
+            }
+        }
+    }
+    public void findWord(char boggle[][],HashSet<String> dict,boolean visited[][],int i,int j,int m,int n,String str){
+        if(i>=m || i<0 || j>=n || j<0 || visited[i][j]==true){
+            return;
+        }
+        str=str+boggle[i][j];
+        if(dict.contains(str)==true){
+            System.out.println(str);
+        }
+        visited[i][j]=true;
+        for(int k=0;k<8;++k){
+            findWord(boggle,dict,visited,i+x[k],j+y[k],m,n,str);
+        }
+        visited[i][j]=false;
+    }
 }
 
