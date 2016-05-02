@@ -1850,5 +1850,27 @@ public class Array {
                 max = arr[i];
         return max;
     }
+    //Sort a list of numbers in which each number is at a distance k from its actual position
+    //Input = 3,4,1,2,7,8,5,6 and K=2 output = 1,2,3,4,5,6
+    public static int[] SortNearlySorted(int []a, int k){
+        if(k==0)
+            return a;
+        int count =0;
+        for(int i=0;i<a.length;i++){
+            Swap(a[i], a[i+k]);
+            count++;
+            if(count == k) {
+                i += k;
+                count = 0;
+            }
+        }
+        return a;
+    }
+    public static void Swap(int x, int y){
+        x ^=y;
+        y^=x;
+        x^=y;
+    }
+
 
 }
