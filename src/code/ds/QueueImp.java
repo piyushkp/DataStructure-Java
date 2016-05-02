@@ -130,5 +130,16 @@ public class QueueImp
             }
             return tmp;
         }
+        //Creates a new array to store the contents of the queue with twice the capacity of the old one.
+        /*public void expandCapacity(){
+           Object[] larger = (Object[])(new Object[q.length *2]);
+            for(int scan=0; scan < size; scan++){
+                larger[scan] = q[head];
+                head=(head+1) % q.length;
+            }
+            head = 0;
+            tail = size;
+            q = larger;
+        }*/
     }
 }
