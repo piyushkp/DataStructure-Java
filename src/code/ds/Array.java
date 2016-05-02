@@ -1857,7 +1857,7 @@ public class Array {
             return a;
         int count =0;
         for(int i=0;i<a.length;i++){
-            Swap(a[i], a[i+k]);
+            Swap(i,i+k, a);
             count++;
             if(count == k) {
                 i += k;
@@ -1866,11 +1866,16 @@ public class Array {
         }
         return a;
     }
-    public static void Swap(int x, int y){
-        x ^=y;
-        y^=x;
-        x^=y;
+    public static void Swap(int x, int y, int a[]){
+        a[x] ^=a[y];
+        a[y]^=a[x];
+        a[x]^=a[y];
     }
+    //Given an array of n elements, where each element is at most k away from its target position,
+    //devise an algorithm that sorts in O(n log k) time.
+    // Solution: 1) Create a Min Heap of size k+1 with first k+1 elements. This will take O(k) time (See this GFact)
+    //2) One by one remove min element from heap, put it in result array, and add a new element to heap from remaining elements.
+    //So overall complexity will be O(k) + O((n-k)*logK)
 
 
 }
