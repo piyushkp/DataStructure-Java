@@ -1276,52 +1276,55 @@ public class StringImp {
         else
             return null;
     }
-
-    /*Given a regular expression with characters a-z, ' * ', ' . '
-   the task was to find if that string could match another string with characters from: a-z
-   where ' * ' can delete the character before it, and ' . ' could match whatever character.
-   ' * ' always appear after a a-z character. */
-    Boolean isMatch(String sA, String sB, int iALength, int iBLength) {
-        if (iALength == 0 && iBLength == 0) return true;
-        else {
-            if (iALength > 0) {
-                if (sA.charAt(iALength - 1) == '*')
-                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 2, iBLength);
-                if (sA.charAt(iALength - 1) == '.')
-                    return isMatch(sA, sB, iALength - 1, iBLength) || isMatch(sA, sB, iALength - 1, iBLength - 1);
-                if (iBLength > 0) {
-                    if (sA.charAt(iALength - 1) == sB.charAt(iBLength - 1)) return true;
-                    else return false;
-                }
-            }
-        }
-        return false;
-    }
     /* Implement regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
-    public boolean isMatch(String s, String p) {
-        if (s == null) return p == null;
-        if (p == null) return s == null;
-        int lenS = s.length();
-        int lenP = p.length();
-        if (lenP == 0) return lenS == 0;
-        if (lenP == 1) {
-            if (p.equals(s) || p.equals(".") && s.length() == 1) {
-                return true;
-            } else return false;
+    public static boolean isMatch(String s, String p) {
+        // base case
+        if (p.length() == 0) {
+            return s.length() == 0;
         }
-        if (p.charAt(1) != '*') {
-            if (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
+        // special case
+        if (p.length() == 1) {
+            // if the length of s is 0, return false
+            if (s.length() < 1) {
+                return false;
+            }
+            //if the first does not match, return false
+            else if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            }
+            // otherwise, compare the rest of the string of s and p.
+            else {
                 return isMatch(s.substring(1), p.substring(1));
             }
-            return false;
-        } else {
-            while (s.length() > 0 && (p.charAt(0) == s.charAt(0) || p.charAt(0) == '.')) {
-                if (isMatch(s, p.substring(2))) return true;
-                s = s.substring(1);
+        }
+        // case 1: when the second char of p is not '*'
+        if (p.charAt(1) != '*') {
+            if (s.length() < 1) {
+                return false;
             }
-            return isMatch(s, p.substring(2));
+            if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            } else {
+                return isMatch(s.substring(1), p.substring(1));
+            }
+        }
+        // case 2: when the second char of p is '*', complex case.
+        else {
+            //case 2.1: a char & '*' can stand for 0 element
+            if (isMatch(s, p.substring(2))) {
+                return true;
+            }
+            //case 2.2: a char & '*' can stand for 1 or more preceding element, so try every sub string
+            int i = 0;
+            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+                if (isMatch(s.substring(i + 1), p.substring(2))) {
+                    return true;
+                }
+                i++;
+            }
+            return false;
         }
     }
     //Given a character limit and a message, split the message up into annotated chunks without cutting words as,
