@@ -1327,6 +1327,69 @@ public class StringImp {
             return false;
         }
     }
+    /* Implement a regular expression matching. There are three special characters.
+        * means zero or more of previous characters
+        . means any single character
+        + means one or more of previous characters   */
+    public static boolean isMatch1(String s, String p) {
+        // base case
+        if (p.length() == 0) {
+            return s.length() == 0;
+        }
+        // special case
+        if (p.length() == 1) {
+            // if the length of s is 0, return false
+            if (s.length() < 1) {
+                return false;
+            }
+            //if the first does not match, return false
+            else if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            }
+            // otherwise, compare the rest of the string of s and p.
+            else {
+                return isMatch1(s.substring(1), p.substring(1));
+            }
+        }
+        // case 1: when the second char of p is not '*'
+        if (p.charAt(1) != '*' && p.charAt(1) != '+') {
+            if (s.length() < 1) {
+                return false;
+            }
+            if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            } else {
+                return isMatch1(s.substring(1), p.substring(1));
+            }
+        }
+        // case 2: when the second char of p is '*', complex case.
+        else if(p.charAt(1) == '*'){
+            //case 2.1: a char & '*' can stand for 0 element
+            if (isMatch1(s, p.substring(2))) {
+                return true;
+            }
+            //case 2.2: a char & '*' can stand for 1 or more preceding element, so try every sub string
+            int i = 0;
+            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+                if (isMatch1(s.substring(i + 1), p.substring(2))) {
+                    return true;
+                }
+                i++;
+            }
+            return false;
+        }
+        else if(p.charAt(1) == '+'){
+            int i = 0;
+            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+                if (isMatch1(s.substring(i + 1), p.substring(2))) {
+                    return true;
+                }
+                i++;
+            }
+            return false;
+        }
+        return false;
+    }
     //Given a character limit and a message, split the message up into annotated chunks without cutting words as,
     //for example when sending the SMS "Hi Sivasrinivas, your Uber is arriving now!" with char limit 25, you should get
     //["Hi Sivasrinivas,(1/3)", "your Uber is arriving(2/3)", "now!(3/3)"]
