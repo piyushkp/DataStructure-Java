@@ -102,60 +102,48 @@ public class Numbers {
         }
         return s;
     }
-    //Find the Nearest points in A Plane O(nlogm)
+    // Find K Nearest points on a plane O(nlogk)
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
-    class Point {
-        double x, y;
-        public double getX() {
-            return x;
-        }
-        public void setX(double x) {
-            this.x = x;
-        }
-        public double getY() {
-            return y;
-        }
-        public void setY(double y) {
+    class Point implements Comparable<Point> {
+        int x, y;
+        double distance;
+        public Point (int x, int y, Point original) {
+            this.x= x;
             this.y = y;
-        }
-    }
 
-    public interface PointsOnAPlane {
-        void addPoint(Point point);
-        Collection<Point> findNearest(Point center, int m);
-    }
-
-    public abstract class PointsOnAPlaneImpl implements PointsOnAPlane {
-        ArrayList<Point> points = new ArrayList<Point>();
-        @Override
-        public void addPoint(Point point) {
-            points.add(point);
-        }
-        private double distance2(Point center, Point p) {
-            return Math.pow((center.getX() - p.getX()), 2) + Math.pow((center.getY() - p.getY()), 2);
+            // sqrt(x^2 + y^2)
+            distance = Math.hypot(x - original.x, y - original.y);
         }
         @Override
-        public Collection<Point> findNearest(ArrayList<Point> points, final Point center, int m) {
-            //max heap
-            PriorityQueue<Point> heap = new PriorityQueue<Point>(m, new Comparator<Point>() {
-                @Override
-                public int compare(Point a, Point b) {
-                    return Double.compare(distance2(center, b), distance2(center, a));
-                }
-            });
-            for (int i = 0; i < points.size(); i++) { //O(n)
-                Point p = points.get(i);
-                if (p == center) continue; //use reference equals as there may be other points with the same coordinates as the center.
-                if (heap.size() < m) heap.add(p);
-                else {
-                    if (distance2(center, p) < distance2(center, heap.peek())) { //O(1)
-                        heap.remove(); //O(log(m));
-                        heap.add(p); //O(log(m))
-                    }
+        public int compareTo(Point that) {
+            return this.distance.compareTo(that.distance);
+        }
+    }
+    public List<Point> findKClosest(Point[] p, int k) {
+        PriorityQueue<Point> pq = new PriorityQueue<Point>(10, new Comparator<Point>() {
+            @Override
+            public int compare(Point a, Point b) {
+                return (b.x * b.x + b.y * b.y) - (a.x * a.x + a.y * a.y);
+            }
+        });
+
+        for (int i = 0; i < p.length; i++) {
+            if (i < k)
+                pq.offer(p[i]);
+            else {
+                Point tmp = pq.peek();
+                if ((p[i].x * p[i].x + p[i].y * p[i].y) - (tmp.x * tmp.x + tmp.y * tmp.y) < 0) {
+                    pq.poll();
+                    pq.offer(p[i]);
                 }
             }
-            return heap;
         }
+
+        List<Point> x = new ArrayList<Point>();
+        while (!pq.isEmpty())
+            x.add(pq.poll());
+
+        return x;
     }
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {
