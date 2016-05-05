@@ -372,6 +372,7 @@ public class Array {
         return max_len;
     }
     //Given an array, describe an algorithm to identify the subarray with the maximum sum.
+    //Largest sum contiguous subarray  
     private static int[] findMaxSumIndex(int[] arr){
         int[] result = new int[3];
         int maxSumTillNow = Integer.MIN_VALUE;
@@ -1340,8 +1341,6 @@ public class Array {
         }
         return prev + 1;
     }
-
-
     //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
     private boolean checkDuplicatesWithinK(int a[], int k){
         HashSet<Integer> hash = new HashSet<Integer>();
@@ -1967,6 +1966,19 @@ public class Array {
             }
         }
         return temp[total];
+    }
+    //This program plays the game "Fizzbuzz".  It counts to 100, replacing each multiple of 5 with the word "fizz", each
+    //multiple of 7 with the word "buzz", and each multiple of both with the word "fizzbuzz".
+    public static void fizzbuzz(){
+        for(int i = 1; i <= 100; i++) {                    // count from 1 to 100
+            if (((i % 5) == 0) && ((i % 7) == 0))            // A multiple of both?
+                System.out.print("fizzbuzz");
+            else if ((i % 5) == 0) System.out.print("fizz"); // else a multiple of 5?
+            else if ((i % 7) == 0) System.out.print("buzz"); // else a multiple of 7?
+            else System.out.print(i);                        // else just print it
+            System.out.print(" ");
+        }
+        System.out.println();
     }
 
 
