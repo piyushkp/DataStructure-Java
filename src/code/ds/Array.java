@@ -1305,6 +1305,43 @@ public class Array {
         // Return the partition index of an array based on the pivot element of other array.
         return i;
     }
+    //Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+    public static int[] removeDuplicates(int[] A) {
+        if (A.length < 2)
+            return A;
+        int j = 0;
+        int i = 1;
+        while (i < A.length) {
+            if (A[i] == A[j]) {
+                i++;
+            } else {
+                j++;
+                A[j] = A[i];
+                i++;
+            }
+        }
+        int[] B = Arrays.copyOf(A, j + 1);
+        return B;
+    }
+    //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
+    public int removeDuplicates1(int[] A) {
+        if (A.length <= 2)
+            return A.length;
+        int prev = 1; // point to previous
+        int curr = 2; // point to current
+        while (curr < A.length) {
+            if (A[curr] == A[prev] && A[curr] == A[prev - 1]) {
+                curr++;
+            } else {
+                prev++;
+                A[prev] = A[curr];
+                curr++;
+            }
+        }
+        return prev + 1;
+    }
+
+
     //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
     private boolean checkDuplicatesWithinK(int a[], int k){
         HashSet<Integer> hash = new HashSet<Integer>();
