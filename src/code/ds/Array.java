@@ -372,7 +372,7 @@ public class Array {
         return max_len;
     }
     //Given an array, describe an algorithm to identify the subarray with the maximum sum.
-    //Largest sum contiguous subarray  
+    //Largest sum contiguous subarray
     private static int[] findMaxSumIndex(int[] arr){
         int[] result = new int[3];
         int maxSumTillNow = Integer.MIN_VALUE;

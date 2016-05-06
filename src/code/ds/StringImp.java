@@ -988,7 +988,7 @@ public class StringImp {
         }
         return N;
     }
-    /*Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
+    /*Airbnb: Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
     e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
     //Put all words in a Set. For each word, get all it’s prefix and suffix. Search for reversed(prefix) and reversed(suffix) in the Set.
     //If found, check if the rest of the string is a palindrome or not. Time complexity O(nk^2).*/
