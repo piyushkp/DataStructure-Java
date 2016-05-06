@@ -142,6 +142,17 @@ public class Array {
                 return findKSmallestElement(A, startA, endA, B, midB + 1, endB, k - m / 2 - 1);
         }
     }
+    //Median of two sorted arrays
+    public double findMedianSortedArrays(int A[], int B[]) {
+        int lengthA = A.length;
+        int lengthB = B.length;
+        if ((lengthA + lengthB) % 2 == 0) {
+            double r1 = (double) findKSmallestElement(A, 0, lengthA, B, 0, lengthB, (lengthA + lengthB) / 2);
+            double r2 = (double) findKSmallestElement(A, 0, lengthA, B, 0, lengthB, (lengthA + lengthB) / 2 + 1);
+            return (r1 + r2) / 2;
+        } else
+            return findKSmallestElement(A, 0, lengthA, B, 0, lengthB, (lengthA + lengthB + 1) / 2);
+    }
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
