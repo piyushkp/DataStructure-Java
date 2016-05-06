@@ -100,7 +100,7 @@ public class Array {
         return findMedian_ofTwoSortedArray(a,b,start_a,end_a,start_b,end_b);
     }
 
-    //Find the second largest number from the array
+    //Find the second largest/smallest number from the array
     static int  secondlargest(int[] a){
         int largest = a[0];
         int secondlargest = 0;
@@ -110,8 +110,7 @@ public class Array {
                 secondlargest = largest;
                 largest = number;
             }
-            else{
-                if (number > secondlargest)
+            else if (number < secondlargest && number != largest){
                     secondlargest = number;
             }
         }
