@@ -1689,5 +1689,79 @@ public class StringImp {
         }
         visited[i][j]=false;
     }
+    /*Better version using Trie and Dynamic programming: instead of random constructing word after word in this infinite
+    ocean of words why don't I take a word from the dictionary and somehow magically check whether that's available on the board or not?
+    DP: For a word of length k to be found (end location) at the [i, j]-th location of the board, the k-1'th letter of that
+    word must be located in one of the adjacent cells of [i, j].
+    Time = O (W * N * N * MAX_WORD_LENGTH) */
+    private static DictNode root;
+    private static class DictNode {
+        public final char letter;
+        public DictNode[] nextNodes = new DictNode[26];
+        public boolean wordEnd;
+        public DictNode(final char letter) {
+            this.letter = letter;
+        }
+        public void insert(final String word) {
+            DictNode node = root;
+            char[] letters = word.toCharArray();
+            for (int i = 0; i < letters.length; i++) {
+                if (node.nextNodes[letters[i] - 'a'] == null) {
+                    node.nextNodes[letters[i] - 'a'] = new DictNode(letters[i]);
+
+                    if (i == letters.length-1) {
+                        node.nextNodes[letters[i] - 'a'].wordEnd = true;
+                    }
+                }
+                node = node.nextNodes[letters[i] - 'a'];
+            }
+        }
+        public boolean contains(final String word) {
+            DictNode node = root;
+            char[] letters = word.toCharArray();
+            int i = 0;
+            while (i < letters.length && node.nextNodes[letters[i] - 'a'] != null) {
+                node = node.nextNodes[letters[i] - 'a'];
+                i++;
+            }
+            return (i == letters.length) && node.wordEnd;
+        }
+    }
+    public static void boggleDynamic(char board[][], HashSet<String> dict) {
+        for (String word : dict) {
+            if(isInBoard(board,word))
+                System.out.println(word);
+        }
+    }
+    public static boolean isInBoard(char board[][], final String word) {
+        int N = board.length;
+        int[] dx = {1, 1, 0, -1, -1, -1, 0, 1};
+        int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
+
+        boolean[][][] dp = new boolean[50][N][N];
+        char[] letters = word.toCharArray();
+        for (int k = 0; k < letters.length; k++) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    if (k == 0) {
+                        dp[k][i][j] = true;
+                    }
+                    else {
+                        for (int l = 0; l < 8; l++) {
+                            int x = i + dx[l];
+                            int y = j + dy[l];
+                            if ((x >= 0) && (x < N) && (y >= 0) && (y < N) && (dp[k - 1][x][y]) && (board[i][j] == letters[k])) {
+                                dp[k][i][j] = true;
+                                if (k == letters.length-1) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
 
