@@ -1719,7 +1719,7 @@ public class StringImp {
         }
         StringBuffer buff = new StringBuffer();
         Set<String> result = new HashSet<String>();
-        boolean visited[][]=new boolean[board.length][board.length];;
+        boolean visited[][]=new boolean[board.length][board.length];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 findWordsUtil(board, t, i, j, buff, visited, result);
