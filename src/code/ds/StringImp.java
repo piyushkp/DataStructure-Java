@@ -1739,7 +1739,6 @@ public class StringImp {
             return;
         }
         visited[i][j]=true;
-
         if(t.search(str)) {
             result.add(buff.toString());
         }
