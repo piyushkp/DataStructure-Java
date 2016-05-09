@@ -1662,34 +1662,95 @@ public class StringImp {
     //Boggle implementation: Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell
     //has one character. Find all possible words that can be formed by a sequence of adjacent charactersNote that we can
     //move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.
-    int x[]={-1, -1, -1, 0, 1, 1, 1, 0};
-    int y[]={1, 0, -1, -1, -1, 0, 1, 1};
-    public void getWords(char boggle[][],HashSet<String> dict){
-        int m=boggle.length;
-        int n=boggle[0].length;
-        boolean visited[][]=new boolean[m][n];
-        for(int i=0;i<m;++i){
-            for(int j=0;j<n;++j){
-                String str="";
-                findWord(boggle,dict,visited,i,j,m,n,str);
+    class TrieNode1 {
+        TrieNode1[] child = new TrieNode1[26];
+        boolean isWord;
+        public TrieNode1() {
+        }
+    }
+    class Trie1 {
+        private TrieNode1 root;
+        public Trie1() {
+            root = new TrieNode1();
+        }
+        // Inserts a word into the trie.
+        public void insert(String word) {
+            TrieNode1 current = root;
+            for (int i = 0; i < word.length(); i++) {
+                char ch = (char) (word.charAt(i) - 'a');
+                if (current.child[ch] == null) {
+                    current.child[ch] = new TrieNode1();
+                }
+                current = current.child[ch];
+            }
+            current.isWord = true;
+        }
+        // Returns if there is any word in the trie that starts with the given prefix.
+        public boolean startsWith(String prefix) {
+            TrieNode1 current = root;
+            for (int i = 0; i < prefix.length(); i++) {
+                char ch = (char) (prefix.charAt(i) - 'a');
+                if (current.child[ch] == null) {
+                    return false;
+                }
+                current = current.child[ch];
+            }
+            return true;
+        }
+        // Returns if the word is in the trie.
+        public boolean search(String word) {
+            TrieNode1 current = root;
+            for (int i = 0; i < word.length(); i++) {
+                char ch = (char) (word.charAt(i) - 'a');
+                if (current.child[ch] == null) {
+                    return false;
+                }
+                current = current.child[ch];
+            }
+            return current.isWord;
+        }
+    }
+    int dx[]={-1, -1, -1, 0, 1, 1, 1, 0};
+    int dy[]={1, 0, -1, -1, -1, 0, 1, 1};
+    public List<String> findWords(char[][] board, String[] words) {
+        Trie1 t = new Trie1();
+        for (String word : words) {
+            t.insert(word.toLowerCase());
+        }
+        StringBuffer buff = new StringBuffer();
+        Set<String> result = new HashSet<String>();
+        boolean visited[][]=new boolean[board.length][board.length];;
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                findWordsUtil(board, t, i, j, buff, visited, result);
             }
         }
+        return new ArrayList<String>(result);
     }
-    public void findWord(char boggle[][],HashSet<String> dict,boolean visited[][],int i,int j,int m,int n,String str){
-        if(i>=m || i<0 || j>=n || j<0 || visited[i][j]==true){
+
+    private void findWordsUtil(char[][] board, Trie1 t , int i, int j, StringBuffer buff, boolean visited[][], Set<String> result) {
+        if(i < 0 || j < 0 || i >= board.length || j >= board[i].length|| visited[i][j]==true){
             return;
         }
-        str=str+boggle[i][j];
-        if(dict.contains(str)==true){
-            System.out.println(str);
+        buff.append(board[i][j]);
+        String str = buff.toString().toLowerCase();
+        if(!t.startsWith(str)) {
+            buff.deleteCharAt(buff.length() - 1);
+            return;
         }
         visited[i][j]=true;
-        for(int k=0;k<8;++k){
-            findWord(boggle,dict,visited,i+x[k],j+y[k],m,n,str);
+
+        if(t.search(str)) {
+            result.add(buff.toString());
         }
+        for(int k=0;k<8;++k){
+            findWordsUtil(board, t, i + dx[k], j + dy[k], buff, visited, result);
+        }
+        buff.deleteCharAt(buff.length() - 1);
         visited[i][j]=false;
+
     }
-    /*Better version using Trie and Dynamic programming: instead of random constructing word after word in this infinite
+    /*another version using Trie and Dynamic programming: instead of random constructing word after word in this infinite
     ocean of words why don't I take a word from the dictionary and somehow magically check whether that's available on the board or not?
     DP: For a word of length k to be found (end location) at the [i, j]-th location of the board, the k-1'th letter of that
     word must be located in one of the adjacent cells of [i, j].
