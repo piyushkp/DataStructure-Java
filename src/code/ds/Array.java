@@ -2004,7 +2004,23 @@ public class Array {
         }
         return max_diff;
     }
-
-
-
+    //Find the minimum (index) distance sum of 3 words. For example: arr = {"2", "1", "0", "2", "0", "3", "0"},
+    //input = "1","2","3". The result should be 8 since the 2nd "2" and "1", "3"'s distance are 3, 1, 5 and abs(3,1)+abs(3,5)+abs(5,1)=8.
+    static int minimum_distance_sum(int[] words, int a, int b, int c) {
+        int last_a = -1;
+        int last_b = -1;
+        int last_c = -1;
+        int min_distance = Integer.MAX_VALUE;
+        for (int i = 0; i < words.length; i++) {
+            if (words[i] == a)
+                last_a = i;
+            else if (words[i] == b)
+                last_b = i;
+            else if (words[i] == c)
+                last_c = i;
+            if (last_a >= 0 && last_b >= 0 && last_c >= 0)
+                min_distance = Math.min(min_distance, Math.abs(last_a-last_c)+ Math.abs(last_a-last_b)+ Math.abs(last_b-last_c));
+        }
+        return min_distance;
+    }
 }
