@@ -362,25 +362,6 @@ public class Array {
         }
         return max_so_far;
     }
-    //find the length of longest increasing subarray
-    //{1,3,2,4,5} output = 3
-    int findlen(int[] a){
-        int min = a[0];
-        int max_len = 1;
-        int count = 1;
-        for (int i = 1; i < a.length; i++){
-            if (a[i] > min){
-                count++;
-            }
-            else {
-                max_len = Math.max(max_len, count);
-                count = 1;
-            }
-            min = a[i];
-        }
-        max_len = Math.max(max_len, count);
-        return max_len;
-    }
     //Given an array, describe an algorithm to identify the subarray with the maximum sum.
     //Largest sum contiguous subarray
     private static int[] findMaxSumIndex(int[] arr){
@@ -403,6 +384,26 @@ public class Array {
         }
         return result;
     }
+    //find the length of longest increasing subarray
+    //{1,3,2,4,5} output = 3
+    int findlen(int[] a){
+        int min = a[0];
+        int max_len = 1;
+        int count = 1;
+        for (int i = 1; i < a.length; i++){
+            if (a[i] > min){
+                count++;
+            }
+            else {
+                max_len = Math.max(max_len, count);
+                count = 1;
+            }
+            min = a[i];
+        }
+        max_len = Math.max(max_len, count);
+        return max_len;
+    }
+
     //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
         // max positive product ending at the current position
