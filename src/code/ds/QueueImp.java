@@ -80,66 +80,65 @@ public class QueueImp
         }
     }
     //Implemented simple thread safe circular queue
-    //http://www.museful.net/2012/software-development/circulararraylist-for-java
-    public class CircularQueue {
-        private int size;
-        private int head;
-        private int tail;
-        private Object q[];
-        public CircularQueue(int s) {
-            size = s;
-            q = new Object[s+1];
-            head = 0;
-            tail = 0;
+    public class ArrayCircularBuffer<T> {
+        // internal data storage
+        private T[] data;
+        // indices for inserting and removing from queue
+        private int front = 0;
+        private int insertLocation = 0;
+        // number of elements in queue
+        private int size = 0;
+        public ArrayCircularBuffer(int bufferSize) {
+            data = (T[]) new Object[bufferSize];
         }
-        public synchronized void initialize() {
-            head = 0;
-            tail = 0;
-        }
-        public int size() {
-            if(tail > head)
-                return tail - head;
-            return size - head + tail;
-        }
-        public boolean isEmpty() {
-            return (tail == head) ? true : false;
-        }
-        public boolean isFull() {
-            int diff = tail - head;
-            if(diff == -1 || diff == (size -1))
-                return true;
-            return false;
-        }
-        public synchronized void enqueue(Object v) throws Exception{
-            if(isFull()){
-                throw new Exception("Queue is Full.");
-            }
-            else {
-                q[tail] = v;
-                tail = (tail + 1) % size;
+        /**
+         * Inserts an item at the end of the queue. If the queue is full, the oldest
+         * value will be removed and head of the queue will become the second oldest
+         * value. */
+        public synchronized void insert(T item) {
+            data[insertLocation] = item;
+            insertLocation = (insertLocation + 1) % data.length;
+            /**If the queue is full, this means we just overwrote the front of the
+             * queue. So increment the front location.*/
+            if (size == data.length) {
+                front = (front + 1) % data.length;
+            } else {
+                size++;
             }
         }
-        public synchronized Object dequeue() throws Exception{
-            Object tmp;
-            if (isEmpty())
-                throw new Exception("queue underflow!");
-            else {
-                tmp = q[head];
-                q[head] = null;
-                head = (head + 1) % size;
-            }
-            return tmp;
+        public synchronized int size() {
+            return size;
         }
-        //Creates a new array to store the contents of the queue with twice the capacity of the old one.
-        /*public void expandCapacity(){
-           Object[] larger = (Object[])(new Object[q.length *2]);
-            for(int scan=0; scan < size; scan++){
-                larger[scan] = q[head];
-                head=(head+1) % q.length;
+        public synchronized T removeFront() {
+            if (size == 0) {
+                throw new NoSuchElementException();
             }
-            head = 0;
-            tail = size;
-            q = larger;
-        }*/
+            T retValue = data[front];
+            front = (front + 1) % data.length;
+            size--;
+            return retValue;
+        }
+        /** Returns the head of the queue but does not remove it.*/
+        public synchronized T peekFront() {
+            if (size == 0) {
+                return null;
+            } else {
+                return data[front];
+            }
+        }
+        /**Returns the last element of the queue but does not remove it.*/
+        public synchronized T peekLast() {
+            if (size == 0) {
+                return null;
+            } else {
+                int lastElement = insertLocation - 1;
+                if (lastElement < 0) {
+                    lastElement = data.length - 1;
+                }
+                return data[lastElement];
+            }
+        }
     }
+    //how to count number of requests in last second, minute and hour. using circular array
+    //https://github.com/WeizhengZhou/leetcode3/blob/master/src/LastCounter.java
 }
