@@ -122,7 +122,9 @@ public class Matrix {
         }
     }
     //Given an MX N matrix in which each row and each column is sorted in ascending order, write a method to find an element.
-    //Time O(MlogN) since there are M rows and it takes 0(log(N)) time to search each one
+    //As a first approach, we can do binary search on every row to find the element. This algorithm will be 0(M log(N)), since there are M rows and it takes 0(log(N)) time
+    //to search each one
+    //This approach is O(m+n)
     public static boolean findElement(int[][] matrix, int elem) {
         int row = 0;
         int col = matrix[0].length - 1;
@@ -137,64 +139,34 @@ public class Matrix {
         }
         return false;
     }
-    //we can improve above by binary search Split the grid into quadrants. Search the bottom left and the top right
-    class Coordinate {
-        public int row;
-        public int column;
-        public Coordinate(int r, int c) {
-            row = r;
-            column = c;
+    //we can improve above by binary search Split the grid into quadrants. eliminate the 1/4th part and
+    //Search the bottom left and the top right.time complexity should be greater than O(log (m + n))
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
         }
-        public boolean isBefore(Coordinate p) {
-            return row <= p.row && column <= p.column;
-        }
-        public void setToAverage(Coordinate min, Coordinate max) {
-            row = (min.row + max.row) / 2;
-            column = (min.column + max.column) / 2;
-        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        return helper(matrix, 0, m - 1, 0, n - 1, target);
     }
-    public Coordinate partitionAndSearch(int[][] matrix, Coordinate origin, Coordinate dest, Coordinate pivot, int x) {
-        Coordinate lowerLeftOrigin = new Coordinate(pivot.row, origin.column);
-        Coordinate lowerLeftDest = new Coordinate(dest.row, pivot.column - 1);
-        Coordinate upperRightOrigin = new Coordinate(origin.row, pivot.column);
-        Coordinate upperRightDest = new Coordinate(pivot.row - 1, dest.column);
-        Coordinate lowerLeft = findElement(matrix, lowerLeftOrigin, lowerLeftDest, x);
-        if (lowerLeft == null) {
-            return findElement(matrix, upperRightOrigin, upperRightDest, x);
+    private boolean helper(int[][] matrix, int rowStart, int rowEnd, int colStart, int colEnd, int target) {
+        if (rowStart > rowEnd || colStart > colEnd) {
+            return false;
         }
-        return lowerLeft;
-    }
-    public Coordinate findElement(int[][] matrix, Coordinate origin, Coordinate dest, int x) {
-        if (matrix[origin.row][origin.column] == x) {
-            return origin;
-        } else if (!origin.isBefore(dest)) {
-            return null;
+        int rowMid = rowStart + (rowEnd - rowStart) / 2;
+        int colMid = colStart + (colEnd - colStart) / 2;
+        if (matrix[rowMid][colMid] == target) {
+            return true;
         }
-		/* Set start to start of diagonal and end to the end of the diagonal. Since
-		 * the grid may not be square, the end of the diagonal may not equal dest.
-		 */
-        Coordinate start = origin;
-        int diagDist = Math.min(dest.row - origin.row, dest.column - origin.column);
-        Coordinate end = new Coordinate(start.row + diagDist, start.column + diagDist);
-        Coordinate p = new Coordinate(0, 0);
-		/* Do binary search on the diagonal, looking for the first element greater than x */
-        while (start.isBefore(end)) {
-            p.setToAverage(start, end);
-            if (x > matrix[p.row][p.column]) {
-                start.row = p.row + 1;
-                start.column = p.column + 1;
-            } else {
-                end.row = p.row - 1;
-                end.column = p.column - 1;
-            }
+        if (matrix[rowMid][colMid] > target) {
+            return helper(matrix, rowStart, rowMid - 1, colStart, colMid - 1, target) ||
+                    helper(matrix, rowMid, rowEnd, colStart, colMid - 1, target) ||
+                    helper(matrix, rowStart, rowMid - 1, colMid, colEnd, target);
+        } else {
+            return helper(matrix, rowMid + 1, rowEnd, colMid + 1, colEnd, target) ||
+                    helper(matrix, rowMid + 1, rowEnd, colStart, colMid, target) ||
+                    helper(matrix, rowStart, rowMid, colMid + 1, colEnd, target);
         }
-		/* Split the grid into quadrants. Search the bottom left and the top right. */
-        return partitionAndSearch(matrix, origin, dest, start, x);
-    }
-    public Coordinate findElementWrap(int[][] matrix, int x) {
-        Coordinate origin = new Coordinate(0, 0);
-        Coordinate dest = new Coordinate(matrix.length - 1, matrix[0].length - 1);
-        return findElement(matrix, origin, dest, x);
     }
     /*Given a 2D matrix(square or rectangular) print it in spiral way.
         e.g 1 2 3
