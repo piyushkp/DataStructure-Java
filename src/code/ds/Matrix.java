@@ -44,41 +44,6 @@ public class Matrix {
         if (y < Ymax) nResult += FindAllPaths(x, y + 1, Xmax, Ymax);
         return nResult;
     }
-    //Given a 2D array, print it in spiral form.
-    void spiralPrint(int m, int n, int a[][]) {
-        int i, k = 0, l = 0;
-    /*  k - starting row index
-        m - ending row index
-        l - starting column index
-        n - ending column index
-        i - iterator */
-        while (k < m && l < n) {
-        /* Print the first row from the remaining rows */
-            for (i = l; i < n; ++i) {
-                System.out.print(a[k][i]);
-            }
-            k++;
-        /* Print the last column from the remaining columns */
-            for (i = k; i < m; ++i) {
-                System.out.print(a[i][n - 1]);
-            }
-            n--;
-        /* Print the last row from the remaining rows */
-            if (k < m) {
-                for (i = n - 1; i >= l; --i) {
-                    System.out.print(a[m - 1][i]);
-                }
-                m--;
-            }
-        /* Print the first column from the remaining columns */
-            if (l < n) {
-                for (i = m - 1; i >= k; --i) {
-                    System.out.print(a[i][l]);
-                }
-                l++;
-            }
-        }
-    }
     //Given  an  image  represented  by  an  NxN matrix,  where  each  pixel  in  the  image  is  4 bytes, write a
     //method to rotate the image by 90 degrees Can you do this in place? time: O(n), space: O(1)
     public static void rotate(int[][] matrix, int n) {
@@ -173,7 +138,7 @@ public class Matrix {
             4 5 6
             7 8 9
      Printing should be 1 2 3 6 9 8 7 4 5 */
-    public void print(int matrix[][]) {
+    public void spiralprint(int matrix[][]) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return;
         }

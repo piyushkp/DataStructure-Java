@@ -1276,7 +1276,7 @@ public class StringImp {
         else
             return null;
     }
-    /* Implement regular expression matching with support for '.' and '*'.
+    /* Implement regex regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
     public static boolean isMatch(String s, String p) {
