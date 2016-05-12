@@ -346,5 +346,34 @@ public class Matrix {
         }
         return new KadaneResult(max, maxStart, maxEnd);
     }
+    //Given An array of strings where "L" indicates land and "W" indicates water, and a coordinate marking a starting
+    //point in the middle of the ocean Find and mark the ocean in the map by changing appropriate W's to O's.
+    //An ocean coordinate is defined to be any coordinate directly adjacent to any other ocean coordinate.
+    static final int ROW = 18, COL = 20;
+    static char[][] Ocean(char M[][], int row, int col) {
+        // Make a bool array to mark visited cells. Initially all cells are unvisited
+        boolean visited[][] = new boolean[ROW][COL];
+        if(M[row][col] == 'W')
+            M[row][col] = 'O';
+        OceanUtil(M, row, col, visited);
+        return M;
+    }
+    static boolean isOceanWater(char M[][], int row, int col, boolean visited[][]) {
+        // row number is in range, column number is in range and value is 1 and not yet visited
+        return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL) && (M[row][col] == 'W' && !visited[row][col]);
+    }
+    static void OceanUtil(char M[][], int row, int col, boolean visited[][]) {
+        // These arrays are used to get row and column numbers of 8 neighbors of a given cell
+        int rowNbr[] = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
+        int colNbr[] = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
+        // Recur for all connected neighbours
+        for (int k = 0; k < 8; ++k)
+            if (isOceanWater(M, row + rowNbr[k], col + colNbr[k], visited)) {
+                visited[row][col] = true;
+                M[row + rowNbr[k]][col + colNbr[k]] = 'O';
+                OceanUtil(M, row + rowNbr[k], col + colNbr[k], visited);
+            }
+    }
 
- }
+
+}
