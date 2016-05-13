@@ -1004,7 +1004,7 @@ public class StringImp {
                 String suffix = new StringBuilder(word.substring(i, n)).reverse().toString();
                 if (i != 0 && map.containsKey(suffix) && map.get(suffix) != k && isPalindrome(prefix))
                     ans.add(Arrays.asList(map.get(suffix), k));
-                if (map.containsKey(prefix) && map.get(prefix) != k && isPalindrome(prefix))
+                if (map.containsKey(prefix) && map.get(prefix) != k && isPalindrome(suffix))
                     ans.add(Arrays.asList(k, map.get(prefix)));
             }
         }
