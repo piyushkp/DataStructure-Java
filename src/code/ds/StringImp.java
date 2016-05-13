@@ -745,10 +745,10 @@ public class StringImp {
     }
     //Given an array of words, print all anagrams together. For example, if the given array is
     // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
-    void printAnagramsUtil(List<String> input){
+    static void printAnagramsUtil(String[] input){
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-        for (int i = 0; i <input.size() ; i++) {
-            char[] content = input.get(i).toCharArray();
+        for (int i = 0; i <input.length; i++) {
+            char[] content = input[i].toCharArray();
             Arrays.sort(content);
             String key = new String(content);
             if (!map.containsKey(key)) {
@@ -756,9 +756,13 @@ public class StringImp {
             }
             map.get(key).add(i);
         }
-        for (String s : map.keySet())
-            for (Integer i: map.get(s))
-                System.out.println(input.get(i));
+        for(String cur:map.keySet()) {
+            if (map.get(cur).size() > 1) {
+                for (int i = 0; i < map.get(cur).size(); i++)
+                    System.out.print(input[map.get(cur).get(i)] + " ");
+            }
+            System.out.println();
+        }
     }
     //reverse the string
     private static String ReverseString(String str){
