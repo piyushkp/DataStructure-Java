@@ -760,8 +760,8 @@ public class StringImp {
             if (map.get(cur).size() > 1) {
                 for (int i = 0; i < map.get(cur).size(); i++)
                     System.out.print(input[map.get(cur).get(i)] + " ");
+                System.out.println();
             }
-            System.out.println();
         }
     }
     //reverse the string
