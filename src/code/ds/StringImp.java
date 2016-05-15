@@ -239,6 +239,85 @@ public class StringImp {
                     root.children[i], currDist, result);
         }
     }
+    //Best solution for K edit Distance using BK tree
+    //spell checker / Find all words from Dictionary that are K edit distance away from target word
+    //https://nullwords.wordpress.com/2013/03/13/the-bk-tree-a-data-structure-for-spell-checking/
+    public class BKTree {
+        class Node {
+            public String Word;
+            final HashMap<Integer, Node> childrenByDistance = new HashMap<Integer, Node>();
+            public Node(String word) {
+                this.Word = word;
+            }
+            public String getElement() {
+                return Word;
+            }
+            public Node getChildNode(int distance) {
+                return childrenByDistance.get(distance);
+            }
+        }
+        private Node root;
+        public void add(String element) {
+            if (element == null) throw new NullPointerException();
+            if (root == null) {
+                root = new Node(element);
+            } else {
+                Node node = root;
+                while (!node.getElement().equals(element)) {
+                    int distance = LevenshteinDistance(node.getElement(), element);
+                    Node parent = node;
+                    node = parent.childrenByDistance.get(distance);
+                    if (node == null) {
+                        node = new Node(element);
+                        parent.childrenByDistance.put(distance, node);
+                        break;
+                    }
+                }
+            }
+        }
+        public List<String> search(String query, int maxDistance) {
+            if (query == null) throw new NullPointerException();
+            if (maxDistance < 0) throw new IllegalArgumentException("maxDistance must be non-negative");
+            List<String> matches = new ArrayList<String>();
+            Queue<Node> queue = new ArrayDeque<Node>();
+            queue.add(root);
+            while (!queue.isEmpty()) {
+                Node node = queue.remove();
+                String element = node.getElement();
+                int distance = LevenshteinDistance(element, query);
+                if (distance <= maxDistance) {
+                    matches.add(element);
+                }
+                int minSearchDistance = Math.max(distance - maxDistance, 0);
+                int maxSearchDistance = distance + maxDistance;
+                for (int searchDistance = minSearchDistance; searchDistance <= maxSearchDistance; ++searchDistance) {
+                    Node childNode = node.getChildNode(searchDistance);
+                    if (childNode != null) {
+                        queue.add(childNode);
+                    }
+                }
+            }
+            return matches;
+        }
+        public int LevenshteinDistance(String first, String second) {
+            if (first.length() == 0) return second.length();
+            if (second.length() == 0) return first.length();
+            int lenFirst = first.length();
+            int lenSecond = second.length();
+            int[][] d = new int[lenFirst + 1][lenSecond + 1];
+            for (int i = 0; i <= lenFirst; i++)
+                d[i][0] = i;
+            for (int i = 0; i <= lenSecond; i++)
+                d[0][i] = i;
+            for (int i = 1; i <= lenFirst; i++) {
+                for (int j = 1; j <= lenSecond; j++) {
+                    int match = (first.charAt(i - 1) == second.charAt(j - 1)) ? 0 : 1;
+                    d[i][j] = Math.min(Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1), d[i - 1][j - 1] + match);
+                }
+            }
+            return d[lenFirst][lenSecond];
+        }
+    }
 
     //Given two string s1 and s2, find if s1 can be converted to s2 with exactly one edit.
     //Time = O(m + n) space =O(1)
