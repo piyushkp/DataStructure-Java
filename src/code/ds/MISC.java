@@ -694,4 +694,105 @@ public class MISC {
             return false;
         return true;
     }
+    //Given n appointments, find all conflicting appointments
+    //Interval Tree implementation
+    class Interval1 implements Comparable<Interval1> {
+        public int start;
+        public int end;
+        public int max;
+        public Interval1 left;
+        public Interval1 right;
+
+        public Interval1(int start, int end) {
+            this.start = start;
+            this.end = end;
+            this.max = end;
+        }
+        @Override
+        public int compareTo(Interval1 i) {
+            if (this.start < i.start) {
+                return -1;
+            }
+            else if (this.start == i.start) {
+                return this.end <= i.end ? -1 : 1;
+            }
+            else {
+                return 1;
+            }
+        }
+    }
+
+    class IntervalTree {
+        private Interval1 root;
+        public  Interval1 insert(Interval1 root, final Interval1 newNode) {
+            if (root == null) {
+                root = newNode;
+                return root;
+            }
+            // Get low value of interval at root
+            int l = root.start;
+            // If root's low value is smaller, then new interval goes to left subtree
+            if (newNode.start < l)
+                root.left = insert(root.left, newNode);
+                // Else, new node goes to right subtree.
+            else
+                root.right = insert(root.right, newNode);
+            // Update the max value of this ancestor if needed
+            if (root.max < newNode.end)
+                root.max = newNode.end;
+
+            return root;
+        }
+
+        public void intersectInterval(Interval1 tmp, Interval1 i, List<Interval1> res) {
+            if (tmp == null) {
+                return;
+            }
+            if (!((tmp.start > i.end)) || (tmp.end < i.start)) {
+                if (res == null) {
+                    res = new ArrayList<Interval1>();
+                }
+                res.add(tmp);
+            }
+            if ((tmp.left != null) && (tmp.left.max >= i.start)) {
+                this.intersectInterval(tmp.left, i, res);
+            }
+            this.intersectInterval(tmp.right, i, res);
+        }
+        // A utility function to check if given two intervals overlap
+        boolean doOVerlap(Interval1 i1, Interval1 i2){
+            if (i1.start <= i2.end && i2.start <= i1.end)
+                return true;
+            return false;
+        }
+        Interval1 overlapSearch(Interval1 root, Interval1 i){
+            // Base Case, tree is empty
+            if (root == null) return null;
+            // If given interval overlaps with root
+            if (doOVerlap(root, i)){
+                return root;
+            }
+            // If left child of root is present and max of left child is greater than or equal to given interval, then i may
+            // overlap with an interval is left subtree
+            if (root.left != null && root.left.end >= i.start)
+                return overlapSearch(root.left, i);
+            // Else interval can only overlap with right subtree
+            return overlapSearch(root.right, i);
+        }
+        // This function prints all conflicting appointments in a given array of apointments.
+        void printConflicting(List<Interval1> appt, int n){
+            // Create an empty Interval Search Tree, add first appointment
+            Interval1 root = null;
+            root = insert(root, appt.get(0));
+            // Process rest of the intervals
+            for (int i=1; i<n; i++){
+                // If current appointment conflicts with any of the existing intervals, print it
+                Interval1 res = overlapSearch(root, appt.get(i));
+                if (res != null)
+                    System.out.println( "[" + appt.get(i).start +"," + appt.get(i).end + "] Conflicts with [" + res.start + ","
+                            + res.end + "]");
+                // Insert this appointment
+                root = insert(root, appt.get(i));
+            }
+        }
 }
