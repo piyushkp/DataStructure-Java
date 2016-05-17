@@ -2024,4 +2024,23 @@ public class Array {
         }
         return min_distance;
     }
+    /*Given an array of numbers A = [x1, x2, ..., xn] and T = Round(x1+x2+... +xn). We want to find a way to round each
+    element in A such that after rounding we get a new array B = [y1, y2, ...., yn] such that y1+y2+...+yn = T where yi = Floor(xi) or Ceil(xi), ceiling or floor of xi. We also want to minimize sum |xi-yi|
+    */
+    public static double[] minimizeRoundSum(double[] input, int T){
+        double sum = 0;
+        double [] output = new double [input.length];
+        for(int i = 0; i < input.length;i++){
+            sum += Math.round(input[i]);
+            output[i] = Math.round(input[i]);
+        }
+        double diff  = T - sum;
+        int  i = 0;
+        while(diff > 0){
+            output[i] += 1;
+            diff -=1;
+            i++;
+        }
+        return output;
+    }
 }
