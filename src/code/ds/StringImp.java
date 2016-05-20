@@ -1915,11 +1915,11 @@ public class StringImp {
             sb.append( ALPHABET.charAt( num % BASE ) );
             num /= BASE;
         }
-        return sb.reverse().toString();
+        return sb.toString();
     }
     public static int decode1(String str) {
         int num = 0;
-        for ( int i = 0; i < str.length(); i++ )
+        for ( int i = str.length() - 1; i >= 0; i-- )
             num = num * BASE + ALPHABET.indexOf(str.charAt(i));
         return num;
     }
