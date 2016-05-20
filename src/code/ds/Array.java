@@ -1276,6 +1276,29 @@ public class Array {
             max_index = prev_zero;
         return max_index;
     }
+    /*Given an array of 0s and 1s, and k, Find the longest continuous streak of 1s after flipping k 0s to 1s.
+    E.x  array is {1,1,0,0,1,1,1,0,1,1} k = 1 (which means we can flip ‘k’ one 0 to 1)
+    Answer: 6 (if we flip 0 at index 7, we get the longest continuous streak of 1s having length 6)*/
+    public static int findmaxOne(int []a, int k){
+        int max_count = 0;
+        int max_index = 0;
+        int currCount = 0;
+        for(int i = 0;i<a.length;i++){
+            if(a[i] == 0 && max_index < k){
+                currCount++;
+                max_index++;
+            }
+            else if(a[i] == 1)
+                currCount++;
+            else{
+                max_count = Math.max(max_count,currCount);
+                max_index = 0;
+                currCount = 0;
+            }
+        }
+        max_count = Math.max(max_count,currCount);
+        return max_count;
+    }
     //Given a set of n nuts of different sizes and n bolts of different sizes.
     //There is a one-one mapping between nuts and bolts. Match nuts and bolts efficiently.
     //Nuts and bolts are represented as array of characters
