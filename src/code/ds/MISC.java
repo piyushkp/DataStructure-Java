@@ -781,14 +781,12 @@ public class MISC {
             }
             this.intersectInterval(root.right, i, output);
         }
-
         // A utility function to check if given two intervals overlap
         boolean doOVerlap(Interval1 i1, Interval1 i2) {
             if (i1.start <= i2.end && i2.start <= i1.end)
                 return true;
             return false;
         }
-
         Interval1 overlapSearch(Interval1 root, Interval1 i) {
             // Base Case, tree is empty
             if (root == null) return null;
@@ -804,7 +802,7 @@ public class MISC {
             return overlapSearch(root.right, i);
         }
 
-        // This function prints all conflicting appointments in a given array of apointments.
+        // This function prints all conflicting appointments in a given array of appointments.
         void printConflicting(List<Interval1> appt, int n) {
             // Create an empty Interval Search Tree, add first appointment
             Interval1 root = null;
