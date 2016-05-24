@@ -765,6 +765,22 @@ public class MISC {
             }
             this.intersectInterval(root.right, i, output);
         }
+        //Find all non-overlapping intervals for given interval
+        public void nonOverlappingInterval(Interval1 root, Interval1 i, List<Interval1> output) {
+            if (root == null) {
+                return;
+            }
+            if (!((root.start < i.end)) || (root.end > i.start)) {
+                if (output == null) {
+                    output = new ArrayList<Interval1>();
+                }
+                output.add(root);
+            }
+            if ((root.left != null) && (root.left.max <= i.start)) {
+                this.intersectInterval(root.left, i, output);
+            }
+            this.intersectInterval(root.right, i, output);
+        }
 
         // A utility function to check if given two intervals overlap
         boolean doOVerlap(Interval1 i1, Interval1 i2) {
