@@ -783,7 +783,7 @@ public class MISC {
             }
             // If left child of root is present and max of left child is greater than or equal to given interval, then i may
             // overlap with an interval is left subtree
-            if (root.left != null && root.left.end >= i.start)
+            if (root.left != null && root.left.max >= i.start)
                 return overlapSearch(root.left, i);
             // Else interval can only overlap with right subtree
             return overlapSearch(root.right, i);
