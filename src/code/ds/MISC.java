@@ -626,19 +626,23 @@ public class MISC {
         private int value;
         private boolean isNumber;
         private List<NestedIntList> intList;
+
         // Constructor to construct a number
         public NestedIntList(int value) {
             this.value = value;
             isNumber = true;
         }
+
         // Constructor to construct a list
         public NestedIntList() {
             intList = new ArrayList<NestedIntList>();
             isNumber = false;
         }
+
         public void add(NestedIntList num) {
             this.intList.add(num);
         }
+
         public NestedIntList miniParser(String s) {
             if (s == null || s.length() == 0) {
                 return null;
@@ -676,6 +680,7 @@ public class MISC {
             }
             return result;
         }
+
         public String toString() {
             if (this.isNumber) {
                 return this.value + "";
@@ -684,8 +689,9 @@ public class MISC {
             }
         }
     }
+
     //Given two rectangles, find if the given two rectangles overlap or not.
-    boolean doOverlap(Point l1, Point r1, Point l2, Point r2){
+    boolean doOverlap(Point l1, Point r1, Point l2, Point r2) {
         // If one rectangle is on left side of other
         if (l1.x > r2.x || l2.x > r1.x)
             return false;
@@ -694,6 +700,7 @@ public class MISC {
             return false;
         return true;
     }
+
     //Given n appointments, find all conflicting appointments
     //Interval Tree implementation
     class Interval1 implements Comparable<Interval1> {
@@ -708,15 +715,14 @@ public class MISC {
             this.end = end;
             this.max = end;
         }
+
         @Override
         public int compareTo(Interval1 i) {
             if (this.start < i.start) {
                 return -1;
-            }
-            else if (this.start == i.start) {
+            } else if (this.start == i.start) {
                 return this.end <= i.end ? -1 : 1;
-            }
-            else {
+            } else {
                 return 1;
             }
         }
@@ -724,7 +730,8 @@ public class MISC {
 
     class IntervalTree {
         private Interval1 root;
-        public  Interval1 insert(Interval1 root, final Interval1 newNode) {
+
+        public Interval1 insert(Interval1 root, final Interval1 newNode) {
             if (root == null) {
                 root = newNode;
                 return root;
@@ -759,17 +766,19 @@ public class MISC {
             }
             this.intersectInterval(tmp.right, i, res);
         }
+
         // A utility function to check if given two intervals overlap
-        boolean doOVerlap(Interval1 i1, Interval1 i2){
+        boolean doOVerlap(Interval1 i1, Interval1 i2) {
             if (i1.start <= i2.end && i2.start <= i1.end)
                 return true;
             return false;
         }
-        Interval1 overlapSearch(Interval1 root, Interval1 i){
+
+        Interval1 overlapSearch(Interval1 root, Interval1 i) {
             // Base Case, tree is empty
             if (root == null) return null;
             // If given interval overlaps with root
-            if (doOVerlap(root, i)){
+            if (doOVerlap(root, i)) {
                 return root;
             }
             // If left child of root is present and max of left child is greater than or equal to given interval, then i may
@@ -779,20 +788,22 @@ public class MISC {
             // Else interval can only overlap with right subtree
             return overlapSearch(root.right, i);
         }
+
         // This function prints all conflicting appointments in a given array of apointments.
-        void printConflicting(List<Interval1> appt, int n){
+        void printConflicting(List<Interval1> appt, int n) {
             // Create an empty Interval Search Tree, add first appointment
             Interval1 root = null;
             root = insert(root, appt.get(0));
             // Process rest of the intervals
-            for (int i=1; i<n; i++){
+            for (int i = 1; i < n; i++) {
                 // If current appointment conflicts with any of the existing intervals, print it
                 Interval1 res = overlapSearch(root, appt.get(i));
                 if (res != null)
-                    System.out.println( "[" + appt.get(i).start +"," + appt.get(i).end + "] Conflicts with [" + res.start + ","
+                    System.out.println("[" + appt.get(i).start + "," + appt.get(i).end + "] Conflicts with [" + res.start + ","
                             + res.end + "]");
                 // Insert this appointment
                 root = insert(root, appt.get(i));
             }
         }
+    }
 }
