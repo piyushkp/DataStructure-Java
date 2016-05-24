@@ -1500,23 +1500,22 @@ public class Array {
         return max_diff;
     }
     // Stock problem: multiple transactions are allowed. you must sell the stock before you buy again
-    public int maxProfitMultiTrans(int[] prices) {
-        if (prices == null || prices.length <= 1) {
+    public int maxProfitMultiTrans(int[] arr) {
+        if (arr.length == 0) {
             return 0;
         }
-        // used to record max profit can get until each day
-        int[] maxProfit = new int[prices.length];
-        maxProfit[0] = 0;
-        for (int i = 1; i < prices.length; i++) {
-            if (prices[i] > prices[i - 1]) {
-                // price go up, max profit is max profit get by yesterday plus new profit
-                maxProfit[i] = prices[i] - prices[i - 1] + maxProfit[i - 1];
-            } else {
-                // price go down, max profit can get by today should be equal to yesterday.
-                maxProfit[i] = maxProfit[i - 1];
+        int profit = 0;
+        int localMin = arr[0];
+        for(int i=1; i < arr.length;i++){
+            if(arr[i-1] >= arr[i]){
+                localMin = arr[i];
+            }else{
+                profit += arr[i] - localMin;
+                localMin = arr[i];
             }
+
         }
-        return maxProfit[maxProfit.length - 1];
+        return profit;
     }
     //one more solution
     public int maxProfit2(int[] prices) {
