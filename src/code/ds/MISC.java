@@ -801,7 +801,6 @@ public class MISC {
             // Else interval can only overlap with right subtree
             return overlapSearch(root.right, i);
         }
-
         // This function prints all conflicting appointments in a given array of appointments.
         void printConflicting(List<Interval1> appt, int n) {
             // Create an empty Interval Search Tree, add first appointment
