@@ -702,7 +702,7 @@ public class MISC {
     }
 
     //Given n appointments, find all conflicting appointments
-    //Interval Tree implementation
+    //Interval Tree implementation. http://www.davismol.net/2016/02/07/data-structures-augmented-interval-tree-to-search-for-interval-overlapping/
     class Interval1 implements Comparable<Interval1> {
         public int start;
         public int end;
@@ -730,7 +730,6 @@ public class MISC {
 
     class IntervalTree {
         private Interval1 root;
-
         public Interval1 insert(Interval1 root, final Interval1 newNode) {
             if (root == null) {
                 root = newNode;
@@ -750,21 +749,21 @@ public class MISC {
 
             return root;
         }
-
-        public void intersectInterval(Interval1 tmp, Interval1 i, List<Interval1> res) {
-            if (tmp == null) {
+        //Find all overlapping intervals for given interval
+        public void intersectInterval(Interval1 root, Interval1 i, List<Interval1> output) {
+            if (root == null) {
                 return;
             }
-            if (!((tmp.start > i.end)) || (tmp.end < i.start)) {
-                if (res == null) {
-                    res = new ArrayList<Interval1>();
+            if (!((root.start > i.end)) || (root.end < i.start)) {
+                if (output == null) {
+                    output = new ArrayList<Interval1>();
                 }
-                res.add(tmp);
+                output.add(root);
             }
-            if ((tmp.left != null) && (tmp.left.max >= i.start)) {
-                this.intersectInterval(tmp.left, i, res);
+            if ((root.left != null) && (root.left.max >= i.start)) {
+                this.intersectInterval(root.left, i, output);
             }
-            this.intersectInterval(tmp.right, i, res);
+            this.intersectInterval(root.right, i, output);
         }
 
         // A utility function to check if given two intervals overlap
