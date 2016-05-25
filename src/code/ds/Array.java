@@ -77,45 +77,6 @@ public class Array {
             indexMerged--; // move indices
         }
     }
-    //There are 2 sorted arrays A and B of size n each. Write an algorithm to find the median of the array obtained
-    //after merging the above 2 arrays(i.e. array of length 2n). The complexity should be O(log(n))
-    public static double findMedian_ofTwoSortedArray(int a[], int b[],int start_a, int end_a, int start_b,int end_b)
-    {
-        if((end_a -start_a == 1) && (end_b - start_b == 1))
-            return (1 * (Math.max(a[start_a],b[start_b])) + Math.min(a[end_a],b[end_b])) /2;
-        int m1_index = (start_a + end_a) /2;
-        int m2_index = (start_b + end_b) /2;
-        int m1 = a[m1_index];
-        int m2 = b[m2_index];
-        if(m1 == m2)
-            return m2;
-        if(m1 < m2){
-            start_a = m1_index;
-            end_b = m2_index;
-        }
-        else{
-            start_b = m2_index;
-            end_a = m1_index;
-        }
-        return findMedian_ofTwoSortedArray(a,b,start_a,end_a,start_b,end_b);
-    }
-
-    //Find the second largest/smallest number from the array
-    static int  secondlargest(int[] a){
-        int largest = a[0];
-        int secondlargest = 0;
-        for (int i = 1; i < a.length; i++){
-            int number = a[i];
-            if (number > largest){
-                secondlargest = largest;
-                largest = number;
-            }
-            else if (number < secondlargest && number != largest){
-                    secondlargest = number;
-            }
-        }
-        return secondlargest;
-    }
     //Find the k-th Smallest Element in the Union of Two Sorted Arrays
     // Time Complexity :  O(log (m + n))
     //http://www.lifeincode.net/programming/leetcode-median-of-two-sorted-arrays-java/
@@ -202,6 +163,22 @@ public class Array {
         G[x] ^= G[y];
         G[y] ^= G[x];
         G[x] ^= G[y];
+    }
+    //Find the second largest/smallest number from the array
+    static int  secondlargest(int[] a){
+        int largest = a[0];
+        int secondlargest = 0;
+        for (int i = 1; i < a.length; i++){
+            int number = a[i];
+            if (number > largest){
+                secondlargest = largest;
+                largest = number;
+            }
+            else if (number < secondlargest && number != largest){
+                secondlargest = number;
+            }
+        }
+        return secondlargest;
     }
     //Find k maximum integers from an array of infinite integers. Find first 100 maximum numbers from billion numbers
     // Time Complexity: O(k + (n-k)Logk) without sorted output.If sorted output is needed then O(k + (n-k)Logk + kLogk)
@@ -1513,7 +1490,6 @@ public class Array {
                 profit += arr[i] - localMin;
                 localMin = arr[i];
             }
-
         }
         return profit;
     }
