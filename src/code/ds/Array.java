@@ -174,7 +174,7 @@ public class Array {
                 secondlargest = largest;
                 largest = number;
             }
-            else if (number < secondlargest && number != largest){
+            else if (number > secondlargest && number != largest){
                 secondlargest = number;
             }
         }
