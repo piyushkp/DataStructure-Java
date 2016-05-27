@@ -818,4 +818,88 @@ public class MISC {
             }
         }
     }
+    /*Implement LRU Cache.
+    1. If cache has free entry, add the page entry to queue and make it head.
+    2. If cache is full and its cache hit, remove the item from present location and add it to front of queue and make it head.
+    3. If cache is full and its cache miss, remove the item at end and insert the new item at front of queue.
+    4. To check hit or miss, use hash table.
+     So at front items would be most recently used while in the end of queue least recently used items
+    O(1) all operations*/
+    class DoublyNode{
+        int data;
+        int key;
+        DoublyNode next;
+        DoublyNode prev;
+    }
+    class LRU {
+        HashMap<Integer, DoublyNode> map;
+        int capacity;
+        DoublyNode head;
+        DoublyNode end;
+        LRU(int capacity){
+            this.capacity = capacity;
+            map = new HashMap<Integer, DoublyNode>();
+        }
+        private void add(DoublyNode item){
+            if(head == null){
+                head = item;
+                end = item;
+            }
+            head.prev = item;
+            item.next = head;
+            head = item;
+        }
+        private void remove(DoublyNode item){
+            if(head == null || item == null)
+                return;
+            else if(head == item && head == end) {
+                head = null;
+                end = null;
+            }
+            else if(head == item) {
+                head.next.prev = null;
+                head = head.next;
+            }
+            else if(end == item){
+                end.prev.next = null;
+                end = end.prev;
+            }
+            else{
+                item.prev.next = item.next;
+                item.next.prev = item.prev;
+            }
+        }
+        private void moveFirst(DoublyNode item){
+            remove(item);
+            add(item);
+        }
+        private void removeLast(){
+            remove(this.end);
+        }
+        public int get(int key) {
+            if (map.containsKey(key)) {
+                DoublyNode node = map.get(key);
+                moveFirst(node);
+                return node.data;
+            }
+            return -1;
+        }
+        public void set(int key, int value){
+            if(map.containsKey(key)){
+                DoublyNode node = map.get(key);
+                moveFirst(node);
+                node.data = value;
+                return;
+            }
+            if(map.size() >= capacity){
+                removeLast();
+                map.remove(this.end.key);
+            }
+            DoublyNode node = new DoublyNode();
+            node.key = key;
+            node.data = value;
+            add(node);
+            map.put(key,node);
+        }
+    }
 }
