@@ -1210,7 +1210,7 @@ public class StringImp {
             freq = c;
         }
     }
-    void find10FrequentWords(String[] s, int k) {
+    void findTopKFrequentWords(String[] s, int k) {
         HashMap<String, Integer> _hash = new HashMap<String, Integer>();
         PriorityQueue<WordFreq> _minHeap = new PriorityQueue<WordFreq>();
         for (int i = 0; i < s.length; i++) {
