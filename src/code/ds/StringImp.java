@@ -1202,9 +1202,17 @@ public class StringImp {
         return b;
     }
     //Determine the K most frequent words given a terabyte of strings.
+    class WordFreq {
+        String word;
+        int freq;
+        public WordFreq(final String w, final int c) {
+            word = w;
+            freq = c;
+        }
+    }
     void find10FrequentWords(String[] s, int k) {
         HashMap<String, Integer> _hash = new HashMap<String, Integer>();
-        PriorityQueue<Integer> _minHeap = new PriorityQueue<Integer>();
+        PriorityQueue<WordFreq> _minHeap = new PriorityQueue<WordFreq>();
         for (int i = 0; i < s.length; i++) {
             if (_hash.containsKey(s[i])) {
                 int count = _hash.get(s[i]);
@@ -1214,16 +1222,16 @@ public class StringImp {
         int count = 0;
         for (Map.Entry<String, Integer> entry : _hash.entrySet()) {
             if(count < k) {
-                _minHeap.add(entry.getValue());
+                _minHeap.add(new WordFreq(entry.getKey(),entry.getValue()));
                 count++;
             }
-            else if(entry.getValue() > _minHeap.peek()){
+            else if(entry.getValue() > _minHeap.peek().freq){
                 _minHeap.poll();
-                _minHeap.add(entry.getValue());
+                _minHeap.add(new WordFreq(entry.getKey(),entry.getValue()));
             }
         }
         while (!_minHeap.isEmpty()) {
-            System.out.println(_hash.get(_minHeap.poll()));
+            System.out.println(_hash.get(_minHeap.poll().word));
         }
     }
     //Find if a given string can be represented from a substring by iterating the substring “n” times
