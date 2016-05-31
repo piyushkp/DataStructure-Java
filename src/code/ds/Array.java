@@ -744,7 +744,7 @@ public class Array {
             temp *= a[i];
         }
         temp = 1;
-        for (int i = a.length; i >= 0; i--) {
+        for (int i = a.length-1; i >= 0; i--) {
             prod[i] *= temp;
             temp *= a[i];
         }
