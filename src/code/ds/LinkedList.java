@@ -428,7 +428,7 @@ public class LinkedList {
         }
         // if either of the list has reached end
         if (node1 != null && node2 == null) {
-            return 1;
+            return -1;
         }
         if (node1 == null && node2 != null) {
             return -1;
