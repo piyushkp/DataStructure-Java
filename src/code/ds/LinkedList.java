@@ -428,7 +428,7 @@ public class LinkedList {
         }
         // if either of the list has reached end
         if (node1 != null && node2 == null) {
-            return 1;
+            return -1;
         }
         if (node1 == null && node2 != null) {
             return -1;
@@ -640,8 +640,8 @@ public class LinkedList {
         // Case 2: New node is to be inserted just before the head node
         // improvement for this case to swap the data part of head node and new node
         //swap(current.data, new_node.data);
-        //new_node.next = head_ref.next;
-        //head_ref).next = new_node;
+        //new_node.next = head.next;
+        //head.next = new_node;
         else if (current.data >= new_node.data){
             /* If value is smaller than head's value then we need to change next of last node */
             while (current.next != head)
