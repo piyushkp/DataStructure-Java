@@ -1184,6 +1184,9 @@ public class StringImp {
             }
         }
     }
+    //p    :  a   b   c   a   b   d   a   b   c
+    //p[i] :  0   1   2   3   4   5   6   7   8
+    //b[i] : -1   0   0   0   1   2   0   1   2   3
     public int[] preProcessPattern(char[] ptrn) {
         int i = 0, j = -1;
         int ptrnLen = ptrn.length;
