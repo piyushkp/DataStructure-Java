@@ -743,16 +743,14 @@ public class Tree {
 
     /* A O(n) iterative program for construction of BST from preorder traversal
     * Deserialize the BST*/
-    int[] currIndex = new int[1];
-    //currIndex[0] = 0;
     int min = Integer.MIN_VALUE;
     int max = Integer.MAX_VALUE;
-    private Node deserializeArrayOptimized(int[] preorder, int[] currIndex, int min, int max) {
-        if (currIndex[0] >= preorder.length) return null;
+    private Node deserializeArrayOptimized(int[] preorder, int currIndex, int min, int max) {
+        if (currIndex >= preorder.length) return null;
         Node root = null;
-        if ((preorder[currIndex[0]] > min) && (preorder[currIndex[0]] < max)) {
-            root = new Node(preorder[currIndex[0]]);
-            currIndex[0] += 1;
+        if ((preorder[currIndex] > min) && (preorder[currIndex] < max)) {
+            root = new Node(preorder[currIndex]);
+            currIndex += 1;
             root.left = deserializeArrayOptimized(preorder, currIndex, min, root.data);
             root.right = deserializeArrayOptimized(preorder, currIndex, root.data, max);
         }
