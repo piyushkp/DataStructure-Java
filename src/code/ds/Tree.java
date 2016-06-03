@@ -16,13 +16,10 @@ public class Tree {
         Node(int data) {
             data = data;
         }
-
         Node() {
         }
     }
-
     public Node root;
-
     // insert node in BST
     public void insert(Node root, int node) {
         if (root == null) {
@@ -36,7 +33,6 @@ public class Tree {
             insert(root.right, node);
         }
     }
-
     // Insert node into tree Iterative
     public void insertItr(Node root, int data) {
         Node newNode = new Node();
@@ -557,7 +553,7 @@ public class Tree {
 
     // Convert sorted array into balanced tree
     private Node sortedArraytoBST(int[] arr, int start, int end) {
-        if (end > start)
+        if (end < start)
             return null;
         int mid = (start + end) / 2;
         Node tree = new Node();
