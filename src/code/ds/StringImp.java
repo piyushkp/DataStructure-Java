@@ -419,15 +419,14 @@ public class StringImp {
                 word += s.charAt(index);// add one char at a time
                 // check if word already being solved
                 if (dict.contains(word)) {
-                    if (wordBreakUsingDP(s.substring(index + 1), dict, memory,
-                            answer + word + " ")) {
+                    if (wordBreakUsingDP(s.substring(index + 1), dict, memory, answer + word + " ")) {
                         return true;
-                    } else {
-                        index++;
                     }
-                } else {
-                    index++;
+                    else
+                        index++;
                 }
+                else
+                    index++;
             }
             memory.add(s);// memoization for future;
             return false;
