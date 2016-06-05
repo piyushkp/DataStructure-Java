@@ -172,51 +172,53 @@ public class Matrix {
     Output:     4    1    2
                 7    5    3
                 8    9    6*/
-    void rotatematrix(int m, int n, int mat[][]){
-        int row = 0, col = 0;
+    void rotatematrix(int mat[][]){
+        int up = 0, left = 0;
+        int right = mat[0].length - 1;
+        int down = mat.length - 1;
         int prev, curr;
     /* row - Staring row index
        m - ending row index
        col - starting column index
        n - ending column index
        i - iterator */
-        while (row < m && col < n){
-            if (row + 1 == m || col + 1 == n)
+        while (up < down && left < right){
+            if (up + 1 == down || left + 1 == right)
                 break;
             // Store the first element of next row, this element will replace first element of current row
-            prev = mat[row + 1][col];
+            prev = mat[up + 1][left];
          /* Move elements of first row from the remaining rows */
-            for (int i = col; i < n; i++){
-                curr = mat[row][i];
-                mat[row][i] = prev;
+            for (int i = left; i < right; i++){
+                curr = mat[up][i];
+                mat[up][i] = prev;
                 prev = curr;
             }
-            row++;
+            up++;
         /* Move elements of last column from the remaining columns */
-            for (int i = row; i < m; i++){
-                curr = mat[i][n-1];
-                mat[i][n-1] = prev;
+            for (int i = up; i < down; i++){
+                curr = mat[i][right-1];
+                mat[i][right-1] = prev;
                 prev = curr;
             }
-            n--;
+            right--;
          /* Move elements of last row from the remaining rows */
-            if (row < m){
-                for (int i = n-1; i >= col; i--){
-                    curr = mat[m-1][i];
-                    mat[m-1][i] = prev;
+            if (up < down){
+                for (int i = right-1; i >= left; i--){
+                    curr = mat[down-1][i];
+                    mat[down-1][i] = prev;
                     prev = curr;
                 }
             }
-            m--;
+            down--;
         /* Move elements of first column from the remaining rows */
-            if (col < n){
-                for (int i = m-1; i >= row; i--){
-                    curr = mat[i][col];
-                    mat[i][col] = prev;
+            if (left < right){
+                for (int i = down-1; i >= up; i--){
+                    curr = mat[i][left];
+                    mat[i][left] = prev;
                     prev = curr;
                 }
             }
-            col++;
+            left++;
         }
         // Print rotated matrix
         for (int i=0; i<mat.length; i++){
