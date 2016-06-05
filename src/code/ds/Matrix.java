@@ -165,6 +165,66 @@ public class Matrix {
             left++;
         }
     }
+    //Read in an n by n matrix and shift each element over by one position along the edges (like a concentric circle).
+    /*Input :   1    2    3
+                4    5    6
+                7    8    9
+    Output:     4    1    2
+                7    5    3
+                8    9    6*/
+    void rotatematrix(int m, int n, int mat[][]){
+        int row = 0, col = 0;
+        int prev, curr;
+    /* row - Staring row index
+       m - ending row index
+       col - starting column index
+       n - ending column index
+       i - iterator */
+        while (row < m && col < n){
+            if (row + 1 == m || col + 1 == n)
+                break;
+            // Store the first element of next row, this element will replace first element of current row
+            prev = mat[row + 1][col];
+         /* Move elements of first row from the remaining rows */
+            for (int i = col; i < n; i++){
+                curr = mat[row][i];
+                mat[row][i] = prev;
+                prev = curr;
+            }
+            row++;
+        /* Move elements of last column from the remaining columns */
+            for (int i = row; i < m; i++){
+                curr = mat[i][n-1];
+                mat[i][n-1] = prev;
+                prev = curr;
+            }
+            n--;
+         /* Move elements of last row from the remaining rows */
+            if (row < m){
+                for (int i = n-1; i >= col; i--){
+                    curr = mat[m-1][i];
+                    mat[m-1][i] = prev;
+                    prev = curr;
+                }
+            }
+            m--;
+        /* Move elements of first column from the remaining rows */
+            if (col < n){
+                for (int i = m-1; i >= row; i--){
+                    curr = mat[i][col];
+                    mat[i][col] = prev;
+                    prev = curr;
+                }
+            }
+            col++;
+        }
+        // Print rotated matrix
+        for (int i=0; i<mat.length; i++){
+            for (int j=0; j<mat[0].length; j++)
+                System.out.print(mat[i][j]+" ");
+            System.out.println();
+        }
+    }
     /*Given a 2D grid of characters and a word, find all occurrences of given word in grid. A word can be matched in
     all 8 directions at any point. Word is said be found in a direction if all characters match in this direction.
     Input = grid[][] = {"GEEKSFORGEEKS",

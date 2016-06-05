@@ -309,6 +309,7 @@ public class Array {
     }
     //Given an unsorted array of non-negative integers, find a continous subarray which adds to a given number.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
+    // time complexity is O(n)
     int subArraySum(int arr[], int n, int sum){
     /* Initialize curr_sum as value of first element and starting point as 0 */
         int curr_sum = arr[0], start = 0, i;
