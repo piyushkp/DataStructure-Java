@@ -653,8 +653,7 @@ public class LinkedList {
         // Case 3:New node is to be  inserted somewhere after the head
         else{
             /* Locate the node before the point of insertion */
-            while (current.next != head &&
-                    current.next.data < new_node.data)
+            while (current.next != head && current.next.data < new_node.data)
                 current = current.next;
             new_node.next = current.next;
             current.next = new_node;
