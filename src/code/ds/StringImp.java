@@ -405,7 +405,7 @@ public class StringImp {
     //s = "catsanddog", dict = ["cat", "cats", "and", "sand", "dog"], the solution is ["cats and dog", "cat sand dog"].
     //Input = "smokedhard" dict ={"smoke","smoked","hard"} output = "smoked hard"
     //Before we solve it for any string check if we have already solve it. We can use another HashMap to store the result
-    //of already solved strings. When­ever any recur­sive call returns false, store that string in HashMap
+    //of already solved strings. When­ever any recursive call returns false, store that string in HashMap
     public static boolean wordBreakUsingDP(String s, HashSet<String> dict, HashSet<String> memory, String answer) {
         if (s.length() == 0) {
             System.out.println(answer);
@@ -431,6 +431,34 @@ public class StringImp {
             memory.add(s);// memoization for future;
             return false;
         }
+    }
+    //word break max two words in O(n)
+    public static String WordBreakMaxTwo(String s, HashSet<String> dict){
+        int counter = 0;
+        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        int i = 0;
+        String temp = "";
+        while(true){
+            temp = temp + s.charAt(i);
+            if(counter == 0){
+                if(dict.contains(temp)) {
+                    map.put(++counter, temp);
+                    temp = "";
+                }
+            }
+            else{
+                if(dict.contains(map.get(counter) + temp)){
+                    String t = map.get(counter);
+                    map.remove(counter);
+                    map.put(counter,t + temp);
+                    temp = "";
+                }
+            }
+            i++;
+            if(i >= s.length())
+                break;
+        }
+        return map.get(counter) + " " + temp;
     }
     //Given an input string and a dictionary of words, find out if the input string can be segmented into a
     //space-separated sequence of dictionary words.
