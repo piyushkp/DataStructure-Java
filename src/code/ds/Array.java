@@ -426,6 +426,27 @@ public class Array {
         }
         return max_so_far;
     }
+    //Given an array of size n, the array contains numbers in range from 0 to k-1 where k is a positive integer and k <= n.
+    //Find the maximum repeating number in this array.
+    // The array elements are in range from 0 to k-1
+    static int maxRepeating(int arr[], int n, int k){
+        // Iterate though input array, for every element arr[i], increment arr[arr[i]%k] by k
+        for (int i = 0; i< n; i++)
+            arr[(arr[i]%k)] += k;
+        // Find index of the maximum repeating element
+        int max = arr[0], result = 0;
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > max){
+                max = arr[i];
+                result = i;
+            }
+        }
+        /* Uncomment this code to get the original array back
+        for (int i = 0; i< n; i++)
+          arr[i] = arr[i]%k; */
+        // Return index of the maximum element
+        return result;
+    }
     //Write a program to find the element in an array that is repeated more than half number of times.
     // Return -1 if no such element is found. Time complexity = O(n), aux space O(1)
     int MoreThanHalfElem(int a[]){
