@@ -427,7 +427,7 @@ public class Array {
         return max_so_far;
     }
     //Given an array of size n, the array contains numbers in range from 0 to k-1 where k is a positive integer and k <= n.
-    //Find the maximum repeating number in this array.
+    //Find the maximum repeating (most frequent) number in this array.
     // The array elements are in range from 0 to k-1
     static int maxRepeating(int arr[], int n, int k){
         // Iterate though input array, for every element arr[i], increment arr[arr[i]%k] by k
