@@ -236,6 +236,23 @@ public class LinkedList {
         // as that is now the current head of the reversed list
         head = prevNode;
     }
+    //reverse single linklist recursively
+    Node reverseUtil(Node curr, Node prev) {
+        /* If last node mark it head*/
+        if (curr.next == null) {
+            head = curr;
+            /* Update next to prev node */
+            curr.next = prev;
+            return null;
+        }
+        /* Save curr->next node for recursive call */
+        Node next1 = curr.next;
+        /* and update next ..*/
+        curr.next = prev;
+        reverseUtil(next1, curr);
+        return head;
+    }
+
 
     // Find List is circular or not. Detect cycle time O(n) space O(1)
     Boolean findCircular(Node head) {
