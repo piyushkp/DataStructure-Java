@@ -1487,7 +1487,7 @@ public class Array {
         if (prices == null || prices.length < 2) {
             return 0;
         }
-        int max_diff = prices[1] - prices[0];
+        int max_diff = 0;
         int min_element = prices[0];
         int i;
         for (i = 1; i < prices.length; i++) {
