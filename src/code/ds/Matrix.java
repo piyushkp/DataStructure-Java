@@ -498,7 +498,7 @@ public class Matrix {
     //Count all paths in Maze. Robot Travel Problem.
     //In Dynamic pro­gram­ming solution, we need to take care of two conditions, first we are not solving it for
     //blocked cells and while solving for other cells do not involve blocked cells.
-    static int countAllPathDP(int [][] maze){
+    static int countAllMazePathDP(int [][] maze){
         int result [][] = maze;
         for (int i = 1; i <result.length ; i++) {
             for (int j = 1; j < result.length; j++) {
