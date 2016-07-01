@@ -307,6 +307,36 @@ public class Tree {
             prev = current;
         }
     }
+    //Construct Tree from given Inorder and Preorder traversals
+    //We can also Use HashSet for Search
+    static int preIndex = 0;
+    Node buildTree(char in[], char pre[], int inStrt, int inEnd) {
+        if (inStrt > inEnd) {
+            return null;
+        }
+         /* Pick current node from Preorder traversal using preIndex and increment preIndex */
+        Node tNode = new Node(pre[preIndex++]);
+        /* If this node has no children then return */
+        if (inStrt == inEnd) {
+            return tNode;
+        }
+        /* Else find the index of this node in Inorder traversal */
+        int inIndex = search(in, inStrt, inEnd, tNode.data);
+        /* Using index in Inorder traversal, construct left and right sub-tress */
+        tNode.left = buildTree(in, pre, inStrt, inIndex - 1);
+        tNode.right = buildTree(in, pre, inIndex + 1, inEnd);
+        return tNode;
+    }
+    /* Function to find index of value in arr[start...end] The function assumes that value is present in in[] */
+    int search(char arr[], int start, int end, int value) {
+        int i;
+        for (i = start; i <= end; i++) {
+            if (arr[i] == value) {
+                return i;
+            }
+        }
+        return i;
+    }
 
     // Delete node from binary tree
     public void delete(int key) {
