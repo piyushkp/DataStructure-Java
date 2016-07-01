@@ -929,4 +929,22 @@ public class MISC {
             return next != null;
         }
     }
+    //Reverse a stack using recursion. You are not allowed to use loops or data structure.
+    public void reverse(Stack<Integer> stack) {
+        if (stack.isEmpty() || stack.size() == 1) {
+            return;
+        }
+        int top = stack.pop();
+        this.reverse(stack);
+        this.insertAtBottom(stack, top);
+    }
+    private void insertAtBottom(Stack<Integer> stack, int val) {
+        if (stack.isEmpty()) {
+            stack.push(val);
+            return;
+        }
+        int temp = stack.pop();
+        this.insertAtBottom(stack, val);
+        stack.push(temp);
+    }
 }
