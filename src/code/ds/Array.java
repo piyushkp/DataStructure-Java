@@ -114,6 +114,43 @@ public class Array {
         } else
             return findKSmallestElement(A, 0, lengthA, B, 0, lengthB, (lengthA + lengthB + 1) / 2);
     }
+    // Given a stream of unsorted integers, find the median element in sorted order at any given time.
+    // http://www.ardendertat.com/2011/11/03/programming-interview-questions-13-median-of-integer-stream/
+    // provides O(1) find heap and O(logN) insert
+    public Queue<Integer> minHeap =  new PriorityQueue<Integer>();;
+    public Queue<Integer> maxHeap =  new PriorityQueue<Integer>(10, new MaxHeapComparator());;
+    public int numOfElements =0;
+    public void addNumberToStream(Integer num) {
+        maxHeap.add(num);
+        if (numOfElements%2 == 0) {
+            if (minHeap.isEmpty()) {
+                numOfElements++;
+                return;
+            }
+            else if (maxHeap.peek() > minHeap.peek()) {
+                Integer maxHeapRoot = maxHeap.poll();
+                Integer minHeapRoot = minHeap.poll();
+                maxHeap.add(minHeapRoot);
+                minHeap.add(maxHeapRoot);
+            }
+        } else {
+            minHeap.add(maxHeap.poll());
+        }
+        numOfElements++;
+    }
+    public Double getMedian() {
+        if (numOfElements%2 != 0)
+            return new Double(maxHeap.peek());
+        else
+            return (maxHeap.peek() + minHeap.peek()) / 2.0;
+    }
+    private class MaxHeapComparator implements Comparator<Integer> {
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return o2 - o1;
+        }
+    }
+
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
     private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
@@ -758,6 +795,24 @@ public class Array {
             fast = nums[fast - 1];
         }
         return slow;
+    }
+    /*Write a function that is given an array of integers and an integer k. It should return true if and only if there
+    are two distinct indices i and j into the array such that arr[i] = arr[j] and the difference between i and j is at
+    most k.*/
+    public static boolean containsNearbyDuplicate(int[] arr, int k){ //time: O(n)  space: O(k)
+        if (arr.length == 0)
+            return false;
+        HashSet<Integer> hs = new HashSet<Integer> ();
+        for (int i=0;i<arr.length;i++) {
+            if (hs.contains (arr [i])) {
+                return true;
+            }
+            if (hs.size() >= k) {
+                hs.remove (arr [i - k]);
+            }
+            hs.add (arr [i]);
+        }
+        return false;
     }
 
     //Given an array arr[] of n integers, construct a Product Array prod[] (Self Excluding)
@@ -1741,44 +1796,6 @@ public class Array {
             }
         }
         System.out.println("N1: " + p + " N2: " + q);
-    }
-    // Given a stream of unsorted integers, find the median element in sorted order at any given time.
-    //Time Complexity O(NlogN)
-    int getMedian(int e, int m, PriorityQueue<Integer> maxHeap, PriorityQueue<Integer> minHeap) {
-        if (maxHeap.size() > minHeap.size()) { // There are more elements in left (max) heap
-            if (e < m) { // current element fits in left (max) heap
-                // Remore top element from left heap and insert into right heap
-                minHeap.add(maxHeap.poll());
-                // current element fits in left (max) heap
-                maxHeap.add(e);
-            } else {
-                // current element fits in right (min) heap
-                minHeap.add(e);
-            }
-            // Both heaps are balanced
-            m = (maxHeap.peek() + minHeap.peek()) /2 ;
-        } else if (maxHeap.size() == minHeap.size()) {// The left and right heaps contain same number of elements
-            if (e < m){ // current element fits in left (max) heap
-                maxHeap.add(e);
-                m = maxHeap.peek();
-            } else {
-                // current element fits in right (min) heap
-                minHeap.add(e);
-                m = minHeap.peek();
-            }
-        } else {// There are more elements in right (min) heap
-            if (e < m) // current element fits in left (max) heap
-                maxHeap.add(e);
-            else {
-                // Remove top element from right heap and insert into left heap
-                maxHeap.add(minHeap.poll());
-                // current element fits in right (min) heap
-                minHeap.add(e);
-            }
-            // Both heaps are balanced
-            m = (maxHeap.peek() + minHeap.peek()) /2;
-        }
-        return m;
     }
     //Given a stream of numbers, print average (or mean) of the stream at every point.
     // Returns the new average after including x
