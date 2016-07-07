@@ -947,4 +947,33 @@ public class MISC {
         this.insertAtBottom(stack, val);
         stack.push(temp);
     }
+    //palantir magic box
+    //https://github.com/siddharthgoel88/problem-solving/blob/master/Hackerrank/Palantir-magic-box/src/Solution.java
+    //https://github.com/vrdmr/interview-prep/blob/master/DataStructuresAndAlgorithms/src/interviewquestions/palantir/Palantir-Question.png
+    private static Map<String, Integer> columnFlippingStat;
+    private static int maxWishes = -1;
+    private static void findFlippingSet(char[] row) {
+        StringBuilder allP = new StringBuilder();
+        StringBuilder allT = new StringBuilder();
+        for (int i=0; i<row.length; i++) {
+            if (row[i] == 'P' ) {
+                allP.append('0');
+                allT.append('1');
+            } else {
+                allP.append('1');
+                allT.append('0');
+            }
+        }
+        int allPFreq = updateSet(allP.toString());
+        int allTFreq = updateSet(allT.toString());
+        maxWishes = Math.max(maxWishes, Math.max(allPFreq, allTFreq));
+    }
+    private static int updateSet(String flippedCols) {
+        int freq = 0;
+        if (columnFlippingStat.containsKey(flippedCols)) {
+            freq = columnFlippingStat.get(flippedCols);
+        }
+        columnFlippingStat.put(flippedCols, freq+1);
+        return freq+1;
+    }
 }
