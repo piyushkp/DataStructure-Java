@@ -976,4 +976,49 @@ public class MISC {
         columnFlippingStat.put(flippedCols, freq+1);
         return freq+1;
     }
+    // Implement the function that takes a board string
+    // and decodes it into the representative 2D array.
+    //    |_|_|_|_|_|_|_|
+    //    |_|_|r|_|_|_|_|
+    //    |b|r|b|r|b|r|_|
+    //    |b|b|b|r|r|b|_|
+    //    |b|r|r|b|b|r|_|
+    //    |r|b|b|r|r|r|b|
+    //    CFN: 9_r4_brbrbr_3b2rb_b2r2br_r2b3rb
+    public static char[][] decodeBoard(String str){
+        char[] input = str.toCharArray();
+        char[][] output = new char[6][7];
+        char[] temp = new char[42];
+        int index = 0;
+        for(int i = 0;i<input.length;i++){
+            if(isInteger(Character.toString(input[i]))){
+                int number = Character.getNumericValue(input[i]);
+                for (int l = 0; l < number; l++) {
+                    temp[index + l] = input[i+1];
+                }
+                index += number;
+                i++;
+            }
+            else {
+                temp[index] = input[i];
+                index++;
+            }
+        }
+        for (int k = 0; k < 6; k++) {
+            for (int j = 0; j < 7; j++) {
+                output[k][j] = temp[7*k + j];
+            }
+        }
+        return output;
+    }
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch(NumberFormatException e) {
+            return false;
+        } catch(NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
 }
