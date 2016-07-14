@@ -106,7 +106,7 @@ public class Trie{
         }
         for (int i=0; i<256; i++){
             if (root.child[i] != null){
-                prefix[ind] = i;
+                prefix[ind] = (char)i;
                 findPrefixesUtil(root.child[i], prefix, ind+1);
             }
         }

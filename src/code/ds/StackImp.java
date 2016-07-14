@@ -6,8 +6,8 @@ import java.util.*;
 public class StackImp {
     interface Stack<T> {
         Stack<T> push(T ele);
-
         T pop();
+        int size = 0;
     }
 
     //Implementing a Stack in Java using Arrays
@@ -142,26 +142,30 @@ class SetOfStacks {
         this.capacity = capacity;
     }
     public Stack getLastStack() {
-        if (stacks.size() == 0) return null;
+        if (stacks.size() == 0) {
+            return null;
+        }
         return stacks.get(stacks.size() - 1);
-
     }
+
     public void push(int v) {
         Stack last = getLastStack();
-        if (last != null && !last.isAtCapacity()) { // add to last stack
+        if (last != null && last.size() != last.capacity()) { // add to last
             last.push(v);
         } else { // must create new stack
-            Stack stack = new Stack(capacity);
+            Stack stack = new Stack();
             stack.push(v);
             stacks.add(stack);
         }
     }
+
     public int pop() {
         Stack last = getLastStack();
-        System.out.println(stacks.size());
-        int v = last.pop();
-        if (last.size == 0) stacks.remove(stacks.size() - 1);
+        if (last == null) throw new EmptyStackException();
+        int v = (Integer)last.pop();
+        if (last.size() == 0) {
+            stacks.remove(stacks.size() - 1);
+        }
         return v;
-
     }
 }

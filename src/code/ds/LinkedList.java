@@ -602,8 +602,8 @@ public class LinkedList {
             addCarryToRemaining(head1, cur, carry, result);
         }
         // if some carry is still there, add a new node to the front of the result list. e.g. 999 and 87
-        if (carry != 0)
-            result.addAtFront(carry);
+        //if (carry != 0)
+        //    result.addAtFront(carry);
     }
     // A utility function to swap two pointers
     void swapPointer( Node a, Node b ) {
@@ -650,7 +650,7 @@ public class LinkedList {
             carry = sum/10;
             sum %= 10;
             // add this node to the front of the result
-            result.addAtFront(sum);
+            //result.addAtFront(sum);
         }
     }
     //Insert an element in a sorted circular linked list.
