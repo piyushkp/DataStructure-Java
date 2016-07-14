@@ -281,7 +281,7 @@ public class MISC {
         }
     }
 
-    class FileReaderIterator<T> implements Iterator<T> {
+    class FileReaderIterator<T> implements Iterator {
         private byte[] data;
         private Queue<Byte> buffer = new java.util.LinkedList<Byte>();
 
