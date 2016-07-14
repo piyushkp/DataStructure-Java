@@ -1,10 +1,10 @@
 package code.ds;
 import java.util.*;
-import java.io.*;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
+
 
 /**
  * Created by ppatel2 on 1/28/2016.
@@ -96,9 +96,9 @@ public class Graph_Algo {
 
     /* Given an undirected graph find cycle in this graph.
      * Runtime and space complexity for both the techniques is O(v) where v is total number of vertices in the graph.*/
-    public boolean hasCycleDFS(Graph<T> graph){
-        Set<Vertex<T>> visited = new HashSet<Vertex<T>>();
-        for(Vertex<T> vertex : graph.getAllVertex()){
+    public boolean hasCycleDFS(code.ds.Graph graph){
+        Set<Vertex> visited = new HashSet<Vertex>();
+        for(code.ds.Vertex vertex : graph.getAllVertex()){
             if(visited.contains(vertex)){
                 continue;
             }
@@ -110,7 +110,7 @@ public class Graph_Algo {
         return false;
     }
 
-    public boolean hasCycleDFSUtil(Vertex<T> vertex, Set<Vertex<T>> visited,Vertex<T> parent){
+    public boolean hasCycleDFSUtil(Vertex vertex, Set<Vertex> visited,Vertex parent){
         visited.add(vertex);
         for(Vertex<T> adj : vertex.getAdjacentVertexes()){
             if(adj.equals(parent)){

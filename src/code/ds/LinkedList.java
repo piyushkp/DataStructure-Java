@@ -10,6 +10,7 @@ public class LinkedList {
         int data;
         Node next;
         Node random;
+        Node prev;
     }
 
     // Traverse Linked List
@@ -603,6 +604,12 @@ public class LinkedList {
         // if some carry is still there, add a new node to the front of the result list. e.g. 999 and 87
         if (carry != 0)
             result.addAtFront(carry);
+    }
+    // A utility function to swap two pointers
+    void swapPointer( Node a, Node b ) {
+        Node t = a;
+        a = b;
+        b = t;
     }
     /* A utility function to get size of linked list */
     int getSize(Node node){

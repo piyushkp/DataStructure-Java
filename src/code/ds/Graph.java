@@ -103,8 +103,8 @@ public class Graph<T>{
 class Vertex<T> {
     long id;
     private T data;
-    private List<Edge<T>> edges = new ArrayList<>();
-    private List<Vertex<T>> adjacentVertex = new ArrayList<>();
+    private List<Edge<T>> edges = new ArrayList<Edge<T>>();
+    private List<Vertex<T>> adjacentVertex = new ArrayList<Vertex<T>>();
 
     Vertex(long id){
         this.id = id;

@@ -252,12 +252,10 @@ public class MISC {
     }
 
     public class Singleton {
-        private static Singleton uniqInstance;
-
+        private  Singleton uniqInstance;
         private Singleton() {
         }
-
-        public static synchronized Singleton getInstance() {
+        public synchronized Singleton getInstance() {
             if (uniqInstance == null) {
                 uniqInstance = new Singleton();
             }

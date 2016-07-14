@@ -135,7 +135,7 @@ class StackWithMin extends java.util.Stack<Integer> {
 //mimics this. SetOfStacks should be composed of several stacks, and should create a new stack once the previous one
 //exceeds capacity. SetOfStacks.push() and SetOfStacks.pop() should behave identically to a single stack (that is,
 //pop() should return the same values as it would if there were just a single stack).
-public class SetOfStacks {
+class SetOfStacks {
     ArrayList<Stack> stacks = new ArrayList<Stack>();
     public int capacity;
     public SetOfStacks(int capacity) {

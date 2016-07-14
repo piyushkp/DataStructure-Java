@@ -106,7 +106,7 @@ public class Numbers {
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point implements Comparable<Point> {
         int x, y;
-        double distance;
+        Double distance;
         public Point (int x, int y, Point original) {
             this.x= x;
             this.y = y;
@@ -169,6 +169,12 @@ public class Numbers {
     /*Given a nested list of integers, returns the sum of all integers in the list weighted by their depth
     * For example, given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1)
     * Given the list {1,{4,{6}}} the function should return 27 (one 1 at depth 1, one 4 at depth 2, one 6 at depth2)*/
+    class NestedInteger{
+        boolean isInteger(){return true;}
+        int getInteger(){return 1;}
+        List<NestedInteger> getList(){return new ArrayList<NestedInteger>();}
+    }
+
     private int getListSum(List<NestedInteger> lni, int depth) {
         int sum = 0;
         for (NestedInteger ni : lni) {

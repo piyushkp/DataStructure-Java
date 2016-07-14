@@ -1511,7 +1511,7 @@ public class Array {
     //Given a sorted array of positive integers, rearrange the array alternately
     //i.e first element should be maximum value, second minimum value, third second max, fourth second min and so on.
     //Time = O(n)
-    void rearrange(int arr[], int n){
+    void rearrange1(int arr[], int n){
         for (int i=0; i<n; i++){
             int temp = arr[i];
             // If number is negative then we have already processed it. Else process all numbers which
@@ -1525,7 +1525,7 @@ public class Array {
                     break;
                 }
                 // Swap the number 'temp' with the current number at its target position
-                swap(temp, arr[j]);
+                swap(arr,temp, arr[j]);
                 // Mark the number as processed
                 arr[j] = -arr[j];
                 // Next process the previous number at target position
