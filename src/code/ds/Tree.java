@@ -1265,29 +1265,28 @@ public class Tree {
                     done1 = true;
                 }
             }
-        }
-        while (!done2) {
-            if (curr2 != null) {
-                s2.push(curr2);
-                curr2 = curr2.right;
-            } else {
-                if (s2.empty()) done2 = true;
-                else {
-                    curr2 = s2.pop();
-                    val2 = curr2.data;
-                    curr2 = curr2.left;
-                    done2 = true;
+            while (!done2) {
+                if (curr2 != null) {
+                    s2.push(curr2);
+                    curr2 = curr2.right;
+                } else {
+                    if (s2.empty()) done2 = true;
+                    else {
+                        curr2 = s2.pop();
+                        val2 = curr2.data;
+                        curr2 = curr2.left;
+                        done2 = true;
+                    }
                 }
             }
+            if (val1 + val2 == search) {
+                result.add(val1);
+                result.add(val2);
+                return result;
+            } else if (val1 + val2 > search) {
+                done2 = false;
+            } else done1 = false;
         }
-        if (val1 + val2 == search) {
-            result.add(val1);
-            result.add(val2);
-            return result;
-        } else if (val1 + val2 > search) {
-            done2 = false;
-        } else
-            done1 = false;
     }
 
     //Perfect Binary Tree Specific Level Order Traversal

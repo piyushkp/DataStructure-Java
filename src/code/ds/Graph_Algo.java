@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-
 /**
  * Created by ppatel2 on 1/28/2016.
  */
@@ -98,7 +97,7 @@ public class Graph_Algo {
      * Runtime and space complexity for both the techniques is O(v) where v is total number of vertices in the graph.*/
     public boolean hasCycleDFS(code.ds.Graph graph){
         Set<Vertex> visited = new HashSet<Vertex>();
-        for(code.ds.Vertex vertex : graph.getAllVertex()){
+        for(Collection<Vertex<Object>> vertex: graph.getAllVertex()){
             if(visited.contains(vertex)){
                 continue;
             }
