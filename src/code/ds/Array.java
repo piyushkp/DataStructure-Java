@@ -12,11 +12,8 @@ import java.lang.*;
  * Created by Piyush Patel.
  */
 public class Array {
-    public static void main(String [] args)
-    {
-        int a[] = {1,2,3};
-        int b[] = {4,5,6};
-        int ans [] = MergeArray(a,b);
+    public static void main(String [] args) {
+        System.out.print("Array");
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {

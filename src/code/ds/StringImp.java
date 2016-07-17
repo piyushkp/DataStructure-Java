@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  */
 public class StringImp {
     public static void main(String[] args) {
-        compressString("aaaasssdff");
+        System.out.print("String");
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
