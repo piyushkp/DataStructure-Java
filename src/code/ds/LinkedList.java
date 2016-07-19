@@ -683,9 +683,16 @@ public class LinkedList {
             current.next = new_node;
         }
     }
-    //Write a function to remove a single occurrence of an integer from a doubly linked list if it is present.
+    //Write a function to remove/Delete a single occurrence of an integer from a doubly linked list if it is present.
     void remove(Node head, int value) {
         Node cur = head;
+        if (head == null) {
+            return;
+        }
+        /* If node to be deleted is head node */
+        if (head.data == value) {
+            head = cur.next;
+        }
         while (cur != null) {
             if (cur.data == value) {
                 if (cur.prev != null)
