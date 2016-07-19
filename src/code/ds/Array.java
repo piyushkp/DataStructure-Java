@@ -114,7 +114,7 @@ public class Array {
     // Given a stream of unsorted integers, find the median element in sorted order at any given time.
     // http://www.ardendertat.com/2011/11/03/programming-interview-questions-13-median-of-integer-stream/
     // provides O(1) find heap and O(logN) insert
-    public Queue<Integer> minHeap =  new PriorityQueue<Integer>();;
+    public Queue<Integer> minHeap =  new PriorityQueue<Integer>();
     public Queue<Integer> maxHeap =  new PriorityQueue<Integer>(10, new MaxHeapComparator());;
     public int numOfElements =0;
     public void addNumberToStream(Integer num) {
