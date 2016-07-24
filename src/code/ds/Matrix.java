@@ -11,7 +11,7 @@ public class Matrix {
         Integer[][] mat = {{6,7,8,9,2},
                 {4,6,7,8,9},
                 {1,4,6,7,8},
-                {0,1,4,6,7}};
+                {4,1,4,6,7}};
         System.out.print(isToepliz(mat));
     }
     //Matrix Region Sum
@@ -534,13 +534,13 @@ public class Matrix {
         List<Integer> curr = null;
         for (int i = 0; i < mat.length; i++) {
             Integer[] temp = mat[i];
-            curr = new java.util.LinkedList<Integer>(Arrays.asList(temp));
+            curr = new LinkedList<Integer>(Arrays.asList(temp));
             curr.remove(0);
             if(prev != null){
-                if(prev.toString() != curr.toString())
+                if(!prev.toString().equals(curr.toString()))
                     return false;
             }
-            prev = new java.util.LinkedList<Integer>(Arrays.asList(temp));
+            prev = new LinkedList<Integer>(Arrays.asList(temp));
             prev.remove(prev.size() -1);
         }
         return  true;
