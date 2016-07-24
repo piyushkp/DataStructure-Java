@@ -3,12 +3,15 @@ import java.util.*;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.*;
 /**
  * Created by Piyush Patel.
  */
 public class StringImp {
     public static void main(String[] args) {
-        System.out.print("String");
+        //System.out.print("String");
+        String s = "aabbsddfgh";
+        System.out.print(LongestPalindromeRemoveShuffle(s));
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
@@ -1097,6 +1100,24 @@ public class StringImp {
             if (s.charAt(i) != t.charAt(i)) return i;
         }
         return N;
+    }
+    //Given a string return the longest palindrome that can be constructed by removing or shuffling characters.
+    // If there are multiple correct answers you need to return only 1 palindrome.
+    public static String LongestPalindromeRemoveShuffle(String s){
+        String output ="";
+        String center ="";
+        int[] counter = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            counter[(int)s.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < counter.length; i++) {
+            int times = counter[i] / 2;
+            String repeated = new String(new char[times]).replace("\0", Character.toString((char)(i+'a')));
+            output += repeated;
+            if(counter[i]%2 != 0)
+                center = Character.toString((char)(i+'a'));
+        }
+        return output + center + new StringBuilder(output).reverse().toString();
     }
     /*Airbnb: Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
     e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
