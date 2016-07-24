@@ -4,6 +4,9 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class StackImp {
+    public static void main(String [] args) {
+        System.out.print("Stack Imp");
+    }
     interface Stack<T> {
         Stack<T> push(T ele);
         T pop();

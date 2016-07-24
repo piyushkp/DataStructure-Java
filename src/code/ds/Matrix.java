@@ -6,6 +6,9 @@ import java.util.LinkedList;
  * Created by Piyush Patel.
  */
 public class Matrix {
+    public static void main(String [] args) {
+        System.out.print("Matrix");
+    }
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
     // of elements from (0,0) to (i,j) Time = O(MN)

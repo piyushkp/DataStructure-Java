@@ -7,6 +7,9 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Tree {
+    public static void main(String [] args) {
+        System.out.print("Tree");
+    }
     public class Node {
         public int data;
         public Node left;

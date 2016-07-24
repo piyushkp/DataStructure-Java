@@ -3,8 +3,10 @@ package code.ds;
 /**
  * Created by Piyush Patel.
  */
-public class Sort
-{
+public class Sort {
+    public static void main(String [] args) {
+        System.out.print("Sort");
+    }
     //Merge Sort
     public static void mergeSort(int[ ] data, int first, int n)
     {

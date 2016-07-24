@@ -1,9 +1,12 @@
 package code.ds;
 import java.util.*;
 /**
- * Created by ppatel2 on 9/8/2014.
+ * Created by Piyush Patel.
  */
 public class Numbers {
+    public static void main(String [] args) {
+        System.out.print("Numbers");
+    }
     //Function to calculate x raised to the power y in O(logn)
     int power(int x, int y) {
         int temp;

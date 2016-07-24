@@ -13,7 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        System.out.print("Array");
+        int[] input = {3,6,1,2,9};
+        int[] out = getTopElements(input, 3);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {

@@ -4,9 +4,12 @@ import java.io.*;
 import java.nio.*;
 import java.lang.*;
 /**
- * Created by ppatel2 on 8/26/2014.
+ * Created by Piyush Patel.
  */
 public class Trie{
+    public static void main(String [] args) {
+        System.out.print("Trie");
+    }
     //Given a text file and a word, find the positions that the word occurs in the file.
     class Node{
         char letter;

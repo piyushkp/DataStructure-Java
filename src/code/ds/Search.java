@@ -3,8 +3,10 @@ package code.ds;
 /**
  * Created by Piyush Patel.
  */
-public class Search
-{
+public class Search {
+    public static void main(String [] args) {
+        System.out.print("Search");
+    }
     //BinarySearch
     int binarySearch(int arr[], int x){
         int l = 0, r = arr.length - 1;

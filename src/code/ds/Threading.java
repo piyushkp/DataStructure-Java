@@ -1,8 +1,11 @@
 package code.ds;
 /**
- * Created by ppatel2 on 8/26/2014.
+ * Created by Piyush Patel.
  */
 public class Threading{
+    public static void main(String [] args) {
+        System.out.print("Threading");
+    }
     // Multi Threading implementation
     class MultiThreading implements Runnable{
         public Object tLock = new Object();

@@ -1,10 +1,13 @@
 package code.ds;
 /**
- * Created by ppatel2 on 9/11/2014.
+ * Created by Piyush Patel.
  */
 import java.util.ArrayList;
 
 public class Hasher<K, V> {
+    public static void main(String [] args) {
+        System.out.print("Hasher");
+    }
     private static class LinkedListNode<K, V> {
         public LinkedListNode<K, V> next;
         public LinkedListNode<K, V> prev;

@@ -6,13 +6,15 @@ import java.util.HashSet;
  * Created by Piyush Patel.
  */
 public class LinkedList {
+    public static void main(String [] args) {
+        System.out.print("LinkList");
+    }
     class Node {
         int data;
         Node next;
         Node random;
         Node prev;
     }
-
     // Traverse Linked List
     void PrintLinkedList(Node start) {
         System.out.print("\nHEAD .");

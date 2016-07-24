@@ -5,8 +5,10 @@ import java.util.LinkedList;
 /**
  * Created by Piyush Patel.
  */
-public class QueueImp
-{
+public class QueueImp{
+    public static void main(String [] args) {
+        System.out.print("QueueImp");
+    }
     //Implement the Queue using two Stack
     public class Queue<E>{
         private Stack<E> Inbox = new Stack<E>();

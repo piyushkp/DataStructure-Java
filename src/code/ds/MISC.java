@@ -1,9 +1,13 @@
 package code.ds;
 import java.util.*;
 /**
- * Created by ppatel2 on 9/12/2014.
+ * Created by Piyush Patel.
  */
 public class MISC {
+
+    public static void main(String [] args) {
+        System.out.print("MISC");
+    }
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
     //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8} Time Complexity: O(n Log n)
     class Interval {

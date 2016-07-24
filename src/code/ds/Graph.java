@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Graph<T>{
+    public static void main(String [] args) {
+        System.out.print("Graph");
+    }
 
     private List<Edge<T>> allEdges;
     private Map<Long,Vertex<T>> allVertex;
