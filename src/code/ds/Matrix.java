@@ -1,13 +1,18 @@
 package code.ds;
 import java.text.*;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
+
 /**
  * Created by Piyush Patel.
  */
 public class Matrix {
     public static void main(String [] args) {
-        System.out.print("Matrix");
+        //System.out.print("Matrix");
+        Integer[][] mat = {{6,7,8,9,2},
+                {4,6,7,8,9},
+                {1,4,6,7,8},
+                {0,1,4,6,7}};
+        System.out.print(isToepliz(mat));
     }
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
@@ -314,7 +319,7 @@ public class Matrix {
         return maxArea;
     }
     public int maxHistogram(int input[]){
-        Deque<Integer> stack = new LinkedList<Integer>();
+        Deque<Integer> stack = new java.util.LinkedList<Integer>();
         int maxArea = 0;
         int area = 0;
         int i;
@@ -516,5 +521,28 @@ public class Matrix {
         }
         return result[maze.length-1][maze.length-1];
     }
-
+    //A matrix is Toepliz,if each descending diagonal from left to right is constant. Determine if a matrix is Toepliz.
+    /*  Input:
+            67892
+            46789
+            14678
+            01467
+        Output:
+            True*/
+    public static boolean isToepliz(Integer[][] mat){
+        List<Integer> prev = null;
+        List<Integer> curr = null;
+        for (int i = 0; i < mat.length; i++) {
+            Integer[] temp = mat[i];
+            curr = new java.util.LinkedList<Integer>(Arrays.asList(temp));
+            curr.remove(0);
+            if(prev != null){
+                if(prev.toString() != curr.toString())
+                    return false;
+            }
+            prev = new java.util.LinkedList<Integer>(Arrays.asList(temp));
+            prev.remove(prev.size() -1);
+        }
+        return  true;
+    }
 }

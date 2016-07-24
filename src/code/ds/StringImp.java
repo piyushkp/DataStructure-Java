@@ -10,7 +10,7 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        String s = "aabbsddfgh";
+        String s = "ttaatta";
         System.out.print(LongestPalindromeRemoveShuffle(s));
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */

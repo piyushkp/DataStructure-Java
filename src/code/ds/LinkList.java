@@ -5,7 +5,7 @@ import java.util.HashSet;
 /**
  * Created by Piyush Patel.
  */
-public class LinkedList {
+public class LinkList {
     public static void main(String [] args) {
         System.out.print("LinkList");
     }
@@ -458,7 +458,7 @@ public class LinkedList {
 
     //Merge a linked list into another linked list at alternate positions
     //function that inserts nodes of linked list q into p at alternate positions.
-    void merge(LinkedList q) {
+    void merge(LinkList q) {
         Node p_curr = head, q_curr = q.head;
         Node p_next, q_next;
         // While there are available positions in p;
