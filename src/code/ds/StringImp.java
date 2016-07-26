@@ -10,8 +10,13 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        String s = "ttaatta";
-        System.out.print(LongestPalindromeRemoveShuffle(s));
+        //String s = "ttaatta";
+        //System.out.print(LongestPalindromeRemoveShuffle(s));
+        List<String> list = new ArrayList<String>();
+        list.add("Do");
+        list.add("Run");
+        System.out.print(numberCanFit(list, 3,9));
+
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
@@ -1982,5 +1987,28 @@ public class StringImp {
             num = num * BASE + ALPHABET.indexOf(str.charAt(i));
         return num;
     }
+    /*Given a list of words, and the number of rows and columns, return the number of words that can be fit into the rows and columns
+     by stringing together each consecutive word. If the next word doesn't fit in the same line, it should move to the next line.  For eg.
+     Input: List of words: { "Do";, "Run" } , Number of columns: 9 , Number of rows: 2
+     Output = 5 */
+    public static int numberCanFit(List<String> words, int row, int column){
+        int i = 0;
+        int count = 0;
+        int max = row * column;
+        String output = "";
+        while(i <= max){
+            for (String s : words){
+                if(i != 0)
+                    output += " ";
+                output += s;
+                i = output.length();
+                if(i > max)
+                    break;
+                count++;
+            }
+        }
+        return  count;
+    }
+
 }
 
