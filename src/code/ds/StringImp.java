@@ -12,10 +12,8 @@ public class StringImp {
         //System.out.print("String");
         //String s = "ttaatta";
         //System.out.print(LongestPalindromeRemoveShuffle(s));
-        List<String> list = new ArrayList<String>();
-        list.add("Do");
-        list.add("Run");
-        System.out.print(numberCanFit(list, 3,9));
+        String words[] = new String[] { "Doqqeqweq" , "run"};
+        System.out.print(numberCanFit(words, 3,9));
 
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -1991,24 +1989,24 @@ public class StringImp {
      by stringing together each consecutive word. If the next word doesn't fit in the same line, it should move to the next line.  For eg.
      Input: List of words: { "Do";, "Run" } , Number of columns: 9 , Number of rows: 2
      Output = 5 */
-    public static int numberCanFit(List<String> words, int row, int column){
-        int i = 0;
-        int count = 0;
-        int max = row * column;
-        String output = "";
-        while(i <= max){
-            for (String s : words){
-                if(i != 0)
-                    output += " ";
-                output += s;
-                i = output.length();
-                if(i > max)
-                    break;
-                count++;
+    public static int numberCanFit(String[] words, int row, int col){
+        int wordCount = 0;
+        int rowIterator = 0;
+        int wordIterator = 0;
+        int remainingCol;
+        while ( rowIterator < row )	{
+            remainingCol = col;
+            while ( remainingCol > 0 && words[wordIterator].length() <= remainingCol)	{
+                wordCount++;
+                // update remainingCol , takes wordspacing into account
+                remainingCol = remainingCol - words[wordIterator].length() - 1;
+                wordIterator++;
+                if (wordIterator == words.length)
+                    wordIterator = 0;
             }
+            rowIterator++;
         }
-        return  count;
+        return wordCount;
     }
-
 }
 
