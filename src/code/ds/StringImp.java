@@ -10,10 +10,12 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        //String s = "ttaatta";
-        //System.out.print(LongestPalindromeRemoveShuffle(s));
-        String words[] = new String[] { "Doqqeqweq" , "run"};
-        System.out.print(numberCanFit(words, 3,9));
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("HelloMars");
+        list.add("HelloWorld");
+        list.add("HelloWorldMars");
+        list.add("HiHo");
+        ArrayList<String> out = getCamelCaseMatchingStrings(list, "HeWorM");
 
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -2007,6 +2009,34 @@ public class StringImp {
             rowIterator++;
         }
         return wordCount;
+    }
+    /*List of string that represent class names in CamelCaseNotation. Write a function that given a List and a pattern returns the matching elements.
+    Input  = [HelloMars,HelloWorld,HelloWorldMars,HiHo]
+    H -> [HelloMars, HelloWorld, HelloWorldMars, HiHo]
+    HW -> [HelloWorld, HelloWorldMars]
+    Ho -> []
+    HeWorM -> [HelloWorldMars] */
+    public static ArrayList<String> getCamelCaseMatchingStrings(ArrayList<String> list, String pattern ){
+        ArrayList<String> patternList = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            String s = list.get(i);
+            int len  = 0;
+            int pattern_len = pattern.length()-1;
+            int patIndex = 0;
+            while(len!= s.length()- 1 && patIndex <= pattern_len) {
+                if (s.charAt(len) == pattern.charAt(patIndex)) {
+                    len++;
+                    if (patIndex == pattern_len) {
+                        patternList.add(s);
+                        break;
+                    }
+                    patIndex++;
+                    continue;
+                } else if ((!Character.isUpperCase(pattern.charAt(patIndex)))) break;
+                len++;
+            }
+        }
+        return patternList;
     }
 }
 
