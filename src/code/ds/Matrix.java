@@ -104,6 +104,21 @@ public class Matrix {
             }
         }
     }
+    //Count zeros in a row wise and column wise sorted matrix
+    private int countNumZeroes(int[][] matrix) {
+        int row = matrix.length - 1, col = 0, numZeroes = 0;
+        while (col < matrix[0].length) {
+            while (matrix[row][col] != 0) {
+                if (--row < 0)
+                    return numZeroes;
+            }
+            // Add one since matrix index is 0 based
+            numZeroes += row + 1;
+            col++;
+        }
+        return numZeroes;
+    }
+
     //Given an MX N matrix in which each row and each column is sorted in ascending order, write a method to find an element.
     //As a first approach, we can do binary search on every row to find the element. This algorithm will be 0(M log(N)), since there are M rows and it takes 0(log(N)) time
     //to search each one
