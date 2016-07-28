@@ -778,21 +778,22 @@ public class Array {
     //find the single number that duplicates one or more times in an array in O(1) space and O(n) time without modifying the array
     //Tortoise and Hair Cycle detection algorithm (pr Floyd’s cycle-finding algorithm)
     //http://www.zrzahid.com/find-the-single-number-that-duplicates-one-or-more-times/
-    public static int findDuplicate1(int[] nums) {
-        int n = nums.length;
-        int slow = n;
-        int fast = n;
-        do {
-            slow = nums[slow - 1];
-            fast = nums[nums[fast - 1] - 1];
-        } while (fast != slow);
-        //find the starting point of the cycle and distance from the front
-        slow = n;
-        while (fast != slow) {
-            slow = nums[slow - 1];
-            fast = nums[fast - 1];
+    public int findDuplicate1(int[] nums) {
+        if (nums.length == 0 || nums.length == 1) {
+            return -1;
         }
-        return slow;
+        int slow = nums[0];
+        int fast = nums[nums[0]];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        fast = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return fast;
     }
     /*Write a function that is given an array of integers and an integer k. It should return true if and only if there
     are two distinct indices i and j into the array such that arr[i] = arr[j] and the difference between i and j is at
