@@ -13,8 +13,9 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int[] input = {3,6,1,2,9};
-        int[] out = getTopElements(input, 3);
+        int[] input = {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,9,9};
+        //int[] out = getTopElements(input, 3);
+        System.out.println(Arrays.toString(incrLargeNumber(input)));
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -2105,5 +2106,37 @@ public class Array {
         while(!stack.isEmpty()){
             System.out.println(stack.pop());
         }
+    }
+    //Write a class to take in a large arbitrary number, also provide a function to increment the number. The number will be passed on as an array of integers.
+    public static int[] incrLargeNumber(int []inputArray) {
+        if(inputArray == null) return inputArray;
+        int arrLength = inputArray.length;
+        // check for all 9s
+        boolean all9s = true;
+        for(int i=0;i<arrLength;i++) { // 0(k) --> k is the first non 9
+            if(inputArray[i] != 9) {
+                all9s = false;
+                break;
+            }
+        }
+        if(all9s) {
+            int []newInputArray = new int[arrLength + 1];
+            newInputArray[0] = 1;    // 0(1)
+            for(int i=1;i<newInputArray.length;i++) { // 0(n)
+                newInputArray[i] = 0;
+            }
+            return newInputArray;
+        } else {
+            for (int i = arrLength-1; i >-1; i --) { // O(k+1)  where is the first non 9
+                int k = inputArray[i];
+                if(k == 9) {
+                    inputArray[i] = 0;
+                } else {
+                    inputArray[i] = ++k; // o(1)
+                    return inputArray;
+                }
+            }
+        }
+        return inputArray;
     }
 }
