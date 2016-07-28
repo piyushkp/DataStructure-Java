@@ -8,11 +8,16 @@ import java.util.*;
 public class Matrix {
     public static void main(String [] args) {
         //System.out.print("Matrix");
-        Integer[][] mat = {{6,7,8,9,2},
-                {4,6,7,8,9},
-                {1,4,6,7,8},
-                {4,1,4,6,7}};
-        System.out.print(isToepliz(mat));
+        int mat[][] =
+        {
+            { 0, 0, 1, 1, 1 },
+            { 0, 0, 1, 1, 1 },
+            { 0, 1, 1, 1, 1 },
+            { 0, 1, 1, 1, 1 },
+            { 1, 1, 1, 1, 1 }
+        };
+        System.out.println(countNumZeroes(mat));
+        System.out.println(countZero(mat));
     }
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
@@ -105,7 +110,7 @@ public class Matrix {
         }
     }
     //Count zeros in a row wise and column wise sorted matrix
-    private int countNumZeroes(int[][] matrix) {
+    static int countNumZeroes(int[][] matrix) {
         int row = matrix.length - 1, col = 0, numZeroes = 0;
         while (col < matrix[0].length) {
             while (matrix[row][col] != 0) {
@@ -117,6 +122,36 @@ public class Matrix {
             col++;
         }
         return numZeroes;
+    }
+    public static int countZero(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int count =0;
+        return zeroHelper(matrix, 0, m - 1, 0, n - 1, count);
+    }
+    private static int zeroHelper(int[][] matrix, int rowStart, int rowEnd, int colStart, int colEnd, int count) {
+        if (rowStart > rowEnd || colStart > colEnd) {
+            return count;
+        }
+        int rowMid = rowStart + (rowEnd - rowStart) / 2;
+        int colMid = colStart + (colEnd - colStart) / 2;
+        if (matrix[rowMid][colMid] == 1) {
+            return  zeroHelper(matrix, rowStart, rowMid - 1, colStart, colMid - 1, count)+
+                    zeroHelper(matrix, rowMid, rowEnd, colStart, colMid - 1, count) +
+                    zeroHelper(matrix, rowStart, rowMid - 1, colMid, colEnd, count);
+        }
+        else if(matrix[rowEnd][colEnd] == 0)
+            count += (rowEnd - rowStart + 1) * (colEnd - colStart + 1);
+       else{// (matrix[rowMid][colMid] == 0 ) {
+            count ++;
+            //return  zeroHelper(matrix, rowMid+1, rowEnd, colStart, colMid, count); //+
+                    //zeroHelper(matrix, rowStart, rowMid, colMid+1, colEnd, count); //+
+                    //zeroHelper(matrix, rowMid + 1, rowEnd, colMid + 1, colEnd, count);
+        }
+        return  count;
     }
 
     //Given an MX N matrix in which each row and each column is sorted in ascending order, write a method to find an element.
