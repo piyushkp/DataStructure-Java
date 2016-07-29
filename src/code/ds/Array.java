@@ -13,9 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int[] input = {9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,8,9,9};
-        //int[] out = getTopElements(input, 3);
-        System.out.println(Arrays.toString(incrLargeNumber(input)));
+        int[] input = {10,4,6,7,-2,-5,4};
+        System.out.println(getMaxOfMaxPrefix(input));
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -2139,4 +2138,23 @@ public class Array {
         }
         return inputArray;
     }
+    //Given an array of n integers. MaxPrefix is defined as count of elements those are greater than the element and in the right side of
+    //array wrt to the element. Write a program to give the max of MaxPrefix. Input: 10 -4 6 2 8 9 4 Output: 5
+    public static int getMaxOfMaxPrefix(int a[]){
+        if(a.length < 2)
+            return 1;
+        int count = 0, maxPrefix = 0,temp = a[0];
+        for (int i = 0; i < a.length ; i++) {
+            if(a[i] > temp)
+                count++;
+            else{
+                temp = a[i];
+                count = 0;
+            }
+            if(count > maxPrefix)
+                maxPrefix = count;
+        }
+        return  maxPrefix;
+    }
+
 }
