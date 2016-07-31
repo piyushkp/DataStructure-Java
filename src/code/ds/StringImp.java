@@ -10,12 +10,7 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("HelloMars");
-        list.add("HelloWorld");
-        list.add("HelloWorldMars");
-        list.add("HiHo");
-        ArrayList<String> out = getCamelCaseMatchingStrings(list, "HeWorM");
+        printNonOverlapping("1234","");
 
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -2037,6 +2032,22 @@ public class StringImp {
             }
         }
         return patternList;
+    }
+    //print non over lapping in order pairs. example:input = [1,2,3,4]
+    /*output:   (1234)
+                (1)(234)
+                (1)(23)(4)
+                (1)(2)(34)
+                (12)(34)
+                (12)(3)(4)
+                (123)(4)
+                (1)(2)(3)(4)*/
+    public static void printNonOverlapping (String number, String prefix) {
+        System.out.println (prefix + "(" + number + ")");
+        for (int i=1; i<number.length(); i++) {
+            String newPrefix = prefix + "(" + number.substring(0,i) + ")";
+            printNonOverlapping (number.substring (i, number.length()), newPrefix);
+        }
     }
 }
 
