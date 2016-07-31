@@ -2049,5 +2049,22 @@ public class StringImp {
             printNonOverlapping (number.substring (i, number.length()), newPrefix);
         }
     }
+    /*Define a function that can detect whether the characters of a string can be shuffled without repeating same
+    characters as one other's neighbors. E.g. : apple >> alpep, so valid */
+    public boolean canShuffle(char[] s) {
+        // initial counter array
+        int[] counter = new int[300];
+        // count the number of character in s
+        for (char c : s) {
+            counter[c]++;
+        }
+        // get the maximum from counter
+        int maxExistedCharacter = 0;
+        for (char c = 'a'; c <= 'z'; c++) {
+            maxExistedCharacter = Math.max(counter[c], maxExistedCharacter);
+        }
+        // s can shuffle when the maxExistedCharacter less than (length of s + 1) / 2
+        return maxExistedCharacter <= (s.length + 1) / 2;
+    }
 }
 
