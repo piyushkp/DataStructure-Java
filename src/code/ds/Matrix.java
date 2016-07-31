@@ -10,14 +10,11 @@ public class Matrix {
         //System.out.print("Matrix");
         int mat[][] =
         {
-            { 0, 0, 1, 1, 1 },
-            { 0, 0, 1, 1, 1 },
-            { 0, 1, 1, 1, 1 },
-            { 0, 1, 1, 1, 1 },
-            { 1, 1, 1, 1, 1 }
+            { 1,3,5 },
+            { 3,2,4 },
+
         };
-        System.out.println(countNumZeroes(mat));
-        System.out.println(countZero(mat));
+        int out[][] = sortMatrix(mat);
     }
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
@@ -594,5 +591,27 @@ public class Matrix {
             prev.remove(prev.size() -1);
         }
         return  true;
+    }
+    /*Given a 2D matrix of integers, sort it such that: - every row is sorted in ascending order from left to right
+    - every column is sorted in ascending order from top to down
+    - all items in the same row are unique */
+    public static int[][] sortMatrix(int[][] a) {
+        int rowCount = a.length;
+        int colCount = a[0].length;
+        int[] temp = new int[rowCount * colCount];
+        for (int r = 0; r < rowCount; r++) {
+            for (int c = 0; c < colCount; c++) {
+                temp[r * colCount + c] = a[r][c];
+            }
+        }
+        Arrays.sort(temp);
+        for (int r = 0; r < rowCount; r++) {
+            int k = 0;
+            for (int c = 0; c < colCount; c++) {
+                a[r][c] = temp[r + 2*k];
+                k++;
+            }
+        }
+        return a;
     }
 }
