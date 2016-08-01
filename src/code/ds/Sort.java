@@ -32,8 +32,7 @@ public class Sort {
         int i;           // Array index to copy from temp back into data
 
         // Merge elements, copying from two halves of data to the temporary array.
-        while ((copied1 < n1) && (copied2 < n2))
-        {
+        while ((copied1 < n1) && (copied2 < n2)){
             if (data[first + copied1] < data[first + n1 + copied2])
                 temp[copied++] = data[first + (copied1++)];
             else
