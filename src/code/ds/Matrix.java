@@ -576,7 +576,33 @@ public class Matrix {
             01467
         Output:
             True*/
-    public static boolean isToepliz(Integer[][] mat){
+    public static boolean isToepliz(int mat[][]) {
+        // do for each element in first row
+        for (int i = 0; i < M; i++) {
+            // check descending diagonal starting from position (0, j) in the matrix
+            if (!checkDiagonal(mat, 0, i))
+                return false;
+        }
+        // do for each element in first column
+        for (int i = 1; i < N; i++) {
+            // check descending diagonal starting from position (i, 0) in the matrix
+            if (!checkDiagonal(mat, i, 0))
+                return false;
+        }
+        // we only reach here when each descending diagonal from left to right is same
+        return true;
+    }
+    public static boolean checkDiagonal(int mat[][], int i, int j){
+        int res = mat[i][j];
+        while (++i < N && ++j < M){
+            // mismatch found
+            if (mat[i][j] != res)
+                return false;
+        }
+        // we only reach here when all elements in given diagonal are same
+        return true;
+    }
+    public static boolean isToepliz1(Integer[][] mat){
         List<Integer> prev = null;
         List<Integer> curr = null;
         for (int i = 0; i < mat.length; i++) {
