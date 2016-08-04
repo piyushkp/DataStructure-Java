@@ -2156,5 +2156,24 @@ public class Array {
         }
         return  maxPrefix;
     }
-
+    //A list L is too big to fit in memory. L is partially sorted. Partially sorted in a specific way: x-sorted L[i] < L[i+x].
+    // Any element is at most x indices out of position. Sort the list L
+    private static int[] sortPartialList(int []a, int x){
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        int[] result = new int[a.length];
+        int k = 0;
+        for (int i = 0; i < a.length; i++) {
+            if(i < x)
+                pq.add(a[i]);
+            else{
+                result[k] = pq.poll();
+                pq.add(a[i]);
+            }
+        }
+        while(!pq.isEmpty()){
+            result[k] = pq.poll();
+            k++;
+        }
+        return result;
+    }
 }
