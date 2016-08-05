@@ -2176,4 +2176,19 @@ public class Array {
         }
         return result;
     }
+    //Given an array of integers, find if it’s possible to remove exactly one integer from the array that divides the array into two subarrays with the same sum.
+    //Input:  arr = [6, 2, 3, 2, 1] Output:  true ( [6], and [3, 2, 1])
+    public static boolean divideArray(int []a){
+        int sum = 0;
+        int sum_so_far = 0;
+        for (int i = 0; i < a.length; i++) {
+            sum+=a[i];
+        }
+        for (int i = 0; i < a.length; i++) {
+            if(2 * sum_so_far + a[i] == sum)
+                return  true;
+            sum_so_far+= a[i];
+        }
+        return false;
+    }
 }
