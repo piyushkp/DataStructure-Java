@@ -74,7 +74,7 @@ public class StringImp {
         return nonrepeating.get(0);
     }
     //Return maximum occurring character in the input string
-    public static String getMaxRepeatedChar(String txt) {
+    public static void getMaxRepeatedChar(String txt) {
         if ((txt != null)) {
             HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
             char maxCh = 1;
@@ -95,9 +95,8 @@ public class StringImp {
                     }
                 }
             }
-            return "Most Repeated character : " + maxCh + " and Count : " + maxCnt;
+            System.out.print("Most Repeated character : " + maxCh + " and Count : " + maxCnt);
         }
-        return null;
     }
     //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
     //{(abc)22}[14(xyz)2] should pass
