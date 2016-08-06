@@ -10,7 +10,12 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        printNonOverlapping("1234","");
+        Set<String> set = new HashSet<>();
+        set.add("Smoke");
+        set.add("Smoked");
+        set.add("hard");
+
+        wordBreakUsingDP("Smokedhard", set);
 
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -166,7 +171,7 @@ public class StringImp {
     /*Naive Solution: A naive solution would be, for each word in the list, calculate the edit distance with the target
     word. If it is equal or less than k, output to the result list. If we assume that the average length of the words is m,
     and the total number of words in the list is n, the total time complexity is O(n * m^2).
-    A better solution with a trie:*/
+    A better solution with a trie:, Best solution is using BK tree, see below*/
     class TrieNode {
         TrieNode[] children;
         boolean isLeaf;
@@ -408,60 +413,45 @@ public class StringImp {
     //Input = "smokedhard" dict ={"smoke","smoked","hard"} output = "smoked hard"
     //Before we solve it for any string check if we have already solve it. We can use another HashMap to store the result
     //of already solved strings. When­ever any recursive call returns false, store that string in HashMap
-    public static boolean wordBreakUsingDP(String s, HashSet<String> dict, HashSet<String> memory, String answer) {
-        if (s.length() == 0) {
-            System.out.println(answer);
-            return true;
-        } else if (memory.contains(s)) {
-            return false;
-        } else {
-            int index = 0;
-            String word = "";
-            while (index < s.length()) {
-                word += s.charAt(index);// add one char at a time
-                // check if word already being solved
-                if (dict.contains(word)) {
-                    if (wordBreakUsingDP(s.substring(index + 1), dict, memory, answer + word + " ")) {
-                        return true;
-                    }
-                    else
-                        index++;
-                }
-                else
-                    index++;
-            }
-            memory.add(s);// memoization for future;
-            return false;
-        }
-    }
+
     //word break max two words in O(n)
-    public static String WordBreakMaxTwo(String s, HashSet<String> dict){
-        int counter = 0;
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
-        int i = 0;
-        String temp = "";
-        while(true){
-            temp = temp + s.charAt(i);
-            if(counter == 0){
-                if(dict.contains(temp)) {
-                    map.put(++counter, temp);
-                    temp = "";
+    public static String WordBreakMaxTwo(String input, Set<String> dict) {
+        int len = input.length();
+        for (int i = 1; i < len; i++) {
+            String prefix = input.substring(0, i);
+            if (dict.contains(prefix)) {
+                String suffix = input.substring(i, len);
+                if (dict.contains(suffix)) {
+                    return prefix + " " + suffix;
                 }
             }
-            else{
-                if(dict.contains(map.get(counter) + temp)){
-                    String t = map.get(counter);
-                    map.remove(counter);
-                    map.put(counter,t + temp);
-                    temp = "";
-                }
-            }
-            i++;
-            if(i >= s.length())
-                break;
         }
-        return map.get(counter) + " " + temp;
+        return null;
     }
+    //General Solution, Time = O(n2) assuming substring is O(1)
+    static Map<String, String> memoized = new HashMap<>();
+    public static String wordBreakUsingDP(String input, Set<String> dict) {
+        if (dict.contains(input)) return input;
+        if (memoized.containsKey(input)) {
+            return memoized.get(input);
+        }
+        int len = input.length();
+        for (int i = 1; i < len; i++) {
+            String prefix = input.substring(0, i);
+            if (dict.contains(prefix)) {
+                String suffix = input.substring(i, len);
+                String segSuffix = wordBreakUsingDP(suffix, dict);
+                if (segSuffix != null) {
+                    memoized.put(input, prefix + " " + segSuffix);
+                    return prefix + " " + segSuffix;
+
+                }
+            }
+            memoized.put(input, null);
+        }
+        return null;
+    }
+
     //Given an input string and a dictionary of words, find out if the input string can be segmented into a
     //space-separated sequence of dictionary words.
     //Consider the following dictionary { i, like, sam, sung, samsung, mobile, ice,cream, icecream, man, go, mango}
