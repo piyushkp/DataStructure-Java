@@ -13,8 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {1,-1,5,-2,3};
-        System.out.print(maxSubArraySumLen(arr,5));
+        int arr[] = {1, 4, 20, 3, 10, 5};
+        subArraySumPositive(arr,33);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -365,7 +365,22 @@ public class Array {
     //Given an unsorted array of integers, find a subarray which adds to a given number.
     // If there are more than one subarrays with sum as the given number, print any of them.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
-    //time complexity is O(n) and space is O(n)
+    //time complexity is O(2n) and space is O(n)
+    // only positive numbers
+    public static void subArraySumPositive(int[] A, int target) {
+        for (int i = 0, j = 0, sum = 0; i < A.length; i++) {
+            for (; j < A.length && sum < target;j++) {
+                sum += A[j];
+            }
+            if (sum == target) {
+                System.out.print("Start index: " + i + " End index: " + (j-1));
+                return;
+            }
+            sum -= A[i];
+        }
+        System.out.print("No SubArray Found.");
+    }
+    //handles negative numbers as well
     public static void subArraySum(int arr[], int sum){
         HashMap<Integer, Integer> map = new HashMap<>();
         int curr_sum = 0;
