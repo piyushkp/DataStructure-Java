@@ -2055,5 +2055,32 @@ public class StringImp {
         // s can shuffle when the maxExistedCharacter less than (length of s + 1) / 2
         return maxExistedCharacter <= (s.length + 1) / 2;
     }
+    /*Given a string array words, find the maximum value of length(word[i]) * length(word[j]) where the two words
+    do not share common letters. You may assume that each word will contain only lower case letters. If no such two words exist, return 0.
+    Time = O(26 * n^2) */
+    public int maxProduct(String[] words) {
+        if (words == null || words.length <= 1) {
+            return 0;
+        }
+        int n = words.length;
+        int[] encodedWords = new int[n];
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+            for (int j = 0; j < word.length(); j++) {
+                char c = word.charAt(j);
+                encodedWords[i] |= (1 << (c - 'a'));
+            }
+        }
+        int maxLen = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if ((encodedWords[i] & encodedWords[j]) == 0) {
+                    maxLen = Math.max(maxLen,
+                            words[i].length() * words[j].length());
+                }
+            }
+        }
+        return maxLen;
+    }
 }
 

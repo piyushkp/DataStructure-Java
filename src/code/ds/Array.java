@@ -13,8 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int[] input = {10,4,6,7,-2,-5,4};
-        System.out.println(getMaxOfMaxPrefix(input));
+        int arr[] = {1,-1,5,-2,3};
+        System.out.print(maxSubArraySumLen(arr,5));
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -342,31 +342,46 @@ public class Array {
         }
         return triplets;
     }
-    //Given an unsorted array of non-negative integers, find a continous subarray which adds to a given number.
-    //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
-    // time complexity is O(n)
-    int subArraySum(int arr[], int n, int sum){
-    /* Initialize curr_sum as value of first element and starting point as 0 */
-        int curr_sum = arr[0], start = 0, i;
-    /* Add elements one by one to curr_sum and if the curr_sum exceeds the sum, then remove starting element */
-        for (i = 1; i <= n; i++){
-            // If curr_sum exceeds the sum, then remove the starting elements
-            while (curr_sum > sum && start < i-1){
-                curr_sum = curr_sum - arr[start];
-                start++;
+    //Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
+    //arr = [1, -1, 5, -2, 3], k = 3 Output = 4 (subarray [1, -1, 5, -2])
+    public static int maxSubArraySumLen(int[] arr, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int max = 0;
+        int curr_sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            curr_sum += arr[i];
+            if(curr_sum == k) {
+                max = Math.max(max, (i-0) + 1);
             }
-            // If curr_sum becomes equal to sum, then return true
-            if (curr_sum == sum){
-                System.out.println ("Sum found between indexes "+start+" and "+ (i-1));
-                return 1;
+            if(map.containsKey(curr_sum - k)) {
+                max = Math.max(max, (i - map.get(curr_sum - k)));
             }
-            // Add this element to curr_sum
-            if (i < n)
-                curr_sum = curr_sum + arr[i];
+            else
+                map.put(curr_sum , i);
         }
-        // If we reach here, then no subarray
-        System.out.println("No subarray found");
-        return 0;
+        return max;
+    }
+
+    //Given an unsorted array of integers, find a subarray which adds to a given number.
+    // If there are more than one subarrays with sum as the given number, print any of them.
+    //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
+    //time complexity is O(n) and space is O(n)
+    public static void subArraySum(int arr[], int sum){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int curr_sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            curr_sum += arr[i];
+            if(curr_sum == sum) {
+                System.out.print("Sum found at " + 0 + "and " + i);
+                return;
+            }
+            if(map.containsKey(curr_sum - sum)) {
+                System.out.print("Sum found at " + map.get(curr_sum - sum) + 1 + "and " + i);
+                return;
+            }
+            else
+                map.put(curr_sum , i);
+        }
     }
     //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
     // input {-2, -3, 4, -1, -2, 1, 5, -3} output = 7
