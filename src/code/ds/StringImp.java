@@ -10,13 +10,8 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        Set<String> set = new HashSet<>();
-        set.add("Smoke");
-        set.add("Smoked");
-        set.add("hard");
-
-        wordBreakUsingDP("Smokedhard", set);
-
+        String s ="abc";
+        System.out.print(Remove_Pattern_from_String(s.toCharArray()));
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
@@ -1670,7 +1665,7 @@ public class StringImp {
     }
     //Remove “b” and “ac” from a given string
     //input = ababaac output = aaa input = abc output =""
-    static String Remove_Pattern_from_String(char[] str) {
+    public static String Remove_Pattern_from_String(char[] str) {
         int n = str.length;
         int i = -1;  // previous character
         int j = 0;   // current character
@@ -1681,7 +1676,7 @@ public class StringImp {
                 /* if current character is b */
             else if (str[j] == 'b')
                 j++;
-            /* if current char is 'c && last char in output is 'a' so delete both */
+            /* if current char is 'c && previous char is 'a' so delete both */
             else if (i >= 0 && str[j] == 'c' && str[i] == 'a') {
                 i--;
                 j++;
