@@ -347,6 +347,24 @@ public class LinkList {
         }
         return true;
     }
+    //Given a singly linked list, group all odd nodes together followed by the even nodes.
+    //Input: 1->2->3->4->5->NULL   Output 1->3->5->2->4->NULL
+    public static Node oddEvenList(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        Node odd = head;
+        Node even = head.next;
+        Node evenHead = even;
+        while (even != null && even.next != null) {
+            odd.next = even.next;
+            odd = odd.next;
+            even.next = odd.next;
+            even = even.next;
+        }
+        odd.next = evenHead;
+        return head;
+    }
 
     //Given a linked list, reverse alternate nodes and append them to end of list. Extra allowed space is O(1)
     //Input List:  1->2->3->4->5->6    Output List: 1->3->5->6->4->2
