@@ -2077,5 +2077,31 @@ public class StringImp {
         }
         return maxLen;
     }
+    //Given a string consisting of opening and closing parenthesis, find length of the longest valid parenthesis substring.
+    public static int findLongestParanthesisLen(String str) {
+        int cnt = 0;
+        int ans = 0, max_len = 0;
+        /// if ( increase cnt
+        /// if ) and cnt < 0 means count of ) > ( stop reset cnt and ans
+        /// if ) and cnt > 0 means count of ( > ) a pair of () seen increment ans+= 2, do not stop longer valid string can be formed
+        for(int i = 0; i < str.length(); i++) {
+            if(str.charAt(i) == '(')
+                cnt++;
+            else {
+                if(cnt <= 0) {
+                    max_len = Math.max(max_len, ans);
+                    cnt = 0;
+                    ans = 0;
+                }
+                else {
+                    cnt--;
+                    ans += 2;
+                }
+            }
+        }
+        if(cnt >= 0)
+            max_len = Math.max(max_len, ans);
+        return max_len;
+    }
 }
 
