@@ -10,8 +10,9 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        String s ="abc";
-        System.out.print(Remove_Pattern_from_String(s.toCharArray()));
+        char set1[] = {'a', 'b', 'c'};
+
+        printAllKLength(set1,3);
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
@@ -734,6 +735,33 @@ public class StringImp {
             }
             outstr.setLength(outstr.length() - 1);
         }
+    }
+    //Print all possible strings of length k that can be formed from a set of 'a','b','c', where there can only be a
+    //maximum of 1 'b's and can only have up to two consecutive 'c's.
+    //Time  = O(2^n)
+    public static void printAllKLength(char set[], int k) {
+        int n = set.length;
+        System.out.print(printAllKLengthRec(set, "", n, k));
+    }
+    static int count = 0;
+    public static int printAllKLengthRec(char set[], String prefix, int n, int k) {
+        // Base case: k is 0, print prefix
+        if (k == 0) {
+            count++;
+            System.out.println(prefix);
+            return count;
+        }
+        // One by one add all characters from set and recursively call for k equals to k-1
+        for (int i = 0; i < n; ++i) {
+            // Next character of input added
+            if(!(prefix.contains("b") && set[i] == 'b') &&
+                    !((prefix.substring(Math.max(prefix.length() - 2, 0)).equals("cc")) && set[i] == 'c')) {
+                String newPrefix = prefix + set[i];
+                // k is decreased, because we have added a new character
+                printAllKLengthRec(set, newPrefix, n, k - 1);
+            }
+        }
+        return count;
     }
     //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
     //given "turtle", "tletur"; returns true
