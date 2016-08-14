@@ -10,9 +10,11 @@ import java.lang.*;
 public class StringImp {
     public static void main(String[] args) {
         //System.out.print("String");
-        char set1[] = {'a', 'b', 'c'};
-
-        printAllKLength(set1,3);
+        //char set1[] = {'a', 'b', 'c'};
+        //printAllKLength(set1,3);
+        String str = "abc";
+        combine(str);
+        //permute(str);
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
@@ -698,14 +700,14 @@ public class StringImp {
         }
     }
     //Permutations of the string
-    void permute(String str) {
+    public static void permute(String str) {
         int length = str.length();
         boolean[] used = new boolean[length];
         StringBuffer out = new StringBuffer();
         char[] in = str.toCharArray();
         doPermute(in, out, used, length, 0);
     }
-    void doPermute(char[] in, StringBuffer out, boolean[] used, int length, int level) {
+    static void doPermute(char[] in, StringBuffer out, boolean[] used, int length, int level) {
         if (level == length) {
             System.out.println(out.toString());
             return;
@@ -720,13 +722,13 @@ public class StringImp {
         }
     }
     //combination of the string
-    void combine(String str) {
+    static void combine(String str) {
         int length = str.length();
         char[] instr = str.toCharArray();
         StringBuilder outstr = new StringBuilder();
         doCombine(instr, outstr, length, 0, 0);
     }
-    void doCombine(char[] instr, StringBuilder outstr, int length, int level, int start) {
+    static void doCombine(char[] instr, StringBuilder outstr, int length, int level, int start) {
         for (int i = start; i < length; i++) {
             outstr.append(instr[i]);
             System.out.println(outstr);
@@ -738,7 +740,7 @@ public class StringImp {
     }
     //Print all possible strings of length k that can be formed from a set of 'a','b','c', where there can only be a
     //maximum of 1 'b's and can only have up to two consecutive 'c's.
-    //Time  = O(2^n)
+    //Time  = O(n^k)
     public static void printAllKLength(char set[], int k) {
         int n = set.length;
         System.out.print(printAllKLengthRec(set, "", n, k));
