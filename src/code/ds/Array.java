@@ -258,6 +258,27 @@ public class Array {
         }
         return -1;
     }
+    //k Sum problem, Time = O(N^k)
+    public static List<List<Integer>> kSum(int[] num, int k, int target, int start_index) {
+        List<List<Integer>> result = new LinkedList<List<Integer>>();
+        if (k == 0) {
+            if (target == 0) {
+                // if we find the target,open an entry to store the whole path
+                result.add(new LinkedList());
+            }
+            return result;
+        }
+        for (int i = start_index; i < num.length - k + 1; i++) {
+            if ((i > start_index) && (num[i] == num[i - 1])) {
+                continue;
+            }
+            for (List<Integer> item : kSum(num, k - 1, target - num[i], i+1)){
+                item.add(0, num[i]);
+                result.add(item);
+            }
+        }
+        return result;
+    }
     //Given an array of integers, find two numbers such that they add up to a specific target number. 2-sum
     //Time = O(n) space O(n)
     public ArrayList<Integer> twoSum(int[] numbers, int target) {
