@@ -5,22 +5,31 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String [] args) {
-        int[] out = fib(4);
-        System.out.print(fib1(3));
+        int[] out = fib(50);
+        System.out.println(out.length);
+        System.out.println(fib1(3));
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
     // Time  = O(n), Space  = O(n)
     public static int[] fib(int n){
         /* Declare an array to store Fibonacci numbers. */
-        int f[] = new int[n];
-        int i;
+        int f[];
+        if(n == 0)
+            return null;
+        else if (n == 1){
+            f = new int[1];
+            f[0] = 0;
+        }
+        else {
+            f = new int[n];
         /* 0th and 1st number of the series are 0 and 1*/
-        f[0] = 0;
-        f[1] = 1;
-        for (i = 2; i <n; i++){
+            f[0] = 0;
+            f[1] = 1;
+            for (int i = 2; i < n; i++) {
        /* Add the previous 2 numbers in the series and store it */
-            f[i] = f[i-1] + f[i-2];
+                f[i] = f[i - 1] + f[i - 2];
+            }
         }
         return f;
     }

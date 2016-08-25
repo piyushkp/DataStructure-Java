@@ -13,9 +13,9 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {1, 2,5,2,6};
-        //subArraySumPositive(arr,33);
-        List<List<Integer>> out = kSum(arr,3,5,0);
+        int arr[] = {1, 4, 20, 3, 10, 5};
+        subArraySumPositive(arr,33);
+        //List<List<Integer>> out = kSum(arr,3,5,0);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -401,6 +401,19 @@ public class Array {
             sum -= A[i];
         }
         System.out.print("No SubArray Found.");
+    }
+    public static boolean isValid(int[] a, int sum) {
+        int count = 0,temp = 0;
+        for (int i = 0; i < a.length; i++) {
+            temp += a[i];
+            while (temp > sum) {
+                temp -= a[count];
+                count++;
+            }
+            if (temp == sum)
+                return true;
+        }
+        return false;
     }
     //handles negative numbers as well
     public static void subArraySum(int arr[], int sum){
