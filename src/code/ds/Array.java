@@ -13,8 +13,9 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {1, 4, 20, 3, 10, 5};
-        subArraySumPositive(arr,33);
+        int arr[] = {1, 2,5,2,6};
+        //subArraySumPositive(arr,33);
+        List<List<Integer>> out = kSum(arr,3,5,0);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -273,7 +274,7 @@ public class Array {
                 continue;
             }
             for (List<Integer> item : kSum(num, k - 1, target - num[i], i+1)){
-                item.add(0, num[i]);
+                item.add(0, i);
                 result.add(item);
             }
         }

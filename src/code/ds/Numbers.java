@@ -5,8 +5,38 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String [] args) {
-        System.out.print("Numbers");
+        int[] out = fib(4);
+        System.out.print(fib1(3));
     }
+
+    //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
+    // Time  = O(n), Space  = O(n)
+    public static int[] fib(int n){
+        /* Declare an array to store Fibonacci numbers. */
+        int f[] = new int[n];
+        int i;
+        /* 0th and 1st number of the series are 0 and 1*/
+        f[0] = 0;
+        f[1] = 1;
+        for (i = 2; i <n; i++){
+       /* Add the previous 2 numbers in the series and store it */
+            f[i] = f[i-1] + f[i-2];
+        }
+        return f;
+    }
+    // Print nth Fibonacci number. Time  = O(n), space = (1)
+    private static int fib1(int n){
+        int a = 0, b = 1, c, i;
+        if( n == 0)
+            return a;
+        for (i = 2; i <= n; i++) {
+            c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }
+
     //Function to calculate x raised to the power y in O(logn)
     int power(int x, int y) {
         int temp;
