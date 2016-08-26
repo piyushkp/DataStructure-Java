@@ -5,9 +5,10 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String [] args) {
-        int[] out = fib(50);
-        System.out.println(out.length);
-        System.out.println(fib1(3));
+        //int[] out = fib(50);
+        //System.out.println(out.length);
+        //System.out.println(fib1(3));
+        int[] out = factorial(0);
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -44,6 +45,21 @@ public class Numbers {
             b = c;
         }
         return b;
+    }
+    public static int[] factorial(int n){
+        int result[];
+        if(n ==0) {
+            result = new int[1];
+            result[0] = 1;
+        }
+        else {
+            result = new int[n];
+            result[0] = 1;
+            for (int i = 1; i < n; i++) {
+                result[i] = i * result[i-1];
+            }
+        }
+        return result;
     }
 
     //Function to calculate x raised to the power y in O(logn)
