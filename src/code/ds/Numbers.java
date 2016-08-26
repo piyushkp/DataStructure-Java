@@ -8,7 +8,8 @@ public class Numbers {
         //int[] out = fib(50);
         //System.out.println(out.length);
         //System.out.println(fib1(3));
-        int[] out = factorial(0);
+        int[] out = factorial(10);
+        System.out.println(factorial1(10));
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -46,6 +47,8 @@ public class Numbers {
         }
         return b;
     }
+    //Write a function that takes a number n and returns an array containing a Factorial of length n
+    // Time  = O(n), Space  = O(n)
     public static int[] factorial(int n){
         int result[];
         if(n ==0) {
@@ -60,6 +63,20 @@ public class Numbers {
             }
         }
         return result;
+    }
+    //Print nth Factorial number. Time  = O(n), space = (1)
+    public static int factorial1(int n){
+        int b = 1, c = 1;
+        if(n ==0 || n == 1) {
+            return  b;
+        }
+        else {
+            for (int i = 2; i <= n; i++) {
+                b = i * c;
+                c = b;
+            }
+        }
+        return b;
     }
 
     //Function to calculate x raised to the power y in O(logn)
