@@ -13,8 +13,9 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {1, 4, 20, 3, 10, 5};
-        subArraySumPositive(arr,33);
+        int arr[] = {-1, 0, 1, 2, -1, -4};
+        //subArraySumPositive(arr,33);
+        find_triplets(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -336,26 +337,27 @@ public class Array {
         return count;
     }
     //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
-    //the set which gives the sum of zero. 3-sum problem
+    //the set which gives the sum of zero. 3Sum problem
     //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
-    HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
+    public static HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
         Arrays.sort(arr);
         HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
-        ArrayList<Integer> triplet = new ArrayList<Integer>();
+
         int n = arr.length;
         for (int i = 0; i < n; i++) {
             int j = i + 1;
             int k = n - 1;
             while (j < k) {
+                ArrayList<Integer> triplet = new ArrayList<Integer>();
                 int sum_two = arr[i] + arr[j];
                 if (sum_two + arr[k] < 0) {
                     j++;
                 } else if (sum_two + arr[k] > 0) {
                     k--;
                 } else {
-                    triplet.set(0, arr[i]);
-                    triplet.set(1, arr[j]);
-                    triplet.set(2, arr[k]);
+                    triplet.add(0, arr[i]);
+                    triplet.add(1, arr[j]);
+                    triplet.add(2, arr[k]);
                     if (!triplets.contains(triplet)) triplets.add(triplet);
                     j++;
                     k--;
@@ -364,6 +366,31 @@ public class Array {
         }
         return triplets;
     }
+    //Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target.
+    //Return the sum of the three integers. 3Sum Closest. Time = O(n^2)
+    public static int threeSumClosest(int[] num, int target){
+        Arrays.sort(num);
+        int min = Integer.MAX_VALUE, result = 0;
+        for (int i = 0; i < num.length; i++) {
+            int j = i+1;
+            int k = num.length - 1;
+            while(j < k){
+                int sum = num[i] + num[j] + num [k];
+                int diff = Math.abs(sum - target);
+                if(diff == 0) return sum;
+                if(diff < min){
+                    min = diff;
+                    result = min;
+                }
+                if(sum <= target)
+                    j++;
+                else
+                    k++;
+            }
+        }
+        return result;
+    }
+
     //Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
     //arr = [1, -1, 5, -2, 3], k = 3 Output = 4 (subarray [1, -1, 5, -2])
     public static int maxSubArraySumLen(int[] arr, int k) {
