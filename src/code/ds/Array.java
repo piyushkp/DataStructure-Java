@@ -15,7 +15,7 @@ public class Array {
     public static void main(String [] args) {
         int arr[] = {-1, 0, 1, 2, -1, -4};
         //subArraySumPositive(arr,33);
-        find_triplets(arr);
+        System.out.print(threeSumClosest(arr, 0 ));
         //List<List<Integer>> out = kSum(arr,3,5,0);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -380,12 +380,12 @@ public class Array {
                 if(diff == 0) return sum;
                 if(diff < min){
                     min = diff;
-                    result = min;
+                    result = sum;
                 }
                 if(sum <= target)
                     j++;
                 else
-                    k++;
+                    k--;
             }
         }
         return result;
