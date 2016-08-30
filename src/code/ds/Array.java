@@ -13,9 +13,10 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {-1, 0, 1, 2, -1, -4};
+        int arr[] = {4, 3, -1, 2, 5, 10};
+
         //subArraySumPositive(arr,33);
-        System.out.print(threeSumClosest(arr, 0 ));
+        int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -260,6 +261,24 @@ public class Array {
         }
         return -1;
     }
+    //Given sorted array find two number sum to target, Each number can be used multiple times.
+    public static int[] twoSumSortedArray(int[] A, int target) {
+        int left = 0, right = A.length - 1;
+        while (left < right) {
+            int s = A[left] + A[right];
+            //if(A[left] == 0 || A[right] == 0)
+            //    return new int[]{0, 0};
+            if (A[left] == target/2 || A[right] == target/2)
+                return new int[]{target/2, target/2};
+            if (s == target)
+                return new int[]{A[left], A[right]};
+            else if (s > target)
+                right--;
+            else
+                left++;
+        }
+        return null;
+    }
     //k Sum problem, Time = O(N^k)
     public static List<List<Integer>> kSum(int[] num, int k, int target, int start_index) {
         List<List<Integer>> result = new LinkedList<List<Integer>>();
@@ -281,7 +300,7 @@ public class Array {
         }
         return result;
     }
-    //Given an array of integers, find two numbers such that they add up to a specific target number. 2-sum
+    //Given an array of integers, find two numbers such that they add up to a specific target number. 2Sum
     //Time = O(n) space O(n)
     public ArrayList<Integer> twoSum(int[] numbers, int target) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -342,13 +361,12 @@ public class Array {
     public static HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
         Arrays.sort(arr);
         HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
-
         int n = arr.length;
         for (int i = 0; i < n; i++) {
             int j = i + 1;
             int k = n - 1;
             while (j < k) {
-                ArrayList<Integer> triplet = new ArrayList<Integer>();
+                ArrayList<Integer> triplet = new ArrayList<>();
                 int sum_two = arr[i] + arr[j];
                 if (sum_two + arr[k] < 0) {
                     j++;
@@ -389,6 +407,30 @@ public class Array {
             }
         }
         return result;
+    }
+    //Determine if any 3 integers in an array sum to 0. Each number can be used multiple times.
+    public static int[] threeSum_Multiple(int arr[]) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            if(arr[i] == 0)
+                return new int[] {0,0,0};
+            int j = i;
+            int k = n - 1;
+            while (j < k) {
+                int sum = arr[i] + arr[j] + arr[k];
+                if (sum < 0) {
+                    j++;
+                } else if (sum > 0) {
+                    k--;
+                } else {
+                    return new int[] {arr[i],arr[j],arr[k]};
+                    //j++;
+                    //k--;
+                }
+            }
+        }
+        return null;
     }
 
     //Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
