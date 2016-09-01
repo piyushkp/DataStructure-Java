@@ -1026,7 +1026,7 @@ public class MISC {
     }
     //Implement data structure “Map” storing pairs of integers (key, value) and define following member functions in O(1)
     //runtime: void insert(key, value), void delete(key), int get(key), int getRandomKey().
-    class Map{
+    class Map1{
         HashMap<String, List<Integer>> _map = new HashMap<>();
         ArrayList<String> arr = new ArrayList<>();
         int length;

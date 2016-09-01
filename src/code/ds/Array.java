@@ -13,11 +13,12 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {4, 3, -1, 2, 5, 10};
+        int arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56};
 
         //subArraySumPositive(arr,33);
-        int[] out = threeSum_Multiple(arr);
+        //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
+        printKclosest(arr,33,3,arr.length);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -1049,15 +1050,15 @@ public class Array {
         if (arr[l] == x) l--;
         // Compare elements on left and right of crossover point to find the k closest elements
         while (l >= 0 && r < n && count < k) {
-            if (x - arr[l] < arr[r] - x) System.out.print(arr[l--]);
-            else System.out.print(arr[r++]);
+            if (x - arr[l] < arr[r] - x) System.out.println(arr[l--]);
+            else System.out.println(arr[r++]);
             count++;
         }
         // If there are no more elements on right side, then print left elements
-        while (count < k && l >= 0) System.out.print(arr[l--]);
+        while (count < k && l >= 0) System.out.println(arr[l--]);
         count++;
         // If there are no more elements on left side, then print right elements
-        while (count < k && r < n) System.out.print(arr[r++]);
+        while (count < k && r < n) System.out.println(arr[r++]);
         count++;
     }
     //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized
