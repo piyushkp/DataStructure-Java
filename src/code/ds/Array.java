@@ -1063,7 +1063,7 @@ public class Array {
     }
     //Given an array consisting of only 0s and 1s, sort it. He was looking for highly optimized
     //Can also solve: the even numbers are on the left side of the array and all the odd numbers are on the right side
-    void sort0and1(int arr[], int size){
+    public static void sort0and1(int arr[], int size){
         int left = 0, right = size-1;
         while(left < right){
             while(arr[left] == 0 && left < right)
@@ -1078,7 +1078,7 @@ public class Array {
         }
     }
     //Sort an array of 0s,1s,2s. Input={0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1} Output={0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2}
-    void sort012(int[] a) {
+    public static void sort012(int[] a) {
         int low = 0;
         int mid = 0;
         int high = a.length - 1;
@@ -1099,7 +1099,7 @@ public class Array {
     //in a special way.After that,the negative integers should in the front,and the positive integers should in the back.
     //Also the relative position should not be changed.eg. -1 1 3 -2 2 ans: -1 -2 1 3 2. should be Time= O(n) and Space O(1)
     //below function doest not maintain the order of positive numbers
-    public void sortNegPos(int[] arr) {
+    public static void sortNegPos(int[] arr) {
         int left = 0, right = arr.length-1;
         while(left < right){
             while(arr[left] < 0 && left < right)
@@ -1115,7 +1115,7 @@ public class Array {
     //Given an array of positive and negative numbers, arrange them in an alternate fashion such that every
     //positive number is followed by negative and vice-versa maintaining the order of appearance.
     //input = {1, 2, 3, -4, -1, 4}  Output: arr[] = {-4, 1, -1, 2, 3, 4}
-    void rearrangeWithOrder(int arr[], int n){
+    public static void rearrangeWithOrder(int arr[], int n){
         int outofplace = -1;
         for (int index = 0; index < n; index ++){
             if (outofplace >= 0){
@@ -1150,7 +1150,7 @@ public class Array {
         }
     }
     // Utility function to right rotate all elements between [outofplace, cur]
-    void rightrotate(int arr[], int n, int outofplace, int cur)
+    public static void rightrotate(int arr[], int n, int outofplace, int cur)
     {
         int tmp = arr[cur];
         for (int i = cur; i > outofplace; i--)
@@ -1163,7 +1163,7 @@ public class Array {
     //Rearrange the array elements so that positive and negative numbers are placed alternatively. Number of positive
     //and negative numbers need not be equal. If there are more positive numbers they appear at the end of the array.
     //If there are more negative numbers, they too appear in the end of the array.
-    void rearrange(int arr[], int n){
+    public static void rearrange(int arr[], int n){
         // The following few lines are similar to partition process of QuickSort.  The idea is to consider 0 as pivot and
         // divide the array around it.
         int i = -1;
@@ -1186,7 +1186,7 @@ public class Array {
     }
     //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 <= s2 >= s3 <= s4.
     // without order maintaining. wiggle-sort
-    public void wiggleSort1(int[] nums) {
+    public static void wiggleSort1(int[] nums) {
         for (int i=1; i<nums.length; i++) {
             int a = nums[i-1];
             if ((i%2 == 1) == (a > nums[i])) {
@@ -1197,7 +1197,7 @@ public class Array {
     }
     //Given an unsorted array nums, reorder it such that nums[0] < nums[1] > nums[2] < nums[3]....
     //Example: (1) Given nums = [1, 5, 1, 1, 6, 4], one possible answer is [1, 4, 1, 5, 1, 6].
-    private void wiggleSort(int [] nums) {
+    private static void wiggleSort(int [] nums) {
         if (nums.length < 2) {
             return;
         }
@@ -1206,7 +1206,7 @@ public class Array {
         int median = findKthSmallest(nums, cntForMedian, 0, nums.length - 1);
         mapSortedArrayToWiggleInPlace(nums, median);
     }
-    private void mapSortedArrayToWiggleInPlace(int[] nums, int median) {
+    private static void mapSortedArrayToWiggleInPlace(int[] nums, int median) {
         int i  = 1;
         int begin = 1;
         int end = nums.length;
