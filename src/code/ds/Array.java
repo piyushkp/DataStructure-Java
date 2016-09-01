@@ -1028,7 +1028,7 @@ public class Array {
     //Input: K = 4, X = 35 arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56} Output: 30 39 42 45
     //Function to find the cross over point (the point before which elements are smaller than or equal to x and after
     //which greater than x)
-    int findCrossOver(int arr[], int low, int high, int x) {
+    public static int findCrossOver(int arr[], int low, int high, int x) {
         if (arr[high] <= x) // x is greater than all
             return high;
         if (arr[low] > x)  // x is smaller than all
@@ -1040,7 +1040,7 @@ public class Array {
         return findCrossOver(arr, low, mid - 1, x);
     }
     // This function prints k closest elements to x in arr[]. n is the number of elements in arr[]
-    void printKclosest(int arr[], int x, int k, int n) {
+    public static void printKclosest(int arr[], int x, int k, int n) {
         // Find the crossover point
         int l = findCrossOver(arr, 0, n - 1, x);
         int r = l + 1;   // Right index to search
