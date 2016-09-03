@@ -13,12 +13,12 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {12, 16, 22, 30, 35, 39, 42,45, 48, 50, 53, 55, 56};
+        int arr[] = {1, 1,2,0};
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
-        printKclosest(arr,33,3,arr.length);
+        System.out.print(smallestSubWithSum(arr,arr.length,4));
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -198,7 +198,7 @@ public class Array {
         swap(G, pIndex, last);
         return pIndex;
     }
-    private void swap(int[] G, int x, int y) {
+    private static void swap(int[] G, int x, int y) {
         G[x] ^= G[y];
         G[y] ^= G[x];
         G[x] ^= G[y];
@@ -536,6 +536,29 @@ public class Array {
         }
         return result;
     }
+    //Smallest subarray with sum greater than a given value,  If there isn't one, return n+1 instead.
+    // arr[] = {1, 4, 45, 6, 0, 19}   x  =  51   Output: 3
+    public static int smallestSubWithSum(int arr[], int n, int x){
+        // Initialize current sum and minimum length
+        int curr_sum = 0, min_len = n + 1;
+        // Initialize starting and ending indexes
+        int start = 0, end = 0;
+        while (end < n){
+            // Keep adding array elements while current sum is smaller than x
+            while (curr_sum <= x && end < n)
+                curr_sum += arr[end++];
+            // If current sum becomes greater than x.
+            while (curr_sum > x && start < n){
+                // Update minimum length if needed
+                if (end - start < min_len)
+                    min_len = end - start;
+                // remove starting elements
+                curr_sum -= arr[start++];
+            }
+        }
+        return min_len;
+    }
+
     //find the length of longest increasing subarray
     //{1,3,2,4,5} output = 3
     int findlen(int[] a){
@@ -1223,10 +1246,10 @@ public class Array {
             }
         }
     }
-    private int indexMap(int n, int i) {
+    private static int indexMap(int n, int i) {
         return (2 * i - 1) % (n | 1);
     }
-    private int findKthSmallest(int [] nums, int k, int start, int end) {
+    private static int findKthSmallest(int [] nums, int k, int start, int end) {
         int len = nums.length;
         if (len < 1) {
             return 0;
@@ -1255,7 +1278,7 @@ public class Array {
             return findKthSmallest(nums, k, start, left - 1);
         }
     }
-    private void swap1 (int []nums, int start, int end) {
+    private static void swap1 (int []nums, int start, int end) {
         int temp = nums[start];
         nums[start] = nums[end];
         nums[end] = temp;
