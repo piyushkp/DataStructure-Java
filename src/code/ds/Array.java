@@ -2375,4 +2375,14 @@ public class Array {
         }
         return maxDiff;
     }
+    //Move all zeroes to end of array
+    public static void pushZerosToEnd(int arr[], int n){
+        int count = 0;  // Count of non-zero elements
+        // Traverse the array. If element encountered is non-zero, then replace the element at index 'count' with this element
+        for (int i = 0; i < n; i++)
+            if (arr[i] != 0)
+                arr[count++] = arr[i]; // here count is incremented
+        while (count < n)
+            arr[count++] = 0;
+    }
 }
