@@ -12,8 +12,7 @@ public class StringImp {
         //System.out.print("String");
         //char set1[] = {'a', 'b', 'c'};
         //printAllKLength(set1,3);
-        String str = "abc";
-        combine(str);
+        System.out.print(isPalindrome1("aB#cc2$#@bA"));
         //permute(str);
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -1157,9 +1156,30 @@ public class StringImp {
     }
     //implement a function to find if a given string is a palindrome
     public static boolean isPalindrome(String word) {
+        if(word.length() < 2)
+            return true;
         for (int i = 0; i < word.length() / 2; ++i)
             if (word.charAt(i) != word.charAt(word.length() - i - 1)) return false;
         return true;
+    }
+    //implement a function to find if a given string is a palindrome, Must be case insensitive, and ignore special characters
+    public static boolean isPalindrome1(String word) {
+        word = word.toLowerCase();
+        if(word.length() < 2)
+            return true;
+        int l = 0, r = word.length() -1;
+        while(l<r) {
+            if( !isAlphabet(word.charAt(l)))
+                l++;
+            else if(!isAlphabet(word.charAt(r)))
+                r--;
+            else if (word.charAt(l) != word.charAt(r)) return false;
+            else {l++;r--;}
+        }
+        return true;
+    }
+    public static boolean isAlphabet(char x){
+        return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) ;
     }
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
