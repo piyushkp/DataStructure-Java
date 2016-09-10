@@ -1,5 +1,8 @@
 package code.ds;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
@@ -7,22 +10,32 @@ import java.util.concurrent.TimeUnit;
  * Created by ppatel2 on 8/17/2016.
  */
 public class DelayQueueTest {
-    public static void main(String... args){
-        DelayQueue  dq=new DelayQueue();
-        DelayObject ob1=new DelayObject("foo",10);
-        DelayObject ob2=new DelayObject("bar", 5);
-        DelayObject ob3=new DelayObject("test", 15);
-
+    static DelayQueue  dq = new DelayQueue();
+    public static void main(String... args) throws InterruptedException{
+        add("foo",10);
+        add("bar", 4);
+        add("row", 7);
+        get();
+    }
+    public static void add(String data, int time){
+        DelayObject ob1=new DelayObject(data,time);
         dq.offer(ob1);
-        dq.offer(ob2);
-        dq.offer(ob3);
-
+    }
+    public static ArrayList<String> get() throws InterruptedException{
+        ArrayList<String> _out = new ArrayList<>();
         Iterator itr=dq.iterator();
+        Thread.sleep(5000);
         while(itr.hasNext()){
             DelayObject dt=(DelayObject)itr.next();
-            if(dt.getDelay(TimeUnit.SECONDS)> 0)
+            if(dt.getDelay(TimeUnit.SECONDS)> 0) {
                 System.out.println(dt.data);
+                _out.add(dt.data);
+            }
+            else
+                itr.remove();
         }
+        System.out.println(dq.size());
+        return _out;
     }
 }
 class DelayObject implements Delayed {
@@ -37,7 +50,8 @@ class DelayObject implements Delayed {
     @Override
     public long getDelay(TimeUnit unit) {
         long diff = startTime - TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-        return unit.convert(diff, unit);
+        //return unit.convert(diff, unit);
+        return diff;
     }
 
     @Override
