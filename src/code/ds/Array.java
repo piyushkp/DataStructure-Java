@@ -13,12 +13,14 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {1, 1,2,0};
+        int arr[] = {4,5,1,1,-1,6,4,3,7};
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
-        System.out.print(smallestSubWithSum(arr,arr.length,4));
+        //System.out.println(minSubArraySum(arr,7));
+        allSubArraySum(arr,9);
+        System.out.print(minSubArraySum(arr,9));
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -485,7 +487,7 @@ public class Array {
         }
         return false;
     }
-    //handles negative numbers as well
+    //Given an unsorted array of positive and negative integers, find a subarray which adds to a given number. handles negative numbers as well
     public static void subArraySum(int arr[], int sum){
         HashMap<Integer, Integer> map = new HashMap<>();
         int curr_sum = 0;
@@ -502,6 +504,87 @@ public class Array {
             else
                 map.put(curr_sum , i);
         }
+    }
+    // given +ve/-ve numbers, return all subarray that adds to sum k
+    // input = {5, 6, 1, -2, -4, 3, 1, 5}, k = 5
+    public static void allSubArraySum(int arr[], int k){
+        Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        int preSum = 0;
+        List<Integer> initial = new ArrayList<Integer>();
+        initial.add(-1);
+        map.put(0, initial);
+        // Loop across all elements of the array
+        for(int i=0; i< arr.length; i++) {
+            preSum += arr[i];
+            // If point where sum = (preSum - k) is present, it means that between that
+            // point and this, the sum has to equal k
+            if(map.containsKey(preSum - k)) {   // Subarray found
+                List<Integer> startIndices = map.get(preSum - k);
+                for(int start : startIndices) {
+                    System.out.println("Start: "+ (start+1)+ "\tEnd: "+ i);
+                }
+            }
+            List<Integer> newStart = new ArrayList<Integer>();
+            if(map.containsKey(preSum)) {
+                newStart = map.get(preSum);
+            }
+            newStart.add(i);
+            map.put(preSum, newStart);
+        }
+    }
+    //Given +ve/-ve numbers find min subarray length that sum to k
+    //input = {2,3,1,1,-1,6,4,3,8}; output = 2
+    public static int minSubArraySum(int arr[], int k){
+        Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
+        int curr_sum = 0;
+        int min_len = Integer.MAX_VALUE;
+        List<Integer> _list = new ArrayList<Integer>();
+        _list.add(-1);
+        map.put(0, _list);
+        // Loop across all elements of the array
+        for(int i=0; i< arr.length; i++) {
+            curr_sum += arr[i];
+            // If point where sum = (preSum - k) is present, it means that between that
+            // point and this, the sum has to equal k
+            if(map.containsKey(curr_sum - k)) {   // Subarray found
+                List<Integer> items = map.get(curr_sum - k);
+                for(int start : items) {
+                    //System.out.println("Start: "+ (start+1)+ "\tEnd: "+ i);
+                    min_len = Math.min(min_len, (i - (start+1)) + 1);
+                }
+            }
+            List<Integer> temp = new ArrayList<Integer>();
+            if(map.containsKey(curr_sum)) {
+                temp = map.get(curr_sum);
+            }
+            temp.add(i);
+            map.put(curr_sum, temp);
+        }
+        return (min_len == Integer.MAX_VALUE) ? 0 : min_len;
+    }
+    //Find the largest subarray with 0 sum
+    public static int maxSubArrayZero(int arr[]){
+        // Creates an empty hashMap hM
+        HashMap<Integer, Integer> hM = new HashMap<Integer, Integer>();
+        int sum = 0;      // Initialize sum of elements
+        int max_len = 0;  // Initialize result
+        // Traverse through the given array
+        for (int i = 0; i < arr.length; i++){
+            // Add current element to sum
+            sum += arr[i];
+            if (arr[i] == 0 && max_len == 0)
+                max_len = 1;
+            if (sum == 0)
+                max_len = i+1;
+            // Look this sum in hash table
+            Integer prev_i = hM.get(sum);
+            // If this sum is seen before, then update max_len if required
+            if (prev_i != null)
+                max_len = Math.max(max_len, i-prev_i);
+            else  // Else put this sum in hash table
+                hM.put(sum, i);
+        }
+        return max_len;
     }
     //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
     // input {-2, -3, 4, -1, -2, 1, 5, -3} output = 7

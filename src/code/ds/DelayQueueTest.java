@@ -1,8 +1,5 @@
 package code.ds;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
@@ -11,15 +8,25 @@ import java.util.concurrent.TimeUnit;
  */
 public class DelayQueueTest {
     static DelayQueue  dq = new DelayQueue();
+    static HashSet<String> _set = new HashSet<>();
     public static void main(String... args) throws InterruptedException{
         add("foo",10);
         add("bar", 4);
-        add("row", 7);
+        add("bar2", 14);
+        add("bar3", 12);
+        add("foo1", 7);
+        add("foo2", 8);
+        add("foo3", 9);
+        add("foo4", 3);
+
         get();
     }
     public static void add(String data, int time){
         DelayObject ob1=new DelayObject(data,time);
-        dq.offer(ob1);
+        if(!_set.contains(ob1.data)) {
+            _set.add(ob1.data);
+            dq.offer(ob1);
+        }
     }
     public static ArrayList<String> get() throws InterruptedException{
         ArrayList<String> _out = new ArrayList<>();
@@ -31,8 +38,10 @@ public class DelayQueueTest {
                 System.out.println(dt.data);
                 _out.add(dt.data);
             }
-            else
+            else {
                 itr.remove();
+                _set.remove(dt.data);
+            }
         }
         System.out.println(dq.size());
         return _out;
