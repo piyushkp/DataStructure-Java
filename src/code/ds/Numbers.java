@@ -195,7 +195,7 @@ public class Numbers {
         }
     }
     public List<Point> findKClosest(Point[] p, int k) {
-        PriorityQueue<Point> pq = new PriorityQueue<Point>(10, new Comparator<Point>() {
+        PriorityQueue<Point> pq = new PriorityQueue<Point>(k, new Comparator<Point>() {
             @Override
             public int compare(Point a, Point b) {
                 return (b.x * b.x + b.y * b.y) - (a.x * a.x + a.y * a.y);
@@ -217,7 +217,6 @@ public class Numbers {
         List<Point> x = new ArrayList<Point>();
         while (!pq.isEmpty())
             x.add(pq.poll());
-
         return x;
     }
     //Calculate the angle between hour hand and minute hand
