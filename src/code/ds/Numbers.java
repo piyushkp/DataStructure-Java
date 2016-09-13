@@ -194,30 +194,24 @@ public class Numbers {
             return this.distance.compareTo(that.distance);
         }
     }
-    public List<Point> findKClosest(Point[] p, int k) {
-        PriorityQueue<Point> pq = new PriorityQueue<Point>(k, new Comparator<Point>() {
-            @Override
-            public int compare(Point a, Point b) {
-                return (b.x * b.x + b.y * b.y) - (a.x * a.x + a.y * a.y);
-            }
-        });
-
-        for (int i = 0; i < p.length; i++) {
-            if (i < k)
-                pq.offer(p[i]);
-            else {
-                Point tmp = pq.peek();
-                if ((p[i].x * p[i].x + p[i].y * p[i].y) - (tmp.x * tmp.x + tmp.y * tmp.y) < 0) {
+    public List<Point> findKNearestPoints(List<Point> points, Point original, int k) {
+        List<Point> result = new ArrayList<>();
+        if (points == null || points.size() == 0 || original == null || k <= 0) {
+            return result;
+        }
+        PriorityQueue<Point> pq = new PriorityQueue<>(k);
+        for (Point point : points) {
+            if (pq.size() < k) {
+                pq.offer(point);
+            } else {
+                if (pq.peek().compareTo(point) > 0) {
                     pq.poll();
-                    pq.offer(p[i]);
+                    pq.offer(point);
                 }
             }
         }
-
-        List<Point> x = new ArrayList<Point>();
-        while (!pq.isEmpty())
-            x.add(pq.poll());
-        return x;
+        result.addAll(pq);
+        return result;
     }
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {

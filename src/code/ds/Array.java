@@ -13,14 +13,13 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {4,5,1,1,-1,6,4,3,7};
+        int arr[] = {2,3,5,1,0,-6,-5};
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
         //System.out.println(minSubArraySum(arr,7));
-        allSubArraySum(arr,9);
-        System.out.print(minSubArraySum(arr,9));
+        int[] a = threeSum_Multiple(arr);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
