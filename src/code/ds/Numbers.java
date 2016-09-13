@@ -213,6 +213,60 @@ public class Numbers {
         result.addAll(pq);
         return result;
     }
+    // K nearest points using selection algorithm. Time = O(n)
+    public static List<Point>  findKNearestPointsSelection(final Point points[], final int k) {
+        final int n = points.length;
+        final double[] dist = new double[n];
+        for (int i = 0; i < n; i++) {
+            dist[i] = Math.sqrt(points[i].x * points[i].x + points[i].y * points[i].y);
+        }
+        final double kthMin = kthSmallest(dist, 0, n - 1, k-1);
+        List<Point> result = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            final double d = Math.sqrt(points[i].x * points[i].x + points[i].y * points[i].y);
+            if (d <= kthMin) {
+                result.add(points[i]);
+            }
+        }
+        return result;
+    }
+    // kth smallest element in unsorted array
+    public static double kthSmallest(double[] G, int first, int last, int k) {
+        if (first <= last) {
+            //int pivot = partition(G, first, last);
+            int pivot = randomPartition(G, first, last);
+            if (pivot == k) {
+                return G[k];
+            }
+            if (pivot > k) {
+                return kthSmallest(G, first, pivot - 1, k);
+            } else return kthSmallest(G, pivot + 1, last, k);
+        }
+        return 0;
+    }
+    // Picks a random pivot element between l and r and partitions
+    public static int randomPartition(double arr[], int l, int r){
+        int pivot = (int) Math.round(l + Math.random() * (r - l));
+        swap(arr, pivot, r);
+        return partition(arr, l, r);
+    }
+    public static int partition(double[] G, int first, int last) {
+        double pivot = G[last];
+        int pIndex = first;
+        for (int i = first; i < last; i++) {
+            if (G[i] < pivot) {
+                swap(G, i, pIndex);
+                pIndex++;
+            }
+        }
+        swap(G, pIndex, last);
+        return pIndex;
+    }
+    private static void swap(double[] G, int x, int y) {
+        double temp = G[y];
+        G[y] = G[x];
+        G[x] = temp;
+    }
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {
         if (h < 0 || m < 0 || h > 12 || m > 60) System.out.print("Wrong input");

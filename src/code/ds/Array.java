@@ -171,7 +171,7 @@ public class Array {
         }
         quickselect(c, 0, c.length-1, K - 1);
     }
-    private static int quickselect(int[] G, int first, int last, int k) {
+    public static int quickselect(int[] G, int first, int last, int k) {
         if (first <= last) {
             //int pivot = partition(G, first, last);
             int pivot = randomPartition(G, first, last);
@@ -185,12 +185,12 @@ public class Array {
         return 0;
     }
     // Picks a random pivot element between l and r and partitions
-    private static int randomPartition(int arr[], int l, int r){
+    public static int randomPartition(int arr[], int l, int r){
         int pivot = (int) Math.round(l + Math.random() * (r - l));
         swap(arr, pivot, r);
         return partition(arr, l, r);
     }
-    private static int partition(int[] G, int first, int last) {
+    public static int partition(int[] G, int first, int last) {
         int pivot = G[last];
         int pIndex = first;
         for (int i = first; i < last; i++) {
