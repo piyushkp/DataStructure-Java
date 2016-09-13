@@ -186,8 +186,8 @@ public class Array {
     }
     // Picks a random pivot element between l and r and partitions
     private static int randomPartition(int arr[], int l, int r){
-        int pivot = (int)(Math.random()) % (r-1);
-        swap(arr, pivot, r-1);
+        int pivot = (int) Math.round(l + Math.random() * (r - l));
+        swap(arr, pivot, r);
         return partition(arr, l, r);
     }
     private static int partition(int[] G, int first, int last) {
