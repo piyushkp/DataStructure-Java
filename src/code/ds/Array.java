@@ -13,13 +13,16 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {2,3,5,1,0,-6,-5};
+        int arr[] = {2,3,5,1};
+        int arr1[] = {9,10,8,7};
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
         //System.out.println(minSubArraySum(arr,7));
-        int[] a = threeSum_Multiple(arr);
+        //int[] a = threeSum_Multiple(arr);
+
+        MergeUnsortedArrayKthSmallest(arr,arr1,5);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -156,7 +159,7 @@ public class Array {
 
     //Given two unsorted int arrays with elements are distinct, find the kth smallest element in the merged, sorted array.
     // Average case Time = O(n) Worst case O(n2) where n is total length of A1 and A2
-    private void MergeUnsortedArray(int[] A1, int[] A2, int K) {
+    private static void MergeUnsortedArrayKthSmallest(int[] A1, int[] A2, int K) {
         int[] c = new int[A1.length + A2.length];
         int length = 0;
         for (int i = 0; i < A1.length; i++) {
@@ -164,13 +167,14 @@ public class Array {
             length++;
         }
         for (int j = 0; j < A2.length; j++) {
-            c[length + j + 1] = A2[j];
+            c[length + j] = A2[j];
         }
-        quickselect(c, 0, c.length, K);
+        quickselect(c, 0, c.length-1, K - 1);
     }
-    private int quickselect(int[] G, int first, int last, int k) {
+    private static int quickselect(int[] G, int first, int last, int k) {
         if (first <= last) {
-            int pivot = partition(G, first, last);
+            //int pivot = partition(G, first, last);
+            int pivot = randomPartition(G, first, last);
             if (pivot == k) {
                 return G[k];
             }
@@ -181,13 +185,12 @@ public class Array {
         return 0;
     }
     // Picks a random pivot element between l and r and partitions
-    int randomPartition(int arr[], int l, int r){
-        int n = r-l;
-        int pivot = (int)(Math.random()) % n;
-        swap(arr, pivot, r);
+    private static int randomPartition(int arr[], int l, int r){
+        int pivot = (int)(Math.random()) % (r-1);
+        swap(arr, pivot, r-1);
         return partition(arr, l, r);
     }
-    private int partition(int[] G, int first, int last) {
+    private static int partition(int[] G, int first, int last) {
         int pivot = G[last];
         int pIndex = first;
         for (int i = first; i < last; i++) {
@@ -200,9 +203,9 @@ public class Array {
         return pIndex;
     }
     private static void swap(int[] G, int x, int y) {
-        G[x] ^= G[y];
-        G[y] ^= G[x];
-        G[x] ^= G[y];
+        int temp = G[y];
+        G[y] = G[x];
+        G[x] = temp;
     }
     //Find the second largest/smallest number from the array
     static int  secondlargest(int[] a){
