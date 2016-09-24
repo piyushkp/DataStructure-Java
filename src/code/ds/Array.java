@@ -438,26 +438,6 @@ public class Array {
         return null;
     }
 
-    //Given an array nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
-    //arr = [1, -1, 5, -2, 3], k = 3 Output = 4 (subarray [1, -1, 5, -2])
-    public static int maxSubArraySumLen(int[] arr, int k) {
-        HashMap<Integer, Integer> map = new HashMap<>();
-        int max = 0;
-        int curr_sum = 0;
-        for (int i = 0; i < arr.length; i++) {
-            curr_sum += arr[i];
-            if(curr_sum == k) {
-                max = Math.max(max, (i-0) + 1);
-            }
-            if(map.containsKey(curr_sum - k)) {
-                max = Math.max(max, (i - map.get(curr_sum - k)));
-            }
-            else
-                map.put(curr_sum , i);
-        }
-        return max;
-    }
-
     //Given an unsorted array of integers, find a subarray which adds to a given number.
     // If there are more than one subarrays with sum as the given number, print any of them.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
@@ -534,7 +514,26 @@ public class Array {
             map.put(preSum, newStart);
         }
     }
-    //Given +ve/-ve numbers find min subarray length that sum to k
+    //Given an array unique nums and a target value k, find the maximum length of a subarray that sums to k. If there isn't one, return 0 instead.
+    //arr = [1, -1, 5, -2, 3], k = 3 Output = 4 (subarray [1, -1, 5, -2])
+    public static int maxSubArraySumLen(int[] arr, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int max = 0;
+        int curr_sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            curr_sum += arr[i];
+            if(curr_sum == k) {
+                max = Math.max(max, (i-0) + 1);
+            }
+            if(map.containsKey(curr_sum - k)) {
+                max = Math.max(max, (i - map.get(curr_sum - k)));
+            }
+            else
+                map.put(curr_sum , i);
+        }
+        return max;
+    }
+    //Given +ve/-ve numbers with duplicates find min subarray length that sum to k
     //input = {2,3,1,1,-1,6,4,3,8}; output = 2
     public static int minSubArraySum(int arr[], int k){
         Map<Integer, List<Integer>> map = new HashMap<Integer, List<Integer>>();
@@ -546,7 +545,7 @@ public class Array {
         // Loop across all elements of the array
         for(int i=0; i< arr.length; i++) {
             curr_sum += arr[i];
-            // If point where sum = (preSum - k) is present, it means that between that
+            // If point where sum = (curr_sum - k) is present, it means that between that
             // point and this, the sum has to equal k
             if(map.containsKey(curr_sum - k)) {   // Subarray found
                 List<Integer> items = map.get(curr_sum - k);
