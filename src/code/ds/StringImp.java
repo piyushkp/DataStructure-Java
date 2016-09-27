@@ -1886,6 +1886,7 @@ public class StringImp {
             return current.isWord;
         }
     }
+    //For an N x N board the search space is O((N*N)!
     int dx[]={-1, -1, -1, 0, 1, 1, 1, 0};
     int dy[]={1, 0, -1, -1, -1, 0, 1, 1};
     public List<String> findWords(char[][] board, String[] words) {
@@ -1963,10 +1964,23 @@ public class StringImp {
             return (i == letters.length) && node.wordEnd;
         }
     }
-    public static void boggleDynamic(char board[][], HashSet<String> dict) {
-        for (String word : dict) {
-            if(isInBoard(board,word))
+    static char board[][];
+    public static void boggleTrieDynamic(DictNode node, char[] currentBranch, int currentHeight) {
+        if (node == null) {
+            return;
+        }
+        if (node.wordEnd && currentHeight > 3) {
+            String word = new String(currentBranch, 0, currentHeight-1);
+            boolean inBoard = isInBoard(board,word);
+            if (inBoard) {
                 System.out.println(word);
+            }
+        }
+        for (int i = 0; i < node.nextNodes.length; i++) {
+            if (node.nextNodes[i] != null) {
+                currentBranch[currentHeight] = (char) (i + 'a');
+                boggleTrieDynamic(node.nextNodes[i], currentBranch, currentHeight + 1);
+            }
         }
     }
     public static boolean isInBoard(char board[][], final String word) {
