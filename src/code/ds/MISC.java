@@ -979,7 +979,7 @@ public class MISC {
         columnFlippingStat.put(flippedCols, freq+1);
         return freq+1;
     }
-    // Implement the function that takes a board string
+    // Connect4: Implement the function that takes a board string
     // and decodes it into the representative 2D array.
     //    |_|_|_|_|_|_|_|
     //    |_|_|r|_|_|_|_|

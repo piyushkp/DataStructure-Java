@@ -1987,7 +1987,6 @@ public class StringImp {
         int N = board.length;
         int[] dx = {1, 1, 0, -1, -1, -1, 0, 1};
         int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
-
         boolean[][][] dp = new boolean[50][N][N];
         char[] letters = word.toCharArray();
         for (int k = 0; k < letters.length; k++) {
