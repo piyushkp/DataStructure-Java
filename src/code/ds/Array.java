@@ -69,8 +69,8 @@ public class Array {
     //to merge B into A in sorted order.
     public static void merge(int[] a, int[] b, int lastA, int lastB) {
         int indexMerged = lastB + lastA - 1; /* Index of last location of merged array */
-        int indexA = lastA - 1; /* Index of last element in array b */
-        int indexB = lastB - 1; /* Index of last element in array a */
+        int indexA = lastA - 1; /* Index of last element in array a */
+        int indexB = lastB - 1; /* Index of last element in array b */
 		/* Merge a and b, starting from the last element in each */
         while (indexB >= 0) {
             if (indexA >= 0 && a[indexA] > b[indexB]) { /* end of a is bigger than end of b */
@@ -551,7 +551,7 @@ public class Array {
                 List<Integer> items = map.get(curr_sum - k);
                 for(int start : items) {
                     //System.out.println("Start: "+ (start+1)+ "\tEnd: "+ i);
-                    min_len = Math.min(min_len, (i - (start+1)) + 1);
+                    min_len = Math.min(min_len, (i - start);
                 }
             }
             List<Integer> temp = new ArrayList<Integer>();
