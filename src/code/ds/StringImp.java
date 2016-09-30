@@ -439,7 +439,7 @@ public class StringImp {
                 String suffix = input.substring(i, len);
                 String segSuffix = wordBreakUsingDP(suffix, dict);
                 if (segSuffix != null) {
-                    memoized.put(input, prefix + " " + segSuffix);
+                    //memoized.put(input, prefix + " " + segSuffix);
                     return prefix + " " + segSuffix;
 
                 }
