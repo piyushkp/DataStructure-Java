@@ -32,6 +32,7 @@ public class Threading{
         }
     }
     // Deadlock example in Java
+    // to avoid deadlock all locks should get acquire in the same order.
     private void deadLock() {
         final Object resource1 = "resource1";
         final Object resource2 = "resource2";
