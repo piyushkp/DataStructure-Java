@@ -8,8 +8,9 @@ public class Numbers {
         //int[] out = fib(50);
         //System.out.println(out.length);
         //System.out.println(fib1(3));
-        int[] out = factorial(10);
-        System.out.println(factorial1(10));
+        double[] a = {88, 30, 11, 17, 22, 16, 39, 8, 31, 55,
+                29, 63, 77, 69, 99, 90, 81, 2, 20, 53, 62, 5, 88, 33, 44, 6};
+        System.out.println(MedianOfMediansSelect(a,0,a.length,7));
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -213,7 +214,8 @@ public class Numbers {
         result.addAll(pq);
         return result;
     }
-    // K nearest points using selection algorithm. Time = O(n)
+    // K nearest points using selection algorithm. Time = O(n) but worst can be O(n^2)
+    // better to use Median of medians selection algorithm
     public static List<Point>  findKNearestPointsSelection(final Point points[], final int k) {
         final int n = points.length;
         final double[] dist = new double[n];
@@ -229,6 +231,29 @@ public class Numbers {
             }
         }
         return result;
+    }
+    //Median Of Medians worst case time O(n)
+    public static double MedianOfMediansSelect(double[] A, int low, int high, int k){
+        if(high - low + 1 <= 5)
+        {
+            Arrays.sort(A,low,high);
+            return A[low + k - 1];
+        }
+        int noOfGroups = (high - low + 1) / 5;
+        double[] medianArray = new double[noOfGroups];
+        for(int i = 0; i < noOfGroups; i++)
+        {
+            medianArray[i] = MedianOfMediansSelect(A, low + i * 5, low + (i * 5) + 4, 3);
+        }
+        double medianOfMedians = MedianOfMediansSelect(medianArray, 0, medianArray.length - 1, noOfGroups / 2 + 1);
+        //swap(A, medianOfMedians, high);
+        int medianOfMediansPosition = partition1(A, low, high,medianOfMedians);
+        if(medianOfMediansPosition - low + 1 == k)
+            return A[low + k - 1];
+        else if(k < medianOfMediansPosition -low + 1)
+            return MedianOfMediansSelect(A, low, medianOfMediansPosition - 1, k);
+        else
+            return MedianOfMediansSelect(A, medianOfMediansPosition + 1, high, k - (medianOfMediansPosition - low + 1));
     }
     // kth smallest element in unsorted array
     public static double kthSmallest(double[] G, int first, int last, int k) {
@@ -260,6 +285,24 @@ public class Numbers {
             }
         }
         swap(G, pIndex, last);
+        return pIndex;
+    }
+    public static int partition1(double[] G, int first, int last, double pivot) {
+        int i;
+        for ( i = first; i < last; i++) {
+            if(G[i] == pivot)
+                break;
+        }
+        swap(G,i,last-1);
+        i = first;
+        int pIndex = first;
+        for (i = first; i < last; i++) {
+            if (G[i] < pivot) {
+                swap(G, i, pIndex);
+                pIndex++;
+            }
+        }
+        swap(G,pIndex,last-1);
         return pIndex;
     }
     private static void swap(double[] G, int x, int y) {

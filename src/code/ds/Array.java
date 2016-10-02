@@ -551,7 +551,7 @@ public class Array {
                 List<Integer> items = map.get(curr_sum - k);
                 for(int start : items) {
                     //System.out.println("Start: "+ (start+1)+ "\tEnd: "+ i);
-                    min_len = Math.min(min_len, (i - start);
+                    min_len = Math.min(min_len, (i - start));
                 }
             }
             List<Integer> temp = new ArrayList<Integer>();
