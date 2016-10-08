@@ -1512,6 +1512,40 @@ public class Tree {
     }
     //Approach 2: Compare whether T2's leaf-delimited traversal string (pre-order,in-order, etc) is a substring of T1's.
     //Fast but waste memory, not good for large trees.time and memory = O(n+m)
+
+    //print all path from root to leaf in Binary tree
+    HashSet<Node> set = new HashSet<>();
+    void printPaths(Node root){
+        if(root == null) return;
+        Stack<Node> s = new Stack<>();
+        s.push(root);
+        Node temp = root.left;
+        while(s.size() != 0){
+            while(temp != null){
+                s.push(temp);
+                temp = temp.left;
+            }
+            Node top = s.peek();
+            if(!set.contains(top)){
+                set.add(top);
+                temp = top.right;
+                if(temp == null && top.left == null){
+                    printThePath(s);
+                    s.pop();
+                }
+            }
+            else{
+                s.pop();
+            }
+        }
+    }
+    void printThePath(Stack<Node> s){
+        // get an iterator and print the stack
+        List<Node> list = new ArrayList<>(s);
+        for (Node x : list){
+            System.out.println(x.data);
+        }
+    }
 }
 //Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x
 // (the number of values less than or equal to x). Implement the data structures and algorithms to support these
