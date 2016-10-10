@@ -13,8 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {2,3,5,1};
-        int arr1[] = {9,10,8,7};
+        int arr[] = {5,  5, 10, 40, 50, 35};
+        System.out.println(MaxSumNonAdjacent(arr));
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
@@ -22,7 +22,7 @@ public class Array {
         //System.out.println(minSubArraySum(arr,7));
         //int[] a = threeSum_Multiple(arr);
 
-        MergeUnsortedArrayKthSmallest(arr,arr1,5);
+        //MergeUnsortedArrayKthSmallest(arr,arr1,5);
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
@@ -2468,5 +2468,40 @@ public class Array {
                 arr[count++] = arr[i]; // here count is incremented
         while (count < n)
             arr[count++] = 0;
+    }
+
+    public static int MaxSumNonAdjacent(int[] a) {
+        int[] output = new int[a.length];
+        if (a.length == 0)
+            return 0;
+        else if (a.length < 2)
+            return a[0];
+        else if (a.length == 2)
+            return Math.max(a[0], a[1]);
+        else {
+            output[0] = a[0];
+            output[1] = Math.max(a[0], a[1]);
+            for (int i = 2; i < a.length; i++) {
+                int temp = Math.max(a[i], a[i] + output[i - 2]);
+                output[i] = Math.max(output[i - 1], temp);
+            }
+        }
+        return output[a.length - 1];
+    }
+    /*Function to return max sum such that no two elements are adjacent without space*/
+    int FindMaxSum(int arr[], int n) {
+        int incl = arr[0];
+        int excl = 0;
+        int excl_new;
+        int i;
+        for (i = 1; i < n; i++) {
+            /* current max excluding i */
+            excl_new = Math.max(incl, excl);
+            /* current max including i */
+            incl = excl + arr[i];
+            excl = excl_new;
+        }
+        /* return max of incl and excl */
+        return Math.max(incl, excl);
     }
 }
