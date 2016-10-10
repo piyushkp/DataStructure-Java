@@ -6,9 +6,22 @@ import java.util.*;
  */
 public class MISC {
 
-    public static void main(String [] args) {
-        System.out.print("MISC");
+    public static void main(String[] args) {
+        //System.out.print("MISC");
+
+        List<Token> list = new ArrayList<>();
+        list.add(new MISC().new Token("NUM", -4));
+        list.add(new MISC().new Token("*"));
+        list.add(new MISC().new Token("NUM", 3));
+        list.add(new MISC().new Token("*"));
+        list.add(new MISC().new Token("NUM", 2));
+        list.add(new MISC().new Token("/"));
+        list.add(new MISC().new Token("NUM", 2));
+        list.add(new MISC().new Token("+"));
+        list.add(new MISC().new Token("NUM", 4));
+        System.out.println(evalExpr(list));
     }
+
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
     //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8} Time Complexity: O(n Log n)
     class Interval {
@@ -257,9 +270,11 @@ public class MISC {
     }
 
     public class Singleton {
-        private  Singleton uniqInstance;
+        private Singleton uniqInstance;
+
         private Singleton() {
         }
+
         public synchronized Singleton getInstance() {
             if (uniqInstance == null) {
                 uniqInstance = new Singleton();
@@ -733,6 +748,7 @@ public class MISC {
 
     class IntervalTree {
         private Interval1 root;
+
         public Interval1 insert(Interval1 root, final Interval1 newNode) {
             if (root == null) {
                 root = newNode;
@@ -752,6 +768,7 @@ public class MISC {
 
             return root;
         }
+
         //Find all overlapping intervals for given interval
         public void intersectInterval(Interval1 root, Interval1 i, List<Interval1> output) {
             if (root == null) {
@@ -768,6 +785,7 @@ public class MISC {
             }
             this.intersectInterval(root.right, i, output);
         }
+
         //Find all non-overlapping intervals for given interval
         public void nonOverlappingInterval(Interval1 root, Interval1 i, List<Interval1> output) {
             if (root == null) {
@@ -784,12 +802,14 @@ public class MISC {
             }
             this.intersectInterval(root.right, i, output);
         }
+
         // A utility function to check if given two intervals overlap
         boolean doOVerlap(Interval1 i1, Interval1 i2) {
             if (i1.start <= i2.end && i2.start <= i1.end)
                 return true;
             return false;
         }
+
         Interval1 overlapSearch(Interval1 root, Interval1 i) {
             // Base Case, tree is empty
             if (root == null) return null;
@@ -804,6 +824,7 @@ public class MISC {
             // Else interval can only overlap with right subtree
             return overlapSearch(root.right, i);
         }
+
         // This function prints all conflicting appointments in a given array of appointments.
         void printConflicting(List<Interval1> appt, int n) {
             // Create an empty Interval Search Tree, add first appointment
@@ -821,6 +842,7 @@ public class MISC {
             }
         }
     }
+
     /*Implement LRU Cache.
     1. If cache has free entry, add the page entry to queue and make it head.
     2. If cache is full and its cache hit, remove the item from present location and add it to front of queue and make it head.
@@ -828,23 +850,26 @@ public class MISC {
     4. To check hit or miss, use hash table.
      So at front items would be most recently used while in the end of queue least recently used items
     O(1) all operations*/
-    class DoublyNode{
+    class DoublyNode {
         int data;
         int key;
         DoublyNode next;
         DoublyNode prev;
     }
+
     class LRU {
         HashMap<Integer, DoublyNode> map;
         int capacity;
         DoublyNode head;
         DoublyNode end;
-        LRU(int capacity){
+
+        LRU(int capacity) {
             this.capacity = capacity;
             map = new HashMap<Integer, DoublyNode>();
         }
-        private void add(DoublyNode item){
-            if(head == null){
+
+        private void add(DoublyNode item) {
+            if (head == null) {
                 head = item;
                 end = item;
             }
@@ -852,33 +877,34 @@ public class MISC {
             item.next = head;
             head = item;
         }
-        private void remove(DoublyNode item){
-            if(head == null || item == null)
+
+        private void remove(DoublyNode item) {
+            if (head == null || item == null)
                 return;
-            else if(head == item && head == end) {
+            else if (head == item && head == end) {
                 head = null;
                 end = null;
-            }
-            else if(head == item) {
+            } else if (head == item) {
                 head.next.prev = null;
                 head = head.next;
-            }
-            else if(end == item){
+            } else if (end == item) {
                 end.prev.next = null;
                 end = end.prev;
-            }
-            else{
+            } else {
                 item.prev.next = item.next;
                 item.next.prev = item.prev;
             }
         }
-        private void moveFirst(DoublyNode item){
+
+        private void moveFirst(DoublyNode item) {
             remove(item);
             add(item);
         }
-        private void removeLast(){
+
+        private void removeLast() {
             remove(this.end);
         }
+
         public int get(int key) {
             if (map.containsKey(key)) {
                 DoublyNode node = map.get(key);
@@ -887,14 +913,15 @@ public class MISC {
             }
             return -1;
         }
-        public void set(int key, int value){
-            if(map.containsKey(key)){
+
+        public void set(int key, int value) {
+            if (map.containsKey(key)) {
                 DoublyNode node = map.get(key);
                 moveFirst(node);
                 node.data = value;
                 return;
             }
-            if(map.size() >= capacity){
+            if (map.size() >= capacity) {
                 removeLast();
                 map.remove(this.end.key);
             }
@@ -902,13 +929,15 @@ public class MISC {
             node.key = key;
             node.data = value;
             add(node);
-            map.put(key,node);
+            map.put(key, node);
         }
     }
+
     //Implement a peek using a existing iterator next and hasnext function.
     class PeekingIterator implements Iterator<Integer> {
         private Integer next; //cache the next peek
         private Iterator<Integer> iter;
+
         public PeekingIterator(Iterator<Integer> iterator) {
             // initialize any member here.
             iter = iterator;
@@ -916,10 +945,12 @@ public class MISC {
                 next = iter.next();
             }
         }
+
         // Returns the next element in the iteration without advancing the iterator.
         public Integer peek() {
             return next;
         }
+
         // hasNext() and next() should behave the same as in the Iterator interface. Override them if needed.
         @Override
         public Integer next() {
@@ -927,11 +958,13 @@ public class MISC {
             next = iter.hasNext() ? iter.next() : null;
             return ret;
         }
+
         @Override
         public boolean hasNext() {
             return next != null;
         }
     }
+
     //Reverse a stack using recursion. You are not allowed to use loops or data structure.
     public void reverse(Stack<Integer> stack) {
         if (stack.isEmpty() || stack.size() == 1) {
@@ -941,6 +974,7 @@ public class MISC {
         this.reverse(stack);
         this.insertAtBottom(stack, top);
     }
+
     private void insertAtBottom(Stack<Integer> stack, int val) {
         if (stack.isEmpty()) {
             stack.push(val);
@@ -950,16 +984,18 @@ public class MISC {
         this.insertAtBottom(stack, val);
         stack.push(temp);
     }
+
     //palantir magic box
     //https://github.com/siddharthgoel88/problem-solving/blob/master/Hackerrank/Palantir-magic-box/src/Solution.java
     //https://github.com/vrdmr/interview-prep/blob/master/DataStructuresAndAlgorithms/src/interviewquestions/palantir/Palantir-Question.png
     private static Map<String, Integer> columnFlippingStat;
     private static int maxWishes = -1;
+
     private static void findFlippingSet(char[] row) {
         StringBuilder allP = new StringBuilder();
         StringBuilder allT = new StringBuilder();
-        for (int i=0; i<row.length; i++) {
-            if (row[i] == 'P' ) {
+        for (int i = 0; i < row.length; i++) {
+            if (row[i] == 'P') {
                 allP.append('0');
                 allT.append('1');
             } else {
@@ -971,14 +1007,16 @@ public class MISC {
         int allTFreq = updateSet(allT.toString());
         maxWishes = Math.max(maxWishes, Math.max(allPFreq, allTFreq));
     }
+
     private static int updateSet(String flippedCols) {
         int freq = 0;
         if (columnFlippingStat.containsKey(flippedCols)) {
             freq = columnFlippingStat.get(flippedCols);
         }
-        columnFlippingStat.put(flippedCols, freq+1);
-        return freq+1;
+        columnFlippingStat.put(flippedCols, freq + 1);
+        return freq + 1;
     }
+
     // Connect4: Implement the function that takes a board string
     // and decodes it into the representative 2D array.
     //    |_|_|_|_|_|_|_|
@@ -988,75 +1026,132 @@ public class MISC {
     //    |b|r|r|b|b|r|_|
     //    |r|b|b|r|r|r|b|
     //    CFN: 9_r4_brbrbr_3b2rb_b2r2br_r2b3rb
-    public static char[][] decodeBoard(String str){
+    public static char[][] decodeBoard(String str) {
         char[] input = str.toCharArray();
         char[][] output = new char[6][7];
         char[] temp = new char[42];
         int index = 0;
-        for(int i = 0;i<input.length;i++){
-            if(isInteger(Character.toString(input[i]))){
+        for (int i = 0; i < input.length; i++) {
+            if (isInteger(Character.toString(input[i]))) {
                 int number = Character.getNumericValue(input[i]);
                 for (int l = 0; l < number; l++) {
-                    temp[index + l] = input[i+1];
+                    temp[index + l] = input[i + 1];
                 }
                 index += number;
                 i++;
-            }
-            else {
+            } else {
                 temp[index] = input[i];
                 index++;
             }
         }
         for (int k = 0; k < 6; k++) {
             for (int j = 0; j < 7; j++) {
-                output[k][j] = temp[7*k + j];
+                output[k][j] = temp[7 * k + j];
             }
         }
         return output;
     }
+
     public static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
-        } catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             return false;
         }
         return true;
     }
+
     //Implement data structure “Map” storing pairs of integers (key, value) and define following member functions in O(1)
     //runtime: void insert(key, value), void delete(key), int get(key), int getRandomKey().
-    class Map1{
+    class Map1 {
         HashMap<String, List<Integer>> _map = new HashMap<>();
         ArrayList<String> arr = new ArrayList<>();
         int length;
         int index;
-        public void Insert(String key, int value){
+
+        public void Insert(String key, int value) {
             index = length;
-            List<Integer> temp  =  new ArrayList<>();
+            List<Integer> temp = new ArrayList<>();
             temp.add(value);
             temp.add(index);
             _map.put(key, temp);
-            arr.add(index,key);
+            arr.add(index, key);
         }
-        public int Get(String key){
+
+        public int Get(String key) {
             return _map.get(key).get(0);
         }
-        public void Delete(String key){
+
+        public void Delete(String key) {
             index = _map.get(key).get(1);
             // swap array index elements with the last element, so delete can done in O(1)
             String temp = arr.get(index);
-            arr.set(index,arr.get(length));
+            arr.set(index, arr.get(length));
             arr.remove(length);
             length -= 1;
             //delete from the map
             _map.remove(key);
             //update the index of the swapped key
-            _map.get(arr.get(index)).set(1,index);
+            _map.get(arr.get(index)).set(1, index);
         }
-        public String GetRandomKey(){
-            int r = (int)(Math.random() % length);
+
+        public String GetRandomKey() {
+            int r = (int) (Math.random() % length);
             return arr.get(r);
         }
+    }
+
+    //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without paranthesis
+    //[Token(NUM, -4.), Token(SUB), Token(NUM, 3), Token(MUL)…]
+    class Token {
+        String type;
+        double value;
+        public Token(String _type, double _value) {
+            type = _type;
+            value = _value;
+        }
+        public Token(String _type) {
+            type = _type;
+        }
+    }
+    public static double evalExpr(List<Token> tokenList) {
+        int i = 0;
+        double left = tokenList.get(i++).value;
+        while (i < tokenList.size()) {
+            String operator = tokenList.get(i++).type;
+            double right = Double.valueOf(tokenList.get(i++).value);
+            switch (operator) {
+                case "*":
+                    left = left * right;
+                    break;
+                case "/":
+                    left = left / right;
+                    break;
+                case "+":
+                case "-":
+                    while (i < tokenList.size()) {
+                        String operator2 = tokenList.get(i++).type;
+                        if (operator2.equals("+") || operator2.equals("-")) {
+                            i--;
+                            break;
+                        }
+                        if (operator2.equals("*")) {
+                            right = right * Double.valueOf(tokenList.get(i++).value);
+                        }
+                        if (operator2.equals("/")) {
+                            right = right / Double.valueOf(tokenList.get(i++).value);
+                        }
+                    }
+                    if (operator.equals("+")) {
+                        left = left + right;
+                    } else {
+                        left = left - right;
+                    }
+                    break;
+            }
+        }
+        return left;
     }
 }
