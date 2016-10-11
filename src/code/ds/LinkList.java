@@ -811,5 +811,61 @@ public class LinkList {
         }
         return count;
     }
+    //Given a number represented as a linked list, add '1' to it. No extra space, and in liner time.
+    Node addOne(Node head){
+        // Reverse linked list
+        head = reverselist(head);
+        head = addOneToList(head);
+        // Reverse the modified list
+        return reverselist(head);
+    }
+    public Node addOneToList(Node head) {
+        Node res = head;
+        Node temp = null;
+        int carry = 1, sum;
+        while (head != null) {
+            sum = carry + head.data;
+            // update carry for next calculation
+            carry = (sum >= 10) ? 1 : 0;
+            // update sum if it is greater than 10
+            sum = sum % 10;
+            // Create a new node with sum as data
+            head.data = sum;
+            // Move head and second pointers to next nodes
+            temp = head;
+            head = head.next;
+        }
+        // if some carry is still there, add a new node to result list.
+        if (carry > 0) {
+            Node _node = new Node();
+            _node.data = carry;
+            temp.next = _node;
+        }
+        return res;
+    }
+    public Node addOneToList1(Node head){
+        // Add 1 to linked list from end to beginning
+        int carry = addWithCarry(head);
+        // If there is carry after processing all nodes, then we need to add a new node to linked list
+        if (carry > 0){
+            Node newNode = new Node();
+            newNode.data = carry;
+            newNode.next = head;
+            return newNode; // New node becomes head now
+        }
+        return head;
+    }
+    public static int addWithCarry(Node head){
+        // If linked list is empty, then return carry
+        if (head == null)
+            return 1;
+        // Add carry returned be next node call
+        int sum = head.data + addWithCarry(head.next);
+        // Update data and return new carry
+        head.data = (sum) % 10;
+        return (sum) / 10;
+    }
+
+
 
 }

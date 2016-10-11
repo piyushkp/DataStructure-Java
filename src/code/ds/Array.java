@@ -13,8 +13,8 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {5,  5, 10, 40, 50, 35};
-        System.out.println(MaxSumNonAdjacent(arr));
+        int arr[] = {3,2,5,10,7};
+        System.out.println(FindMaxSumNonAdjacent(arr));
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
@@ -2488,13 +2488,12 @@ public class Array {
         }
         return output[a.length - 1];
     }
-    /*Function to return max sum such that no two elements are adjacent without space*/
-    int FindMaxSum(int arr[], int n) {
+    /*Function to return max sum such that no two elements are adjacent without space arr[] = {5,  5, 10, 40, 50, 35}*/
+    static int FindMaxSumNonAdjacent(int arr[]) {
         int incl = arr[0];
         int excl = 0;
         int excl_new;
-        int i;
-        for (i = 1; i < n; i++) {
+        for (int i = 1; i < arr.length; i++) {
             /* current max excluding i */
             excl_new = Math.max(incl, excl);
             /* current max including i */
