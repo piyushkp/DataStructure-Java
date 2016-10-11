@@ -597,6 +597,35 @@ public class Tree {
     }
 
     // Find out if given tree is Binary Search Tree or not
+    //Using Morris traversal and maintaining the pre node, solution in O(n) time complexity and O(1) space complexity.
+    public boolean isValidBST(Node root) {
+        Node pre = null, cur = root, tmp;
+        while(cur != null) {
+            if(cur.left == null) {
+                if(pre != null && pre.data >= cur.data)
+                    return false;
+                pre = cur;
+                cur = cur.right;
+            }
+            else {
+                tmp = cur.left;
+                while(tmp.right != null && tmp.right != cur)
+                    tmp = tmp.right;
+                if(tmp.right == null) { // left child has not been visited
+                    tmp.right = cur;
+                    cur = cur.left;
+                }
+                else { // left child has been visited already
+                    tmp.right = null;
+                    if(pre != null && pre.data >= cur.data)
+                        return false;
+                    pre = cur;
+                    cur = cur.right;
+                }
+            }
+        }
+        return true;
+    }
     //Integer.MIN_VALUE, Integer.MAX_VALUE
     public static boolean validateBST(Node root, int min, int max) {
         if (root == null) {

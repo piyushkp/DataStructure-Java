@@ -785,7 +785,7 @@ public class Array {
         }
     }
     //Searching an Element in a Rotated Sorted Array
-    private int rotated_binary_search(int A[], int N, int key) {
+    private static int rotated_binary_search(int A[], int N, int key) {
         int L = 0;
         int R = N - 1;
         while (L <= R) {

@@ -1069,7 +1069,6 @@ public class MISC {
         HashMap<String, List<Integer>> _map = new HashMap<>();
         ArrayList<String> arr = new ArrayList<>();
         int index;
-
         public void Insert(String key, int value) {
             index = arr.size();
             List<Integer> temp = new ArrayList<>();
@@ -1078,11 +1077,9 @@ public class MISC {
             _map.put(key, temp);
             arr.add(index, key);
         }
-
         public int Get(String key) {
             return _map.get(key).get(0);
         }
-
         public void Delete(String key) {
             index = _map.get(key).get(1);
             // swap array index elements with the last element, so delete can done in O(1)
@@ -1094,7 +1091,6 @@ public class MISC {
             //update the index of the swapped key
             _map.get(arr.get(index)).set(1, index);
         }
-
         public String GetRandomKey() {
             int r = (int) (Math.random() % arr.size());
             return arr.get(r);
