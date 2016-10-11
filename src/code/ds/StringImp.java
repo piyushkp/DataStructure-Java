@@ -12,7 +12,7 @@ public class StringImp {
         //System.out.print("String");
         //char set1[] = {'a', 'b', 'c'};
         //printAllKLength(set1,3);
-        System.out.print(isPalindrome1("aB#cc2$#@bA"));
+        System.out.print(minSubString("ADOBECODEBANC","ABC"));
         //permute(str);
     }
    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -516,54 +516,63 @@ public class StringImp {
     }
     //give you two strings S and T, find the shortest string in S which contains all the characters in T
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
-    public String minSubString(String S, String T) {
-        if (S == null || T == null) {
+    public static String minSubString(String s, String t) {
+        if (s == null || t == null)
             return null;
-        }
-        if (S.length() == 0 && T.length() == 0) {
+        if (s.length() == 0 && t.length() == 0)
             return "";
-        }
-        if (S.length() < T.length()) {
+        if (t.length() > s.length())
             return "";
-        }
-        HashMap<Character, Integer> needFind = new HashMap<Character, Integer>();
-        HashMap<Character, Integer> alreadyFind = new HashMap<Character, Integer>();
-        for (int i = 0; i < T.length(); i++) {
-            alreadyFind.put(T.charAt(i), 0);
-            if (needFind.containsKey(T.charAt(i))) {
-                needFind.put(T.charAt(i), needFind.get(T.charAt(i)) + 1);
+        //character counter for t
+        HashMap<Character, Integer> target = new HashMap<Character, Integer>();
+        for (int i = 0; i < t.length(); i++) {
+            char c = t.charAt(i);
+            if (target.containsKey(c)) {
+                target.put(c, target.get(c) + 1);
             } else {
-                needFind.put(T.charAt(i), 1);
+                target.put(c, 1);
             }
         }
+        // character counter for s
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int left = 0;
+        int minLen = s.length() + 1;
         int minStart = -1;
-        int minEnd = S.length();
-        int start = 0;
-        int len = 0;
-        for (int i = 0; i < S.length(); i++) {
-            if (alreadyFind.containsKey(S.charAt(i))) {
-                alreadyFind.put(S.charAt(i), alreadyFind.get(S.charAt(i)) + 1);
-                if (alreadyFind.get(S.charAt(i)) <= needFind.get(S.charAt(i))) {
-                    len++;
+        int minEnd = s.length();
+        int count = 0; // the total of mapped characters
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (target.containsKey(c)) {
+                if (map.containsKey(c)) {
+                    if (map.get(c) < target.get(c)) {
+                        count++;
+                    }
+                    map.put(c, map.get(c) + 1);
+                } else {
+                    map.put(c, 1);
+                    count++;
                 }
-                if (len == T.length()) {
-                    while (!needFind.containsKey(S.charAt(start)) || alreadyFind.get(S.charAt(start)) > needFind.get(S.charAt(start))) {
-                        if (needFind.containsKey(S.charAt(start))) {
-                            alreadyFind.put(S.charAt(start), alreadyFind.get(S.charAt(start)) - 1);
-                        }
-                        start++;
-                    }
-                    if (i - start < minEnd - minStart) {
-                        minStart = start;
-                        minEnd = i;
-                    }
+            }
+            if (count == t.length()) {
+                char sc = s.charAt(left);
+                while (!map.containsKey(sc) || map.get(sc) > target.get(sc)) {
+                    if (map.containsKey(sc) && map.get(sc) > target.get(sc))
+                        map.put(sc, map.get(sc) - 1);
+                    left++;
+                    sc = s.charAt(left);
+                }
+
+                if (i - left + 1 < minLen) {
+                    minStart = left;
+                    minEnd = i;
+                    minLen = i - left + 1;
                 }
             }
         }
         if (minStart == -1) {
             return "";
         }
-        return S.substring(minStart, minEnd + 1);
+        return s.substring(minStart, minEnd + 1);
     }
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
