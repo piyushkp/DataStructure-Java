@@ -865,6 +865,33 @@ public class LinkList {
         head.data = (sum) % 10;
         return (sum) / 10;
     }
+    //Given a linked list of length n, and without creating any secondary data structures, how would you find an entry in the linked list in less than n probes?
+    public static boolean searchListfast(Node head, int target){
+        Node prev = null;
+        Node ptr = head;
+        if(head == null)
+            return  false;
+        while(ptr != null){
+            if(ptr.data == target)
+                return true;
+            else if (ptr.data > target)
+                return search(prev, ptr,target);
+            prev = ptr;
+            ptr = ptr.next.next;
+
+        }
+        return false;
+    }
+    public static boolean search(Node start, Node end, int target){
+        if(start == null)
+            return false;
+        while(start != end){
+            if(start.data == target)
+                return true;
+            start = start.next;
+        }
+        return false;
+    }
 
 
 
