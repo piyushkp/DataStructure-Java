@@ -2026,20 +2026,21 @@ public class StringImp {
         int[] dx = {1, 1, 0, -1, -1, -1, 0, 1};
         int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
         boolean[][][] dp = new boolean[50][N][N];
+        boolean[][] visited = new boolean[N][N];
         char[] letters = word.toCharArray();
         for (int k = 0; k < letters.length; k++) {
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if (k == 0) {
                         dp[k][i][j] = true;
-                    }
-                    else {
+                    } else if (!visited[i][j] && dp[k - 1][i][j]) {
                         for (int l = 0; l < 8; l++) {
                             int x = i + dx[l];
                             int y = j + dy[l];
                             if ((x >= 0) && (x < N) && (y >= 0) && (y < N) && (dp[k - 1][x][y]) && (board[i][j] == letters[k])) {
                                 dp[k][i][j] = true;
-                                if (k == letters.length-1) {
+                                visited[x][y] = true;
+                                if (k == letters.length - 1) {
                                     return true;
                                 }
                             }
