@@ -4,7 +4,7 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Numbers {
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         //int[] out = fib(50);
         //System.out.println(out.length);
         //System.out.println(fib1(3));
@@ -22,16 +22,15 @@ public class Numbers {
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
     // Time  = O(n), Space  = O(n)
-    public static int[] fib(int n){
+    public static int[] fib(int n) {
         /* Declare an array to store Fibonacci numbers. */
         int f[];
-        if(n == 0)
+        if (n == 0)
             return null;
-        else if (n == 1){
+        else if (n == 1) {
             f = new int[1];
             f[0] = 0;
-        }
-        else {
+        } else {
             f = new int[n];
         /* 0th and 1st number of the series are 0 and 1*/
             f[0] = 0;
@@ -43,10 +42,11 @@ public class Numbers {
         }
         return f;
     }
+
     // Print nth Fibonacci number. Time  = O(n), space = (1)
-    private static int fib1(int n){
+    private static int fib1(int n) {
         int a = 0, b = 1, c, i;
-        if( n == 0)
+        if (n == 0)
             return a;
         for (i = 2; i <= n; i++) {
             c = a + b;
@@ -55,30 +55,30 @@ public class Numbers {
         }
         return b;
     }
+
     //Write a function that takes a number n and returns an array containing a Factorial of length n
     // Time  = O(n), Space  = O(n)
-    public static int[] factorial(int n){
+    public static int[] factorial(int n) {
         int result[];
-        if(n ==0) {
+        if (n == 0) {
             result = new int[1];
             result[0] = 1;
-        }
-        else {
+        } else {
             result = new int[n];
             result[0] = 1;
             for (int i = 1; i < n; i++) {
-                result[i] = i * result[i-1];
+                result[i] = i * result[i - 1];
             }
         }
         return result;
     }
+
     //Print nth Factorial number. Time  = O(n), space = (1)
-    public static int factorial1(int n){
+    public static int factorial1(int n) {
         int b = 1, c = 1;
-        if(n ==0 || n == 1) {
-            return  b;
-        }
-        else {
+        if (n == 0 || n == 1) {
+            return b;
+        } else {
             for (int i = 2; i <= n; i++) {
                 b = i * c;
                 c = b;
@@ -95,6 +95,7 @@ public class Numbers {
         if (y % 2 == 0) return temp * temp;
         else return x * temp * temp;
     }
+
     /* Extended version of power function that can work for float x and negative y*/
     float power(float x, int y) {
         float temp;
@@ -106,6 +107,7 @@ public class Numbers {
             else return (temp * temp) / x;
         }
     }
+
     //Implement decimal to roman and vice versa
     public int romanToInt(String s) {
         Map<Character, Integer> romans = new HashMap<Character, Integer>();
@@ -116,18 +118,19 @@ public class Numbers {
         romans.put('C', 100);
         romans.put('D', 500);
         romans.put('M', 1000);
-        int intNum=0;
+        int intNum = 0;
         int prev = 0;
-        for(int i = s.length()-1; i>=0 ; i--){
+        for (int i = s.length() - 1; i >= 0; i--) {
             int temp = romans.get(s.charAt(i));
-            if(temp < prev)
-                intNum-=temp;
+            if (temp < prev)
+                intNum -= temp;
             else
-                intNum+=temp;
+                intNum += temp;
             prev = temp;
         }
         return intNum;
     }
+
     public static String IntegerToRomanNumeral(int input) {
         if (input < 1 || input > 3999) return "Invalid Roman Number Value";
         String s = "";
@@ -185,23 +188,27 @@ public class Numbers {
         }
         return s;
     }
+
     // Find K Nearest points on a plane O(nlogk)
     //E.g. Stored: (0, 1) (0, 2) (0, 3) (0, 4) (0, 5) findNearest(new Point(0, 0), 3) -> (0, 1), (0, 2), (0, 3)
     class Point implements Comparable<Point> {
         int x, y;
         Double distance;
-        public Point (int x, int y, Point original) {
-            this.x= x;
+
+        public Point(int x, int y, Point original) {
+            this.x = x;
             this.y = y;
 
             // sqrt(x^2 + y^2)
             distance = Math.hypot(x - original.x, y - original.y);
         }
+
         @Override
         public int compareTo(Point that) {
             return this.distance.compareTo(that.distance);
         }
     }
+
     public List<Point> findKNearestPoints(List<Point> points, Point original, int k) {
         List<Point> result = new ArrayList<>();
         if (points == null || points.size() == 0 || original == null || k <= 0) {
@@ -221,15 +228,16 @@ public class Numbers {
         result.addAll(pq);
         return result;
     }
+
     // K nearest points using selection algorithm. Time = O(n) but worst can be O(n^2)
     // better to use Median of medians selection algorithm
-    public static List<Point>  findKNearestPointsSelection(final Point points[], final int k) {
+    public static List<Point> findKNearestPointsSelection(final Point points[], final int k) {
         final int n = points.length;
         final double[] dist = new double[n];
         for (int i = 0; i < n; i++) {
             dist[i] = Math.sqrt(points[i].x * points[i].x + points[i].y * points[i].y);
         }
-        final double kthMin = kthSmallest(dist, 0, n - 1, k-1);
+        final double kthMin = kthSmallest(dist, 0, n - 1, k - 1);
         List<Point> result = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             final double d = Math.sqrt(points[i].x * points[i].x + points[i].y * points[i].y);
@@ -239,29 +247,29 @@ public class Numbers {
         }
         return result;
     }
+
     //Median Of Medians worst case time O(n)
-    public static double MedianOfMediansSelect(double[] A, int low, int high, int k){
-        if(high - low + 1 <= 5)
-        {
-            Arrays.sort(A,low,high);
+    public static double MedianOfMediansSelect(double[] A, int low, int high, int k) {
+        if (high - low + 1 <= 5) {
+            Arrays.sort(A, low, high);
             return A[low + k - 1];
         }
         int noOfGroups = (high - low + 1) / 5;
         double[] medianArray = new double[noOfGroups];
-        for(int i = 0; i < noOfGroups; i++)
-        {
+        for (int i = 0; i < noOfGroups; i++) {
             medianArray[i] = MedianOfMediansSelect(A, low + i * 5, low + (i * 5) + 4, 3);
         }
         double medianOfMedians = MedianOfMediansSelect(medianArray, 0, medianArray.length - 1, noOfGroups / 2 + 1);
         //swap(A, medianOfMedians, high);
-        int medianOfMediansPosition = partition1(A, low, high,medianOfMedians);
-        if(medianOfMediansPosition - low + 1 == k)
+        int medianOfMediansPosition = partition1(A, low, high, medianOfMedians);
+        if (medianOfMediansPosition - low + 1 == k)
             return A[low + k - 1];
-        else if(k < medianOfMediansPosition -low + 1)
+        else if (k < medianOfMediansPosition - low + 1)
             return MedianOfMediansSelect(A, low, medianOfMediansPosition - 1, k);
         else
             return MedianOfMediansSelect(A, medianOfMediansPosition + 1, high, k - (medianOfMediansPosition - low + 1));
     }
+
     // kth smallest element in unsorted array
     public static double kthSmallest(double[] G, int first, int last, int k) {
         if (first <= last) {
@@ -276,12 +284,14 @@ public class Numbers {
         }
         return 0;
     }
+
     // Picks a random pivot element between l and r and partitions
-    public static int randomPartition(double arr[], int l, int r){
+    public static int randomPartition(double arr[], int l, int r) {
         int pivot = (int) Math.round(l + Math.random() * (r - l));
         swap(arr, pivot, r);
         return partition(arr, l, r);
     }
+
     public static int partition(double[] G, int first, int last) {
         double pivot = G[last];
         int pIndex = first;
@@ -294,13 +304,14 @@ public class Numbers {
         swap(G, pIndex, last);
         return pIndex;
     }
+
     public static int partition1(double[] G, int first, int last, double pivot) {
         int i;
-        for ( i = first; i < last; i++) {
-            if(G[i] == pivot)
+        for (i = first; i < last; i++) {
+            if (G[i] == pivot)
                 break;
         }
-        swap(G,i,last-1);
+        swap(G, i, last - 1);
         i = first;
         int pIndex = first;
         for (i = first; i < last; i++) {
@@ -309,14 +320,16 @@ public class Numbers {
                 pIndex++;
             }
         }
-        swap(G,pIndex,last-1);
+        swap(G, pIndex, last - 1);
         return pIndex;
     }
+
     private static void swap(double[] G, int x, int y) {
         double temp = G[y];
         G[y] = G[x];
         G[x] = temp;
     }
+
     //Calculate the angle between hour hand and minute hand
     int calcAngle(int h, int m) {
         if (h < 0 || m < 0 || h > 12 || m > 60) System.out.print("Wrong input");
@@ -330,6 +343,7 @@ public class Numbers {
         angle = Math.min(360 - angle, angle);
         return angle;
     }
+
     //Returns true if the input string is a number and false otherwise
     public static boolean isNumber(String toTest) {
         boolean flag = false;
@@ -338,13 +352,22 @@ public class Numbers {
         flag = toTest.matches(pattern);
         return flag;
     }
+
     /*Given a nested list of integers, returns the sum of all integers in the list weighted by their depth
     * For example, given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1)
     * Given the list {1,{4,{6}}} the function should return 27 (one 1 at depth 1, one 4 at depth 2, one 6 at depth2)*/
-    class NestedInteger{
-        boolean isInteger(){return true;}
-        int getInteger(){return 1;}
-        List<NestedInteger> getList(){return new ArrayList<NestedInteger>();}
+    class NestedInteger {
+        boolean isInteger() {
+            return true;
+        }
+
+        int getInteger() {
+            return 1;
+        }
+
+        List<NestedInteger> getList() {
+            return new ArrayList<NestedInteger>();
+        }
     }
 
     private int getListSum(List<NestedInteger> lni, int depth) {
@@ -355,10 +378,12 @@ public class Numbers {
         }
         return sum;
     }
+
     public int getSum(NestedInteger ni) {
         if (ni.isInteger()) return ni.getInteger();
         else return getListSum(ni.getList(), 1);
     }
+
     //Squareroot of a Number - O(logN)
     //2^0.5logN
     private int sqrt(int num) {
@@ -377,6 +402,7 @@ public class Numbers {
         }
         return low;
     }
+
     //In "the 100 game," two players take turns adding, to a running total, any integer from 1..10.
     // The player who first causes the running total to reach or exceed 100 wins.
     boolean canIWin(int maxChoosableInteger, int desiredTotal) {
@@ -387,6 +413,7 @@ public class Numbers {
         }
         return canWin(numbers, desiredTotal, sum);
     }
+
     boolean canWin(int numbers[], int desiredTotal, int sum) {
         for (int i = 0; i < numbers.length; i++) {
             int temp = sum + numbers[i];
@@ -397,6 +424,7 @@ public class Numbers {
         if (sum >= 100) return true;
         return false;
     }
+
     // Given a stream of unsorted integers, find the median element in sorted order at any given time.
     int numOfElements = 0;
     PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>();
@@ -406,6 +434,7 @@ public class Numbers {
             return o2 - o1;
         }
     });
+
     public void addNumberToStream(Integer num) {
         maxHeap.add(num);
         if (numOfElements % 2 == 0) {
@@ -423,10 +452,12 @@ public class Numbers {
         }
         numOfElements++;
     }
+
     public Double getMedian() {
         if (numOfElements % 2 != 0) return new Double(maxHeap.peek());
         else return (maxHeap.peek() + minHeap.peek()) / 2.0;
     }
+
     // Returns the maximum value that can be put in a knapsack of capacity W
     int knapSack(int W, int wt[], int val[], int n) {
         int i, j;
@@ -517,22 +548,37 @@ public class Numbers {
         }
         return res;
     }
+
     //for stream of collections items
-    public static <T> List<T> reservoirSample(Iterable<T> items, int m){
+    public static <T> List<T> reservoirSample(Iterable<T> items, int m) {
         ArrayList<T> res = new ArrayList<>(m);
         Random rnd = new Random();
         int count = 0;
-        for(T item : items){
+        for (T item : items) {
             count++;
             if (count <= m)
                 res.add(item);
-            else{
+            else {
                 int r = rnd.nextInt(count);
                 if (r < m)
                     res.set(r, item);
             }
         }
         return res;
+    }
+
+    //Write a function that returns values randomly, according to their weight.
+    public static String RandomByWeight(List<String> input, HashMap<String, Integer> weightFunc) {
+        int totalWeight = 0; // this stores sum of weights of all elements before current
+        String selected = input.get(0); // currently selected element
+        for (String data : input) {
+            int weight = weightFunc.get(data); // weight of current element
+            int r = (int) (Math.random() * (totalWeight + weight)); // random value
+            if (r >= totalWeight) // probability of this is weight/(totalWeight+weight)
+                selected = data; // it is the probability of discarding last selected element and selecting current one instead
+            totalWeight += weight; // increase weight sum
+        }
+        return selected; // when iterations end, selected is some element of sequence.
     }
 }
 
