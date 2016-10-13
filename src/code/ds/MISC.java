@@ -1084,8 +1084,7 @@ public class MISC {
         }
         public void Delete(String key) {
             index = _map.get(key).get(1);
-            // swap array index elements with the last element, so delete can done in O(1)
-            String temp = arr.get(index);
+            //copy last element at array index and remove last element, so delete can done in O(1)
             arr.set(index, arr.get(size - 1));
             arr.remove(size - 1 );
             size--;
@@ -1103,7 +1102,7 @@ public class MISC {
         }
     }
 
-    //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without paranthesis
+    //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without parenthesis
     //[Token(NUM, -4.), Token(SUB), Token(NUM, 3), Token(MUL)…]
     class Token {
         String type;
