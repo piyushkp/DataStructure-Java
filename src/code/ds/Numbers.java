@@ -566,7 +566,6 @@ public class Numbers {
         }
         return res;
     }
-
     //Write a function that returns values randomly, according to their weight.
     public static String RandomByWeight(List<String> input, HashMap<String, Integer> weightFunc) {
         int totalWeight = 0; // this stores sum of weights of all elements before current
