@@ -2515,6 +2515,7 @@ public class Array {
     }
     //input a list of array [[1, 2, 3], [1], [1, 2]] return the list of array, each array is a combination of one element in each array.
     //[[1, 1, 1], [1, 1, 2], [2, 1, 1], [2, 1, 2], [3, 1, 1], [3, 1, 2]] Time = O(k^n) where k = max array size and n is list size
+    // Recursive is non-efficient solution. please see the Iterative one below.
     static void printCombination(List<int[]> input){
         int n = input.size();
         List<Integer> result = new ArrayList<>();
