@@ -10,7 +10,14 @@ public class Numbers {
         //System.out.println(fib1(3));
         double[] a = {88, 30, 11, 17, 22, 16, 39, 8, 31, 55,
                 29, 63, 77, 69, 99, 90, 81, 2, 20, 53, 62, 5, 88, 33, 44, 6};
-        System.out.println(MedianOfMediansSelect(a,0,a.length,7));
+        //System.out.println(MedianOfMediansSelect(a,0,a.length,7));
+        List<String> list = new LinkedList<>();
+        list.add("piyush");
+        list.add("piya");
+        list.add("test");
+        list.add("vyom");
+
+        randomSample(list, 2);
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -493,6 +500,39 @@ public class Numbers {
             sb.append(rem);
         }
         return sb.reverse().toString();
+    }
+
+    //getting a random items from a collection in constant time
+    public static <T> Set<T> randomSample(List<T> items, int m) {
+        Random rnd = new Random();
+        HashSet<T> res = new HashSet<>(m);
+        int n = items.size();
+        for (int i = n - m; i < n; i++) {
+            int pos = rnd.nextInt(i + 1);
+            T item = items.get(pos);
+            if (res.contains(item))
+                res.add(items.get(i));
+            else
+                res.add(item);
+        }
+        return res;
+    }
+    //for stream of collections items
+    public static <T> List<T> reservoirSample(Iterable<T> items, int m){
+        ArrayList<T> res = new ArrayList<>(m);
+        Random rnd = new Random();
+        int count = 0;
+        for(T item : items){
+            count++;
+            if (count <= m)
+                res.add(item);
+            else{
+                int r = rnd.nextInt(count);
+                if (r < m)
+                    res.set(r, item);
+            }
+        }
+        return res;
     }
 }
 

@@ -1065,17 +1065,19 @@ public class MISC {
 
     //Implement data structure “Map” storing pairs of integers (key, value) and define following member functions in O(1)
     //runtime: void insert(key, value), void delete(key), int get(key), int getRandomKey().
-    class Map1 {
+    class CustomMap {
         HashMap<String, List<Integer>> _map = new HashMap<>();
         ArrayList<String> arr = new ArrayList<>();
         int index;
+        int size;
         public void Insert(String key, int value) {
-            index = arr.size();
+            index = size;
             List<Integer> temp = new ArrayList<>();
             temp.add(value);
             temp.add(index);
             _map.put(key, temp);
             arr.add(index, key);
+            size++;
         }
         public int Get(String key) {
             return _map.get(key).get(0);
@@ -1084,16 +1086,20 @@ public class MISC {
             index = _map.get(key).get(1);
             // swap array index elements with the last element, so delete can done in O(1)
             String temp = arr.get(index);
-            arr.set(index, arr.get(arr.size()));
-            arr.remove(arr.size());
+            arr.set(index, arr.get(size - 1));
+            arr.remove(size - 1 );
+            size--;
             //delete from the map
             _map.remove(key);
             //update the index of the swapped key
             _map.get(arr.get(index)).set(1, index);
         }
         public String GetRandomKey() {
-            int r = (int) (Math.random() % arr.size());
+            int r = (int) (Math.random() * size + 1);
             return arr.get(r);
+        }
+        public void clear() {
+            size = 0;
         }
     }
 
