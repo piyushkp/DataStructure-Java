@@ -13,8 +13,18 @@ import java.lang.*;
  */
 public class Array {
     public static void main(String [] args) {
-        int arr[] = {3,2,5,10,7};
-        System.out.println(FindMaxSumNonAdjacent(arr));
+        //int arr[] = {3,2,5,10,7};
+        //System.out.println(FindMaxSumNonAdjacent(arr));
+        List<Integer> a1 = Arrays.asList(1,2,3);
+        List<Integer> a2 = Arrays.asList(1);
+        List<Integer> a3 = Arrays.asList(1,2);
+
+        List<List<Integer>> list = new ArrayList<>();
+        list.add(a1);
+        list.add(a2);
+        list.add(a3);
+        //printCombination(list);
+        getCombinations(list);
 
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
@@ -2503,4 +2513,52 @@ public class Array {
         /* return max of incl and excl */
         return Math.max(incl, excl);
     }
+    //input a list of array [[1, 2, 3], [1], [1, 2]] return the list of array, each array is a combination of one element in each array.
+    //[[1, 1, 1], [1, 1, 2], [2, 1, 1], [2, 1, 2], [3, 1, 1], [3, 1, 2]] Time = O(k^n) where k = max array size and n is list size
+    static void printCombination(List<int[]> input){
+        int n = input.size();
+        List<Integer> result = new ArrayList<>();
+        combinationUtil(input, result, 0, "");
+        for(Integer num : result)
+            System.out.println(num);
+    }
+    static void combinationUtil(List<int[]> arr, List<Integer> result,int level, String current){
+        if(level == arr.size()){
+            result.add(Integer.parseInt(current));
+            return;
+        }
+        for(int i = 0; i < arr.get(level).length; ++i){
+            combinationUtil(arr, result, level + 1, current + arr.get(level)[i]);
+        }
+    }
+    //Followup: each array in the input list is an iterator, which can only be looped once.
+    //Time = O(N*M^2) where N is number of arrays and M is average length of array elements.
+    public static <T> List<List<T>> getCombinations(List<List<T>> inputs) {
+        List<List<T>> ouput = new ArrayList<List<T>>();
+        List<List<T>> tempOuput;
+        int index = 0;
+        //extract each of the integers in the first list and add each to ints as a new list
+        for(T i: inputs.get(0)) {
+            List<T> newList = new ArrayList<T>();
+            newList.add(i);
+            ouput.add(newList);
+        }
+        index++;
+        while(index < inputs.size()) {
+            List<T> nextList = inputs.get(index);
+            tempOuput = new ArrayList<List<T>>();
+            for(List<T> first: ouput) {
+                for(T second: nextList) {
+                    List<T> tempList = new ArrayList<T>();
+                    tempList.addAll(first);
+                    tempList.add(second);
+                    tempOuput.add(tempList);
+                }
+            }
+            ouput = tempOuput;
+            index++;
+        }
+        return ouput;
+    }
+
 }
