@@ -12,10 +12,11 @@ public class StringImp {
         //System.out.print("String");
         //char set1[] = {'a', 'b', 'c'};
         //printAllKLength(set1,3);
-        System.out.print(minSubString("ADOBECODEBANC","ABC"));
+        System.out.print(minSubString("ADOBECODEBANC", "ABC"));
         //permute(str);
     }
-   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
+
+    /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
     static void compressString(String s) {
         char[] string = s.toCharArray();
         if (string.length == 0) return;
@@ -32,20 +33,22 @@ public class StringImp {
         }
         System.out.printf("%c%d", first, count);
     }
+
     public static String encode(String source) {
         StringBuffer dest = new StringBuffer();
         for (int i = 0; i < source.length(); i++) {
             int runLength = 1;
-            while (i+1 < source.length() && source.charAt(i) == source.charAt(i+1)) {
+            while (i + 1 < source.length() && source.charAt(i) == source.charAt(i + 1)) {
                 runLength++;
                 i++;
             }
-            if(runLength >=3)
+            if (runLength >= 3)
                 dest.append(runLength);
             dest.append(source.charAt(i));
         }
         return dest.toString();
     }
+
     public static String decode(String source) {
         StringBuffer dest = new StringBuffer();
         Pattern pattern = Pattern.compile("[0-9]+|[a-zA-Z]");
@@ -59,6 +62,7 @@ public class StringImp {
         }
         return dest.toString();
     }
+
     //Finds first non repeated character in a String in just one pass. more space but in one pass
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
@@ -75,6 +79,7 @@ public class StringImp {
         }
         return nonrepeating.get(0);
     }
+
     //Return maximum occurring character in the input string
     public static void getMaxRepeatedChar(String txt) {
         if ((txt != null)) {
@@ -100,6 +105,7 @@ public class StringImp {
             System.out.print("Most Repeated character : " + maxCh + " and Count : " + maxCnt);
         }
     }
+
     //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
     //{(abc)22}[14(xyz)2] should pass
     static boolean isBalanced(String input) {
@@ -115,20 +121,28 @@ public class StringImp {
         }
         return stack.isEmpty();
     }
+
     private static boolean isOpeningBracket(char c) {
         return "({[".indexOf(c) > -1;
     }
+
     private static boolean isClosingBracket(char c) {
         return ")}]".indexOf(c) > -1;
     }
+
     private static boolean isMatchingBrackets(char opening, char closing) {
         switch (opening) {
-            case '(': return closing == ')';
-            case '{': return closing == '}';
-            case '[': return closing == ']';
-            default: return false;
+            case '(':
+                return closing == ')';
+            case '{':
+                return closing == '}';
+            case '[':
+                return closing == ']';
+            default:
+                return false;
         }
     }
+
     //Given two strings str1 and str2 and below operations that can performed on str1. Find minimum number of edits
     //(operations) required to convert ‘str1′ into ‘str2′. Edit Distance problem/Levenshtein distance
     //Input:   str1 = "geek", str2 = "gesek"     Output:  1
@@ -136,11 +150,11 @@ public class StringImp {
     //Time Complexity: O(m x n)     Auxiliary Space: O(m x n)
     int editDistDP(String str1, String str2, int m, int n) {
         // Create a table to store results of subproblems
-        int dp[][] = new int[m+1][n+1];
-        if (n == 0){
+        int dp[][] = new int[m + 1][n + 1];
+        if (n == 0) {
             return m;
         }
-        if (m == 0){
+        if (m == 0) {
             return n;
         }
         for (int i = 0; i <= m; i++)
@@ -148,21 +162,22 @@ public class StringImp {
         for (int j = 0; j <= n; j++)
             dp[0][j] = j;
         // d[i][j] = edit distance between word1[0..(i-1)] and word2[0..(j-1)]
-        for (int i=1; i<=m; i++){
-            for (int j=1; j<=n; j++){
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
                 // If last characters are same, ignore last char and recur for remaining string
-                if (str1.charAt(i-1) == str2.charAt(j-1))
-                    dp[i][j] = dp[i-1][j-1];
+                if (str1.charAt(i - 1) == str2.charAt(j - 1))
+                    dp[i][j] = dp[i - 1][j - 1];
                     //If last characters are not same, consider all three operations on last character of first string,
                     //recursively compute minimum cost for all three operations and take minimum of three values.
                 else
-                    dp[i][j] = 1 + Math.min(Math.min(dp[i][j-1],  // Insert
-                                    dp[i-1][j]),  // Remove
-                            dp[i-1][j-1]); // Replace
+                    dp[i][j] = 1 + Math.min(Math.min(dp[i][j - 1],  // Insert
+                            dp[i - 1][j]),  // Remove
+                            dp[i - 1][j - 1]); // Replace
             }
         }
         return dp[m][n];
     }
+
     //Given a list of word and a target word, output all the words for each the edit distance with the target no greater than k.
     //e.g. [abc, abd, abcd, adc], target "ac", k = 1, output = [abc, adc]
     /*Naive Solution: A naive solution would be, for each word in the list, calculate the edit distance with the target
@@ -172,15 +187,19 @@ public class StringImp {
     class TrieNode {
         TrieNode[] children;
         boolean isLeaf;
+
         public TrieNode() {
             children = new TrieNode[26];
         }
     }
+
     class Trie {
         TrieNode root;
+
         public Trie() {
             root = new TrieNode();
         }
+
         // Add a word into trie
         public void add(String s) {
             if (s == null || s.length() == 0) {
@@ -199,6 +218,7 @@ public class StringImp {
             }
         }
     }
+
     public List<String> getKEditDistance(String[] words, String target, int k) {
         List<String> result = new ArrayList<String>();
         if (words == null || words.length == 0 || target == null || target.length() == 0 || k < 0) {
@@ -216,6 +236,7 @@ public class StringImp {
         getKEditDistanceHelper("", target, k, root, prev, result);
         return result;
     }
+
     private void getKEditDistanceHelper(String curr, String target, int k, TrieNode root,
                                         int[] prevDist, List<String> result) {
         if (root.isLeaf) {
@@ -243,6 +264,7 @@ public class StringImp {
                     root.children[i], currDist, result);
         }
     }
+
     //Best solution for K edit Distance using BK tree
     //spell checker / Find all words from Dictionary that are K edit distance away from target word
     //https://nullwords.wordpress.com/2013/03/13/the-bk-tree-a-data-structure-for-spell-checking/
@@ -250,17 +272,22 @@ public class StringImp {
         class Node {
             public String Word;
             final HashMap<Integer, Node> childrenByDistance = new HashMap<Integer, Node>();
+
             public Node(String word) {
                 this.Word = word;
             }
+
             public String getElement() {
                 return Word;
             }
+
             public Node getChildNode(int distance) {
                 return childrenByDistance.get(distance);
             }
         }
+
         private Node root;
+
         public void add(String element) {
             if (element == null) throw new NullPointerException();
             if (root == null) {
@@ -279,6 +306,7 @@ public class StringImp {
                 }
             }
         }
+
         public List<String> search(String query, int maxDistance) {
             if (query == null) throw new NullPointerException();
             if (maxDistance < 0) throw new IllegalArgumentException("maxDistance must be non-negative");
@@ -303,6 +331,7 @@ public class StringImp {
             }
             return matches;
         }
+
         public int LevenshteinDistance(String first, String second) {
             if (first.length() == 0) return second.length();
             if (second.length() == 0) return first.length();
@@ -325,7 +354,7 @@ public class StringImp {
 
     //Given two string s1 and s2, find if s1 can be converted to s2 with exactly one edit.
     //Time = O(m + n) space =O(1)
-    boolean isEditDistanceOne(String s1, String s2){
+    boolean isEditDistanceOne(String s1, String s2) {
         // Find lengths of given strings
         int m = s1.length(), n = s2.length();
         // If difference between lengths is more than 1, then strings can't be at one distance
@@ -333,15 +362,15 @@ public class StringImp {
             return false;
         int count = 0; // Count of edits
         int i = 0, j = 0;
-        while (i < m && j < n){
+        while (i < m && j < n) {
             // If current characters don't match
-            if (s1.charAt(i) != s2.charAt(j)){
+            if (s1.charAt(i) != s2.charAt(j)) {
                 if (count == 1)
                     return false;
                 // If length of one string is more, then only possible edit is to remove a character
                 if (m > n)
                     i++;
-                else if (m< n)
+                else if (m < n)
                     j++;
                 else {//If lengths of both strings is same
                     i++;
@@ -349,8 +378,7 @@ public class StringImp {
                 }
                 // Increment count of edits
                 count++;
-            }
-            else {// If current characters match
+            } else {// If current characters match
                 i++;
                 j++;
             }
@@ -360,16 +388,17 @@ public class StringImp {
             count++;
         return count == 1;
     }
+
     //Given a dictionary as a hashtable and a word. Find the minimum # of deletions needed on the word in order to make it a valid word in the dictionary.
     //Better approach is to use Trie. http://stackoverflow.com/questions/4868969/implementing-a-simple-trie-for-efficient-levenshtein-distance-calculation-java
-    static int numberofMinDeletion(String word, HashSet<String> dic){
+    static int numberofMinDeletion(String word, HashSet<String> dic) {
         int mindelete = word.length();
-        for (String item : dic){
+        for (String item : dic) {
             if (word == item)
                 return 0;
             else if (item.length() >= word.length())
                 continue;
-            else{
+            else {
                 mindelete = Math.min(mindelete, minDeletionToTransformWord(word, item));
             }
         }
@@ -377,26 +406,26 @@ public class StringImp {
             return -1;
         return mindelete;
     }
-    static int minDeletionToTransformWord(String s1, String s2){
+
+    static int minDeletionToTransformWord(String s1, String s2) {
         // Find lengths of given strings
         int m = s1.length(), n = s2.length();
         int count = 0; // Count of edits
         int i = 0, j = 0;
-        while (i < m && j < n){
+        while (i < m && j < n) {
             // If current characters don't match
-            if (s1.charAt(i) != s2.charAt(j)){
+            if (s1.charAt(i) != s2.charAt(j)) {
                 // If length of one string is more, then only possible edit is to remove a character
                 if (m > n)
                     i++;
                 count++;
-            }
-            else {// If current characters match
+            } else {// If current characters match
                 i++;
                 j++;
             }
         }
         // If last character is extra in word string
-        while (i < m){
+        while (i < m) {
             count++;
             i++;
         }
@@ -425,8 +454,10 @@ public class StringImp {
         }
         return null;
     }
+
     //General Solution, Time = O(n2) assuming substring is O(1)
     static Map<String, String> memoized = new HashMap<>();
+
     public static String wordBreakUsingDP(String input, Set<String> dict) {
         if (dict.contains(input)) return input;
         if (memoized.containsKey(input)) {
@@ -453,27 +484,27 @@ public class StringImp {
     //space-separated sequence of dictionary words.
     //Consider the following dictionary { i, like, sam, sung, samsung, mobile, ice,cream, icecream, man, go, mango}
     //Input:  ilike  Output: Yes The string can be segmented as "i like".
-    Boolean wordBreak(String str){
+    Boolean wordBreak(String str) {
         int size = str.length();
-        if (size == 0)   return true;
+        if (size == 0) return true;
         // Create the DP table to store results of subroblems. The value wb[i] will be true if str[0..i-1]
         // can be segmented into dictionary words, otherwise false.
-        boolean[] wb = new boolean[size+1];
+        boolean[] wb = new boolean[size + 1];
         wb[0] = false; // Initialize all values as false.
-        for (int i=1; i<=size; i++){
+        for (int i = 1; i <= size; i++) {
             // if wb[i] is false, then check if current prefix can make it true.
             // Current prefix is "str.substr(0, i)"
-            if (wb[i] == false && dictionaryContains( str.substring(0, i) ))
+            if (wb[i] == false && dictionaryContains(str.substring(0, i)))
                 wb[i] = true;
             // wb[i] is true, then check for all substrings starting from (i+1)th character and store their results.
-            if (wb[i] == true){
+            if (wb[i] == true) {
                 // If we reached the last prefix
                 if (i == size)
                     return true;
-                for (int j = i+1; j <= size; j++){
+                for (int j = i + 1; j <= size; j++) {
                     //Update wb[j] if it is false and can be updated Note the parameter passed to dictionaryContains() is
                     //substring starting from index 'i' and length 'j-i'
-                    if (wb[j] == false && dictionaryContains( str.substring(i, j-i) ))
+                    if (wb[j] == false && dictionaryContains(str.substring(i, j - i)))
                         wb[j] = true;
                     //If we reached the last character
                     if (j == size && wb[j] == true)
@@ -484,36 +515,39 @@ public class StringImp {
         // If we have tried all prefixes and none of them worked
         return false;
     }
+
     /*A utility function to check whether a word is present in dictionary or not.An array of strings is used for
      dictionary.Using array of strings for dictionary is definitely not a good idea. We have used for simplicity of
     the program*/
-    Boolean dictionaryContains(String word){
-        String dictionary[] = {"mobile","samsung","sam","sung","man","mango","icecream","and","go","i","like","ice","cream"};
+    Boolean dictionaryContains(String word) {
+        String dictionary[] = {"mobile", "samsung", "sam", "sung", "man", "mango", "icecream", "and", "go", "i", "like", "ice", "cream"};
         for (int i = 0; i < dictionary.length; i++)
             if (dictionary[i].compareTo(word) == 0)
                 return true;
         return false;
     }
+
     //Given two sequences, find the length of longest common subsequence present in both of them.
     // Time  O(mn)
-    int lcs( char []X, char []Y, int m, int n ){
-        int L[][] = new int [m+1][n+1];
+    int lcs(char[] X, char[] Y, int m, int n) {
+        int L[][] = new int[m + 1][n + 1];
         int i, j;
    /* Following steps build L[m+1][n+1] in bottom up fashion. Note
       that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1] */
-        for (i=0; i<=m; i++){
-            for (j=0; j<=n; j++){
+        for (i = 0; i <= m; i++) {
+            for (j = 0; j <= n; j++) {
                 if (i == 0 || j == 0)
                     L[i][j] = 0;
-                else if (X[i-1] == Y[j-1])
-                    L[i][j] = L[i-1][j-1] + 1;
+                else if (X[i - 1] == Y[j - 1])
+                    L[i][j] = L[i - 1][j - 1] + 1;
                 else
-                    L[i][j] = Math.max(L[i-1][j], L[i][j-1]);
+                    L[i][j] = Math.max(L[i - 1][j], L[i][j - 1]);
             }
         }
    /* L[m][n] contains length of LCS for X[0..n-1] and Y[0..m-1] */
         return L[m][n];
     }
+
     //give you two strings S and T, find the shortest string in S which contains all the characters in T
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
     public static String minSubString(String s, String t) {
@@ -574,16 +608,17 @@ public class StringImp {
         }
         return s.substring(minStart, minEnd + 1);
     }
+
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
         Set<Character> uniqueSet = new HashSet<Character>();
         int maxSize = 0;
         int start = 0;
-        for(int i = 0; i < s.length(); i++) {
-            if(!uniqueSet.contains(s.charAt(i))) {
+        for (int i = 0; i < s.length(); i++) {
+            if (!uniqueSet.contains(s.charAt(i))) {
                 uniqueSet.add(s.charAt(i));
-                if(uniqueSet.size() > maxSize) {
+                if (uniqueSet.size() > maxSize) {
                     maxSize = uniqueSet.size();
                 }
             } else {
@@ -596,6 +631,7 @@ public class StringImp {
         }
         return maxSize;
     }
+
     //Given a string, find the length of the longest substring T that contains at most k distinct characters.
     //For example, Given s = “eceba” and k = 2,
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
@@ -612,7 +648,7 @@ public class StringImp {
                 if (ascii[ch] == 0) {
                     count++;
                 }
-            } else if (ascii[ch] == 0){
+            } else if (ascii[ch] == 0) {
                 while (start < i) {
                     char ch1 = s.charAt(start);
                     ascii[ch1]--;
@@ -634,7 +670,7 @@ public class StringImp {
     //Input String: "ABCABCA" repeated sub-string length: 2 Output: AB, BC, CA
     public static void lrs(String s, int sequenceLength) {
         // form the N suffixes
-        int N  = s.length();
+        int N = s.length();
         String[] suffixes = new String[N];
         for (int i = 0; i < N; i++) {
             suffixes[i] = s.substring(i, N);
@@ -644,19 +680,21 @@ public class StringImp {
         // find longest repeated substring by comparing adjacent sorted suffixes
         String lrs = "";
         for (int i = 0; i < N - 1; i++) {
-            String x = lrsUtil(suffixes[i], suffixes[i+1], sequenceLength);
+            String x = lrsUtil(suffixes[i], suffixes[i + 1], sequenceLength);
             if (x.length() == sequenceLength)
                 System.out.println(x);
         }
     }
+
     public static String lrsUtil(String s, String t, int sequenceLength) {
         int n = Math.min(s.length(), t.length());
-        if(n >= sequenceLength) {
+        if (n >= sequenceLength) {
             if (s.substring(0, sequenceLength) == t.substring(0, sequenceLength))
                 return s.substring(0, sequenceLength);
         }
         return "";
     }
+
     //Run of length: count the number of individual occurrences of repeated letters
     //i.e aa.aa = 1 , Bookkeepers are cool = 4 , WoooooW = 1
     public static int count_runs(String target) {
@@ -675,6 +713,7 @@ public class StringImp {
         }
         return rpt;
     }
+
     //Remove duplicate characters in a given string keeping only the first occurrences.
     private String removeDuplicate(String s) {
         if (s == null) return null;
@@ -689,24 +728,26 @@ public class StringImp {
         }
         return result.toString();
     }
+
     //Remove duplicate with O(n) and no space. It can also be used to find whether all chars are unique or not
-    public static void RemoveDuplicates(char[] str){
+    public static void RemoveDuplicates(char[] str) {
         int check = 0;
-        for(int i = 0; i < str.length; i++){
+        for (int i = 0; i < str.length; i++) {
             int val = str[i] - 'a';
-            if((check & (1 << val)) > 0){
+            if ((check & (1 << val)) > 0) {
                 str[i] = '\0';
                 continue;
             }
             check = check | (1 << val);
         }
-        for(int j = 0; j < str.length; j++){
-            if(str[j] == '\0')
+        for (int j = 0; j < str.length; j++) {
+            if (str[j] == '\0')
                 continue;
             else
                 System.out.print(str[j]);
         }
     }
+
     //Permutations of the string
     public static void permute(String str) {
         int length = str.length();
@@ -715,6 +756,7 @@ public class StringImp {
         char[] in = str.toCharArray();
         doPermute(in, out, used, length, 0);
     }
+
     static void doPermute(char[] in, StringBuffer out, boolean[] used, int length, int level) {
         if (level == length) {
             System.out.println(out.toString());
@@ -729,6 +771,7 @@ public class StringImp {
             out.setLength(out.length() - 1);
         }
     }
+
     //combination of the string
     static void combine(String str) {
         int length = str.length();
@@ -736,6 +779,7 @@ public class StringImp {
         StringBuilder outstr = new StringBuilder();
         doCombine(instr, outstr, length, 0, 0);
     }
+
     static void doCombine(char[] instr, StringBuilder outstr, int length, int level, int start) {
         for (int i = start; i < length; i++) {
             outstr.append(instr[i]);
@@ -746,6 +790,7 @@ public class StringImp {
             outstr.setLength(outstr.length() - 1);
         }
     }
+
     //Print all possible strings of length k that can be formed from a set of 'a','b','c', where there can only be a
     //maximum of 1 'b's and can only have up to two consecutive 'c's.
     //Time  = O(n^k)
@@ -753,7 +798,9 @@ public class StringImp {
         int n = set.length;
         System.out.print(printAllKLengthRec(set, "", n, k));
     }
+
     static int count = 0;
+
     public static int printAllKLengthRec(char set[], String prefix, int n, int k) {
         // Base case: k is 0, print prefix
         if (k == 0) {
@@ -764,7 +811,7 @@ public class StringImp {
         // One by one add all characters from set and recursively call for k equals to k-1
         for (int i = 0; i < n; ++i) {
             // Next character of input added
-            if(!(prefix.contains("b") && set[i] == 'b') &&
+            if (!(prefix.contains("b") && set[i] == 'b') &&
                     !((prefix.substring(Math.max(prefix.length() - 2, 0)).equals("cc")) && set[i] == 'c')) {
                 String newPrefix = prefix + set[i];
                 // k is decreased, because we have added a new character
@@ -773,6 +820,7 @@ public class StringImp {
         }
         return count;
     }
+
     //Given two (dictionary) words as Strings, determine if they are isomorphic. given "foo", "app"; returns true
     //given "turtle", "tletur"; returns true
     //Ordered only i.e. ofo won't map to app encoding would be 010 and 011
@@ -797,30 +845,34 @@ public class StringImp {
             return encodingString1.toString().equals(encodingString2.toString());
         }
     }
+
     /* Input pair can be considered in any order. For e.g. "A B C D A" - Min distance between A and D is 1. With order
      * preserved it would have been 3.*/
     HashMap<String, List<Integer>> _map = new HashMap<String, List<Integer>>();
-    public void WordDistanceFinder (List<String> words) {
-        for (int i = 0; i <words.size() ; i++) {
-            if(!_map.containsKey(words.get(i))) {
+
+    public void WordDistanceFinder(List<String> words) {
+        for (int i = 0; i < words.size(); i++) {
+            if (!_map.containsKey(words.get(i))) {
                 _map.put(words.get(i), new LinkedList<Integer>());
             }
             _map.get(words.get(i)).add(i);
         }
     }
-    public int distance (String wordOne, String wordTwo) {
-        if(!_map.containsKey(wordOne) || !_map.containsKey(wordTwo))
+
+    public int distance(String wordOne, String wordTwo) {
+        if (!_map.containsKey(wordOne) || !_map.containsKey(wordTwo))
             return -1;
-        if(wordOne.equals(wordTwo))
+        if (wordOne.equals(wordTwo))
             return 0;
         int _minDistance = Integer.MAX_VALUE;
-        for(int i : _map.get(wordOne)){
-            for(int j : _map.get(wordTwo)){
-                _minDistance = Math.min(_minDistance,Math.abs(i-j));
+        for (int i : _map.get(wordOne)) {
+            for (int j : _map.get(wordTwo)) {
+                _minDistance = Math.min(_minDistance, Math.abs(i - j));
             }
         }
         return _minDistance;
     }
+
     // Check whether two strings are anagram  or not
     // For example, “abcd” and “dabc” are anagram of each other.
     private boolean areAnagram(String s1, String s2) {
@@ -844,6 +896,7 @@ public class StringImp {
         }
         return true;
     }
+
     //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints
     //all occurrences of pat[] and its permutations (or anagrams) in txt[].
     //Find if the given string contains an anagram of another smaller string.
@@ -868,17 +921,19 @@ public class StringImp {
             System.out.print("Found at Index " + num);
         return list;
     }
+
     private static boolean matchCount(int[] a, int[] b) {
         for (int i = 0; i < a.length; i++)
             if (a[i] != b[i])
                 return false;
         return true;
     }
+
     //Given an array of words, print all anagrams together. For example, if the given array is
     // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
-    static void printAnagramsUtil(String[] input){
+    static void printAnagramsUtil(String[] input) {
         HashMap<String, List<Integer>> map = new HashMap<String, List<Integer>>();
-        for (int i = 0; i <input.length; i++) {
+        for (int i = 0; i < input.length; i++) {
             char[] content = input[i].toCharArray();
             Arrays.sort(content);
             String key = new String(content);
@@ -887,7 +942,7 @@ public class StringImp {
             }
             map.get(key).add(i);
         }
-        for(String cur:map.keySet()) {
+        for (String cur : map.keySet()) {
             if (map.get(cur).size() > 1) {
                 for (int i = 0; i < map.get(cur).size(); i++)
                     System.out.print(input[map.get(cur).get(i)] + " ");
@@ -895,18 +950,19 @@ public class StringImp {
             }
         }
     }
+
     //reverse the string
-    private static String ReverseString(String str){
+    private static String ReverseString(String str) {
         char[] inputstream = str.toCharArray();
         int length = str.length() - 1;
-        for (int i =0; i < length; i++, length--)
-        {
+        for (int i = 0; i < length; i++, length--) {
             inputstream[i] ^= inputstream[length];
             inputstream[length] ^= inputstream[i];
             inputstream[i] ^= inputstream[length];
         }
         return new String(inputstream);
     }
+
     //Reverse words in a string
     public static String reverseWords(String sentence) {
         StringBuilder sb = new StringBuilder(sentence.length() + 1);
@@ -917,6 +973,7 @@ public class StringImp {
         sb.setLength(sb.length() - 1);  // Strip trailing space
         return sb.toString();
     }
+
     //Revesre words in a string
     public static char[] reverseWords() {
         // reverse the string
@@ -943,6 +1000,7 @@ public class StringImp {
         reverse(arr, wordIdx, wordMidIdx, arr.length);
         return arr;
     }
+
     private static void reverse(char[] arr, int wordIdx, int wordMidIdx,
                                 int wordLastIdx) {
         for (; wordIdx < wordMidIdx; wordIdx++) {
@@ -953,6 +1011,7 @@ public class StringImp {
             wordLastIdx--;
         }
     }
+
     //find count of common characters presented in an array of strings or array of character arrays
     private void CountOfCommonCharacters(String s, String S1, String S2) {
         char[] _chars = s.toCharArray();
@@ -964,6 +1023,7 @@ public class StringImp {
         for (String string : _set)
             System.out.println(string);
     }
+
     //word wrap
     void wrapthis(String para, int w) {
         String c[] = para.split(" ");
@@ -1031,6 +1091,7 @@ public class StringImp {
             }
         }
     }
+
     //Return the smallest character that is strictly larger than the search character,
     //If no such character exists, return the smallest character in the array
     //given sorted list of letters, sorted in ascending order
@@ -1038,9 +1099,9 @@ public class StringImp {
     public char smallest_character(String str, char c) {
         int l = 0, r = str.length() - 1;
         char ret = str.charAt(0);
-        while(l <= r) {
-            int m = l + (r-l) / 2;
-            if(str.charAt(m) > c) {
+        while (l <= r) {
+            int m = l + (r - l) / 2;
+            if (str.charAt(m) > c) {
                 ret = str.charAt(m);
                 r = m - 1;
             } else {
@@ -1049,6 +1110,7 @@ public class StringImp {
         }
         return ret;
     }
+
     //Given a sorted array of strings which is interspersed with empty strings, write a method to find the location of
     //a given string.
     //input = stringList = {"apple", "", "", "banana", "", "", "", "carrot", "duck", "", "", "eel", "", "flower"}
@@ -1090,8 +1152,8 @@ public class StringImp {
     //Better algorithm in linear time Manacher’s Algorithm
     // Input = “abcbabcbabcba” output = “abcbabcba”
     public static String LongestPalindromeImprove(String s) {
-        s +="^" + ReverseString(s);
-        int N  = s.length();
+        s += "^" + ReverseString(s);
+        int N = s.length();
         String[] suffixes = new String[N];
         for (int i = 0; i < N; i++) {
             suffixes[i] = s.substring(i, N);
@@ -1102,19 +1164,20 @@ public class StringImp {
         int max = Integer.MIN_VALUE;
         java.util.HashMap<String, Integer> map = new HashMap<String, Integer>();
         for (int i = 0; i < N - 1; i++) {
-            int x = lcp(suffixes[i], suffixes[i+1]);
-            String key = suffixes[i].substring(0,x);
+            int x = lcp(suffixes[i], suffixes[i + 1]);
+            String key = suffixes[i].substring(0, x);
             if (!map.containsKey(key))
-                map.put(key,x);
+                map.put(key, x);
         }
         Map.Entry<String, Integer> maxEntry = null;
-        for (Map.Entry<String, Integer> entry : map.entrySet()){
-            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0){
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (maxEntry == null || entry.getValue().compareTo(maxEntry.getValue()) > 0) {
                 maxEntry = entry;
             }
         }
         return maxEntry.getKey();
     }
+
     // longest common prefix of s and t
     private static int lcp(String s, String t) {
         int N = Math.min(s.length(), t.length());
@@ -1123,24 +1186,26 @@ public class StringImp {
         }
         return N;
     }
+
     //Given a string return the longest palindrome that can be constructed by removing or shuffling characters.
     // If there are multiple correct answers you need to return only 1 palindrome.
-    public static String LongestPalindromeRemoveShuffle(String s){
-        String output ="";
-        String center ="";
+    public static String LongestPalindromeRemoveShuffle(String s) {
+        String output = "";
+        String center = "";
         int[] counter = new int[26];
         for (int i = 0; i < s.length(); i++) {
-            counter[(int)s.charAt(i) - 'a']++;
+            counter[(int) s.charAt(i) - 'a']++;
         }
         for (int i = 0; i < counter.length; i++) {
             int times = counter[i] / 2;
-            String repeated = new String(new char[times]).replace("\0", Character.toString((char)(i+'a')));
+            String repeated = new String(new char[times]).replace("\0", Character.toString((char) (i + 'a')));
             output += repeated;
-            if(counter[i]%2 != 0)
-                center = Character.toString((char)(i+'a'));
+            if (counter[i] % 2 != 0)
+                center = Character.toString((char) (i + 'a'));
         }
         return output + center + new StringBuilder(output).reverse().toString();
     }
+
     /*Airbnb: Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
     e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
     //Put all words in a Set. For each word, get all it’s prefix and suffix. Search for reversed(prefix) and reversed(suffix) in the Set.
@@ -1163,32 +1228,38 @@ public class StringImp {
         }
         return ans;
     }
+
     //implement a function to find if a given string is a palindrome
     public static boolean isPalindrome(String word) {
-        if(word.length() < 2)
+        if (word.length() < 2)
             return true;
         for (int i = 0; i < word.length() / 2; ++i)
             if (word.charAt(i) != word.charAt(word.length() - i - 1)) return false;
         return true;
     }
+
     //implement a function to find if a given string is a palindrome, Must be case insensitive, and ignore special characters
     public static boolean isPalindrome1(String word) {
         word = word.toLowerCase();
-        if(word.length() < 2)
+        if (word.length() < 2)
             return true;
-        int l = 0, r = word.length() -1;
-        while(l<r) {
-            if( !isAlphabet(word.charAt(l)))
+        int l = 0, r = word.length() - 1;
+        while (l < r) {
+            if (!isAlphabet(word.charAt(l)))
                 l++;
-            else if(!isAlphabet(word.charAt(r)))
+            else if (!isAlphabet(word.charAt(r)))
                 r--;
             else if (word.charAt(l) != word.charAt(r)) return false;
-            else {l++;r--;}
+            else {
+                l++;
+                r--;
+            }
         }
         return true;
     }
-    public static boolean isAlphabet(char x){
-        return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) ;
+
+    public static boolean isAlphabet(char x) {
+        return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z'));
     }
 
     //Given a string, determine if a permutation of the string could form a palindrome
@@ -1227,6 +1298,7 @@ public class StringImp {
         if (temp.contains(s2)) return true;
         return false;
     }
+
     //Output top N positive integer in string comparison order.
     // For example, let's say N=1000, output should be 1, 10, 100, 1000, 101, 102, ... 109, 11, 110,
     static void printRec(String str, int n) {
@@ -1235,54 +1307,58 @@ public class StringImp {
         for (int i = 0; i < 10; i++)
             printRec(str + i, n);
     }
+
     //Find the longest sequence of prefix shared by all the words in a string.
     //"abcdef abcdxxx abcdabcdef abcyy" => "abc"
-    public String longPrefix(String str){
+    public String longPrefix(String str) {
         String arr[] = str.split(" ");
         int len = arr[0].length();
         int p;
-        for(int i =1; i < arr.length;i++){
-            p=0;
-            while(p < len && p < arr[i].length()
+        for (int i = 1; i < arr.length; i++) {
+            p = 0;
+            while (p < len && p < arr[i].length()
                     && arr[0].charAt(p) == arr[i].charAt(p))
                 p++;
             len = p;
         }
-        return arr[0].substring(0,len);
+        return arr[0].substring(0, len);
     }
+
     /* Write a program to determine whether an input string str1 is a substring of another input string str2.*/
     //Given two strings, find if first string is a subsequence of second
     //Input: str1 = "AXY", str2 = "ADXCPY"  Output: True (str1 is a subsequence of str2)
     // Returns true if str1[] is a subsequence of str2[]. m is length of str1 and n is length of str2
-    boolean isSubSequence(char str1[], char str2[], int m, int n){
+    boolean isSubSequence(char str1[], char str2[], int m, int n) {
         int j = 0; // For index of str1 (or subsequence
         // Traverse str2 and str1, and compare current character
         // of str2 with first unmatched char of str1, if matched
         // then move ahead in str1
-        for (int i=0; i<n&&j<m; i++)
+        for (int i = 0; i < n && j < m; i++)
             if (str1[j] == str2[i])
                 j++;
         // If all characters of str1 were found in str2
-        return (j==m);
+        return (j == m);
     }
+
     //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function to search the index of subString
     //Naive Pattern Searching. Best case O(n) worst case  O(m*(n-m+1))
     //Better approach is KMP (Knuth Morris Pratt) Pattern Searching
-    void search(String pat, String txt){
+    void search(String pat, String txt) {
         int M = pat.length();
         int N = txt.length();
         /* A loop to slide pat[] one by one */
-        for (int i = 0; i <= N - M; i++){
+        for (int i = 0; i <= N - M; i++) {
             int j;
         /* For current index i, check for pattern match */
-            for (j = 0; j < M; j++){
-                if (txt.charAt(i+j) != pat.charAt(j))
+            for (j = 0; j < M; j++) {
+                if (txt.charAt(i + j) != pat.charAt(j))
                     break;
             }
             if (j == M)  // if pat[0...M-1] = txt[i, i+1, ...i+M-1]
-               System.out.print("Pattern found at index " + i);
+                System.out.print("Pattern found at index " + i);
         }
     }
+
     //KMP Algorithm to find substing in a string. Time complexity is O(m + n) where m is length of text and n is length of pattern
     //http://tekmarathon.com/2013/05/14/algorithm-to-find-substring-in-a-string-kmp-algorithm/
     public void searchSubString(char[] text, char[] ptrn) {
@@ -1305,6 +1381,7 @@ public class StringImp {
             }
         }
     }
+
     //p    :  a   b   c   a   b   d   a   b   c
     //p[i] :  0   1   2   3   4   5   6   7   8
     //b[i] : -1   0   0   0   1   2   0   1   2   3
@@ -1325,15 +1402,18 @@ public class StringImp {
         }
         return b;
     }
+
     //Determine the K most frequent words given a terabyte of strings.
     class WordFreq {
         String word;
         int freq;
+
         public WordFreq(final String w, final int c) {
             word = w;
             freq = c;
         }
     }
+
     void findTopKFrequentWords(String[] s, int k) {
         HashMap<String, Integer> _hash = new HashMap<String, Integer>();
         PriorityQueue<WordFreq> _minHeap = new PriorityQueue<WordFreq>();
@@ -1345,64 +1425,64 @@ public class StringImp {
         }
         int count = 0;
         for (Map.Entry<String, Integer> entry : _hash.entrySet()) {
-            if(count < k) {
-                _minHeap.add(new WordFreq(entry.getKey(),entry.getValue()));
+            if (count < k) {
+                _minHeap.add(new WordFreq(entry.getKey(), entry.getValue()));
                 count++;
-            }
-            else if(entry.getValue() > _minHeap.peek().freq){
+            } else if (entry.getValue() > _minHeap.peek().freq) {
                 _minHeap.poll();
-                _minHeap.add(new WordFreq(entry.getKey(),entry.getValue()));
+                _minHeap.add(new WordFreq(entry.getKey(), entry.getValue()));
             }
         }
         while (!_minHeap.isEmpty()) {
             System.out.println(_hash.get(_minHeap.poll().word));
         }
     }
+
     //Find if a given string can be represented from a substring by iterating the substring “n” times
     //Input: str = "abcabcabc"  Output: true The given string is 3 times repetition of "abc"
     // Returns true if str is repetition of one of its sub Strings else return false.
-    Boolean isRepeat(char str[]){
+    Boolean isRepeat(char str[]) {
         // Find length of string and create an array to store lps values used in KMP
         int n = str.length;
-        int [] lps = new int[n];
+        int[] lps = new int[n];
         // Pre-process the pattern (calculate lps[] array)
         computeLPSArray(str, n, lps);
         // Find length of longest suffix which is also prefix of str.
-        int len = lps[n-1];
+        int len = lps[n - 1];
         // If there exist a suffix which is also prefix AND
         // Length of the remaining substring divides total
         // length, then str[0..n-len-1] is the substring that
         // repeats n/(n-len) times (Readers can print substring
         // and value of n/(n-len) for more clarity.
-        return (len > 0 && n%(n-len) == 0)? true: false;
+        return (len > 0 && n % (n - len) == 0) ? true : false;
     }
+
     // A utility function to fill lps[] or compute prefix funcrion
     // used in KMP string matching algorithm.
-    void computeLPSArray(char str[], int M, int lps[]){
+    void computeLPSArray(char str[], int M, int lps[]) {
         int len = 0; //length of the previous longest prefix suffix
         int i;
         lps[0] = 0; //lps[0] is always 0
         i = 1;
         // the loop calculates lps[i] for i = 1 to M-1
-        while (i < M){
-            if (str[i] == str[len]){
+        while (i < M) {
+            if (str[i] == str[len]) {
                 len++;
                 lps[i] = len;
                 i++;
-            }
-            else {// (pat[i] != pat[len])
-                if (len != 0){
+            } else {// (pat[i] != pat[len])
+                if (len != 0) {
                     // This is tricky. Consider the example AAACAAAA and i = 7.
-                    len = lps[len-1];
+                    len = lps[len - 1];
                     // Also, note that we do not increment i here
-                }
-                else{ // if (len == 0)
+                } else { // if (len == 0)
                     lps[i] = 0;
                     i++;
                 }
             }
         }
     }
+
     /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any character)
     Input: hello world,"b,c",Piyush Patel\nfoo,bar,bax
     Output:[[hello world],["b,c"],[Piyush Patel],[foo,bar,bax]]*/
@@ -1429,9 +1509,8 @@ public class StringImp {
                         inQuotes = false;
                         i++;
                     }
-                }
-                else
-                   sb.append(value);
+                } else
+                    sb.append(value);
             } else if (value == '"') {
                 inQuotes = true;
             } else if (value == ',') {
@@ -1444,6 +1523,7 @@ public class StringImp {
         result.add(sb.toString());
         return result;
     }
+
     //Airbnb:Decode String. Given a string try lower/upper case combinations to decode the string.
     //e.g. kljJJ324hjkS_ decodes to 848662 now given Input is : kljjj324hjks_
     //Time complexity is exponential
@@ -1484,6 +1564,7 @@ public class StringImp {
         }
         return null;
     }
+
     public static Integer decodeString(String testEncStr) {
         String truth = "kljJJ324hijkS_";
         if (testEncStr.equals(truth))
@@ -1494,6 +1575,7 @@ public class StringImp {
     /* Implement regex regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
+
     /**
      * Dynamic programming technique for regex matching. Time and space = O(M * N)
      */
@@ -1502,17 +1584,17 @@ public class StringImp {
         T[0][0] = true;
         //Deals with patterns like a* or a*b* or a*b*c*
         for (int i = 1; i < T[0].length; i++) {
-            if (pattern[i-1] == '*') {
+            if (pattern[i - 1] == '*') {
                 T[0][i] = T[0][i - 2];
             }
         }
         for (int i = 1; i < T.length; i++) {
             for (int j = 1; j < T[0].length; j++) {
                 if (pattern[j - 1] == '.' || pattern[j - 1] == text[i - 1]) {
-                    T[i][j] = T[i-1][j-1];
-                } else if (pattern[j - 1] == '*')  {
+                    T[i][j] = T[i - 1][j - 1];
+                } else if (pattern[j - 1] == '*') {
                     T[i][j] = T[i][j - 2];
-                    if (pattern[j-2] == '.' || pattern[j - 2] == text[i - 1]) {
+                    if (pattern[j - 2] == '.' || pattern[j - 2] == text[i - 1]) {
                         T[i][j] = T[i][j] | T[i - 1][j];
                     }
                 } else {
@@ -1522,6 +1604,7 @@ public class StringImp {
         }
         return T[text.length][pattern.length];
     }
+
     //non-dynamic exponential complexity
     public static boolean isMatch(String s, String p) {
         // base case
@@ -1562,7 +1645,7 @@ public class StringImp {
             }
             //case 2.2: a char & '*' can stand for 1 or more preceding element, so try every sub string
             int i = 0;
-            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+            while (i < s.length() && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
                 if (isMatch(s.substring(i + 1), p.substring(2))) {
                     return true;
                 }
@@ -1571,6 +1654,7 @@ public class StringImp {
             return false;
         }
     }
+
     /* Implement a regular expression matching. There are three special characters.
         * means zero or more of previous characters
         . means any single character
@@ -1607,24 +1691,23 @@ public class StringImp {
             }
         }
         // case 2: when the second char of p is '*', complex case.
-        else if(p.charAt(1) == '*'){
+        else if (p.charAt(1) == '*') {
             //case 2.1: a char & '*' can stand for 0 element
             if (isMatch1(s, p.substring(2))) {
                 return true;
             }
             //case 2.2: a char & '*' can stand for 1 or more preceding element, so try every sub string
             int i = 0;
-            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+            while (i < s.length() && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
                 if (isMatch1(s.substring(i + 1), p.substring(2))) {
                     return true;
                 }
                 i++;
             }
             return false;
-        }
-        else if(p.charAt(1) == '+'){
+        } else if (p.charAt(1) == '+') {
             int i = 0;
-            while (i<s.length() && (s.charAt(i)==p.charAt(0) || p.charAt(0)=='.')){
+            while (i < s.length() && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
                 if (isMatch1(s.substring(i + 1), p.substring(2))) {
                     return true;
                 }
@@ -1634,12 +1717,14 @@ public class StringImp {
         }
         return false;
     }
+
     //Given a character limit and a message, split the message up into annotated chunks without cutting words as,
     //for example when sending the SMS "Hi Sivasrinivas, your Uber is arriving now!" with char limit 25, you should get
     //["Hi Sivasrinivas,(1/3)", "your Uber is arriving(2/3)", "now!(3/3)"]
     static ArrayList<String> splitText(String message, int charLimit) {
         return splitTextAuxUsingSplit(message, charLimit);
     }
+
     static ArrayList<String> splitTextAuxUsingSplit(String message, int charLimitOriginal) {
         //Decrease the char limit to accomodate chunk number at the end i.e. (1/3). For now assuming, the message chunks won't be more than 9
         int charLimit = charLimitOriginal - 5;
@@ -1667,18 +1752,19 @@ public class StringImp {
         }
         //append message chunk number for ex (1/3)
         int resultSize = result.size();
-        for(int i = 0; i < resultSize; i++) {
-            result.set(i, result.get(i) +"("+ (i+1) + "/" + resultSize + ")" );
+        for (int i = 0; i < resultSize; i++) {
+            result.set(i, result.get(i) + "(" + (i + 1) + "/" + resultSize + ")");
         }
         return result;
     }
+
     //Remove consecutive duplicate characters e.g AABBCDDAAB -> ABCDAB  ABBBCCD -> ABCD
-    public int removeDuplicates(char input[]){
+    public int removeDuplicates(char input[]) {
         int slow = 0;
         int fast = 0;
         int index = 0;
-        while(fast < input.length){
-            while(fast < input.length && input[slow] == input[fast]){
+        while (fast < input.length) {
+            while (fast < input.length && input[slow] == input[fast]) {
                 fast++;
             }
             input[index++] = input[slow];
@@ -1686,49 +1772,55 @@ public class StringImp {
         }
         return index;
     }
+
     //Given a string, find the rank of the string amongst its permutations sorted lexicographically. Assume that no
     //characters are repeated. Example : Input : 'acb' Output : 2
-    public static int findRank (char[] str){
+    public static int findRank(char[] str) {
         int len = str.length;
         long mul = factorial(len);
         int rank = 1, i;
         int[] count = new int[256];  // all elements of count[] are initialized with 0
         // Populate the count array such that count[i] contains count of characters which are present in str and are smaller than i
-        populateAndIncreaseCount( count, str );
-        for (i = 0; i < len; ++i){
+        populateAndIncreaseCount(count, str);
+        for (i = 0; i < len; ++i) {
             mul /= len - i;
             // count number of chars smaller than str[i] from str[i+1] to str[len-1]
-            rank += count[ str[i] - 1] * mul;
+            rank += count[str[i] - 1] * mul;
             // Reduce count of characters greater than str[i]
-            updatecount (count, str[i]);
+            updatecount(count, str[i]);
         }
         return rank;
     }
-    public static long factorial(int n){
-        return n <= 1? 1: (n * factorial(n - 1));
+
+    public static long factorial(int n) {
+        return n <= 1 ? 1 : (n * factorial(n - 1));
     }
-    public static int findSmallerInRight(String A, int low, int high){
+
+    public static int findSmallerInRight(String A, int low, int high) {
         int countRight = 0;
-        for(int i = low + 1; i <= high; i++){
-            if(A.charAt(i) < A.charAt(low))
+        for (int i = low + 1; i <= high; i++) {
+            if (A.charAt(i) < A.charAt(low))
                 countRight++;
         }
         return countRight;
     }
+
     // contains count of smaller characters in whole string
-    public static void populateAndIncreaseCount (int[] count, char[] str){
+    public static void populateAndIncreaseCount(int[] count, char[] str) {
         int i;
-        for( i = 0; str[i] >= 'a' && str[i] <= 'z' ; ++i )
-            ++count[ str[i] ];
-        for( i = 1; i < 256; ++i )
-            count[i] += count[i-1];
+        for (i = 0; str[i] >= 'a' && str[i] <= 'z'; ++i)
+            ++count[str[i]];
+        for (i = 1; i < 256; ++i)
+            count[i] += count[i - 1];
     }
+
     // Removes a character ch from count[] array constructed by populateAndIncreaseCount()
-    public static void updatecount (int[] count, char ch){
+    public static void updatecount(int[] count, char ch) {
         int i;
-        for( i = ch; i < 256; ++i )
+        for (i = ch; i < 256; ++i)
             --count[i];
     }
+
     //Given a source word, target word and an English dictionary, transform the source word to target by
     //changing/adding/removing 1 character at a time, while all intermediate words being valid English words.
     public static LinkedList<String> transform(String startWord, String stopWord, Set<String> dictionary) {
@@ -1766,6 +1858,7 @@ public class StringImp {
         }
         return null;
     }
+
     private static Set<String> getOneEditWords(String word) {
         Set<String> words = new TreeSet<String>();
         // for every letter
@@ -1781,6 +1874,7 @@ public class StringImp {
         }
         return words;
     }
+
     //Remove “b” and “ac” from a given string
     //input = ababaac output = aaa input = abc output =""
     public static String Remove_Pattern_from_String(char[] str) {
@@ -1803,12 +1897,13 @@ public class StringImp {
             else
                 str[++i] = str[j++];
         }
-        return new String(str).substring(0,++i);
+        return new String(str).substring(0, ++i);
     }
+
     //Recursively remove all adjacent duplicates
     //Input:  azxxzy   Output: ay
-    public static String removeAdjacentDuplicates(String s){
-        if (s.length() < 2){
+    public static String removeAdjacentDuplicates(String s) {
+        if (s.length() < 2) {
             return s;
         }
         char[] buf = s.toCharArray();
@@ -1816,25 +1911,26 @@ public class StringImp {
         // i: index of input char
         // j: index of output char
         int j = 1;
-        for (int i = 1; i < buf.length; i++){
-            if (j > 0 && buf[i] == buf[j - 1]){
+        for (int i = 1; i < buf.length; i++) {
+            if (j > 0 && buf[i] == buf[j - 1]) {
                 lastchar = buf[j - 1];
-                while (j > 0 && buf[j - 1] == lastchar){
+                while (j > 0 && buf[j - 1] == lastchar) {
                     j--;
                 }
-            }
-            else if (buf[i] != lastchar){
+            } else if (buf[i] != lastchar) {
                 buf[j] = buf[i];
                 j++;
             }
         }
         return new String(buf, 0, j);
     }
+
     //Given a list of words and an abbreviation, I have to write a function which returns true or false about whether
     // the abbreviation maps to exactly one word or not. An abbreviation of a word follows the form <first letter><number><last letter>
     //i|nternationalizatio|n  --> i18n
     private Map<String, String> abbrDict;
     private Set<String> uniqueDict;
+
     public void ValidWordAbbr(String[] dictionary) {
         abbrDict = new HashMap<String, String>();
         uniqueDict = new HashSet<String>();
@@ -1851,6 +1947,7 @@ public class StringImp {
             }
         }
     }
+
     public boolean isUnique(String word) {
         if (word == null || word.length() == 0) {
             return true;
@@ -1862,6 +1959,7 @@ public class StringImp {
             return false;
         }
     }
+
     private String getAbbr(String word) {
         if (word == null || word.length() < 3) {
             return word;
@@ -1872,6 +1970,7 @@ public class StringImp {
         sb.append(word.charAt(word.length() - 1));
         return sb.toString();
     }
+
     //Airbnb: display page by host_id. max entry into page is 12
     //There is a trick in this question. When do we need to get to a new page? There are two cases need to consider:
     //1. When the current page has 12 entries.
@@ -1903,20 +2002,25 @@ public class StringImp {
             }
         }
     }
+
     //Boggle implementation: Given a dictionary, a method to do lookup in dictionary and a M x N board where every cell
     //has one character. Find all possible words that can be formed by a sequence of adjacent charactersNote that we can
     //move to any of 8 adjacent characters, but a word should not have multiple instances of same cell.
     class TrieNode1 {
         TrieNode1[] child = new TrieNode1[26];
         boolean isWord;
+
         public TrieNode1() {
         }
     }
+
     class Trie1 {
         private TrieNode1 root;
+
         public Trie1() {
             root = new TrieNode1();
         }
+
         // Inserts a word into the trie.
         public void insert(String word) {
             TrieNode1 current = root;
@@ -1929,6 +2033,7 @@ public class StringImp {
             }
             current.isWord = true;
         }
+
         // Returns if there is any word in the trie that starts with the given prefix.
         public boolean startsWith(String prefix) {
             TrieNode1 current = root;
@@ -1941,6 +2046,7 @@ public class StringImp {
             }
             return true;
         }
+
         // Returns if the word is in the trie.
         public boolean search(String word) {
             TrieNode1 current = root;
@@ -1954,9 +2060,11 @@ public class StringImp {
             return current.isWord;
         }
     }
+
     //For an N x N board the search space is O((N*N)!
-    int dx[]={-1, -1, -1, 0, 1, 1, 1, 0};
-    int dy[]={1, 0, -1, -1, -1, 0, 1, 1};
+    int dx[] = {-1, -1, -1, 0, 1, 1, 1, 0};
+    int dy[] = {1, 0, -1, -1, -1, 0, 1, 1};
+
     public List<String> findWords(char[][] board, String[] words) {
         Trie1 t = new Trie1();
         for (String word : words) {
@@ -1964,7 +2072,7 @@ public class StringImp {
         }
         StringBuffer buff = new StringBuffer();
         Set<String> result = new HashSet<String>();
-        boolean visited[][]=new boolean[board.length][board.length];
+        boolean visited[][] = new boolean[board.length][board.length];
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
                 findWordsUtil(board, t, i, j, buff, visited, result);
@@ -1973,40 +2081,44 @@ public class StringImp {
         return new ArrayList<String>(result);
     }
 
-    private void findWordsUtil(char[][] board, Trie1 t , int i, int j, StringBuffer buff, boolean visited[][], Set<String> result) {
-        if(i < 0 || j < 0 || i >= board.length || j >= board[i].length|| visited[i][j]==true){
+    private void findWordsUtil(char[][] board, Trie1 t, int i, int j, StringBuffer buff, boolean visited[][], Set<String> result) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[i].length || visited[i][j] == true) {
             return;
         }
         buff.append(board[i][j]);
         String str = buff.toString().toLowerCase();
-        if(!t.startsWith(str)) {
+        if (!t.startsWith(str)) {
             buff.deleteCharAt(buff.length() - 1);
             return;
         }
-        visited[i][j]=true;
-        if(t.search(str)) {
+        visited[i][j] = true;
+        if (t.search(str)) {
             result.add(buff.toString());
         }
-        for(int k=0;k<8;++k){
+        for (int k = 0; k < 8; ++k) {
             findWordsUtil(board, t, i + dx[k], j + dy[k], buff, visited, result);
         }
         buff.deleteCharAt(buff.length() - 1);
-        visited[i][j]=false;
+        visited[i][j] = false;
 
     }
+
     /*another version using Trie and Dynamic programming: instead of random constructing word after word in this infinite
     ocean of words why don't I take a word from the dictionary and somehow magically check whether that's available on the board or not?
     DP: For a word of length k to be found (end location) at the [i, j]-th location of the board, the k-1'th letter of that
     word must be located in one of the adjacent cells of [i, j].
     Time = O (W * N * N * MAX_WORD_LENGTH) */
     private static DictNode root;
+
     private static class DictNode {
         public final char letter;
         public DictNode[] nextNodes = new DictNode[26];
         public boolean wordEnd;
+
         public DictNode(final char letter) {
             this.letter = letter;
         }
+
         public void insert(final String word) {
             DictNode node = root;
             char[] letters = word.toCharArray();
@@ -2014,13 +2126,14 @@ public class StringImp {
                 if (node.nextNodes[letters[i] - 'a'] == null) {
                     node.nextNodes[letters[i] - 'a'] = new DictNode(letters[i]);
 
-                    if (i == letters.length-1) {
+                    if (i == letters.length - 1) {
                         node.nextNodes[letters[i] - 'a'].wordEnd = true;
                     }
                 }
                 node = node.nextNodes[letters[i] - 'a'];
             }
         }
+
         public boolean contains(final String word) {
             DictNode node = root;
             char[] letters = word.toCharArray();
@@ -2032,14 +2145,16 @@ public class StringImp {
             return (i == letters.length) && node.wordEnd;
         }
     }
+
     static char board[][];
+
     public static void boggleTrieDynamic(DictNode node, char[] currentBranch, int currentHeight) {
         if (node == null) {
             return;
         }
         if (node.wordEnd && currentHeight > 3) {
-            String word = new String(currentBranch, 0, currentHeight-1);
-            boolean inBoard = isInBoard(board,word);
+            String word = new String(currentBranch, 0, currentHeight - 1);
+            boolean inBoard = isInBoard(board, word);
             if (inBoard) {
                 System.out.println(word);
             }
@@ -2051,6 +2166,7 @@ public class StringImp {
             }
         }
     }
+
     public static boolean isInBoard(char board[][], final String word) {
         int N = board.length;
         int[] dx = {1, 1, 0, -1, -1, -1, 0, 1};
@@ -2081,35 +2197,39 @@ public class StringImp {
         }
         return false;
     }
+
     //tiny URL
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    private static final int    BASE     = ALPHABET.length();
+    private static final int BASE = ALPHABET.length();
+
     public static String encode(int num) {
         StringBuilder sb = new StringBuilder();
-        while ( num > 0 ) {
-            sb.append( ALPHABET.charAt( num % BASE ) );
+        while (num > 0) {
+            sb.append(ALPHABET.charAt(num % BASE));
             num /= BASE;
         }
         return sb.toString();
     }
+
     public static int decode1(String str) {
         int num = 0;
-        for ( int i = str.length() - 1; i >= 0; i-- )
+        for (int i = str.length() - 1; i >= 0; i--)
             num = num * BASE + ALPHABET.indexOf(str.charAt(i));
         return num;
     }
+
     /*Given a list of words, and the number of rows and columns, return the number of words that can be fit into the rows and columns
      by stringing together each consecutive word. If the next word doesn't fit in the same line, it should move to the next line.  For eg.
      Input: List of words: { "Do";, "Run" } , Number of columns: 9 , Number of rows: 2
      Output = 5 */
-    public static int numberCanFit(String[] words, int row, int col){
+    public static int numberCanFit(String[] words, int row, int col) {
         int wordCount = 0;
         int rowIterator = 0;
         int wordIterator = 0;
         int remainingCol;
-        while ( rowIterator < row )	{
+        while (rowIterator < row) {
             remainingCol = col;
-            while ( remainingCol > 0 && words[wordIterator].length() <= remainingCol)	{
+            while (remainingCol > 0 && words[wordIterator].length() <= remainingCol) {
                 wordCount++;
                 // update remainingCol , takes wordspacing into account
                 remainingCol = remainingCol - words[wordIterator].length() - 1;
@@ -2121,20 +2241,21 @@ public class StringImp {
         }
         return wordCount;
     }
+
     /*List of string that represent class names in CamelCaseNotation. Write a function that given a List and a pattern returns the matching elements.
     Input  = [HelloMars,HelloWorld,HelloWorldMars,HiHo]
     H -> [HelloMars, HelloWorld, HelloWorldMars, HiHo]
     HW -> [HelloWorld, HelloWorldMars]
     Ho -> []
     HeWorM -> [HelloWorldMars] */
-    public static ArrayList<String> getCamelCaseMatchingStrings(ArrayList<String> list, String pattern ){
+    public static ArrayList<String> getCamelCaseMatchingStrings(ArrayList<String> list, String pattern) {
         ArrayList<String> patternList = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             String s = list.get(i);
-            int len  = 0;
-            int pattern_len = pattern.length()-1;
+            int len = 0;
+            int pattern_len = pattern.length() - 1;
             int patIndex = 0;
-            while(len!= s.length()- 1 && patIndex <= pattern_len) {
+            while (len != s.length() - 1 && patIndex <= pattern_len) {
                 if (s.charAt(len) == pattern.charAt(patIndex)) {
                     len++;
                     if (patIndex == pattern_len) {
@@ -2149,6 +2270,7 @@ public class StringImp {
         }
         return patternList;
     }
+
     //print non over lapping in order pairs. example:input = [1,2,3,4]
     /*output:   (1234)
                 (1)(234)
@@ -2158,13 +2280,14 @@ public class StringImp {
                 (12)(3)(4)
                 (123)(4)
                 (1)(2)(3)(4)*/
-    public static void printNonOverlapping (String number, String prefix) {
-        System.out.println (prefix + "(" + number + ")");
-        for (int i=1; i<number.length(); i++) {
-            String newPrefix = prefix + "(" + number.substring(0,i) + ")";
-            printNonOverlapping (number.substring (i, number.length()), newPrefix);
+    public static void printNonOverlapping(String number, String prefix) {
+        System.out.println(prefix + "(" + number + ")");
+        for (int i = 1; i < number.length(); i++) {
+            String newPrefix = prefix + "(" + number.substring(0, i) + ")";
+            printNonOverlapping(number.substring(i, number.length()), newPrefix);
         }
     }
+
     /*Define a function that can detect whether the characters of a string can be shuffled without repeating same
     characters as one other's neighbors. E.g. : apple >> alpep, so valid */
     public boolean canShuffle(char[] s) {
@@ -2182,6 +2305,7 @@ public class StringImp {
         // s can shuffle when the maxExistedCharacter less than (length of s + 1) / 2
         return maxExistedCharacter <= (s.length + 1) / 2;
     }
+
     /*Given a string array words, find the maximum value of length(word[i]) * length(word[j]) where the two words
     do not share common letters. You may assume that each word will contain only lower case letters. If no such two words exist, return 0.
     Time = O(26 * n^2) */
@@ -2209,6 +2333,7 @@ public class StringImp {
         }
         return maxLen;
     }
+
     //Given a string consisting of opening and closing parenthesis, find length of the longest valid parenthesis substring.
     public static int findLongestParanthesisLen(String str) {
         int cnt = 0;
@@ -2216,24 +2341,41 @@ public class StringImp {
         /// if ( increase cnt
         /// if ) and cnt < 0 means count of ) > ( stop reset cnt and ans
         /// if ) and cnt > 0 means count of ( > ) a pair of () seen increment ans+= 2, do not stop longer valid string can be formed
-        for(int i = 0; i < str.length(); i++) {
-            if(str.charAt(i) == '(')
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '(')
                 cnt++;
             else {
-                if(cnt <= 0) {
+                if (cnt <= 0) {
                     max_len = Math.max(max_len, ans);
                     cnt = 0;
                     ans = 0;
-                }
-                else {
+                } else {
                     cnt--;
                     ans += 2;
                 }
             }
         }
-        if(cnt >= 0)
+        if (cnt >= 0)
             max_len = Math.max(max_len, ans);
         return max_len;
+    }
+    //Given an input string and ordering string, need to return true if the ordering string is present in Input string.
+    //input = "hello world!"  ordering = "hlo!"  result = FALSE (all Ls are not before all Os)
+    public static boolean isOrderingStringPresent(String s, String ordering) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        char[] input = s.toCharArray();
+        for (int i = 0; i < input.length; i++) {
+            map.put(input[i], i);
+        }
+        char[] _order = ordering.toCharArray();
+        int temp = 0;
+        for (int i = 0; i < _order.length; i++) {
+            if (!map.containsKey(_order[i]) && (map.get(_order[i]) < temp)) {
+                return false;
+            }
+            temp = map.get(_order[i]);
+        }
+        return true;
     }
 }
 
