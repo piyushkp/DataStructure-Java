@@ -707,6 +707,24 @@ public class MISC {
             }
         }
     }
+    //Given a nested list of integers, returns the sum of all integers in the list weighted by their depth. For example,
+    //given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1)
+    private static int depthNestedIntSum(List<NestedIntList> input, int level) {
+        if (input == null || input.size() == 0) {
+            return 0;
+        }
+        int sum = 0;
+        for (int i = 0; i < input.size(); i++) {
+            if (input.get(i).isNumber) {
+                sum += input.get(i).value * level;
+            } else {
+                sum += depthNestedIntSum(input.get(i).intList, level + 1);
+            }
+        }
+        return sum;
+    }
+    //Follow up: What if the list is in reverse order?
+    //In that case get the depth first and call same above function with each recursive call do level - 1;
 
     //Given two rectangles, find if the given two rectangles overlap or not.
     boolean doOverlap(Point l1, Point r1, Point l2, Point r2) {

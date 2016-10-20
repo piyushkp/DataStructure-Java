@@ -1190,6 +1190,36 @@ public class StringImp {
     public static boolean isAlphabet(char x){
         return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z')) ;
     }
+
+    //Given a string, determine if a permutation of the string could form a palindrome
+    public boolean canPermutePalindrome(String s) {
+        if (s == null || s.length() <= 1) {
+            return true;
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char letter = s.charAt(i);
+            if (map.containsKey(letter)) {
+                int count = map.get(letter) + 1;
+                map.put(letter, count);
+            } else {
+                map.put(letter, 1);
+            }
+        }
+        int delta = 0;
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+            if ((int) pair.getValue() % 2 != 0) {
+                delta++;
+            }
+        }
+        if (s.length() % 2 == 0)
+            return delta == 0;
+        else
+            return delta == 1;
+    }
+
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
     boolean areRotations(String s1, String s2) {
@@ -1373,7 +1403,7 @@ public class StringImp {
             }
         }
     }
-    /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any charater)
+    /*CSV Parser Specifications: Separator: , New Line: \r Quote: " (inside the quote we can have any character)
     Input: hello world,"b,c",Piyush Patel\nfoo,bar,bax
     Output:[[hello world],["b,c"],[Piyush Patel],[foo,bar,bax]]*/
     public List<String> decodeCSV(String s) {
