@@ -1121,6 +1121,25 @@ public class MISC {
             size = 0;
         }
     }
+    //Add a third dimension of time to a hashmap , so ur hashmap will look something like this - HashMap<K, t, V> where
+    //t is a float value. Implement the get and put methods to this map. The get method should be something like - map.get(K,t)
+    //which should give us the value. If t does not exists then map should return the closest t' such that t' is smaller than t.
+    //For example, if map contains (K,1,V1) and (K,2,V2) and the user does a get(k,1.5) then the output should be v1 as 1 is the next smallest number to 1.5
+    class TimeHashMap<Key, Time, Value> {
+        private HashMap<Key, TreeMap<Time, Value>> map = new HashMap<>();
+        public Value get(Key key, Time time) {
+            TreeMap<Time, Value> tree = map.get(key);
+            if (tree == null) return null;
+            final Time floorKey = tree.floorKey(time);
+            return floorKey == null ? null : tree.get(floorKey);
+        }
+        public void put(Key key, Time time, Value value) {
+            if (!map.containsKey(key)) {
+                map.put(key, new TreeMap<>());
+            }
+            map.get(key).put(time, value);
+        }
+    }
 
     //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without parenthesis
     //[Token(NUM, -4.), Token(SUB), Token(NUM, 3), Token(MUL)…]
