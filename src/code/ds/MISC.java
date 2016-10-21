@@ -863,7 +863,7 @@ public class MISC {
 
     /*Implement LRU Cache.
     1. If cache has free entry, add the page entry to queue and make it head.
-    2. If cache is full and its cache hit, remove the item from present location and add it to front of queue and make it head.
+    2. If cache hit, remove the item from present location and add it to front of queue and make it head.
     3. If cache is full and its cache miss, remove the item at end and insert the new item at front of queue.
     4. To check hit or miss, use hash table.
      So at front items would be most recently used while in the end of queue least recently used items
@@ -933,12 +933,14 @@ public class MISC {
         }
 
         public void set(int key, int value) {
+            //cache hit
             if (map.containsKey(key)) {
                 DoublyNode node = map.get(key);
                 moveFirst(node);
                 node.data = value;
                 return;
             }
+            //cache is full and cache miss
             if (map.size() >= capacity) {
                 removeLast();
                 map.remove(this.end.key);
