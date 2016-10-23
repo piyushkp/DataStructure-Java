@@ -640,5 +640,25 @@ public class Matrix {
         }
         return a;
     }
-
+    //design a method to check if a Sudoku board is valid
+    public static boolean isValidSudoku(char[][] board){
+        if(board == null || board.length != 9 || board[0].length != 9)
+            return false;
+        HashSet<Integer> rows = new HashSet<>();
+        HashSet<Integer> cols = new HashSet<>();
+        HashSet<Integer> cubes = new HashSet<>();
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                char current = board[i][j];
+                if(Character.isDigit(current)){
+                    int cube = 3 * (i/3) + (j/3);
+                    if(!rows.add((int)current) || !cols.add((int)current) || !cubes.add(cube))
+                        return  false;
+                }
+                else if(!Character.isWhitespace(current))
+                    return false;
+            }
+        }
+        return true;
+    }
 }
