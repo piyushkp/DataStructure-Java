@@ -652,17 +652,6 @@ public class Tree {
         return true;
     }
 
-    // Find the Kth smallest/largest element from the BST
-    void find_kth_smallest(Node root, int n, int K) {
-        if (root == null) return;
-        find_kth_smallest(root.left, n, K);
-        n++;
-        if (K == n) {
-            System.out.print(root.data);
-            return;
-        }
-        find_kth_smallest(root.right, n, K);
-    }
     //Second largest element in BST. Time complexity of the above solution is O(h) where h is height of BST.
     void secondLargestUtil(Node root, int c){
         // Base cases, the second condition is important to avoid unnecessary recursive calls
@@ -749,27 +738,6 @@ public class Tree {
         Node_t left;
         Node_t right;
     }
-    int k_smallest_element(Node_t root, int k){
-        int ret = -1;
-        if( root != null){
-            Node_t pTraverse = root;
-        /* Go to k-th smallest */
-            while(pTraverse != null){
-                if( (pTraverse.lCount + 1) == k ){
-                    ret = pTraverse.data;
-                    break;
-                }
-                else if( k > pTraverse.lCount ){ /*  There are less nodes on left subtree Go to right subtree */
-                    k = k - (pTraverse.lCount + 1);
-                    pTraverse = pTraverse.right;
-                }
-                else{ /* The node is on left subtree */
-                    pTraverse = pTraverse.left;
-                }
-            }
-        }
-        return ret;
-    }
     //build a tree with counting left subtree nodes of every node
     Node_t insert_node(Node_t root, Node_t node){
         Node_t pTraverse = root;
@@ -802,6 +770,28 @@ public class Tree {
         }
         return root;
     }
+    int k_smallest_element(Node_t root, int k){
+        int ret = -1;
+        if( root != null){
+            Node_t pTraverse = root;
+        /* Go to k-th smallest */
+            while(pTraverse != null){
+                if( (pTraverse.lCount + 1) == k ){
+                    ret = pTraverse.data;
+                    break;
+                }
+                else if( k > pTraverse.lCount ){ /*  There are less nodes on left subtree Go to right subtree */
+                    k = k - (pTraverse.lCount + 1);
+                    pTraverse = pTraverse.right;
+                }
+                else{ /* The node is on left subtree */
+                    pTraverse = pTraverse.left;
+                }
+            }
+        }
+        return ret;
+    }
+
 
     /* A O(n) iterative program for construction of BST from preorder traversal
     * Deserialize the BST*/
