@@ -2377,5 +2377,60 @@ public class StringImp {
         }
         return true;
     }
+    /* Ransom Note problem: write code for this function matchstr() given "ab" in a(1)b(1) ---> true
+        "z" in a(4)b(4) --> false
+        "aaaa" in a(3)b(3) ---> false
+        "aab" in a(3)b(3) ---> true
+        "aaba" in a(3)b(3) ---> true */
+    // Time is O(M) where M is length of magazine. we can do better than this when magazine is too big
+    public static boolean ransomNote1(String note, String mag) {
+        int[] count = new int[256]; // Assumes only ASCII characters
+        /* for -- a(1)b(1)
+        int i =0;
+        while(i < str.length()){
+            int c = str.charAt(i);
+            int num = str.charAt(i+2);
+            count[c] = num;
+            i += 4;
+        } */
+        for(int i = 0; i < mag.length(); i++) {
+            int c = mag.charAt(i);
+            count[c]++;
+        }
+        for(int i = 0; i < note.length(); i++) {
+            int c = note.charAt(i);
+            count[c]--;
+            if(count[c] < 0)
+                return false;
+        }
+        return true;
+    }
+    /* We don't scan magazine string and ransom note separately but simultaneously. We scan character from ransom note,
+    and check in hash table, if we find good. If not, we scan magazine string till we find the desired character.
+    If we reach end of magazine string, return false. If we reach end of ransom note, return true. */
+    public static boolean ransomNote2(String str, String pattern) {
+        int[] count = new int[256]; // Assumes only ASCII characters
+        int n = 0;
+        int m = 0;
+        while(n < str.length()) {
+            int nchar = str.charAt(n);
+            if(count[nchar] > 0) {
+                count[nchar]--;
+                n++;
+            } else {
+                while(m < pattern.length() && pattern.charAt(m) != nchar) {
+                    int mchar = pattern.charAt(m);
+                    count[mchar]++;
+                    m++;
+                }
+                if(m >= pattern.length())
+                    return false;
+                n++;
+                m++;
+            }
+        }
+        return true;
+    }
+
 }
 
