@@ -3,6 +3,7 @@ package code.ds;
  * Created by Piyush Patel.
  */
 import java.util.ArrayList;
+import java.util.*;
 
 public class Hasher<K, V> {
     public static void main(String [] args) {
@@ -108,5 +109,44 @@ public class Hasher<K, V> {
             String s = arr.get(i) == null ? "" : arr.get(i).printForward();
             System.out.println(i + ": " + s);
         }
+    }
+}
+/*Implement Mini Cassandra is a NoSQL storage. The structure has two-level keys. hashMap with Multiple keys
+    Level 1: raw_key. The same as hash_key or shard_key.
+    Level 2: column_key.
+    Level 3: column_value
+    1. insert(raw_key, column_key, column_value)
+    2. query(raw_key, column_start, column_end) // return a list of entries */
+class Column {
+    public int key;
+    public String value;
+
+    public Column(int key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+class MiniCassandra {
+    private Map<String, TreeMap<Integer, String>> map = new HashMap<>();
+    public MiniCassandra() {
+        // initialize your data structure here.
+    }
+    public void insert(String raw_key, int column_key, String column_value) {
+        TreeMap<Integer, String> tm = map.get(raw_key);
+        if (tm == null) {
+            tm = new TreeMap<>();
+            map.put(raw_key, tm);
+        }
+        tm.put(column_key, column_value);
+    }
+    public List<Column> query(String raw_key, int column_start, int column_end) {
+        List<Column> results = new ArrayList<>();
+        TreeMap<Integer, String> tm = map.get(raw_key);
+        if (tm == null) return results;
+        Map<Integer, String> queried = tm.subMap(column_start, true, column_end, true);
+        for (int key : queried.keySet()) {
+            results.add(new Column(key, queried.get(key)));
+        }
+        return results;
     }
 }
