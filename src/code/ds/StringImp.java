@@ -287,7 +287,7 @@ public class StringImp {
         }
 
         private Node root;
-
+    
         public void add(String element) {
             if (element == null) throw new NullPointerException();
             if (root == null) {
