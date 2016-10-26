@@ -269,6 +269,24 @@ public class Numbers {
         else
             return MedianOfMediansSelect(A, medianOfMediansPosition + 1, high, k - (medianOfMediansPosition - low + 1));
     }
+    public static int partition1(double[] G, int first, int last, double pivot) {
+        int i;
+        for (i = first; i < last; i++) {
+            if (G[i] == pivot)
+                break;
+        }
+        swap(G, i, last - 1);
+        i = first;
+        int pIndex = first;
+        for (i = first; i < last; i++) {
+            if (G[i] < pivot) {
+                swap(G, i, pIndex);
+                pIndex++;
+            }
+        }
+        swap(G, pIndex, last - 1);
+        return pIndex;
+    }
 
     // kth smallest element in unsorted array
     public static double kthSmallest(double[] G, int first, int last, int k) {
@@ -302,25 +320,6 @@ public class Numbers {
             }
         }
         swap(G, pIndex, last);
-        return pIndex;
-    }
-
-    public static int partition1(double[] G, int first, int last, double pivot) {
-        int i;
-        for (i = first; i < last; i++) {
-            if (G[i] == pivot)
-                break;
-        }
-        swap(G, i, last - 1);
-        i = first;
-        int pIndex = first;
-        for (i = first; i < last; i++) {
-            if (G[i] < pivot) {
-                swap(G, i, pIndex);
-                pIndex++;
-            }
-        }
-        swap(G, pIndex, last - 1);
         return pIndex;
     }
 
