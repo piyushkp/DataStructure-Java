@@ -28,40 +28,6 @@ public class MISC {
         int start;
         int end;
     }
-
-    ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
-        ArrayList<Interval> _output = new ArrayList<Interval>();
-        if (intervals.size() <= 0) return null;
-        Stack<Interval> s = new Stack<Interval>();
-        // sort the intervals based on start time
-        intervals.sort(new Comparator<Interval>() {
-            @Override
-            public int compare(Interval i1, Interval i2) {
-                return (i1.start < i2.start) ? 1 : 0;
-            }
-        });
-        int index = 0;
-        s.push(intervals.get(0));
-        for (int i = 1; i < intervals.size(); i++) {
-            Interval top = s.peek();
-            if (top.end < intervals.get(i).start) {
-                s.push(intervals.get(i));
-            } else if (top.end < intervals.get(i).end) {
-                top.end = intervals.get(i).end;
-                s.pop();
-                s.push(top);
-            }
-        }
-        while (!s.empty()) {
-            Interval t = s.peek();
-            _output.add(t);
-            System.out.print("{" + t.start + "," + t.end + "}" + " ");
-            s.pop();
-        }
-        return _output;
-    }
-
-    //Without space require
     ArrayList<Interval> mergeIntervals1(ArrayList<Interval> intervals) {
         if (intervals.size() <= 0) return null;
         // Sort Intervals in decreasing order of start time
