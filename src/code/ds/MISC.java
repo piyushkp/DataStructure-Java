@@ -8,18 +8,15 @@ public class MISC {
 
     public static void main(String[] args) {
         //System.out.print("MISC");
-
-        List<Token> list = new ArrayList<>();
-        list.add(new MISC().new Token("NUM", -4));
-        list.add(new MISC().new Token("*"));
-        list.add(new MISC().new Token("NUM", 3));
-        list.add(new MISC().new Token("*"));
-        list.add(new MISC().new Token("NUM", 2));
-        list.add(new MISC().new Token("/"));
-        list.add(new MISC().new Token("NUM", 2));
-        list.add(new MISC().new Token("+"));
-        list.add(new MISC().new Token("NUM", 4));
-        System.out.println(evalExpr(list));
+        MISC misc = new MISC();
+        ArrayList<Interval> input = new ArrayList<>();
+        //input.add(misc.new Interval(1,4));
+        input.add(misc.new Interval(5,10));
+        input.add(misc.new Interval(1,2));
+        //input.add(misc.new Interval(6,8));
+        for(Interval item : misc.mergeIntervals(input)){
+            System.out.println(item.start +"," + item.end);
+        }
     }
 
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
@@ -27,63 +24,37 @@ public class MISC {
     class Interval {
         int start;
         int end;
+        Interval(int s, int e) { start = s; end = e; }
     }
-    ArrayList<Interval> mergeIntervals1(ArrayList<Interval> intervals) {
-        if (intervals.size() <= 0) return null;
+    public ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
+        if(intervals.size() == 0 || intervals.size() == 1)
+            return intervals;
         // Sort Intervals in decreasing order of start time
         intervals.sort(new Comparator<Interval>() {
             @Override
             public int compare(Interval i1, Interval i2) {
-                return (i1.start > i2.start) ? 1 : 0;
+                return i1.start - i2.start;
             }
         });
-        int index = 0; // Stores index of last element in output array (modified arr[])
-        // Traverse all input Intervals
-        for (int i = 0; i < intervals.size(); i++) {
-            // If this is not first Interval and overlaps with the previous one
-            if (index != 0 && intervals.get(index - 1).start <= intervals.get(i).end) {
-                while (index != 0 && intervals.get(index - 1).start <= intervals.get(i).end) {
-                    // Merge previous and current Intervals
-                    intervals.get(index - 1).end = Math.max(intervals.get(index - 1).end, intervals.get(i).end);
-                    intervals.get(index - 1).start = Math.min(intervals.get(index - 1).start, intervals.get(i).start);
-                    index--;
-                }
-            } else // Doesn't overlap with previous, add to solution
-                intervals.set(index, intervals.get(i));
 
-            index++;
+        Interval first = intervals.get(0);
+        int start = first.start;
+        int end = first.end;
+
+        ArrayList<Interval> result = new ArrayList<>();
+        for(int i = 1; i < intervals.size(); i++){
+            Interval current = intervals.get(i);
+            if(current.start - end <= 1){
+                end = Math.max(current.end, end);
+            }else{
+                result.add(new Interval(start, end));
+                start = current.start;
+                end = current.end;
+            }
         }
-        return intervals;
+        result.add(new Interval(start, end));
+        return result;
     }
-
-    //Without extra Space
-    void mergeIntervals(Interval arr[], int n) {
-        // Sort Intervals in decreasing order of
-        // start time
-        Arrays.sort(arr);
-        int index = 0; // Stores index of last element
-        // in output array (modified arr[])
-        // Traverse all input Intervals
-        for (int i = 0; i < n; i++) {
-            // If this is not first Interval and overlaps with the previous one
-            if (index != 0 && arr[index - 1].start <= arr[i].end) {
-                while (index != 0 && arr[index - 1].start <= arr[i].end) {
-                    // Merge previous and current Intervals
-                    arr[index - 1].end = Math.max(arr[index - 1].end, arr[i].end);
-                    arr[index - 1].start = Math.min(arr[index - 1].start, arr[i].start);
-                    index--;
-                }
-            } else // Doesn't overlap with previous, add to
-                // solution
-                arr[index] = arr[i];
-            index++;
-        }
-        // Now arr[0..index-1] stores the merged Intervals
-        for (int i = 0; i < index; i++)
-            System.out.print(arr[i].start + ", " + arr[i].end);
-    }
-
-
     /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
     covered. e.g: [(1,3),(2,5),(8,9)] should return 5
     a) 1 2 3 = 2 unique intervals (1 to 2, 2 to 3)
