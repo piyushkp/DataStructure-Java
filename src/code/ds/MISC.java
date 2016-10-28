@@ -36,15 +36,13 @@ public class MISC {
                 return i1.start - i2.start;
             }
         });
-
         Interval first = intervals.get(0);
         int start = first.start;
         int end = first.end;
-
         ArrayList<Interval> result = new ArrayList<>();
         for(int i = 1; i < intervals.size(); i++){
             Interval current = intervals.get(i);
-            if(current.start - end <= 1){
+            if(current.start <= end){
                 end = Math.max(current.end, end);
             }else{
                 result.add(new Interval(start, end));

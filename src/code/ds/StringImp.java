@@ -264,68 +264,53 @@ public class StringImp {
                     root.children[i], currDist, result);
         }
     }
-
     //Best solution for K edit Distance using BK tree
     //spell checker / Find all words from Dictionary that are K edit distance away from target word
     //https://nullwords.wordpress.com/2013/03/13/the-bk-tree-a-data-structure-for-spell-checking/
     public class BKTree {
-        class Node {
-            public String Word;
-            final HashMap<Integer, Node> childrenByDistance = new HashMap<Integer, Node>();
-
-            public Node(String word) {
-                this.Word = word;
-            }
-
-            public String getElement() {
-                return Word;
-            }
-
-            public Node getChildNode(int distance) {
-                return childrenByDistance.get(distance);
-            }
+        Node root;
+        public void add(String word) {
+            if (root != null)
+                root.add(word);
+            else
+                root = new Node(word);
         }
-
-        private Node root;
-    
-        public void add(String element) {
-            if (element == null) throw new NullPointerException();
-            if (root == null) {
-                root = new Node(element);
-            } else {
-                Node node = root;
-                while (!node.getElement().equals(element)) {
-                    int distance = LevenshteinDistance(node.getElement(), element);
-                    Node parent = node;
-                    node = parent.childrenByDistance.get(distance);
-                    if (node == null) {
-                        node = new Node(element);
-                        parent.childrenByDistance.put(distance, node);
-                        break;
-                    }
+        private class Node {
+            String RootWord;
+            Map<Integer, Node> children;
+            public Node(String word) {
+                this.RootWord = word;
+                children = new TreeMap<>();
+            }
+            public void add(String word) {
+                int distance = LevenshteinDistance(word, this.RootWord);
+                Node child = children.get(distance);
+                if (child != null) {
+                    child.add(word);
+                } else {
+                    children.put(distance, new Node(word));
                 }
             }
         }
-
         public List<String> search(String query, int maxDistance) {
             if (query == null) throw new NullPointerException();
             if (maxDistance < 0) throw new IllegalArgumentException("maxDistance must be non-negative");
-            List<String> matches = new ArrayList<String>();
-            Queue<Node> queue = new ArrayDeque<Node>();
+            List<String> matches = new ArrayList<>();
+            Queue<Node> queue = new ArrayDeque<>();
             queue.add(root);
             while (!queue.isEmpty()) {
                 Node node = queue.remove();
-                String element = node.getElement();
+                String element = node.RootWord;
                 int distance = LevenshteinDistance(element, query);
                 if (distance <= maxDistance) {
                     matches.add(element);
                 }
-                int minSearchDistance = Math.max(distance - maxDistance, 0);
-                int maxSearchDistance = distance + maxDistance;
-                for (int searchDistance = minSearchDistance; searchDistance <= maxSearchDistance; ++searchDistance) {
-                    Node childNode = node.getChildNode(searchDistance);
-                    if (childNode != null) {
-                        queue.add(childNode);
+                for (int i = distance - maxDistance; i <=  distance + maxDistance; i++) {
+                    if(i > 0) {
+                        Node childNode = node.children.get(i);
+                        if (childNode != null) {
+                            queue.add(childNode);
+                        }
                     }
                 }
             }
