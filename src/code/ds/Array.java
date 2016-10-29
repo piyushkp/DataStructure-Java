@@ -8,24 +8,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.*;
 import java.lang.*;
+import java.util.concurrent.*;
+
 /**
  * Created by Piyush Patel.
  */
 public class Array {
-    public static void main(String [] args) {
+    public static void main(String [] args) throws InterruptedException, ExecutionException{
         //int arr[] = {3,2,5,10,7};
         //System.out.println(FindMaxSumNonAdjacent(arr));
-        List<Integer> a1 = Arrays.asList(1,2,3);
-        List<Integer> a2 = Arrays.asList(1);
-        List<Integer> a3 = Arrays.asList(1,2);
-
-        List<List<Integer>> list = new ArrayList<>();
-        list.add(a1);
-        list.add(a2);
-        list.add(a3);
-        //printCombination(list);
-        getCombinations(list);
-
         //subArraySumPositive(arr,33);
         //int[] out = threeSum_Multiple(arr);
         //List<List<Integer>> out = kSum(arr,3,5,0);
@@ -33,6 +24,13 @@ public class Array {
         //int[] a = threeSum_Multiple(arr);
 
         //MergeUnsortedArrayKthSmallest(arr,arr1,5);
+
+        RateLimiter rateGate = new RateLimiter(2, 2);
+        for (int i = 0; i < 10; i++)
+        {
+            rateGate.WaitToProceed();
+            System.out.println(i);
+        }
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {
