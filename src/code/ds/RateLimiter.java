@@ -53,8 +53,6 @@ public class RateLimiter {
 
         // Create a timer to exit the semaphore. Use the time unit as the original
         // interval length because that's the earliest we will need to exit the semaphore.
-        //_exitTimer = new Timer();
-        //_exitTimer.schedule(new RateLimiter.CallbackTask(),TimeUnitMilliseconds, TimeUnitMilliseconds);
         ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
         futureTask =  scheduledPool.scheduleWithFixedDelay(runnabledelayedTask, TimeUnitMilliseconds,TimeUnitMilliseconds, TimeUnit.MILLISECONDS);
     }
