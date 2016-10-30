@@ -12,7 +12,7 @@ public class RateLimiter {
     private Semaphore  _semaphore;
 
     // Times (in millisecond ticks) at which the semaphore should be exited.
-    private ConcurrentLinkedQueue<Long> _exitTimes;
+    private ConcurrentLinkedQueue<Long> _queue;
 
     // Timer used to trigger exiting the semaphore.
     private ScheduledExecutorService scheduledPool;
@@ -49,7 +49,7 @@ public class RateLimiter {
         _semaphore = new Semaphore(Occurrences);
 
         // Create a queue to hold the semaphore exit times.
-        _exitTimes = new ConcurrentLinkedQueue<>();
+        _queue = new ConcurrentLinkedQueue<>();
 
         // Create a timer to exit the semaphore. Use the time unit as the original
         // interval length because that's the earliest we will need to exit the semaphore.
@@ -64,19 +64,19 @@ public class RateLimiter {
         public void run(){
             // While there are exit times that are passed due still in the queue,
             // exit the semaphore and dequeue the exit time.
-            long exitTime = _exitTimes.peek();
-            while ( _exitTimes.peek() != null && exitTime - System.currentTimeMillis() <= 0) {
+            long exitTime = _queue.peek();
+            while ( _queue.peek() != null && exitTime - System.currentTimeMillis() <= 0) {
                 _semaphore.release();
-                _exitTimes.poll();
+                _queue.poll();
                 //System.out.println( "semaphore " + _semaphore.availablePermits());
-                if(_exitTimes.peek() != null)
-                    exitTime = _exitTimes.peek();
+                if(_queue.peek() != null)
+                    exitTime = _queue.peek();
             }
             // Try to get the next exit time from the queue and compute the time until the next check should take place. If the
             // queue is empty, then no exit times will occur until at least one time unit has passed.
             long timeUntilNextCheck;
-            if (_exitTimes.peek() != null) {
-                exitTime = _exitTimes.peek();
+            if (_queue.peek() != null) {
+                exitTime = _queue.peek();
                 timeUntilNextCheck = exitTime - System.currentTimeMillis();
             }
             else
@@ -104,6 +104,6 @@ public class RateLimiter {
         // Block until we can enter the semaphore or until the timeout expires.
         _semaphore.acquire();
         long timeToExit = System.currentTimeMillis() + TimeUnitMilliseconds;
-        _exitTimes.add(timeToExit);
+        _queue.add(timeToExit);
     }
 }
