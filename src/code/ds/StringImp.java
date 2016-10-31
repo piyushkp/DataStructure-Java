@@ -12,7 +12,7 @@ public class StringImp {
         //System.out.print("String");
         //char set1[] = {'a', 'b', 'c'};
         //printAllKLength(set1,3);
-        System.out.print(minSubString("ADOBECODEBANC", "ABC"));
+        System.out.print(ransomNote2("aaaba", "aaabbb"));
         //permute(str);
     }
 
@@ -2370,20 +2370,20 @@ public class StringImp {
     // Time is O(M) where M is length of magazine. we can do better than this when magazine is too big
     public static boolean ransomNote1(String note, String mag) {
         int[] count = new int[256]; // Assumes only ASCII characters
-        /* for -- a(1)b(1)
-        int i =0;
-        while(i < str.length()){
-            int c = str.charAt(i);
-            int num = str.charAt(i+2);
+        // for -- a(1)b(1)
+        /*int i =0;
+        while(i < mag.length()){
+            int c = mag.charAt(i);
+            int num = Character.getNumericValue(mag.charAt(i+2));
             count[c] = num;
             i += 4;
-        } */
+        }*/
         for(int i = 0; i < mag.length(); i++) {
             int c = mag.charAt(i);
             count[c]++;
         }
-        for(int i = 0; i < note.length(); i++) {
-            int c = note.charAt(i);
+        for(int j = 0; j < note.length(); j++) {
+            int c = note.charAt(j);
             count[c]--;
             if(count[c] < 0)
                 return false;
