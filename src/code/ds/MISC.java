@@ -1,22 +1,43 @@
 package code.ds;
 import java.time.LocalTime;
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Piyush Patel.
  */
 public class MISC {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException{
         //System.out.print("MISC");
         MISC misc = new MISC();
-        ArrayList<Interval> input = new ArrayList<>();
+        /*ArrayList<Interval> input = new ArrayList<>();
         //input.add(misc.new Interval(1,4));
         input.add(misc.new Interval(5,10));
         input.add(misc.new Interval(1,2));
         //input.add(misc.new Interval(6,8));
         for(Interval item : misc.mergeIntervals(input)){
             System.out.println(item.start +"," + item.end);
-        }
+        }*/
+        MISC.HitCounter hit = misc.new HitCounter();
+        System.out.println(System.currentTimeMillis() /1000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        Thread.sleep(1000);
+        Thread.sleep(3000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        Thread.sleep(2500);
+        System.out.println(System.currentTimeMillis() /1000);
+        Thread.sleep(1000 * 55);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        System.out.println(System.currentTimeMillis() /1000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+        hit.hit((int)System.currentTimeMillis() /1000);
+
+        System.out.println(hit.getHits((int)System.currentTimeMillis() /1000));
+
     }
 
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
@@ -1126,5 +1147,37 @@ public class MISC {
             }
         }
         return left;
+    }
+    //how do you count the number of visitors for the past 1 minute?
+    class HitCounter {
+        java.util.concurrent.atomic.AtomicIntegerArray time;
+        java.util.concurrent.atomic.AtomicIntegerArray hit;
+        /** Initialize your data structure here. */
+        public HitCounter() {
+            time  = new java.util.concurrent.atomic.AtomicIntegerArray(60);
+            hit = new java.util.concurrent.atomic.AtomicIntegerArray(60);
+        }
+        /** Record a hit.
+         @param timestamp - The current timestamp (in seconds granularity). */
+        public void hit(int timestamp) {
+            int index = timestamp % 60;
+            if (time.get(index) != timestamp) {
+                time.set(index, timestamp);
+                hit.set(index, 1);
+            } else {
+                hit.incrementAndGet(index);//add one
+            }
+        }
+        /** Return the number of hits in the past 5 minutes.
+         @param timestamp - The current timestamp (in seconds granularity). */
+        public int getHits(int timestamp) {
+            int total = 0;
+            for (int i = 0; i < 60; i++) {
+                if (timestamp - time.get(i) < 60) {
+                    total += hit.get(i);
+                }
+            }
+            return total;
+        }
     }
 }
