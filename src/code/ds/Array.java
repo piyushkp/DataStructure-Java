@@ -15,22 +15,22 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String [] args) throws InterruptedException, ExecutionException{
-        //int arr[] = {3,2,5,10,7};
-        //System.out.println(FindMaxSumNonAdjacent(arr));
-        //subArraySumPositive(arr,33);
-        //int[] out = threeSum_Multiple(arr);
-        //List<List<Integer>> out = kSum(arr,3,5,0);
-        //System.out.println(minSubArraySum(arr,7));
-        //int[] a = threeSum_Multiple(arr);
-
-        //MergeUnsortedArrayKthSmallest(arr,arr1,5);
-
-        RateLimiter rateGate = new RateLimiter(2, 2);
+        /*RateLimiter rateGate = new RateLimiter(2, 2);
         for (int i = 0; i < 10; i++)
         {
             rateGate.WaitToProceed();
             System.out.println(i);
-        }
+        }*/
+        AutoComplete auto = new AutoComplete();
+        AutoComplete.TernaryTree tree = auto.new TernaryTree();
+        tree.Add("San Diego");
+        tree.Add("San Francisco");
+        tree.Add("Oakland");
+        tree.Add("San D123213213");
+        tree.Add("Aan D");
+        //String[] output = tree.AutoComplete("San");
+        System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));
+
     }
     //Merge two sorted array into sorted array Time = O(N+M)
     public static int[] MergeArray(int[] a, int[] b) {

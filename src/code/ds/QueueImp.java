@@ -141,6 +141,4 @@ public class QueueImp{
             }
         }
     }
-    //how to count number of requests in last second, minute and hour. using circular array
-    //https://github.com/WeizhengZhou/leetcode3/blob/master/src/LastCounter.java
 }
