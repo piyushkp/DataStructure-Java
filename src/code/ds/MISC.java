@@ -830,7 +830,6 @@ public class MISC {
         DoublyNode next;
         DoublyNode prev;
     }
-
     class LRU {
         HashMap<Integer, DoublyNode> map;
         int capacity;
@@ -839,7 +838,7 @@ public class MISC {
 
         LRU(int capacity) {
             this.capacity = capacity;
-            map = new HashMap<Integer, DoublyNode>();
+            map = new HashMap<>();
         }
 
         private void add(DoublyNode item) {
@@ -906,6 +905,15 @@ public class MISC {
             node.data = value;
             add(node);
             map.put(key, node);
+        }
+        public void removeCache(int key)
+        {
+            if(map.containsKey(key))
+            {
+                DoublyNode node = map.get(key);
+                map.remove(key);
+                remove(node);
+            }
         }
     }
 
