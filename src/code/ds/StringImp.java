@@ -12,8 +12,10 @@ public class StringImp {
         //System.out.print("String");
         //char set1[] = {'a', 'b', 'c'};
         //printAllKLength(set1,3);
-        System.out.print(ransomNote2("aaaba", "aaabbb"));
-        //permute(str);
+        //System.out.print(ransomNote2("aaaba", "aaabbb"));
+       //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
+       String str = encode(19158);
+        int num = decode1(str);
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
