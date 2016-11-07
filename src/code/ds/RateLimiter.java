@@ -82,7 +82,7 @@ public class RateLimiter {
             else
                 timeUntilNextCheck = TimeUnitMilliseconds;
             // Set the timer.
-            //changeScheduler(timeUntilNextCheck);
+            changeScheduler(timeUntilNextCheck);
         }
     };
     public void changeScheduler(long time){
