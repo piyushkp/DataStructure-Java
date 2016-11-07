@@ -9,7 +9,7 @@ import java.util.*;
 public class TimerQueue {
     private PriorityQueue<TimerTask> m_heap;
 
-    public TimerQueue(String threadName) {
+    public TimerQueue() {
         m_heap = new PriorityQueue();
     }
 
@@ -28,7 +28,7 @@ public class TimerQueue {
 
     protected void putJob(TimerTask task) {
         m_heap.add(task);
-        ((TimerTask) task).setState(TimerTask.SCHEDULED);
+        task.setState(TimerTask.SCHEDULED);
         notifyAll();
     }
 
@@ -36,7 +36,7 @@ public class TimerQueue {
         while (m_heap.peek() == null) {
             wait();
         }
-        TimerTask task = (TimerTask) m_heap.poll();
+        TimerTask task = m_heap.poll();
         switch (task.getState()) {
             case TimerTask.CANCELLED:
             case TimerTask.EXECUTED:
@@ -51,7 +51,7 @@ public class TimerQueue {
         }
     }
 
-    protected Runnable createQueueLoop() {
+    protected Runnable ExecuteTask() {
         return new TimerTaskLoop();
     }
 
@@ -162,9 +162,6 @@ abstract class TimerTask
             return ret;
         }
     }
-
-    // Executable implementation ---------------------------------------
-
     /**
      * The task to be executed, to be implemented in subclasses.
      */
