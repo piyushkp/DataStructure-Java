@@ -7,8 +7,7 @@ import java.util.concurrent.*;
  * Created by ppatel2 on 10/28/2016.
  */
 public class RateLimiter {
-    // Semaphore used to count and limit the number of occurrences per
-    // unit time.
+    // Semaphore used to count and limit the number of occurrences per unit time.
     private Semaphore  _semaphore;
 
     // Times (in millisecond ticks) at which the semaphore should be exited.
