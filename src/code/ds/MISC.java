@@ -893,6 +893,7 @@ public class MISC {
                 DoublyNode node = map.get(key);
                 moveFirst(node);
                 node.data = value;
+                map.put(key, node);
                 return;
             }
             //cache is full and cache miss
