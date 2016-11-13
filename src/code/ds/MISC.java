@@ -3,6 +3,8 @@ import java.time.LocalTime;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created by Piyush Patel.
@@ -1187,6 +1189,44 @@ public class MISC {
                 }
             }
             return total;
+        }
+    }
+    //Stream deduplication - Give a real-time source of data that emits strings.
+    // print last 1 minute unique data.
+    class Streamdedu{
+        AtomicIntegerArray time;
+        java.util.concurrent.atomic.AtomicReferenceArray data;
+        public Streamdedu()
+        {
+            time= new AtomicIntegerArray(60);
+            data = new java.util.concurrent.atomic.AtomicReferenceArray(60);
+        }
+        void OnDataReceived(String input, int timestamp)
+        {
+            ArrayList<String> temp;
+            int index = timestamp % 60;
+            if(time.get(index) != timestamp){
+                time.set(index, timestamp);
+                temp = new ArrayList<>();
+                temp.add(input);
+                data.set(index,temp);
+            }
+            else
+            {
+                temp = (ArrayList<String>) data.get(index);
+                if(!temp.contains(input))
+                    temp.add(input);
+            }
+        }
+        public List<String> PrintData(int timestamp)
+        {
+            List<String> output = new ArrayList<>();
+            for (int i = 0; i < 60; i++) {
+                if (timestamp - time.get(i) < 60) {
+                    output.addAll((ArrayList<String>)data.get(i));
+                }
+            }
+            return output;
         }
     }
 }
