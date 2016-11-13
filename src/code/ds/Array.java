@@ -30,20 +30,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        String[] input = new String[10];
-        input[0] = "Alex";
-        input[1] = "Michael";
-        input[2] = "Herry";
-        input[3] = "Dave";
-        input[4] = "Michael";
-        input[5] = "Michael";
-        input[6] = "Herry";
-        input[7] = "Alex";
-        input[8] = "Naza";
-        input[9] = "Naza";
-
-        System.out.print(abc(input));
-
+        int[] input = {36, 41, 56, 35, 44, 33, 34, 92, 43, 32, 42};
+        System.out.print(findLongestConseqSubseq(input));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -1475,6 +1463,33 @@ public class Array {
                 y = y ^ arr[i];
         }
         System.out.print(x + " " + y);
+    }
+    //longest consecutive subsequence
+    //Given an array of integers, find the length of the longest sub-sequence such that elements in the subsequence
+    //are consecutive integers, the consecutive numbers can be in any order.
+    //Input = {1, 9, 3, 10, 4, 20, 2}; output = 4
+    static int findLongestConseqSubseq(int arr[]){
+        HashSet<Integer> map = new HashSet<>();
+        int MaxCount = 0;
+        int count = 1;
+        // Hash all the array elements
+        for (int i=0; i<arr.length; ++i)
+            map.add(arr[i]);
+        // check each possible sequence from the start then update optimal length
+        for (int i=0; i<arr.length; ++i){
+            // if current element is the starting element of a sequence
+            if (!map.contains(arr[i]-1)){
+                // Then check for next elements in the sequence
+                int temp = arr[i] + 1;
+                while (map.contains(temp)) {
+                    temp++;
+                    count++;
+                }
+                MaxCount = Math.max(count, MaxCount);
+                count = 1;
+            }
+        }
+        return MaxCount;
     }
 
     //Given an array of distinct integers, find length of the longest subarray which contains numbers that can be
