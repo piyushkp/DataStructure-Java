@@ -30,8 +30,9 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] input = {36, 41, 56, 35, 44, 33, 34, 92, 43, 32, 42};
-        System.out.print(findLongestConseqSubseq(input));
+        int[] input = {11, 13, 21, 3};
+       nextGreaterElement(input);
+        FindNextGreaterElement(input);
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -2469,6 +2470,23 @@ public class Array {
         //print -1 as next element for them.
         while (!stack.isEmpty()) {
             System.out.println(stack.pop() + ", " + -1);
+        }
+    }
+    //without extra space
+    static void nextGreaterElement(int[] arr) {
+        int max = arr[arr.length - 1];
+        System.out.println("for el: " + arr[arr.length - 1] + " next greater is: " + -1);
+        for (int i = arr.length - 2; i >= 0; i--) {
+            if (arr[i] < arr[i + 1]) {
+                System.out.println("for " + arr[i] + " next greater is: " + arr[i + 1]);
+            } else if (arr[i] < max) {
+                System.out.println("for " + arr[i] + " next greater is: " + max);
+            } else {
+                System.out.println("for " + arr[i] + " next greater is: " + (-1));
+            }
+            if (arr[i + 1] > max) {
+                max = arr[i + 1];
+            }
         }
     }
 
