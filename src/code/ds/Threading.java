@@ -83,6 +83,13 @@ public class Threading {
                 if (values.compareAndSet(oldv, newv)) return;
             }
         }
-        //setUpper() similar to setLower
+        public void setUpper(int i) {
+            while (true) {
+                IntPair oldv = values.get();
+                if (i < oldv.lower) throw new IllegalArgumentException();
+                IntPair newv = new IntPair(oldv.lower, i);
+                if (values.compareAndSet(oldv, newv)) return;
+            }
+        }
     }
 }
