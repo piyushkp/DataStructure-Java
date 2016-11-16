@@ -10,11 +10,12 @@ public class Matrix {
         //System.out.print("Matrix");
         int mat[][] =
         {
-            { 1,3,5 },
-            { 3,2,4 },
+            { 1,2,3,9 },
+            { 4,5,6,7 },
+            { 7,8,9,89 },
 
         };
-        int out[][] = sortMatrix(mat);
+        printMat(mat);
     }
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
@@ -203,7 +204,7 @@ public class Matrix {
             4 5 6
             7 8 9
      Printing should be 1 2 3 6 9 8 7 4 5 */
-    public void spiralprint(int matrix[][]) {
+    public static void spiralprint(int matrix[][]) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return;
         }
@@ -230,6 +231,46 @@ public class Matrix {
             left++;
         }
     }
+    /* Print matrix in below order
+    * 1 2 3
+    * 4 5 6
+    * 7 8 9
+    * Ouput:    7
+    *           4 8
+    *           1 5 9
+    *           2 6
+    *           3
+    * */
+    public static void printMat(int[][] mat) {
+        if (mat == null || mat.length == 0)
+            return;
+        int left = 0, up = 0;
+        int down = mat.length - 1;
+        int right = mat[0].length - 1;
+        for (int i = down; i >= 0; i--) {
+            int x = i;
+            int y = left;
+            while (x <= down && y <= down) {
+                System.out.print(mat[x][y] + " ");
+                x++;
+                y++;
+            }
+            System.out.println();
+        }
+        left++;
+        for (int i = left; i <= right; i++) {
+            int x = up;
+            int y = i;
+            while (x <= right && y <= right) {
+                System.out.print(mat[x][y] + " ");
+                x++;
+                y++;
+            }
+            System.out.println();
+        }
+    }
+
+
     //Read in an n by n matrix and shift each element over by one position along the edges (like a concentric circle).
     /*Input :   1    2    3
                 4    5    6
@@ -601,22 +642,6 @@ public class Matrix {
         }
         // we only reach here when all elements in given diagonal are same
         return true;
-    }
-    public static boolean isToepliz1(Integer[][] mat){
-        List<Integer> prev = null;
-        List<Integer> curr = null;
-        for (int i = 0; i < mat.length; i++) {
-            Integer[] temp = mat[i];
-            curr = new LinkedList<Integer>(Arrays.asList(temp));
-            curr.remove(0);
-            if(prev != null){
-                if(!prev.toString().equals(curr.toString()))
-                    return false;
-            }
-            prev = new LinkedList<Integer>(Arrays.asList(temp));
-            prev.remove(prev.size() -1);
-        }
-        return  true;
     }
     /*Given a 2D matrix of integers, sort it such that: - every row is sorted in ascending order from left to right
     - every column is sorted in ascending order from top to down

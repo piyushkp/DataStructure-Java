@@ -7,9 +7,10 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Tree {
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         System.out.print("Tree");
     }
+
     public class Node {
         public int data;
         public Node left;
@@ -19,10 +20,13 @@ public class Tree {
         Node(int data) {
             data = data;
         }
+
         Node() {
         }
     }
+
     public Node root;
+
     // insert node in BST
     public void insert(Node root, int node) {
         if (root == null) {
@@ -36,6 +40,7 @@ public class Tree {
             insert(root.right, node);
         }
     }
+
     // Insert node into tree Iterative
     public void insertItr(Node root, int data) {
         Node newNode = new Node();
@@ -310,9 +315,11 @@ public class Tree {
             prev = current;
         }
     }
+
     //Construct Tree from given Inorder and Preorder traversals
     //We can also Use HashSet for Search
     static int preIndex = 0;
+
     Node buildTree(char in[], char pre[], int inStrt, int inEnd) {
         if (inStrt > inEnd) {
             return null;
@@ -330,6 +337,7 @@ public class Tree {
         tNode.right = buildTree(in, pre, inIndex + 1, inEnd);
         return tNode;
     }
+
     /* Function to find index of value in arr[start...end] The function assumes that value is present in in[] */
     int search(char arr[], int start, int end, int value) {
         int i;
@@ -600,24 +608,22 @@ public class Tree {
     //Using Morris traversal and maintaining the pre node, solution in O(n) time complexity and O(1) space complexity.
     public boolean isValidBST(Node root) {
         Node pre = null, cur = root, tmp;
-        while(cur != null) {
-            if(cur.left == null) {
-                if(pre != null && pre.data >= cur.data)
+        while (cur != null) {
+            if (cur.left == null) {
+                if (pre != null && pre.data >= cur.data)
                     return false;
                 pre = cur;
                 cur = cur.right;
-            }
-            else {
+            } else {
                 tmp = cur.left;
-                while(tmp.right != null && tmp.right != cur)
+                while (tmp.right != null && tmp.right != cur)
                     tmp = tmp.right;
-                if(tmp.right == null) { // left child has not been visited
+                if (tmp.right == null) { // left child has not been visited
                     tmp.right = cur;
                     cur = cur.left;
-                }
-                else { // left child has been visited already
+                } else { // left child has been visited already
                     tmp.right = null;
-                    if(pre != null && pre.data >= cur.data)
+                    if (pre != null && pre.data >= cur.data)
                         return false;
                     pre = cur;
                     cur = cur.right;
@@ -626,6 +632,7 @@ public class Tree {
         }
         return true;
     }
+
     //Integer.MIN_VALUE, Integer.MAX_VALUE
     public static boolean validateBST(Node root, int min, int max) {
         if (root == null) {
@@ -653,7 +660,7 @@ public class Tree {
     }
 
     //Second largest element in BST. Time complexity of the above solution is O(h) where h is height of BST.
-    void secondLargestUtil(Node root, int c){
+    void secondLargestUtil(Node root, int c) {
         // Base cases, the second condition is important to avoid unnecessary recursive calls
         if (root == null || c >= 2)
             return;
@@ -661,48 +668,48 @@ public class Tree {
         secondLargestUtil(root.right, c);
         c++;
         // If c becomes k now, then this is the 2nd largest
-        if (c == 2){
+        if (c == 2) {
             System.out.print("2nd largest element is " + root.data);
             return;
         }
         secondLargestUtil(root.left, c);
     }
+
     //K’th smallest element in BST using O(1) Extra Space
-    int KSmallestUsingMorris(Node root, int k){
+    int KSmallestUsingMorris(Node root, int k) {
         // Count to iterate over elements till we get the kth smallest number
         int count = 0;
         int ksmall = Integer.MIN_VALUE; // store the Kth smallest
         Node curr = root; // to store the current node
-        while (curr != null){
+        while (curr != null) {
             // Like Morris traversal if current does not have left child rather than printing as we did in inorder, we will just
             // increment the count as the number will be in an increasing order
-            if (curr.left == null){
+            if (curr.left == null) {
                 count++;
                 // if count is equal to K then we found the kth smallest, so store it in ksmall
-                if (count==k)
+                if (count == k)
                     ksmall = curr.data;
                 // go to current's right child
                 curr = curr.right;
-            }
-            else{
+            } else {
                 // we create links to Inorder Successor and count using these links
                 Node pre = curr.left;
                 while (pre.right != null && pre.right != curr)
                     pre = pre.right;
                 // building links
-                if (pre.right==null){
+                if (pre.right == null) {
                     //link made to Inorder Successor
                     pre.right = curr;
                     curr = curr.left;
                 }
                 // While breaking the links in so made temporary threaded tree we will check for the K smallest
                 // condition
-                else{
+                else {
                     // Revert the changes made in if part (break link from the Inorder Successor)
                     pre.right = null;
                     count++;
                     // If count is equal to K then we found the kth smallest and so store it in ksmall
-                    if (count==k)
+                    if (count == k)
                         ksmall = curr.data;
                     curr = curr.right;
                 }
@@ -710,6 +717,7 @@ public class Tree {
         }
         return ksmall; //return the found value
     }
+
     //given a binary search tree and you are asked to find the Kth smallest element in that tree.
     private Node findKthNode_SMALLEST(Node root, int k) {
         if (root == null)
@@ -723,78 +731,79 @@ public class Tree {
             findKthNode_SMALLEST(root.right, k - leftSize - 1);
         return null;
     }
+
     private int findLeftTreeSize(Node root) {
         if (root == null)
             return 0;
         else
             return 1 + findLeftTreeSize(root.left) + findLeftTreeSize(root.right);
     }
+
     //Follow up: what if the BST is modified (insert/delete operations) often and you need to find the k-th smallest frequently?
     //Idea is to while building up the tree we can maintain number of elements of left subtree in every node.
     //Time complexity: O(h) where h is height of tree.
-    class Node_t{
+    class Node_t {
         int data;
         int lCount;
         Node_t left;
         Node_t right;
     }
+
     //build a tree with counting left subtree nodes of every node
-    Node_t insert_node(Node_t root, Node_t node){
+    Node_t insert_node(Node_t root, Node_t node) {
         Node_t pTraverse = root;
         Node_t currentParent = root;
         // Traverse till appropriate node
-        while(pTraverse != null){
+        while (pTraverse != null) {
             currentParent = pTraverse;
-            if( node.data < pTraverse.data ){
+            if (node.data < pTraverse.data) {
             /* We are branching to left subtree increment node count */
                 pTraverse.lCount++;
             /* left subtree */
                 pTraverse = pTraverse.left;
-            }
-            else{
+            } else {
             /* right subtree */
                 pTraverse = pTraverse.right;
             }
         }
     /* If the tree is empty, make it as root node */
-        if(root == null){
+        if (root == null) {
             root = node;
-        }
-        else if( node.data < currentParent.data ){
+        } else if (node.data < currentParent.data) {
         /* Insert on left side */
             currentParent.left = node;
-        }
-        else{
+        } else {
         /* Insert on right side */
             currentParent.right = node;
         }
         return root;
     }
-    int k_smallest_element(Node_t root, int k){
+
+    int k_smallest_element(Node_t root, int k) {
         int ret = -1;
-        if( root != null){
+        if (root != null) {
             Node_t pTraverse = root;
         /* Go to k-th smallest */
-            while(pTraverse != null){
-                if( (pTraverse.lCount + 1) == k ){
+            while (pTraverse != null) {
+                if ((pTraverse.lCount + 1) == k) {
                     ret = pTraverse.data;
                     break;
-                }
-                else if( k > pTraverse.lCount ){ /*  There are less nodes on left subtree Go to right subtree */
+                } else if (k > pTraverse.lCount) { /*  There are less nodes on left subtree Go to right subtree */
                     k = k - (pTraverse.lCount + 1);
                     pTraverse = pTraverse.right;
-                }
-                else{ /* The node is on left subtree */
+                } else { /* The node is on left subtree */
                     pTraverse = pTraverse.left;
                 }
             }
         }
         return ret;
     }
+
     /* A O(n) iterative program for construction of BST from preorder traversal
     * Deserialize the BST*/
     int min = Integer.MIN_VALUE;
     int max = Integer.MAX_VALUE;
+
     private Node deserializeArrayOptimized(int[] preorder, int currIndex, int min, int max) {
         if (currIndex >= preorder.length) return null;
         Node root = null;
@@ -832,11 +841,13 @@ public class Tree {
             CorrectBSTUtil(root.right, first, middle, last, prev);
         }
     }
+
     public void swap(int a, int b) {
         int t = a;
         a = b;
         b = t;
     }
+
     //You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which
     //sum to a given value. The path does not need to start or end at the root or a leaf.
     //Time Complexity = O(NlogN) and space (logN)
@@ -861,17 +872,20 @@ public class Tree {
  * we would ignore this value, but it's good practice. */
         path[level] = Integer.MIN_VALUE;
     }
+
     public void findSum(Node node, int sum) {
         int depth = depth(node);
         int[] path = new int[depth];
         findSumUtil(node, sum, path, 0);
     }
+
     public static void print(int[] path, int start, int end) {
         for (int i = start; i <= end; i++) {
             System.out.print(path[i] + " ");
         }
         System.out.println();
     }
+
     public int depth(Node node) {
         if (node == null) {
             return 0;
@@ -941,6 +955,7 @@ public class Tree {
         max_sum = MaxSumSubtree(root, max_sum);
         return max_sum;
     }
+
     private int MaxSumSubtree(Node root, int max_sum) {
         int sum = 0;
         int lsum = 0;
@@ -956,11 +971,13 @@ public class Tree {
             max_sum = sum;
         return max_sum;
     }
+
     //Print Right View of a Binary Tree
     public void rightView() {
         int max_level = 0;
         rightViewUtil(root, 1, max_level);
     }
+
     public void rightViewUtil(Node root, int level, int max_level) {
         if (root == null) return;
         if (max_level < level) {
@@ -970,6 +987,7 @@ public class Tree {
         rightViewUtil(root.right, level + 1, max_level);
         rightViewUtil(root.left, level + 1, max_level);
     }
+
     // Given a Binary Tree mirror it with left and right subtree
     //modify the existing binary tree
     void mirror(Node node) {
@@ -1000,6 +1018,7 @@ public class Tree {
         }
         return newNode;
     }
+
     private Node mirrorTreeIterative(Node root) {
         Node newNode = new Node();
         if (root == null)
@@ -1016,6 +1035,7 @@ public class Tree {
         }
         return newNode;
     }
+
     //Given a binary tree, check whether it is a mirror of itself.
     boolean isMirror(Node node1, Node node2) {
         // if both trees are empty, then they are mirror image
@@ -1074,6 +1094,7 @@ public class Tree {
 
     //Given a binary search tree, sum all the nodes which are at on the same vertical line.
     int HD_OFFSET = 16;
+
     private void verticalSUM(Node root, int[] sum, int hd, int min, int max) {
         int index = hd + HD_OFFSET / 2;
         if (index < min) min = index;
@@ -1373,6 +1394,7 @@ public class Tree {
     //convert a binary tree to a circular doubly-linked list
     Node prev = null;
     Node head = null;
+
     void treeToDoublyList(Node root, Node prev, Node head) {
         if (root == null) return;
         treeToDoublyList(root.left, prev, head);
@@ -1390,6 +1412,7 @@ public class Tree {
         prev = root;
         treeToDoublyList(right, prev, head);
     }
+
     //Serialize/Deserialize the binary tree
     // ‘is used to indicate an internal node set bit, and ‘/’ is used as NULL marker for node which has one child
     void Serialize(Node root) {
@@ -1419,7 +1442,9 @@ public class Tree {
             }
         }
     }
+
     int currentIndex = 0;
+
     public Node Deserialize(String str) {
         if (currentIndex > str.length()) return null;
         else if (str.charAt(currentIndex) == '/')
@@ -1451,23 +1476,26 @@ public class Tree {
         n.right = createBST(a, mid + 1, end);
         return n;
     }
+
     //Deepest left leaf node in a binary tree
-    void deepestLeftLeafUtil(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr){
+    void deepestLeftLeafUtil(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr) {
         if (root == null)
             return;
         // Update result if this node is left leaf and its level is more than the maxl level of the current result
-        if (isLeft && root.left != null && root.right != null && lvl > maxlvl){
+        if (isLeft && root.left != null && root.right != null && lvl > maxlvl) {
             resPtr = root;
             maxlvl = lvl;
             return;
         }
         // Recur for left and right subtrees
-        deepestLeftLeafUtil(root.left, lvl+1, maxlvl, true, resPtr);
-        deepestLeftLeafUtil(root.right, lvl+1, maxlvl, false, resPtr);
+        deepestLeftLeafUtil(root.left, lvl + 1, maxlvl, true, resPtr);
+        deepestLeftLeafUtil(root.right, lvl + 1, maxlvl, false, resPtr);
     }
+
     //Deepest node in binary tree
-    int deepestlevel =0;
+    int deepestlevel = 0;
     int value;
+
     public void find(Node root, int level) {
         if (root != null) {
             find(root.left, level + 1);
@@ -1507,6 +1535,7 @@ public class Tree {
         }
         return subTree(tl, t2);
     }
+
     boolean subTree(Node rl, Node r2) {
         if (rl == null) {
             return false; // big tree empty & subtree still not found.
@@ -1516,6 +1545,7 @@ public class Tree {
         }
         return (subTree(rl.left, r2) || subTree(rl.right, r2));
     }
+
     boolean matchTree(Node rl, Node r2) {
         if (r2 == null && rl == null) // if both are empty
             return true; // nothing left in the subtree
@@ -1532,82 +1562,129 @@ public class Tree {
 
     //print all path from root to leaf in Binary tree
     HashSet<Node> set = new HashSet<>();
-    void printPaths(Node root){
-        if(root == null) return;
+
+    void printPaths(Node root) {
+        if (root == null) return;
         Stack<Node> s = new Stack<>();
         s.push(root);
         Node temp = root.left;
-        while(s.size() != 0){
-            while(temp != null){
+        while (s.size() != 0) {
+            while (temp != null) {
                 s.push(temp);
                 temp = temp.left;
             }
             Node top = s.peek();
-            if(!set.contains(top)){
+            if (!set.contains(top)) {
                 set.add(top);
                 temp = top.right;
-                if(temp == null && top.left == null){
+                if (temp == null && top.left == null) {
                     printThePath(s);
                     s.pop();
                 }
-            }
-            else{
+            } else {
                 s.pop();
             }
         }
     }
-    void printThePath(Stack<Node> s){
+
+    void printThePath(Stack<Node> s) {
         // get an iterator and print the stack
         List<Node> list = new ArrayList<>(s);
-        for (Node x : list){
+        for (Node x : list) {
             System.out.println(x.data);
         }
     }
-}
-//Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x
+
+    //Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x
 // (the number of values less than or equal to x). Implement the data structures and algorithms to support these
 // operations. That is, implement the method track(int x), which is called when each number is generated, and the
 // method getRankOf'Number (int x), which returns the number of values less than or equal to x (not including x itself).
- class RankNode {
-    public int left_size = 0;
-    public RankNode left;
-    public RankNode right;
-    public int data = 0;
-    public RankNode(int d) {
-        data = d;
-    }
-    public void insert(int d) {
-        if (d <= data) {
-            if (left != null) {
-                left.insert(d);
+    class RankNode {
+        public int left_size = 0;
+        public RankNode left;
+        public RankNode right;
+        public int data = 0;
+
+        public RankNode(int d) {
+            data = d;
+        }
+
+        public void insert(int d) {
+            if (d <= data) {
+                if (left != null) {
+                    left.insert(d);
+                } else {
+                    left = new RankNode(d);
+                }
+                left_size++;
             } else {
-                left = new RankNode(d);
+                if (right != null) {
+                    right.insert(d);
+                } else {
+                    right = new RankNode(d);
+                }
             }
-            left_size++;
-        } else {
-            if (right != null) {
-                right.insert(d);
+        }
+
+        public int getRank(int d) {
+            if (d == data) {
+                return left_size;
+            } else if (d < data) {
+                if (left == null) {
+                    return -1;
+                } else {
+                    return left.getRank(d);
+                }
             } else {
-                right = new RankNode(d);
+                int right_rank = right == null ? -1 : right.getRank(d);
+                if (right_rank == -1) {
+                    return -1;
+                } else {
+                    return left_size + 1 + right_rank;
+                }
             }
         }
     }
-    public int getRank(int d) {
-        if (d == data) {
-            return left_size;
-        } else if (d < data) {
-            if (left == null) {
-                return -1;
-            } else {
-                return left.getRank(d);
-            }
-        } else {
-            int right_rank = right == null ? -1 : right.getRank(d);
-            if (right_rank == -1) {
-                return -1;
-            } else {
-                return left_size + 1 + right_rank;
-            }
+    // check if binary tree is unival
+    public static boolean isTreeUnivalRoot(Node root) {
+        if (root == null) {
+            return true;
         }
+        return isTreeUnival(root.left, root.data) && isTreeUnival(root.right, root.data);
+    }
+    public static boolean isTreeUnival(Node n, int val) {
+        if (n == null)
+            return true;
+        if (n.data != val)
+            return false;
+        return isTreeUnival(n.left, val) && isTreeUnival(n.right, val);
+    }
+
+    //count unival subtrees
+    int count = 0;
+    boolean countSingleRec(Node node){
+        // Return false to indicate NULL
+        if (node == null)
+            return true;
+        // Recursively count in left and right subtrees also
+        boolean left = countSingleRec(node.left);
+        boolean right = countSingleRec(node.right);
+
+        // If any of the subtrees is not singly, then this cannot be singly.
+        if (left == false || right == false)
+            return false;
+
+        // If left subtree is singly and non-empty, but data doesn't match
+        if (node.left != null && node.data != node.left.data)
+            return false;
+
+        // Same for right subtree
+        if (node.right != null && node.data != node.right.data)
+            return false;
+
+        // If none of the above conditions is true, then tree rooted under root is single valued, increment
+        // count and return true.
+        count++;
+        return true;
     }
 }
