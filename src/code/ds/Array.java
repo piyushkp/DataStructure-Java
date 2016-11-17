@@ -30,9 +30,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] input = {11, 13, 21, 3};
-       nextGreaterElement(input);
-        FindNextGreaterElement(input);
+        int[]a = {1,2,4,5,3,2,1,3,4,7,8};
+        int[] out = removeDup(a);
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -1731,6 +1730,21 @@ public class Array {
         arr[high] = temp2;
         // Return the partition index of an array based on the pivot element of other array.
         return i;
+    }
+    //Given array remove duplicates items from array.
+    public static int[] removeDup(int[] a){
+        HashSet<Integer> set = new HashSet<>();
+        int k = 0;
+        if(a.length < 2)
+            return  a;
+        for (int i = 0; i < a.length; i++) {
+            if(!set.contains(a[i])){
+                a[k] = a[i];
+                k++;
+                set.add(a[i]);
+            }
+        }
+        return Arrays.copyOf(a,k);
     }
 
     //Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
