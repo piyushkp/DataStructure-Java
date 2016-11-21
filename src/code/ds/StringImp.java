@@ -2418,5 +2418,56 @@ public class StringImp {
         }
         return true;
     }
+    //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without parenthesis
+    //[Token(NUM, -4.), Token(SUB), Token(NUM, 3), Token(MUL)…]
+    class Token {
+        String type;
+        double value;
+        public Token(String _type, double _value) {
+            type = _type;
+            value = _value;
+        }
+        public Token(String _type) {
+            type = _type;
+        }
+    }
+    public static double evalExpr(List<Token> tokenList) {
+        int i = 0;
+        double left = tokenList.get(i++).value;
+        while (i < tokenList.size()) {
+            String operator = tokenList.get(i++).type;
+            double right = Double.valueOf(tokenList.get(i++).value);
+            switch (operator) {
+                case "*":
+                    left = left * right;
+                    break;
+                case "/":
+                    left = left / right;
+                    break;
+                case "+":
+                case "-":
+                    while (i < tokenList.size()) {
+                        String operator2 = tokenList.get(i++).type;
+                        if (operator2.equals("+") || operator2.equals("-")) {
+                            i--;
+                            break;
+                        }
+                        if (operator2.equals("*")) {
+                            right = right * Double.valueOf(tokenList.get(i++).value);
+                        }
+                        if (operator2.equals("/")) {
+                            right = right / Double.valueOf(tokenList.get(i++).value);
+                        }
+                    }
+                    if (operator.equals("+")) {
+                        left = left + right;
+                    } else {
+                        left = left - right;
+                    }
+                    break;
+            }
+        }
+        return left;
+    }
 }
 

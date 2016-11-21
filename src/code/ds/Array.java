@@ -30,8 +30,7 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[]a = {1,2,4,5,3,2,1,3,4,7,8};
-        int[] out = removeDup(a);
+       
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -2622,16 +2621,21 @@ public class Array {
     }
 
     //Move all zeroes to end of array
-    public static void pushZerosToEnd(int arr[], int n) {
-        int count = 0;  // Count of non-zero elements
-        // Traverse the array. If element encountered is non-zero, then replace the element at index 'count' with this element
-        for (int i = 0; i < n; i++)
-            if (arr[i] != 0)
-                arr[count++] = arr[i]; // here count is incremented
-        while (count < n)
-            arr[count++] = 0;
+    public static int[] pushZerosToEnd(int arr[]) {
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            while (arr[left] != 0 && left < right)
+                left++;
+            while (arr[right] == 0 && left < right)
+                right--;
+            if (left < right) {
+                arr[left] ^=arr[right];
+                arr[right] ^=arr[left];
+                arr[left] ^=arr[right];
+            }
+        }
+        return arr;
     }
-
     public static int MaxSumNonAdjacent(int[] a) {
         int[] output = new int[a.length];
         if (a.length == 0)

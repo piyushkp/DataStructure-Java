@@ -1058,13 +1058,21 @@ public class MISC {
         int index;
         int size;
         public void Insert(String key, int value) {
-            index = size;
-            List<Integer> temp = new ArrayList<>();
-            temp.add(value);
-            temp.add(index);
-            _map.put(key, temp);
-            arr.add(index, key);
-            size++;
+            if(!_map.containsKey(key)) {
+                index = size;
+                List<Integer> temp = new ArrayList<>();
+                temp.add(value);
+                temp.add(index);
+                _map.put(key, temp);
+                arr.add(index, key);
+                size++;
+            }
+            else
+            {
+                List<Integer> _list = _map.get(key);
+                _list.set(0,value);
+                _map.put(key,_list);
+            }
         }
         public int Get(String key) {
             return _map.get(key).get(0);
@@ -1088,6 +1096,11 @@ public class MISC {
             size = 0;
         }
     }
+    //data structure to add(value), contains(value), delete(value), random()
+
+    // data structure to add(name, value), get(name), delete(name), count(value)
+
+
     //Add a third dimension of time to a hashmap,so ur hashmap will look something like this - HashMap<K, t, V> where
     //t is a float value. Implement the get and put methods to this map. The get method should be something like - map.get(K,t)
     //which should give us the value. If t does not exists then map should return the closest t' such that t' is smaller than t.
@@ -1106,58 +1119,6 @@ public class MISC {
             }
             map.get(key).put(time, value);
         }
-    }
-
-    //evalexpr(-4 - 3 * 2 / 2 + 4) -> result (float or double) without parenthesis
-    //[Token(NUM, -4.), Token(SUB), Token(NUM, 3), Token(MUL)…]
-    class Token {
-        String type;
-        double value;
-        public Token(String _type, double _value) {
-            type = _type;
-            value = _value;
-        }
-        public Token(String _type) {
-            type = _type;
-        }
-    }
-    public static double evalExpr(List<Token> tokenList) {
-        int i = 0;
-        double left = tokenList.get(i++).value;
-        while (i < tokenList.size()) {
-            String operator = tokenList.get(i++).type;
-            double right = Double.valueOf(tokenList.get(i++).value);
-            switch (operator) {
-                case "*":
-                    left = left * right;
-                    break;
-                case "/":
-                    left = left / right;
-                    break;
-                case "+":
-                case "-":
-                    while (i < tokenList.size()) {
-                        String operator2 = tokenList.get(i++).type;
-                        if (operator2.equals("+") || operator2.equals("-")) {
-                            i--;
-                            break;
-                        }
-                        if (operator2.equals("*")) {
-                            right = right * Double.valueOf(tokenList.get(i++).value);
-                        }
-                        if (operator2.equals("/")) {
-                            right = right / Double.valueOf(tokenList.get(i++).value);
-                        }
-                    }
-                    if (operator.equals("+")) {
-                        left = left + right;
-                    } else {
-                        left = left - right;
-                    }
-                    break;
-            }
-        }
-        return left;
     }
     //how do you count the number of visitors for the past 1 minute?
     class HitCounter {
