@@ -30,6 +30,9 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
+        int[] a = {3, 6, 4, 8};
+        int[] b = {4, 3, 6, 8};
+        System.out.print(MinSwap(a,b));
 
     }
 
@@ -2740,5 +2743,22 @@ public class Array {
             }
         }
         return key;
+    }
+    //Given two arrays which have same values but in different order, we need to make second array same as first array using minimum number of swaps.
+    public static int MinSwap(int[] a, int[] b) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int count = 0;
+        for (int i = 0; i < a.length; i++) {
+            map.put(a[i], i);
+        }
+        for (int j = 0; j < b.length; j++){
+            int index = map.get(b[j]);
+            if (index != j)
+            {
+                Swap(index, j, b);
+                count++;
+            }
+        }
+        return count++;
     }
 }
