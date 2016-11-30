@@ -660,6 +660,30 @@ public class Tree {
     }
 
     //Second largest element in BST. Time complexity of the above solution is O(h) where h is height of BST.
+    public static int findSecondLargestValueInBST(Node root){
+        int secondMax;
+        Node pre = root;
+        Node cur = root;
+        while (cur.right != null){
+            pre = cur;
+            cur = cur.right;
+        }
+        if (cur.left != null){
+            cur = cur.left;
+            while (cur.right != null)
+                cur = cur.right;
+            secondMax = cur.data;
+        }
+        else{
+            if (cur == root && pre == root)
+                //Only one node in BST
+                secondMax = Integer.MIN_VALUE;
+            else
+                secondMax = pre.data;
+        }
+        return secondMax;
+    }
+    //recursive
     void secondLargestUtil(Node root, int c) {
         // Base cases, the second condition is important to avoid unnecessary recursive calls
         if (root == null || c >= 2)
