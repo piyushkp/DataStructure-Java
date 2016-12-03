@@ -1195,7 +1195,7 @@ public class MISC {
     return true if the message should be printed in the given timestamp, otherwise returns false.
     It is possible that several messages arrive roughly at the same time.*/
     class Logger {
-        // Fast but space complexity is very high as map will add data
+        // Fast but space complexity is very high as map will keep on adding data
         private Map<String, Integer> map = new HashMap<>();
         public boolean shouldPrintMessage(int timestamp, String message) {
             if (map.containsKey(message) && (timestamp - map.get(message) < 10)) {
