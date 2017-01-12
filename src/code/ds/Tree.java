@@ -1528,7 +1528,28 @@ public class Tree {
     }
 
     //Deepest left leaf node in a binary tree
-    void deepestLeftLeafUtil(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr) {
+    public Node deepestLeftLeaf(Node root){
+        if(root==null)
+            return null;
+        Queue<Node> q1 = new LinkedList<>();
+        q1.add(root);
+        Node ret=null;
+        while(!q1.isEmpty()){
+            Node tmp = q1.poll();
+            if(tmp.left==null && tmp.right==null){//updating the deepest left leaf
+                ret = tmp;
+                continue;
+            }
+            //ensuring that no leaf which is right to its parent adds on to the queue
+            //so the queue contains only leaves which are left to its parent
+            if(tmp.right!=null && !(tmp.right.left==null && tmp.right.right==null))
+                q1.add(tmp.right);
+            if(tmp.left!=null)
+                q1.add(tmp.left);
+        }
+        return ret;
+    }
+    void deepestLeftLeafRecur(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr) {
         if (root == null)
             return;
         // Update result if this node is left leaf and its level is more than the maxl level of the current result
@@ -1538,11 +1559,26 @@ public class Tree {
             return;
         }
         // Recur for left and right subtrees
-        deepestLeftLeafUtil(root.left, lvl + 1, maxlvl, true, resPtr);
-        deepestLeftLeafUtil(root.right, lvl + 1, maxlvl, false, resPtr);
+        deepestLeftLeafRecur(root.left, lvl + 1, maxlvl, true, resPtr);
+        deepestLeftLeafRecur(root.right, lvl + 1, maxlvl, false, resPtr);
     }
 
     //Deepest node in binary tree
+    private Node deepestNode(Node root) {
+        if (root == null)
+            return null;
+        Queue<Node> _queue = null;
+        Node tmp = null;
+        _queue.add(root);
+        while (_queue.size() > 0) {
+            tmp = _queue.remove();
+            if (tmp.left != null)
+                _queue.add(tmp.left);
+            if (tmp.right != null)
+                _queue.add(tmp.right);
+        }
+        return tmp;
+    }
     int deepestlevel = 0;
     int value;
     public void find(Node root, int level) {
