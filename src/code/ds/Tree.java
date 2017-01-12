@@ -1500,6 +1500,32 @@ public class Tree {
         n.right = createBST(a, mid + 1, end);
         return n;
     }
+    //Maximum Height (Depth) of a Binary Tree
+    int maxDepthIterative(Node root) {
+        if (root == null) return 0;
+        Stack<Node> s = new Stack<>();
+        s.push(root);
+        int maxDepth = 0;
+        Node prev = null;
+        while (!s.empty()) {
+            Node curr = s.peek();
+            if (prev == null || prev.left == curr || prev.right == curr) {
+                if (curr.left != null)
+                    s.push(curr.left);
+                else if (curr.right != null)
+                    s.push(curr.right);
+            } else if (curr.left == prev) {
+                if (curr.right != null)
+                    s.push(curr.right);
+            } else {
+                s.pop();
+            }
+            prev = curr;
+            if (s.size() > maxDepth)
+                maxDepth = s.size();
+        }
+        return maxDepth;
+    }
 
     //Deepest left leaf node in a binary tree
     void deepestLeftLeafUtil(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr) {
@@ -1519,7 +1545,6 @@ public class Tree {
     //Deepest node in binary tree
     int deepestlevel = 0;
     int value;
-
     public void find(Node root, int level) {
         if (root != null) {
             find(root.left, level + 1);

@@ -14,8 +14,13 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-       String str = encode(19158);
-        int num = decode1(str);
+        String[] in = {"abc", "cba", "aba"};
+        List<String> input = new ArrayList<>();
+        input.add("abc");
+        input.add("cba");
+        input.add("aba");
+        //palindromePairs(in);
+        List<String> out  = filterList(input);
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -1214,6 +1219,26 @@ public class StringImp {
             }
         }
         return ans;
+    }
+    //Given a list of words, filter it such that it would only contain those words that have palindrome in an original list.
+    public static List<String> filterList(List<String> input)
+    {
+        List<String> out  = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < input.size(); ++i) map.put(input.get(i), i);
+        for (int k = 0; k < input.size(); ++k) {
+            String word = input.get(k);
+            int n = word.length();
+            for (int i = 0; i < n + 1; ++i) {
+                String prefix = new StringBuilder(word.substring(0, i)).reverse().toString();
+                String suffix = new StringBuilder(word.substring(i, n)).reverse().toString();
+                if (i != 0 && map.containsKey(suffix) && map.get(suffix) != k && isPalindrome(prefix))
+                    out.add(suffix);
+                if (map.containsKey(prefix) && map.get(prefix) != k && isPalindrome(suffix))
+                    out.add(prefix);
+            }
+        }
+        return out;
     }
 
     //implement a function to find if a given string is a palindrome
