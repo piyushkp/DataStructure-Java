@@ -30,9 +30,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {3, 6, 4, 8};
-        int[] b = {4, 3, 6, 8};
-        System.out.print(MinSwap(a,b));
+        int[] a = {1 , 3, 3, 5, 2, 2, 3, 2, 3};
+        System.out.print(mostFrequent(a));
 
     }
 
@@ -765,6 +764,32 @@ public class Array {
           arr[i] = arr[i]%k; */
         // Return index of the maximum element
         return result;
+    }
+    //Given an integer array, find the most frequent number and it's count in the array. Write the code in O(1) space
+    static String mostFrequent(int[] a)
+    {
+        Arrays.sort(a);
+        int count = 1;
+        int maxCount = 1;
+        int num = a[0];
+        int maxNum = a[0];
+        for (int i = 1; i < a.length; i++) {
+            if(num == a[i])
+            {
+                count++;
+                if(count > maxCount)
+                {
+                    maxCount = count;
+                    maxNum = a[i];
+                }
+            }
+            else {
+                count = 1;
+                num = a[i];
+            }
+        }
+
+        return  maxNum + ": " + maxCount;
     }
 
     //Write a program to find the element in an array that is repeated more than half number of times.
