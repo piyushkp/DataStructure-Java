@@ -1646,38 +1646,56 @@ public class Tree {
     //Fast but waste memory, not good for large trees.time and memory = O(n+m)
 
     //print all path from root to leaf in Binary tree
-    HashSet<Node> set = new HashSet<>();
+    // do iterative preorder with map to store the parent node
+    void printRootToLeaf(Node root){
+        // Corner Case
+        if (root == null)
+            return;
+        // Create an empty stack and push root to it
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.push(root);
+        // Create a map to store parent pointers of binary tree nodes
+        HashMap<Node, Node> parent = new HashMap<>();
+        // parent of root is NULL
+        parent.put(root,null);
+    /* Pop all items one by one. Do following for every popped item
+        a) push its right child and set its parent pointer
+        b) push its left child and set its parent pointer
+       Note that right child is pushed first so that left is processed first */
+        while (!nodeStack.empty()){
+            // Pop the top item from stack
+            Node current = nodeStack.peek();
+            nodeStack.pop();
 
-    void printPaths(Node root) {
-        if (root == null) return;
-        Stack<Node> s = new Stack<>();
-        s.push(root);
-        Node temp = root.left;
-        while (s.size() != 0) {
-            while (temp != null) {
-                s.push(temp);
-                temp = temp.left;
+            // If leaf node encountered, print Top To Bottom path
+            if (current.left == null && current.right == null)
+                printTopToBottomPath(current, parent);
+            // Push right & left children of the popped node to stack. Also set their parent pointer in the map
+            if (current.right != null){
+                parent.put(current.right, current);
+                nodeStack.push(current.right);
             }
-            Node top = s.peek();
-            if (!set.contains(top)) {
-                set.add(top);
-                temp = top.right;
-                if (temp == null && top.left == null) {
-                    printThePath(s);
-                    s.pop();
-                }
-            } else {
-                s.pop();
+            if (current.left != null){
+                parent.put(current.left, current);
+                nodeStack.push(current.left);
             }
         }
     }
-
-    void printThePath(Stack<Node> s) {
-        // get an iterator and print the stack
-        List<Node> list = new ArrayList<>(s);
-        for (Node x : list) {
-            System.out.println(x.data);
+    /* Function to print root to leaf path for a leaf using parent nodes stored in map */
+    void printTopToBottomPath(Node curr, HashMap<Node, Node> parent){
+        Stack<Node> stk = new Stack<>();
+        // start from leaf node and keep on pushing nodes into stack till root node is reached
+        while (curr != null){
+            stk.push(curr);
+            curr = parent.get(curr);
         }
+        // Start popping nodes from stack and print them
+        while (!stk.empty()){
+            curr = stk.peek();
+            stk.pop();
+            System.out.print(curr.data + " ");
+        }
+        System.out.println();
     }
 
     //Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x

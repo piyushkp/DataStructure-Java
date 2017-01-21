@@ -14,13 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        String[] in = {"abc", "cba", "aba"};
-        List<String> input = new ArrayList<>();
-        input.add("abc");
-        input.add("cba");
-        input.add("aba");
-        //palindromePairs(in);
-        List<String> out  = filterList(input);
+        System.out.print(areAnagram("abcd", "dcbz"));
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -867,25 +861,36 @@ public class StringImp {
 
     // Check whether two strings are anagram  or not
     // For example, “abcd” and “dabc” are anagram of each other.
-    private boolean areAnagram(String s1, String s2) {
+    private static boolean areAnagram(String s1, String s2) {
         if (s1.length() != s2.length()) return false;
-        HashMap<Character, Integer> counter = new HashMap<Character, Integer>();
+        int[] counter = new int[256];
         for (int i = 0; i < s1.length(); i++) {
-            Character ch = s1.charAt(i);
-            Integer count = (Integer) counter.get(ch);
-            if (count == null) counter.put(ch, 1);
-            else {
-                counter.put(ch, count + 1);
-            }
+            counter[s1.charAt(i)]++;
         }
         for (int i = 0; i < s2.length(); i++) {
-            Character ch = s2.charAt(i);
-            Integer count = (Integer) counter.get(ch);
-            if (count == null || count == 0) return false;
-            else {
-                counter.put(ch, count - 1);
-            }
+            if (counter[s2.charAt(i)] > 0)
+                counter[s2.charAt(i)]--;
+            else
+                return false;
         }
+        return true;
+    }
+    //Check if two strings are k-anagrams or not.
+    private static boolean areKAnagram(String s1, String s2, int K) {
+        if (s1.length() != s2.length()) return false;
+        int[] counter = new int[256];
+        for (int i = 0; i < s1.length(); i++) {
+            counter[s1.charAt(i)]++;
+        }
+        int count = 0;
+        for (int i = 0; i < s2.length(); i++) {
+            if (counter[s2.charAt(i)] > 0)
+                counter[s2.charAt(i)]--;
+            else
+                count++;
+        }
+        if(count > K)
+            return false;
         return true;
     }
 

@@ -30,8 +30,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {1 , 3, 3, 5, 2, 2, 3, 2, 3};
-        System.out.print(mostFrequent(a));
+        int[] a = {7,8,9,9};
+        int[] output = Kswap(a,2);
 
     }
 
@@ -765,31 +765,28 @@ public class Array {
         // Return index of the maximum element
         return result;
     }
+
     //Given an integer array, find the most frequent number and it's count in the array. Write the code in O(1) space
-    static String mostFrequent(int[] a)
-    {
+    static String mostFrequent(int[] a) {
         Arrays.sort(a);
         int count = 1;
         int maxCount = 1;
         int num = a[0];
         int maxNum = a[0];
         for (int i = 1; i < a.length; i++) {
-            if(num == a[i])
-            {
+            if (num == a[i]) {
                 count++;
-                if(count > maxCount)
-                {
+                if (count > maxCount) {
                     maxCount = count;
                     maxNum = a[i];
                 }
-            }
-            else {
+            } else {
                 count = 1;
                 num = a[i];
             }
         }
 
-        return  maxNum + ": " + maxCount;
+        return maxNum + ": " + maxCount;
     }
 
     //Write a program to find the element in an array that is repeated more than half number of times.
@@ -1491,21 +1488,22 @@ public class Array {
         }
         System.out.print(x + " " + y);
     }
+
     //longest consecutive subsequence
     //Given an array of integers, find the length of the longest sub-sequence such that elements in the subsequence
     //are consecutive integers, the consecutive numbers can be in any order.
     //Input = {1, 9, 3, 10, 4, 20, 2}; output = 4
-    static int findLongestConseqSubseq(int arr[]){
+    static int findLongestConseqSubseq(int arr[]) {
         HashSet<Integer> map = new HashSet<>();
         int MaxCount = 0;
         int count = 1;
         // Hash all the array elements
-        for (int i=0; i<arr.length; ++i)
+        for (int i = 0; i < arr.length; ++i)
             map.add(arr[i]);
         // check each possible sequence from the start then update optimal length
-        for (int i=0; i<arr.length; ++i){
+        for (int i = 0; i < arr.length; ++i) {
             // if current element is the starting element of a sequence
-            if (!map.contains(arr[i]-1)){
+            if (!map.contains(arr[i] - 1)) {
                 // Then check for next elements in the sequence
                 int temp = arr[i] + 1;
                 while (map.contains(temp)) {
@@ -1758,20 +1756,21 @@ public class Array {
         // Return the partition index of an array based on the pivot element of other array.
         return i;
     }
+
     //Given array remove duplicates items from array.
-    public static int[] removeDup(int[] a){
+    public static int[] removeDup(int[] a) {
         HashSet<Integer> set = new HashSet<>();
         int k = 0;
-        if(a.length < 2)
-            return  a;
+        if (a.length < 2)
+            return a;
         for (int i = 0; i < a.length; i++) {
-            if(!set.contains(a[i])){
+            if (!set.contains(a[i])) {
                 a[k] = a[i];
                 k++;
                 set.add(a[i]);
             }
         }
-        return Arrays.copyOf(a,k);
+        return Arrays.copyOf(a, k);
     }
 
     //Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
@@ -2513,6 +2512,7 @@ public class Array {
             System.out.println(stack.pop() + ", " + -1);
         }
     }
+
     //without extra space
     static void nextGreaterElement(int[] arr) {
         int max = arr[arr.length - 1];
@@ -2657,13 +2657,14 @@ public class Array {
             while (arr[right] == 0 && left < right)
                 right--;
             if (left < right) {
-                arr[left] ^=arr[right];
-                arr[right] ^=arr[left];
-                arr[left] ^=arr[right];
+                arr[left] ^= arr[right];
+                arr[right] ^= arr[left];
+                arr[left] ^= arr[right];
             }
         }
         return arr;
     }
+
     public static int MaxSumNonAdjacent(int[] a) {
         int[] output = new int[a.length];
         if (a.length == 0)
@@ -2749,6 +2750,7 @@ public class Array {
         }
         return ouput;
     }
+
     // Find the candidates having more votes, if there are two candidates with same votes pick up last one based on sorting.
     static String abc(String[] votes) {
         TreeMap<String, Integer> map = new TreeMap<>();
@@ -2769,6 +2771,7 @@ public class Array {
         }
         return key;
     }
+
     //Given two arrays which have same values but in different order, we need to make second array same as first array using minimum number of swaps.
     public static int MinSwap(int[] a, int[] b) {
         HashMap<Integer, Integer> map = new HashMap<>();
@@ -2776,14 +2779,31 @@ public class Array {
         for (int i = 0; i < a.length; i++) {
             map.put(a[i], i);
         }
-        for (int j = 0; j < b.length; j++){
+        for (int j = 0; j < b.length; j++) {
             int index = map.get(b[j]);
-            if (index != j)
-            {
+            if (index != j) {
                 Swap(index, j, b);
                 count++;
             }
         }
         return count++;
+    }
+
+    //Given a number M (N-digit integer) and K-swap operations(a swap operation can swap 2 digits), devise an algorithm
+    //to get the maximum possible integer?
+    static int[] Kswap(int[] arr, int k) {
+        int i, j, min_idx;
+        int n = arr.length;
+        // One by one move boundary of unsorted subarray
+        for (i = 0; i < k; i++) {
+            // Find the max element in unsorted array
+            min_idx = i;
+            for (j = i + 1; j < n; j++)
+                if (arr[j] > arr[min_idx])
+                    min_idx = j;
+            // Swap the found max element with the first element
+            swap(arr,min_idx, i);
+        }
+        return arr;
     }
 }
