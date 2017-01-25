@@ -1,5 +1,6 @@
 package code.ds;
 import com.sun.org.apache.bcel.internal.generic.SWAP;
+import javafx.util.Pair;
 
 import javax.swing.tree.TreeNode;
 import java.util.*;
@@ -1182,6 +1183,31 @@ public class Tree {
         if (rightHeight == -1) return -1;
         if (Math.abs(leftHeight - rightHeight) > 1) return -1;
         return 1 + Math.max(leftHeight, rightHeight);
+    }
+    //Write a function to see if a binary tree is "superbalanced" (a new tree property we just made up).
+    //A tree is "superbalanced" if the difference between the depths of any two leaf nodes is no greater than one.
+    private static boolean isSuperBalanced(Node root){
+        if(root == null) return true;
+        Stack<javafx.util.Pair<Node,Integer>> stack = new Stack<>();
+        stack.push(new Pair<>(root,0));
+        ArrayList<Integer> set = new ArrayList<>();
+        while(stack.size() > 0){
+            Pair<Node,Integer> node = stack.pop();
+            int depth = node.getValue();
+            if(node.getKey().left == null && node.getKey().right == null){
+                if(!set.contains(depth))
+                    set.add(depth);
+                if(set.size() > 2 || (set.size() == 2 && Math.abs(set.get(0) - set.get(1)) > 1))
+                    return false;
+            }
+            else {
+                if(node.getKey().left != null)
+                    stack.push(new Pair<>(node.getKey().left, depth + 1));
+                if(node.getKey().right != null)
+                    stack.push(new Pair<>(node.getKey().right,depth+1));
+            }
+        }
+        return true;
     }
 
     //Inorder Successor in Binary Search Tree
