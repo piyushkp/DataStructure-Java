@@ -1847,7 +1847,6 @@ public class Array {
         }
         return result;
     }
-
     //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
     public int removeDuplicates1(int[] A) {
         if (A.length <= 2)
