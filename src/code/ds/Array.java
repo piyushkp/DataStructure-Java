@@ -30,8 +30,9 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {7,8,9,9};
-        int[] output = Kswap(a,2);
+        int[] a = {1,1,2,2,2,5,5,5,5,6};
+        //findUniqueSorted(a);
+        List<Integer> out = findUniqueNumbers(a);
 
     }
 
@@ -1010,9 +1011,9 @@ public class Array {
     }
 
     /* if x is present in arr[] then returns the index of LAST occurrence of x in arr[0..n-1], otherwise returns -1 */
-    int last(int arr[], int low, int high, int x, int n) {
+    static int last(int arr[], int low, int high, int x, int n) {
         if (high >= low) {
-            int mid = (low + high) / 2;  /*low + (high - low)/2;*/
+            int mid = low + (high - low)/2;
             if ((mid == n - 1 || x < arr[mid + 1]) && arr[mid] == x)
                 return mid;
             else if (x < arr[mid])
@@ -1774,6 +1775,8 @@ public class Array {
     }
 
     //Given a sorted array, remove the duplicates in place such that each element appear only once and return the new length.
+    // You can also use Binary Search for Avg Time O(logn)
+    //http://stackoverflow.com/questions/26958118/finding-unique-numbers-from-sorted-array-in-less-than-on
     public static int[] removeDuplicates(int[] A) {
         if (A.length < 2)
             return A;
@@ -1790,6 +1793,59 @@ public class Array {
         }
         int[] B = Arrays.copyOf(A, j + 1);
         return B;
+    }
+    //Remove
+    //find unique integers from list of integers. Input = {1,2,3,4,6,2,3,4,5} out = {1,5,6}
+    public static List<Integer> findUnique(int[]a){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        List<Integer> out = new ArrayList<>();
+        for (int i = 0; i < a.length; i++) {
+            if(map.containsKey(a[i]))
+                map.put(a[i],map.get(a[i]) + 1);
+            else
+                map.put(a[i],1);
+        }
+        for(Map.Entry<Integer,Integer> e : map.entrySet())
+        {
+            if(e.getValue() == 1)
+                out.add(e.getKey());
+        }
+        return out;
+    }
+    //find unique integers from sorted list of integers. Input = {1,2,2,2,3,3,4,4,5} out = {1,5}
+    public static void findUniqueSorted(int[]nums) {
+        int count = 0;
+        for (int i = 0; i< nums.length; i++) {
+            if (i == nums.length - 1) {
+                if (count == 0) {
+                    System.out.println(nums[i]);
+                }
+                break;
+            }
+            if (nums[i] != nums[i+1]) {
+                if (count == 0) {
+                    System.out.println(nums[i]);
+                }
+                count = 0;
+            } else {
+                count++;
+            }
+        }
+    }
+    // find unique numbers from sorted array in less than O(N). using Binary search. works well when lots of duplicates
+    // average complexity is O(logn) worst case is O(N)
+    public static List<Integer> findUniqueNumbers(int[] data) {
+        List<Integer> result = new LinkedList<Integer>();
+        for (int i = 0; i < data.length;) {
+            int temp = last(data,i,data.length -1,data[i],data.length);
+            if(i == temp) {
+                result.add(data[i]);
+                i++;
+            }
+            else
+                i = temp + 1;
+        }
+        return result;
     }
 
     //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
