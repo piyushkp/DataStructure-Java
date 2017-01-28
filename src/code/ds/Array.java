@@ -30,7 +30,7 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {1,1,2,2,2,5,5,5,5,6};
+        int[] a = {1, 1, 2, 2, 2, 5, 5, 5, 5, 6};
         //findUniqueSorted(a);
         List<Integer> out = findUniqueNumbers(a);
 
@@ -1013,7 +1013,7 @@ public class Array {
     /* if x is present in arr[] then returns the index of LAST occurrence of x in arr[0..n-1], otherwise returns -1 */
     static int last(int arr[], int low, int high, int x, int n) {
         if (high >= low) {
-            int mid = low + (high - low)/2;
+            int mid = low + (high - low) / 2;
             if ((mid == n - 1 || x < arr[mid + 1]) && arr[mid] == x)
                 return mid;
             else if (x < arr[mid])
@@ -1794,35 +1794,36 @@ public class Array {
         int[] B = Arrays.copyOf(A, j + 1);
         return B;
     }
+
     //Remove
     //find unique integers from list of integers. Input = {1,2,3,4,6,2,3,4,5} out = {1,5,6}
-    public static List<Integer> findUnique(int[]a){
+    public static List<Integer> findUnique(int[] a) {
         HashMap<Integer, Integer> map = new HashMap<>();
         List<Integer> out = new ArrayList<>();
         for (int i = 0; i < a.length; i++) {
-            if(map.containsKey(a[i]))
-                map.put(a[i],map.get(a[i]) + 1);
+            if (map.containsKey(a[i]))
+                map.put(a[i], map.get(a[i]) + 1);
             else
-                map.put(a[i],1);
+                map.put(a[i], 1);
         }
-        for(Map.Entry<Integer,Integer> e : map.entrySet())
-        {
-            if(e.getValue() == 1)
+        for (Map.Entry<Integer, Integer> e : map.entrySet()) {
+            if (e.getValue() == 1)
                 out.add(e.getKey());
         }
         return out;
     }
+
     //find unique integers from sorted list of integers. Input = {1,2,2,2,3,3,4,4,5} out = {1,5}
-    public static void findUniqueSorted(int[]nums) {
+    public static void findUniqueSorted(int[] nums) {
         int count = 0;
-        for (int i = 0; i< nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
             if (i == nums.length - 1) {
                 if (count == 0) {
                     System.out.println(nums[i]);
                 }
                 break;
             }
-            if (nums[i] != nums[i+1]) {
+            if (nums[i] != nums[i + 1]) {
                 if (count == 0) {
                     System.out.println(nums[i]);
                 }
@@ -1832,21 +1833,22 @@ public class Array {
             }
         }
     }
+
     // find unique numbers from sorted array in less than O(N). using Binary search. works well when lots of duplicates
     // average complexity is O(logn) worst case is O(N)
     public static List<Integer> findUniqueNumbers(int[] data) {
         List<Integer> result = new LinkedList<Integer>();
-        for (int i = 0; i < data.length;) {
-            int temp = last(data,i,data.length -1,data[i],data.length);
-            if(i == temp) {
+        for (int i = 0; i < data.length; ) {
+            int temp = last(data, i, data.length - 1, data[i], data.length);
+            if (i == temp) {
                 result.add(data[i]);
                 i++;
-            }
-            else
+            } else
                 i = temp + 1;
         }
         return result;
     }
+
     //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
     public int removeDuplicates1(int[] A) {
         if (A.length <= 2)
@@ -2207,12 +2209,11 @@ public class Array {
     int getMissingNo(int a[], int n) {
         int i;
         int x1 = a[0]; /* For xor of all the elements in array */
-        int x2 = 1; /* For xor of all the elements from 1 to n+1 */
         for (i = 1; i < n; i++)
             x1 = x1 ^ a[i];
-        for (i = 2; i <= n + 1; i++)
-            x2 = x2 ^ i;
-        return (x1 ^ x2);
+        for (i = 1; i <= n; i++)
+            x1 = x1 ^ i;
+        return x1;
     }
 
     //Find two missing numbers from the array with given length
@@ -2857,8 +2858,30 @@ public class Array {
                 if (arr[j] > arr[min_idx])
                     min_idx = j;
             // Swap the found max element with the first element
-            swap(arr,min_idx, i);
+            swap(arr, min_idx, i);
         }
         return arr;
+    }
+
+    //Given a sorted array in which all elements appear twice (one after one) and one element appears only once.
+    // Find that element in O(log n) complexity.
+    public static int findOneOccurance(int[] a, int low, int high) {
+        if (low > high)
+            return -1;
+        if (high == low)
+            return a[low];
+        int mid = low + (high - low) / 2;
+        if (mid % 2 == 0) {
+            if (a[mid] == a[mid + 1])
+                findOneOccurance(a, mid + 2, high);
+            else
+                findOneOccurance(a, low, mid);
+        } else {
+            if (a[mid] == a[mid - 1])
+                findOneOccurance(a, mid + 1, high);
+            else
+                findOneOccurance(a, low, mid - 1);
+        }
+        return -1;
     }
 }
