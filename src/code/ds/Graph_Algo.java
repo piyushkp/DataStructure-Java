@@ -197,10 +197,9 @@ public class Graph_Algo {
     // Build Order Problem using topological sort
     // Input is a list of dependencies where the index is the process number and the value is the numbers the processes it depends on
     public static List<Integer> buildOrder(int[][] dependencies) {
-        Set<Integer> temporaryMarks = new HashSet<Integer>();
-        Set<Integer> permanentMarks = new HashSet<Integer>();
-        List<Integer> result = new LinkedList<Integer>();
-
+        Set<Integer> temporaryMarks = new HashSet<>();
+        Set<Integer> permanentMarks = new HashSet<>();
+        List<Integer> result = new LinkedList<>();
         // Recursively search from any unmarked node
         for (int i = 0; i < dependencies.length; i++) {
             if (!permanentMarks.contains(i)) {
@@ -224,7 +223,6 @@ public class Graph_Algo {
             for (int i : dependencies[project]) {
                 visit(i, dependencies, temporaryMarks, permanentMarks, result);
             }
-
             // Add permanent mark, remove temporary mark, and add to results list
             permanentMarks.add(project);
             temporaryMarks.remove(project);
