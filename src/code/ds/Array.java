@@ -30,9 +30,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {1, 1, 2, 2, 2, 5, 5, 5, 5, 6};
-        //findUniqueSorted(a);
-        List<Integer> out = findUniqueNumbers(a);
+        int[] a = {55,56,57,58,58,59,60};
+        System.out.print(findRepeatingNum(a));
 
     }
 
@@ -2883,5 +2882,17 @@ public class Array {
                 findOneOccurance(a, low, mid - 1);
         }
         return -1;
+    }
+    //Given a sorted array, where each element but one occurs twice, return the element that repeats.
+    private static int findRepeatingNum(int[] a) {
+        int low = 0, high = a.length;
+        while (low != high) {
+            int mid = (low + high) / 2;
+            if ((a[mid] -a[0]) >= mid)
+                low = mid+1;
+            else
+                high = mid;
+        }
+        return a[low];
     }
 }
