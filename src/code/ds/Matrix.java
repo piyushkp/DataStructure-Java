@@ -1,6 +1,8 @@
 package code.ds;
+import java.awt.*;
 import java.text.*;
 import java.util.*;
+import java.lang.Object.*;
 
 /**
  * Created by Piyush Patel.
@@ -9,14 +11,61 @@ public class Matrix {
     public static void main(String [] args) {
         //System.out.print("Matrix");
         int mat[][] =
-        {
-            { 1,2,3,9 },
-            { 4,5,6,7 },
-            { 7,8,9,89 },
+                {
+                        {1, 1, 0, 0, 0},
+                        {1, 1, 0, 0, 0},
+                        {0, 0, 1, 0, 0},
+                        {0, 0, 0, 1, 1}
 
-        };
-        printMat(mat);
+                };
+        System.out.print(numIslands(mat));
+
     }
+    /* Find the number of islands. Given a boolean 2D matrix, find the number of islands.
+    This is an variation of the standard problem: �Counting number of connected components in a undirected graph�.
+    Time complexity: O(ROW x COL) */
+    private static int numIslands(int[][] grid) {
+        int row = grid.length;
+        if (row == 0) return 0;
+        int col = grid[0].length;
+        int count = 0;
+
+        boolean[][] mark = new boolean[row][col];
+        Queue<Point> q = new LinkedList<>();
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 1 && !mark[i][j]) {
+                    q.add(new Point(i, j));
+                    mark[i][j] = true;
+                    while (!q.isEmpty()) {
+                        Point temp = q.remove();
+                        int x = temp.x;
+                        int y = temp.y;
+
+                        if (x + 1 < row && grid[x + 1][y] == 1 && !mark[x + 1][y]) {
+                            q.add(new Point(x + 1, y));
+                            mark[x + 1][y] = true;
+                        }
+                        if (y + 1 < col && grid[x][y + 1] == 1 && !mark[x][y + 1]) {
+                            q.add(new Point(x, y + 1));
+                            mark[x][y + 1] = true;
+                        }
+                        if (x - 1 >= 0 && grid[x - 1][y] == 1 && !mark[x - 1][y]) {
+                            q.add(new Point(x - 1, y));
+                            mark[x - 1][y] = true;
+                        }
+                        if (y - 1 >= 0 && grid[x][y - 1] == 1 && !mark[x][y - 1]) {
+                            q.add(new Point(x, y - 1));
+                            mark[x][y - 1] = true;
+                        }
+                    }
+                    count += 1;
+                }
+            }
+        }
+        return count;
+    }
+
     //Matrix Region Sum
     // Function to preprcess input mat[M][N].  This function mainly fills aux[M][N] such that aux[i][j] stores sum
     // of elements from (0,0) to (i,j) Time = O(MN)
@@ -517,31 +566,32 @@ public class Matrix {
     //Given An array of strings where "L" indicates land and "W" indicates water, and a coordinate marking a starting
     //point in the middle of the ocean Find and mark the ocean in the map by changing appropriate W's to O's.
     //An ocean coordinate is defined to be any coordinate directly adjacent to any other ocean coordinate.
+    //Flood Fill algorithm using iterative solution.
     static final int ROW = 18, COL = 20;
-    static char[][] Ocean(char M[][], int row, int col) {
-        // Make a bool array to mark visited cells. Initially all cells are unvisited
-        boolean visited[][] = new boolean[ROW][COL];
-        if(M[row][col] == 'W')
-            M[row][col] = 'O';
-        OceanUtil(M, row, col, visited);
-        return M;
-    }
-    static boolean isOceanWater(char M[][], int row, int col, boolean visited[][]) {
-        // row number is in range, column number is in range and value is 1 and not yet visited
-        return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL) && (M[row][col] == 'W' && !visited[row][col]);
-    }
-    static void OceanUtil(char M[][], int row, int col, boolean visited[][]) {
-        // These arrays are used to get row and column numbers of 8 neighbors of a given cell
-        int rowNbr[] = new int[]{-1, -1, -1, 0, 0, 1, 1, 1};
-        int colNbr[] = new int[]{-1, 0, 1, -1, 1, -1, 0, 1};
-        // Recur for all connected neighbours
-        for (int k = 0; k < 8; ++k)
-            if (isOceanWater(M, row + rowNbr[k], col + colNbr[k], visited)) {
-                visited[row][col] = true;
-                M[row + rowNbr[k]][col + colNbr[k]] = 'O';
-                OceanUtil(M, row + rowNbr[k], col + colNbr[k], visited);
+    private static char[][] floodFill(char[][]m , int x, int y, char target, char replace) {
+        if (m[x][y] == replace) return null;  // current is same as node - 1
+        Queue<java.awt.Point> q = new LinkedList();
+        q.add(new Point(x, y));
+        while (!q.isEmpty()) {
+            Point temp = q.remove();
+            x = temp.x;
+            y = temp.y;
+            if (m[x][y] != replace && m[x][y] == target) // 7
+            {
+                m[x][y] = replace;  //
+                if (y < m[x].length - 1)
+                    q.add(new Point(x, y + 1));
+                if (y > 0)
+                    q.add(new Point(x, y - 1));
+                if (x < m.length - 1)
+                    q.add(new Point(x + 1, y));
+                if (x > 0)
+                    q.add(new Point(x - 1, y));
             }
+        }
+        return m;
     }
+
     /*A Maze is given as N*N binary matrix of blocks where source block is the upper left most block and destination
     block is lower rightmost block i.e., maze[N-1][N-1]. A rat starts from source and has to reach destination.
     The rat can move only in two directions: forward and down.*/
