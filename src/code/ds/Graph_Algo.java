@@ -187,7 +187,50 @@ public class Graph_Algo {
     private Vertex<Integer> getVertexForEdge(Vertex<Integer> v, Edge<Integer> e){
         return e.getVertex1().equals(v) ? e.getVertex2() : e.getVertex1();
     }
+    /*Given a list of packages that need to be built and the dependencies for each package, determine a valid order in which to build the packages.
+    eg. 0:
+        1: 0
+        2: 0
+        3: 1, 2
+        4: 3
+    output: 0, 1, 2, 3, 4 */
+    // Build Order Problem using topological sort
+    // Input is a list of dependencies where the index is the process number and the value is the numbers the processes it depends on
+    public static List<Integer> buildOrder(int[][] dependencies) {
+        Set<Integer> temporaryMarks = new HashSet<Integer>();
+        Set<Integer> permanentMarks = new HashSet<Integer>();
+        List<Integer> result = new LinkedList<Integer>();
 
+        // Recursively search from any unmarked node
+        for (int i = 0; i < dependencies.length; i++) {
+            if (!permanentMarks.contains(i)) {
+                visit(i, dependencies, temporaryMarks, permanentMarks, result);
+            }
+        }
+
+        return result;
+    }
+    // Search through all unmarked nodes accessible from process
+    public static void visit(int project, int[][] dependencies, Set<Integer> temporaryMarks, Set<Integer> permanentMarks, List<Integer> result) {
+        // Throw an error if we find a cycle
+        if (temporaryMarks.contains(project))
+            throw new RuntimeException("Graph is not acyclic");
+
+        // If we haven't visited the node, recursively search from there
+        if (!permanentMarks.contains(project)) {
+            temporaryMarks.add(project);
+
+            // Perform recursive search from children
+            for (int i : dependencies[project]) {
+                visit(i, dependencies, temporaryMarks, permanentMarks, result);
+            }
+
+            // Add permanent mark, remove temporary mark, and add to results list
+            permanentMarks.add(project);
+            temporaryMarks.remove(project);
+            result.add(project);
+        }
+    }
  }
 
 
