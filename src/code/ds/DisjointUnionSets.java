@@ -42,7 +42,6 @@ public class DisjointUnionSets {
         this.n = n;
         makeSet();
     }
-
     // Creates n sets with single item in each
     void makeSet() {
         for (int i = 0; i < n; i++) {
@@ -50,7 +49,6 @@ public class DisjointUnionSets {
             parent[i] = i;
         }
     }
-
     // Returns representative of x's set
     int find(int x) {
         // Finds the representative of the set that x is an element of

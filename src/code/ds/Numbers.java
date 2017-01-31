@@ -5,19 +5,8 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String[] args) {
-        //int[] out = fib(50);
-        //System.out.println(out.length);
-        //System.out.println(fib1(3));
-        double[] a = {88, 30, 11, 17, 22, 16, 39, 8, 31, 55,
-                29, 63, 77, 69, 99, 90, 81, 2, 20, 53, 62, 5, 88, 33, 44, 6};
-        //System.out.println(MedianOfMediansSelect(a,0,a.length,7));
-        List<String> list = new LinkedList<>();
-        list.add("piyush");
-        list.add("piya");
-        list.add("test");
-        list.add("vyom");
-
-        randomSample(list, 2);
+        System.out.println(biggestNumber(12543 ));
+        System.out.println(nextGreaterNumber(12543 ));
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -588,6 +577,47 @@ public class Numbers {
                 return false;
         }
         return true;
+    }
+    //Arrange Given Numbers To Form The Biggest Number Possible
+    private static int biggestNumber(int number){
+        List<Integer> digits = numbertoDigits(number);
+        Collections.sort(digits);
+        return digitToNumber(digits);
+    }
+    private static int digitToNumber(List<Integer> digits){
+        int number = 0;
+        int base = 1;
+        for (int i = digits.size()-1; i >=0 ; i--) {
+            number += digits.get(i) * base;
+            base *= 10;
+        }
+        return number;
+    }
+    private static List<Integer> numbertoDigits(int number){
+        List<Integer> digits = new ArrayList<>();
+        while(number > 0){
+            digits.add(0,number%10);
+            number /= 10;
+        }
+        return  digits;
+    }
+    //How can you get the next greater number with the same set of digits?
+    private static int nextGreaterNumber(int number) {
+        List<Integer> digits = numbertoDigits(number);
+        for (int i = digits.size()-2; i >=0; i--) {
+            if (digits.get(i) < digits.get(i + 1)) {
+                for (int j = digits.size()-1; j>i; j--) {
+                    if (digits.get(j) > digits.get(i)) {
+                        int temp = digits.get(j);
+                        digits.set(j, digits.get(i));
+                        digits.set(i, temp);
+                        Collections.sort(digits.subList(i + 1,digits.size()));
+                        return digitToNumber(digits);
+                    }
+                }
+            }
+        }
+        return -1;
     }
 }
 
