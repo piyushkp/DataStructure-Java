@@ -64,7 +64,7 @@ public class StringImp {
         return dest.toString();
     }
 
-    //Finds first non repeated character in a String in just one pass. more space but in one pass
+    //Find first non repeated character in a String in just one pass. more space but in one pass
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
         List<Character> nonrepeating = new ArrayList<Character>();
@@ -79,6 +79,33 @@ public class StringImp {
             }
         }
         return nonrepeating.get(0);
+    }
+    //Find first non repeating character in stream of characters
+    // use DLL and store reference in map so you can delete in O(1)
+    class streamNonRepeatingChar{
+        LinkedList<Character> list = new LinkedList();
+        HashMap<Character, Character> map = new HashMap<>();
+        //char appear more than two times
+        HashSet<Character> set = new HashSet<>();
+        private void insert(char c){
+            if(!set.contains(c)){
+               if(map.containsKey(c))
+               {
+                   list.remove(map.get(c));
+                   map.remove(c);
+                   set.add(c);
+               }
+               else
+               {
+                   Character cobj = new Character(c);
+                   list.addLast(cobj);
+                   map.put(c,cobj);
+               }
+            }
+        }
+        private Character getNonRepeating(){
+            return list.getLast();
+        }
     }
 
     //Return maximum occurring character in the input string
@@ -835,16 +862,14 @@ public class StringImp {
     /* Input pair can be considered in any order. For e.g. "A B C D A" - Min distance between A and D is 1. With order
      * preserved it would have been 3.*/
     HashMap<String, List<Integer>> _map = new HashMap<String, List<Integer>>();
-
     public void WordDistanceFinder(List<String> words) {
         for (int i = 0; i < words.size(); i++) {
             if (!_map.containsKey(words.get(i))) {
-                _map.put(words.get(i), new LinkedList<Integer>());
+                _map.put(words.get(i), new LinkedList<>());
             }
             _map.get(words.get(i)).add(i);
         }
     }
-
     public int distance(String wordOne, String wordTwo) {
         if (!_map.containsKey(wordOne) || !_map.containsKey(wordTwo))
             return -1;
@@ -857,6 +882,28 @@ public class StringImp {
             }
         }
         return _minDistance;
+    }
+    //Without any space complexity. Time = O(N) Space = O(1)
+    private static int minDistanceFinder(String[] strings, String targetString, String targetString2) {
+        int index1 = -1;
+        int index2 = -1;
+        int minDistance = Integer.MAX_VALUE;
+        int tempDistance = 0;
+        for (int x = 0; x < strings.length; x++) {
+            if (strings[x].equals(targetString)) {
+                index1 = x;
+            }
+            if (strings[x].equals(targetString2)) {
+                index2 = x;
+            }
+            if (index1 != -1 && index2 != -1) { // both words have to be found
+                tempDistance = (int) Math.abs(index2 - index1);
+                if (tempDistance < minDistance) {
+                    minDistance = tempDistance;
+                }
+            }
+        }
+        return minDistance;
     }
 
     // Check whether two strings are anagram  or not
