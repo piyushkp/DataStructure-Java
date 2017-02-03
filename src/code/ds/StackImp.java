@@ -103,6 +103,7 @@ public class StackImp {
 }
 //How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum
 //element? Push, pop and min should all operate in O(1) time.
+//you can also do 2*value - Minvalue but overflow might occur
 class StackWithMin extends java.util.Stack<Integer> {
     java.util.Stack<Integer> s2;
     public StackWithMin() {
