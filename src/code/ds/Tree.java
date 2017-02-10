@@ -29,16 +29,16 @@ public class Tree {
     public Node root;
 
     // insert node in BST
-    public void insert(Node root, int node) {
+    public void insert(Node root, int value) {
         if (root == null) {
             Node newNode = new Node();
-            newNode.data = node;
+            newNode.data = value;
             root = newNode;
         }
-        if (node < root.data) {
-            insert(root.left, node);
-        } else if (node > root.data) {
-            insert(root.right, node);
+        if (value < root.data) {
+            insert(root.left, value);
+        } else if (value > root.data) {
+            insert(root.right, value);
         }
     }
 
@@ -132,7 +132,7 @@ public class Tree {
     //Print binary tree level by level in new line
     public static void printLevels(Node root) {
         if (root == null) return;
-        // Create an empty queue for level order tarversal
+        // Create an empty queue for level order traversal
         Queue<Node> q = null;
         // Enqueue Root and initialize height
         q.add(root);
@@ -222,7 +222,37 @@ public class Tree {
             preOrder(root.right);
         }
     }
+    // In Order traversal using Morris traversal
+    void MorrisTraversal(Node root) {
+        Node current, pre;
+        if (root == null)
+            return;
+        current = root;
+        while (current != null) {
+            if (current.left == null) {
+                System.out.print(current.data + " ");
+                current = current.right;
+            } else {
+                /* Find the inorder predecessor of current */
+                pre = current.left;
+                while (pre.right != null && pre.right != current)
+                    pre = pre.right;
 
+                /* Make current as right child of its inorder predecessor */
+                if (pre.right == null) {
+                    pre.right = current;
+                    current = current.left;
+                }
+                 /* Revert the changes made in if part to restore the original tree i.e.,fix the right child of predecssor*/
+                else {
+                    pre.right = null;
+                    System.out.print(current.data + " ");
+                    current = current.right;
+                }   /* End of if condition pre->right == NULL */
+
+            } /* End of if condition current->left == NULL*/
+        }
+    }
     // an iterative inOrder traversal
     public void inorder(Node root) {
         Node node = root;
