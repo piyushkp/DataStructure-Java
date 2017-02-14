@@ -972,6 +972,28 @@ public class StringImp {
                 return false;
         return true;
     }
+    // Given an array of words, print all words with reverse together. For example, if the given array is
+    // {“cat”, “dog”, “tac”, “god”, “act”}, then output "cat" and "tac"
+    static List<List<String>> printUtil(String[] input) {
+        HashMap<String, Integer> map = new HashMap<>();
+        List<List<String>> output = new ArrayList<>();
+        for (int i = 0; i < input.length; i++) {
+            String key = ReverseString(input[i]);
+            if (!map.containsKey(key)) {
+                map.put(key, i);
+            }
+        }
+        for (int i = 0; i < input.length; i++) {
+            List<String> out = new ArrayList<>();
+            if(map.containsKey(input[i]) && map.get(input[i]) != i)
+            {
+                out.add(input[i]);
+                out.add(input[map.get(input[i])]);
+            }
+            output.add(out);
+        }
+        return output;
+    }
 
     //Given an array of words, print all anagrams together. For example, if the given array is
     // {“cat”, “dog”, “tac”, “god”, “act”}, then output may be “cat tac act dog god”
