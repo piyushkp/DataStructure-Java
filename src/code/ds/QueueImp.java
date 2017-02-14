@@ -52,8 +52,7 @@ public class QueueImp{
         public BlockingQueue(int limit){
             this.limit = limit;
         }
-        public synchronized void enqueue(Object item)
-                throws InterruptedException  {
+        public synchronized void enqueue(Object item) throws InterruptedException  {
             try {
                 while (this.queue.size() == this.limit) {
                     wait();
@@ -66,8 +65,7 @@ public class QueueImp{
             if(this.queue.size() < limit)
                 notify();
         }
-        public synchronized Object dequeue()
-                throws InterruptedException{
+        public synchronized Object dequeue() throws InterruptedException{
             try {
                 while (this.queue.size() == 0) {
                     wait();
