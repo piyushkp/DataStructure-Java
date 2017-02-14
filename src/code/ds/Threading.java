@@ -178,7 +178,7 @@ public class Threading {
         {
             writeRequests++;
             Thread callingThread = Thread.currentThread();
-            while(readers.size() > 0 || writingThread != null || writingThread != callingThread)
+            while(!canGrantWriteAccess(callingThread))
                 wait();
             writeRequests--;
             writeAccess++;
