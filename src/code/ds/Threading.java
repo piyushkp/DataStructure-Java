@@ -2,6 +2,7 @@ package code.ds;
 /**
  * Created by Piyush Patel.
  */
+import java.util.HashMap;
 import java.util.concurrent.locks.*;
 public class Threading {
     public static void main(String[] args) {
@@ -141,6 +142,62 @@ public class Threading {
                 }
             };
             return thread;
+        }
+    }
+    // Implement the Read/Write reentrant Lock
+    class ReadWriteLock{
+        int writeRequests  = 0;
+        int writeAccess = 0;
+        Thread writingThread = null;
+        HashMap<Thread, Integer> readers = new HashMap<>();
+        public synchronized void lockRead() throws InterruptedException
+        {
+            Thread callingThread = Thread.currentThread();
+            while(!canGrantReadAccess(callingThread))
+                wait();
+           readers.put(callingThread,readers.get(callingThread) + 1);
+        }
+        private boolean canGrantReadAccess(Thread callingThread){
+            if( writingThread == callingThread )    return true;
+            if( writingThread != null  )            return false;
+            if( readers.get(callingThread) != null )return true;
+            if( writeRequests > 0 )                 return false;
+            return true;
+        }
+
+        public synchronized void unlockRead() throws InterruptedException
+        {
+            Thread callingThread = Thread.currentThread();
+            if(readers.get(callingThread) == 1)
+                readers.remove(callingThread);
+            else
+                readers.put(callingThread,readers.get(callingThread) - 1);
+            notifyAll();
+        }
+        public synchronized void lockWrite() throws InterruptedException
+        {
+            writeRequests++;
+            Thread callingThread = Thread.currentThread();
+            while(readers.size() > 0 || writingThread != null || writingThread != callingThread)
+                wait();
+            writeRequests--;
+            writeAccess++;
+            writingThread = callingThread;
+        }
+        private boolean canGrantWriteAccess(Thread callingThread){
+            if(readers.size() == 1 && readers.get(callingThread) != null)    return true;
+            if(readers.size() > 0)                   return false;
+            if(writingThread == null)          return true;
+            if(writingThread != callingThread)       return false;
+            return true;
+        }
+        public synchronized void unlockWrite() throws InterruptedException
+        {
+            writeAccess--;
+            if(writeAccess == 0){
+                writingThread = null;
+            }
+            notifyAll();
         }
     }
 }
