@@ -11,18 +11,37 @@ public class QueueImp{
     }
     //Implement the Queue using two Stack
     public class Queue<E>{
-        private Stack<E> Inbox = new Stack<E>();
-        private Stack<E> Outbox = new Stack<E>();
-        public void EnQueue(E item) {
-            Inbox.push(item);
+        private Stack<Integer> s1 = new Stack<>();
+        private Stack<Integer> s2 = new Stack<>();
+        int front;
+        int size;
+        public void EnQueue(int item) {
+            if(s1.isEmpty())
+                front = item;
+            s1.push(item);
+            size++;
         }
-        public E Dequeue() {
-            if (Outbox.size() == 0) {
-                while (Inbox.size() != 0) {
-                    Outbox.push(Inbox.pop());
+        public int Dequeue() {
+            if (s2.size() == 0) {
+                while (s1.size() != 0) {
+                    s2.push(s1.pop());
                 }
             }
-            return Outbox.pop();
+            size--;
+            return s2.pop();
+        }
+        public boolean empty() {
+            return s1.isEmpty() && s2.isEmpty();
+        }
+        public int peek() {
+            if (!s2.isEmpty()) {
+                return s2.peek();
+            }
+            return front;
+        }
+        public int size()
+        {
+            return size;
         }
     }
     //Blocking Queue  is a queue that blocks when you try to dequeue from it when the queue is empty
