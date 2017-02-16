@@ -110,7 +110,8 @@ class StackWithMin extends java.util.Stack<Integer> {
         s2 = new java.util.Stack<Integer>();
     }
     public void push(int value) {
-        if (value <= min()) {
+        Integer temp = min();
+        if (temp == null || value <= temp) {
             s2.push(value);
         }
         super.push(value);
@@ -122,9 +123,9 @@ class StackWithMin extends java.util.Stack<Integer> {
         }
         return value;
     }
-    public int min() {
+    public Integer min() {
         if (s2.isEmpty()) {
-            return Integer.MAX_VALUE;
+            return null;
         } else {
             return s2.peek();
         }
