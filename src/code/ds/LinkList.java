@@ -6,15 +6,17 @@ import java.util.HashSet;
  * Created by Piyush Patel.
  */
 public class LinkList {
-    public static void main(String [] args) {
+    public static void main(String[] args) {
         System.out.print("LinkList");
     }
+
     class Node {
         int data;
         Node next;
         Node random;
         Node prev;
     }
+
     // Traverse Linked List
     void PrintLinkedList(Node start) {
         System.out.print("\nHEAD .");
@@ -120,6 +122,7 @@ public class LinkList {
         // deletion successful
         return 1;
     }
+
     //Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node
     //The solution to this is to simply copy the data from the next node into this node and then delete the next node
     public static boolean deleteNode(Node n) {
@@ -239,6 +242,7 @@ public class LinkList {
         // as that is now the current head of the reversed list
         head = prevNode;
     }
+
     //reverse single linklist recursively
     Node reverseUtil(Node curr, Node prev) {
         /* If last node mark it head*/
@@ -267,6 +271,7 @@ public class LinkList {
         }
         return false;
     }
+
     //Detect loop and remove it from linkList
     void detectAndRemoveLoop(Node node) {
         Node slow = head;
@@ -284,6 +289,7 @@ public class LinkList {
             }
         }
     }
+
     //Write a function that would return the kth element from the tail (or end) of a singly linked list of integers
     void printNthFromLast(Node head, int k) {
         Node main_ptr = head;
@@ -329,6 +335,7 @@ public class LinkList {
         }
         return copy;
     }
+
     //Implement a function to check if a linked list is a palindrome (like 0->1->2->1->0)
     boolean isPalindrome(Node head) {
         if (head == null) return false;
@@ -342,11 +349,12 @@ public class LinkList {
         // handle odd nodes
         if (p2 != null) p1 = p1.next;
         while (p1 != null) {
-            if(p1.data != s.pop()) return false;
+            if (p1.data != s.pop()) return false;
             p1 = p1.next;
         }
         return true;
     }
+
     //Given a singly linked list, group all odd nodes together followed by the even nodes.
     //Input: 1->2->3->4->5->NULL   Output 1->3->5->2->4->NULL
     public static Node oddEvenList(Node head) {
@@ -396,6 +404,7 @@ public class LinkList {
         // Append the even list at the end of odd list
         odd.next = even;
     }
+
     //Given a singly linked list L0 -> L1 -> … -> Ln-1 -> Ln.
     //Rearrange the nodes in the list so that the new formed list is : L0 -> Ln -> L1 -> Ln-1 -> L2 -> Ln-2 …
     //Input:  1 -> 2 -> 3 -> 4     Output: 1 -> 4 -> 2 -> 3
@@ -433,6 +442,7 @@ public class LinkList {
         // Assign the head of the new list to head pointer
         node = node.next;
     }
+
     public static Node reverselist(Node node) {
         Node prev = null, curr = node, next;
         while (curr != null) {
@@ -614,8 +624,9 @@ public class LinkList {
             ptr1 = ptr1.next;
         }
     }
+
     //Remove duplicates from a sorted linked list
-    void removeDuplicates(){
+    void removeDuplicates() {
         Node current = head;
         /* Pointer to store the next pointer of a node to be deleted*/
         Node next_next;
@@ -627,40 +638,40 @@ public class LinkList {
                 next_next = current.next.next;
                 current.next = null;
                 current.next = next_next;
-            }
-            else // advance if no deletion
+            } else // advance if no deletion
                 current = current.next;
         }
     }
+
     //You have two numbers represented by a linked list, where each node contains a sin-gle digit The digits are stored
     //in reverse order, such that the 1’s digit is at the head of the list Write a function that adds the two numbers
     //and returns the sum as a linked list. Input= (3-1-5),(5-9-2) out = 9-0-7
-    void addList(Node head1, Node head2, Node result){
+    void addList(Node head1, Node head2, Node result) {
         Node cur;
         // first list is empty
-        if (head1 == null){
+        if (head1 == null) {
             result = head2;
             return;
         }
         // second list is empty
-        else if (head2 == null){
+        else if (head2 == null) {
             result = head1;
             return;
         }
         int size1 = getSize(head1);
-        int size2 = getSize(head2) ;
+        int size2 = getSize(head2);
         int carry = 0;
         // Add same size lists
         if (size1 == size2)
             result = addSameSize(head1, head2, carry);
-        else{
+        else {
             int diff = Math.abs(size1 - size2);
             // First list should always be larger than second list. If not, swap pointers
             if (size1 < size2)
                 swapPointer(head1, head2);
             // move diff. number of nodes in first list
-            cur =head1;
-            while(diff > 0){
+            cur = head1;
+            while (diff > 0) {
                 cur = cur.next;
                 diff--;
             }
@@ -673,24 +684,27 @@ public class LinkList {
         //if (carry != 0)
         //    result.addAtFront(carry);
     }
+
     // A utility function to swap two pointers
-    void swapPointer( Node a, Node b ) {
+    void swapPointer(Node a, Node b) {
         Node t = a;
         a = b;
         b = t;
     }
+
     /* A utility function to get size of linked list */
-    int getSize(Node node){
+    int getSize(Node node) {
         int size = 0;
-        while (node != null){
+        while (node != null) {
             node = node.next;
             size++;
         }
         return size;
     }
+
     // Adds two linked lists of same size represented by head1 and head2 and returns head of the resultant linked list.
     // Carry is propagated while returning from the recursion
-    Node addSameSize(Node head1, Node head2, int carry){
+    Node addSameSize(Node head1, Node head2, int carry) {
         // Since the function assumes linked lists are of same size,check any of the two head pointers
         if (head1 == null)
             return null;
@@ -707,25 +721,27 @@ public class LinkList {
         result.data = sum;
         return result;
     }
+
     // This function is called after the smaller list is added to the bigger lists's sublist of same size.
     // Once the right sublist is added, the carry must be added toe left side of larger list to get the final result.
-    void addCarryToRemaining(Node head1, Node cur, int carry, Node result){
+    void addCarryToRemaining(Node head1, Node cur, int carry, Node result) {
         int sum;
         // If diff. number of nodes are not traversed, add carry
-        if (head1 != cur){
+        if (head1 != cur) {
             addCarryToRemaining(head1.next, cur, carry, result);
             sum = head1.data + carry;
-            carry = sum/10;
+            carry = sum / 10;
             sum %= 10;
             // add this node to the front of the result
             //result.addAtFront(sum);
         }
     }
+
     //Insert an element in a sorted circular linked list.
-    void sortedInsert(Node new_node){
+    void sortedInsert(Node new_node) {
         Node current = head;
         // Case 1 : Linked List is empty
-        if (current == null){
+        if (current == null) {
             new_node.next = new_node;
             head = new_node;
         }
@@ -734,7 +750,7 @@ public class LinkList {
         //swap(current.data, new_node.data);
         //new_node.next = head.next;
         //head.next = new_node;
-        else if (current.data >= new_node.data){
+        else if (current.data >= new_node.data) {
             /* If value is smaller than head's value then we need to change next of last node */
             while (current.next != head)
                 current = current.next;
@@ -743,7 +759,7 @@ public class LinkList {
             head = new_node;
         }
         // Case 3:New node is to be  inserted somewhere after the head
-        else{
+        else {
             /* Locate the node before the point of insertion */
             while (current.next != head && current.next.data < new_node.data)
                 current = current.next;
@@ -751,6 +767,7 @@ public class LinkList {
             current.next = new_node;
         }
     }
+
     //Write a function to remove/Delete a single occurrence of an integer from a doubly linked list if it is present.
     void remove(Node head, int value) {
         Node cur = head;
@@ -772,6 +789,7 @@ public class LinkList {
             cur = cur.next;
         }
     }
+
     //Write a function to get the intersection point of two Linked Lists.
     int getInterSectionNode(Node head1, Node head2) {
         int c1 = getCount(head1);
@@ -785,6 +803,7 @@ public class LinkList {
             return _getIntesectionNode(d, head2, head1);
         }
     }
+
     /* function to get the intersection point of two linked lists head1 and head2 where head1 has d more nodes than head2 */
     int _getIntesectionNode(int d, Node node1, Node node2) {
         Node current1 = node1;
@@ -801,6 +820,7 @@ public class LinkList {
         }
         return -1;
     }
+
     /*Takes head pointer of the linked list and returns the count of nodes in the list */
     int getCount(Node node) {
         Node current = node;
@@ -811,14 +831,16 @@ public class LinkList {
         }
         return count;
     }
+
     //Given a number represented as a linked list, add '1' to it. No extra space, and in liner time.
-    Node addOne(Node head){
+    Node addOne(Node head) {
         // Reverse linked list
         head = reverselist(head);
         head = addOneToList(head);
         // Reverse the modified list
         return reverselist(head);
     }
+
     public Node addOneToList(Node head) {
         Node res = head;
         Node temp = null;
@@ -843,11 +865,12 @@ public class LinkList {
         }
         return res;
     }
-    public Node addOneToList1(Node head){
+
+    public Node addOneToList1(Node head) {
         // Add 1 to linked list from end to beginning
         int carry = addWithCarry(head);
         // If there is carry after processing all nodes, then we need to add a new node to linked list
-        if (carry > 0){
+        if (carry > 0) {
             Node newNode = new Node();
             newNode.data = carry;
             newNode.next = head;
@@ -855,7 +878,8 @@ public class LinkList {
         }
         return head;
     }
-    public static int addWithCarry(Node head){
+
+    public static int addWithCarry(Node head) {
         // If linked list is empty, then return carry
         if (head == null)
             return 1;
@@ -865,20 +889,21 @@ public class LinkList {
         head.data = (sum) % 10;
         return (sum) / 10;
     }
+
     //Given a linked list of length n, and without creating any secondary data structures, how would you find an entry
     //in the linked list in less than n probes?
-    public static boolean searchListfast(Node head, int target){
+    public static boolean searchListfast(Node head, int target) {
         Node prev = null;
         Node ptr = head;
-        if(head == null)
-            return  false;
-        while(ptr != null){
-            if(ptr.data == target)
+        if (head == null)
+            return false;
+        while (ptr != null) {
+            if (ptr.data == target)
                 return true;
             else if (ptr.data > target)
-                return search(prev, ptr,target);
+                return search(prev, ptr, target);
             prev = ptr;
-            if(ptr.next != null && ptr.next.next != null)
+            if (ptr.next != null && ptr.next.next != null)
                 ptr = ptr.next.next;
             else if (ptr.next != null && ptr.next.data == target)
                 return true;
@@ -887,14 +912,34 @@ public class LinkList {
         }
         return false;
     }
-    public static boolean search(Node start, Node end, int target){
-        if(start == null)
+
+    public static boolean search(Node start, Node end, int target) {
+        if (start == null)
             return false;
-        while(start != end){
-            if(start.data == target)
+        while (start != end) {
+            if (start.data == target)
                 return true;
             start = start.next;
         }
         return false;
+    }
+
+    // remove/delete odd numbers from the linklist
+    public static Node removeOdd(Node head) {
+        if (head == null)
+            return null;
+        Node curr = head;
+        if (curr.data % 2 != 0)
+            head = curr.next;
+        curr = curr.next;
+        Node prev = head;
+        while (curr != null) {
+            if (curr.data % 2 != 0) {
+                prev.next = curr.next;
+            } else
+                prev = curr;
+            curr = curr.next;
+        }
+        return head;
     }
 }
