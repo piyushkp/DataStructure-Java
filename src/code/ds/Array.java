@@ -1879,31 +1879,50 @@ public class Array {
         }
         return false;
     }
+    //Given an array of non-negative integers, you are initially positioned at the first index of the array.
+    //Each element in the array represents your maximum jump length at that position. Determine if you are able to reach the last index
+    public boolean canJump(int[] A) {
+        if(A.length <= 1)
+            return true;
+        int max = A[0]; //max stands for the largest index that can be reached.
+        for(int i=0; i<A.length; i++){
+            //if not enough to go to next
+            if(max <= i && A[i] == 0)
+                return false;
+            //update max
+            if(i + A[i] > max){
+                max = i + A[i];
+            }
+            //max is enough to reach the end
+            if(max >= A.length-1)
+                return true;
+        }
+        return false;
+    }
 
     //Given an array of integers where each element represents the max number of steps that can be made forward from that element.
     //Write a function to return the minimum number of jumps to reach the end of the array
-    //Returns minimum number of jumps to reach arr[n-1] from arr[0]. Dynamic Programming time O(n^2)
+    //Returns minimum number of jumps to reach arr[n-1] from arr[0].
     //Input: arr[] = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9}
     //Output: 3 (1-> 3 -> 8 ->9)
-    int minJumps(int arr[]) {
-        int n = arr.length;
-        int[] jumps = new int[n];  // jumps[n-1] will hold the result
-        int i, j;
-        if (n == 0 || arr[0] == 0)
-            return Integer.MAX_VALUE;
-        jumps[0] = 0;
-        // Find the minimum number of jumps to reach arr[i]
-        // from arr[0], and assign this value to jumps[i]
-        for (i = 1; i < n; i++) {
-            jumps[i] = Integer.MAX_VALUE;
-            for (j = 0; j < i; j++) {
-                if (i <= j + arr[j] && jumps[j] != Integer.MAX_VALUE) {
-                    jumps[i] = Math.min(jumps[i], jumps[j] + 1);
-                    break;
-                }
+    public int minJump(int[] nums) {
+        if (nums == null || nums.length == 0)
+            return 0;
+        int lastReach = 0;
+        int reach = 0;
+        int step = 0;
+        for (int i = 0; i <= reach && i < nums.length; i++) {
+            //when last jump can not read current i, increase the step by 1
+            if (i > lastReach) {
+                step++;
+                lastReach = reach;
             }
+            //update the maximal jump
+            reach = Math.max(reach, nums[i] + i);
         }
-        return jumps[n - 1];
+        if (reach < nums.length - 1)
+            return 0;
+        return step;
     }
 
     //Given an array and a value, how to implement a function to remove all instances of that value in place and return the new length?
@@ -2937,6 +2956,14 @@ public class Array {
             i += 2; /* Increment the index by 2 as two elements are processed in loop */
         }
         return minmax;
+    }
+    //We want to make a row of bricks that is goal inches long. We have a number of small bricks (1 inch each) and big bricks (5 inches each).
+    // Return true if it is possible to make the goal by choosing from the given bricks. This is a little harder than it
+    public boolean makeBricks(int small, int big, int goal) {
+        if (goal > big * 5 + small) return false;
+        if (goal % 5 > small) return false;
+        return true;
+        // remainder = Math.abs(goal - ( (5* big) + small));
     }
 
 }
