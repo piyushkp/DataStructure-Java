@@ -12,6 +12,30 @@ public class StackImp {
         T pop();
         int size = 0;
     }
+    //Implement Stack with one queue
+    class StackQueue {
+        private Queue<Integer> q1 = new LinkedList<>();
+        public void push(int x) {
+            q1.add(x);
+            int sz = q1.size();
+            while (sz > 1) {
+                q1.add(q1.remove());
+                sz--;
+            }
+        }
+
+        public Integer pop() {
+            return q1.remove();
+        }
+
+        public boolean empty() {
+            return q1.isEmpty();
+        }
+
+        public int top() {
+            return q1.peek();
+        }
+    }
 
     //Implementing a Stack in Java using Arrays
     public class StackArray<T> implements Stack<T> {
