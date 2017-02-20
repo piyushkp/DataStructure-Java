@@ -1721,6 +1721,7 @@ public class Array {
     //char nuts[] = {'@', '#', '$', '%', '^', '&'};
     //char bolts[] = {'$', '%', '&', '^', '@', '#'};
     //Method which works just like quick sort Time = O(nLogn)
+    // can be solved by hashMap in O(N)
     private static void matchPairs(char[] nuts, char[] bolts, int low, int high) {
         if (low < high) {
             //Choose last character of bolts array for nuts partition.
