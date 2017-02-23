@@ -2570,36 +2570,37 @@ public class StringImp {
     }
     // given list of words dictionary and set of characters find the words you can form from set of characters which ica valid in dictionary
     // {'o','s','o','r','d','w',} output = "word, "words","wood"
-    public void Init(String[] words){
-        HashMap<String, HashMap<Character,Integer>> map = new HashMap<>();
+    // assuming only a-z characters
+    // if find is called many times we can build dictionary with trie as pre-proccessing which is faster
+    public void init(String[] words) {
+        HashMap<String, int[]> map = new HashMap<>();
         for (int i = 0; i < words.length; i++) {
-            HashMap<Character,Integer> t1 = new HashMap<>();
+            int[] count = new int[26];
             char[] ch = words[i].toCharArray();
             for (int j = 0; j < ch.length; j++) {
-                if(t1.containsKey(ch[j]))
-                    t1.put(ch[j],t1.get(ch[j]) + 1);
-                else
-                    t1.put(ch[j],1);
+                int index = ch[j] - 'a';
+                count[index]++;
             }
-            map.put(words[i],t1);
         }
     }
-    public Set<String> wordFinder(Set<Character> input, HashMap<String, HashMap<Character,Integer>> map){
+    //O(M + N * 26) M = number of characters and N = number of words in dictionary
+    public Set<String> wordFinder(Set<Character> input, HashMap<String,int[]> map) {
         Set<String> out = new HashSet<>();
-        HashMap<Character, Integer> t2 = new HashMap<>();
-        for(char c: input){
-            if(t2.containsKey(c))
-                t2.put(c,t2.get(c)+1);
-            else
-                t2.put(c,1);
+        int[] charCount = new int[26];
+        for (char c : input) {
+            int index = c - 'a';
+            charCount[index]++;
         }
-        for(String key : map.keySet()){
+        for (String key : map.keySet()) {
             boolean isMatch = true;
-            for(char c: map.get(key).keySet()){
-                if(t2.get(c) != map.get(key).get(c))
+            int[] temp = map.get(key);
+            for (int i = 0; i < temp.length; i++) {
+                if (temp[i] != charCount[i]) {
                     isMatch = false;
+                    break;
+                }
             }
-            if(isMatch)
+            if (isMatch)
                 out.add(key);
         }
         return out;
