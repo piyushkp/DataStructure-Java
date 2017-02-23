@@ -155,6 +155,41 @@ public class Tree {
             System.out.println();
         }
     }
+    //Given a binary tree, print it vertically
+    void printVerticalOrder(Node root) {
+        if (root == null)
+            return;
+        // Create a map and store vertical oder
+        TreeMap<Integer, ArrayList<Integer>> map = new TreeMap<>();
+        ArrayList<Integer> list;
+        int hd = 0;
+        // Create queue to do level order traversal. Every item of queue contains node and horizontal distance.
+        Queue<Pair<Node, Integer>> que = new LinkedList<>();
+        que.add(new Pair(root, hd));
+        while (!que.isEmpty()) {
+            // pop from queue front
+            Pair<Node, Integer> temp = que.poll();
+            hd = temp.getValue();
+            Node node = temp.getKey();
+
+            if (!map.containsKey(hd)) {
+                list = new ArrayList<>();
+            } else {
+                list = map.get(hd);
+            }
+            list.add(node.data);
+            map.put(hd, list);
+            if (node.left != null)
+                que.add(new Pair<>(node.left, hd - 1));
+            if (node.right != null)
+                que.add(new Pair<>(node.right, hd + 1));
+        }
+        // Traverse the map and print nodes at every horizontal distance (hd)
+        Set<Integer> i = map.keySet();
+        for (int keys : i) {
+            System.out.println(map.get(keys));
+        }
+    }
 
     /* Given a binary tree, print its nodes in reverse level order */
     void reverseLevelOrder(Node root) {

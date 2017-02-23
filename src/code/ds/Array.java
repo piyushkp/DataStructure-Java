@@ -2917,12 +2917,12 @@ public class Array {
         return a[low];
     }
     //find Maximum and minimum of an array using minimum number of comparisons
-    struct pair{
+    class pair{
         int min;
         int max;
-    };
+    }
     private pair getMinMax(int arr[], int n) {
-        struct pair minmax;
+        pair minmax = new pair();
         int i;
   /* If array has even number of elements then initialize the first two elements as minimum and maximum */
         if (n % 2 == 0) {

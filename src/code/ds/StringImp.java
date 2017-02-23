@@ -1016,6 +1016,8 @@ public class StringImp {
             }
         }
     }
+    //Find total number of unique anagrams in a dictionary?
+
 
     //reverse the string
     private static String ReverseString(String str) {
@@ -2604,6 +2606,48 @@ public class StringImp {
                 out.add(key);
         }
         return out;
+    }
+    TrieWordFinder root1;
+    class TrieWordFinder
+    {
+        char letter;
+        TrieWordFinder[] child = new TrieWordFinder[26];
+        boolean isWord;
+        public TrieWordFinder(char letter)
+        {
+            this.letter = letter;
+        }
+        public void insert(String word)
+        {
+            TrieWordFinder node = root1;
+            char[] ch = word.toCharArray();
+            for(int i =0; i<ch.length;i++)
+            {
+                if(node.child[ch[i] -'a'] == null)
+                {
+                    node.child[ch[i] -'a'] = new TrieWordFinder(ch[i]);
+                    if(i == ch.length -1)
+                        node.child[ch[i] -'a'].isWord = true;
+                }
+                node = node.child[ch[i] -'a'];
+            }
+        }
+        public Set<String> find(int[] letter){
+            Set<String> out = new HashSet<>();
+            TrieWordFinder node = root1;
+            for(int i= 0; i<letter.length;i++)
+            {
+                String word = "";
+                while(letter[i] > 0 && node.child[letter[i] -'a'] != null){
+                    word += node.child[letter[i] - 'a'];
+                    if(node.child[letter[i] - 'a'].isWord)
+                        out.add(word);
+                    node = node.child[letter[i] - 'a'];
+
+                }
+            }
+            return out;
+        }
     }
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
     out a list of words without the compound words that are made up of the simple words.
