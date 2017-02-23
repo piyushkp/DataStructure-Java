@@ -2568,5 +2568,49 @@ public class StringImp {
         }
         return left;
     }
+    // given list of words dictionary and set of characters find the words you can form from set of characters which ica valid in dictionary
+    // {'o','s','o','r','d','w',} output = "word, "words","wood"
+    public void Init(String[] words){
+        HashMap<String, HashMap<Character,Integer>> map = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            HashMap<Character,Integer> t1 = new HashMap<>();
+            char[] ch = words[i].toCharArray();
+            for (int j = 0; j < ch.length; j++) {
+                if(t1.containsKey(ch[j]))
+                    t1.put(ch[j],t1.get(ch[j]) + 1);
+                else
+                    t1.put(ch[j],1);
+            }
+            map.put(words[i],t1);
+        }
+    }
+    public Set<String> wordFinder(Set<Character> input, HashMap<String, HashMap<Character,Integer>> map){
+        Set<String> out = new HashSet<>();
+        HashMap<Character, Integer> t2 = new HashMap<>();
+        for(char c: input){
+            if(t2.containsKey(c))
+                t2.put(c,t2.get(c)+1);
+            else
+                t2.put(c,1);
+        }
+        for(String key : map.keySet()){
+            boolean isMatch = true;
+            for(char c: map.get(key).keySet()){
+                if(t2.get(c) != map.get(key).get(c))
+                    isMatch = false;
+            }
+            if(isMatch)
+                out.add(key);
+        }
+        return out;
+    }
+    /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
+    out a list of words without the compound words that are made up of the simple words.
+    Input: chat, ever, snapchat, snap, salesperson, per, person, sales, son, whatsoever, what so.
+    Output should be: chat, ever, snap, per, sales, son, what, so
+     */
+
+
+
 }
 
