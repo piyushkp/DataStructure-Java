@@ -2017,7 +2017,7 @@ public class StringImp {
     // the abbreviation maps to exactly one word or not. An abbreviation of a word follows the form <first letter><number><last letter>
     //i|nternationalizatio|n  --> i18n
     private Map<String, String> abbrDict;
-    private Set<String> uniqueDict;
+    Set<String> uniqueDict;
 
     public void ValidWordAbbr(String[] dictionary) {
         abbrDict = new HashMap<String, String>();
@@ -2040,7 +2040,7 @@ public class StringImp {
         if (word == null || word.length() == 0) {
             return true;
         }
-        String abbr = getAbbr(word);
+        private String abbr = getAbbr(word);
         if (!abbrDict.containsKey(abbr) || abbrDict.get(abbr).equals(word)) {
             return true;
         } else {
