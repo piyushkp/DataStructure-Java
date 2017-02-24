@@ -2648,6 +2648,18 @@ public class StringImp {
             }
             return out;
         }
+        public void intit(String[] words){
+            for(String word: words)
+                insert(word);
+        }
+        public Set<string> find(char[] letters){
+            int[] let = new let[26];
+            for(int i= 0;i<letters.length;i++){
+                int index = letters[i] -'a';
+                let[index]++;
+            }
+            return search(let);
+        }
     }
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
     out a list of words without the compound words that are made up of the simple words.
