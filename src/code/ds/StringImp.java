@@ -2632,7 +2632,7 @@ public class StringImp {
                 node = node.child[ch[i] -'a'];
             }
         }
-        public Set<String> find(int[] letter){
+        public Set<String> findUtil(int[] letter){
             Set<String> out = new HashSet<>();
             TrieWordFinder node = root1;
             for(int i= 0; i<letter.length;i++)
@@ -2658,7 +2658,7 @@ public class StringImp {
                 int index = letters[i] -'a';
                 let[index]++;
             }
-            return search(let);
+            return findUtil(let);
         }
     }
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
