@@ -99,63 +99,91 @@ public class QueueImp{
         }
     }
     //Implemented simple thread safe circular queue
-    public class ArrayCircularBuffer<T> {
-        // internal data storage
-        private T[] data;
-        // indices for inserting and removing from queue
-        private int front = 0;
-        private int insertLocation = 0;
-        // number of elements in queue
-        private int size = 0;
-        public ArrayCircularBuffer(int bufferSize) {
-            data = (T[]) new Object[bufferSize];
+    public class CircularArrayQueue<T> {
+        private final int DEFAULT_CAPACITY = 100;
+        private int front, rear, count;
+        private T[] queue;
+        public CircularArrayQueue()
+        {
+            front = rear = count = 0;
+            queue = (T[]) (new Object[DEFAULT_CAPACITY]);
         }
-        /**
-         * Inserts an item at the end of the queue. If the queue is full, the oldest
-         * value will be removed and head of the queue will become the second oldest
-         * value. */
-        public synchronized void insert(T item) {
-            data[insertLocation] = item;
-            insertLocation = (insertLocation + 1) % data.length;
-            /**If the queue is full, this means we just overwrote the front of the
-             * queue. So increment the front location.*/
-            if (size == data.length) {
-                front = (front + 1) % data.length;
-            } else {
-                size++;
-            }
+        public CircularArrayQueue (int initialCapacity)
+        {
+            front = rear = count = 0;
+            queue = ( (T[])(new Object[initialCapacity]) );
         }
-        public synchronized int size() {
-            return size;
+        public void enqueue (T element)
+        {
+            if (size() == queue.length)
+                expandCapacity();
+
+            queue[rear] = element;
+
+            rear = (rear+1) % queue.length;
+
+            count++;
         }
-        public synchronized T removeFront() {
-            if (size == 0) {
-                throw new NoSuchElementException();
-            }
-            T retValue = data[front];
-            front = (front + 1) % data.length;
-            size--;
-            return retValue;
+        public T dequeue() throws Exception
+        {
+            if (isEmpty())
+                throw new Exception ("queue is Empty");
+
+            T result = queue[front];
+            queue[front] = null;
+
+            front = (front+1) % queue.length;
+
+            count--;
+
+            return result;
         }
-        /** Returns the head of the queue but does not remove it.*/
-        public synchronized T peekFront() {
-            if (size == 0) {
-                return null;
-            } else {
-                return data[front];
-            }
+        public T first() throws Exception
+        {
+            if (isEmpty())
+                throw new Exception ("queue is Empty");
+
+            return queue[front];
         }
-        /**Returns the last element of the queue but does not remove it.*/
-        public synchronized T peekLast() {
-            if (size == 0) {
-                return null;
-            } else {
-                int lastElement = insertLocation - 1;
-                if (lastElement < 0) {
-                    lastElement = data.length - 1;
+        public boolean isEmpty()
+        {
+            return (count == 0);
+        }
+        public int size()
+        {
+            return count;
+        }
+        public String toString()
+        {
+            String result = "";
+            int scan = 0;
+
+            while(scan < count)
+            {
+                if(queue[scan]!=null)
+                {
+                    result += queue[scan].toString()+"\n";
                 }
-                return data[lastElement];
+                scan++;
             }
+
+            return result;
+
+        }
+
+        public void expandCapacity()
+        {
+            T[] larger = (T[])(new Object[queue.length *2]);
+
+            for(int scan=0; scan < count; scan++)
+            {
+                larger[scan] = queue[front];
+                front=(front+1) % queue.length;
+            }
+
+            front = 0;
+            rear = count;
+            queue = larger;
         }
     }
 }
