@@ -739,7 +739,6 @@ public class Array {
         return len;
     }
 
-
     //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
         // max positive product ending at the current position
