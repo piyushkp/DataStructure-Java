@@ -2040,7 +2040,7 @@ public class StringImp {
         if (word == null || word.length() == 0) {
             return true;
         }
-        private String abbr = getAbbr(word);
+        String abbr = getAbbr(word);
         if (!abbrDict.containsKey(abbr) || abbrDict.get(abbr).equals(word)) {
             return true;
         } else {
@@ -2652,8 +2652,8 @@ public class StringImp {
             for(String word: words)
                 insert(word);
         }
-        public Set<string> find(char[] letters){
-            int[] let = new let[26];
+        public Set<String> find(char[] letters){
+            int[] let = new int[26];
             for(int i= 0;i<letters.length;i++){
                 int index = letters[i] -'a';
                 let[index]++;

@@ -31,8 +31,13 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {55,56,57,58,58,59,60};
-        System.out.print(findRepeatingNum(a));
+        int[] a = {3,10,2,1,20};
+        max_lis_length = 1; // stores the final LIS
+
+        // max_lis_length is declared static above
+        // so that it can maintain its value
+        // between the recursive calls of _lis()
+        _lis( a, a.length );
 
     }
 
@@ -703,6 +708,37 @@ public class Array {
         max_len = Math.max(max_len, count);
         return max_len;
     }
+    //longest increasing subsequence Time O(NlogN)
+    static int CeilIndex(int A[], int l, int r, int key){
+        while (r - l > 1){
+            int m = l + (r - l)/2;
+            if (A[m]>=key)
+                r = m;
+            else
+                l = m;
+        }
+        return r;
+    }
+    static int LongestIncreasingSubsequenceLength(int A[], int size){
+        // Add boundary case, when array size is one
+        int[] temp   = new int[size];
+        int len; // always points empty slot
+        temp[0] = A[0];
+        len = 1;
+        for (int i = 1; i < size; i++){
+            if (A[i] < temp[0])
+                // new smallest value
+                temp[0] = A[i];
+            else if (A[i] > temp[len-1])
+                // A[i] wants to extend largest subsequence
+                temp[len++] = A[i];
+            else
+                // A[i] wants to be current end candidate of an existing subsequence. It will replace ceil value in tailTable
+                temp[CeilIndex(tailTable, -1, len-1, A[i])] = A[i];
+        }
+        return len;
+    }
+
 
     //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
