@@ -738,6 +738,22 @@ public class Array {
         }
         return len;
     }
+    //Maximum Sum Increasing Subsequence
+    static int maxSumIS( int arr[], int n ) {
+        int i, j, max = 0;
+        int msis[] = new int[n];
+        /* Initialize msis values for all indexes */
+        for (i = 0; i < n; i++)
+            msis[i] = arr[i];
+        /* Compute maximum sum values in bottom up manner */
+        for (i = 1; i < n; i++)
+            for (j = 0; j < i; j++)
+                if (arr[i] > arr[j]) {
+                    msis[i] = Math.max(msis[j] + arr[i], msis[i]);
+                    max = Math.max(max, msis[i]);
+                }
+        return max;
+    }
 
     //Given an array that contains both positive and negative integers, find the maximum product of elements of subarray.
     int maxSubarrayProduct(int arr[]) {
