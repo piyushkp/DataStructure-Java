@@ -929,8 +929,10 @@ public class LinkList {
         if (head == null)
             return null;
         Node curr = head;
-        if (curr.data % 2 != 0)
+        while (curr.data % 2 != 0) {
             head = curr.next;
+            curr = curr.next;
+        }
         curr = curr.next;
         Node prev = head;
         while (curr != null) {
