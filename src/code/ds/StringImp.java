@@ -2648,7 +2648,7 @@ public class StringImp {
             }
             return out;
         }
-        public void intit(String[] words){
+        public void init(String[] words){
             for(String word: words)
                 insert(word);
         }
