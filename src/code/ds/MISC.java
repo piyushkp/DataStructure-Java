@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class MISC {
 
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
         //System.out.print("MISC");
         MISC misc = new MISC();
         /*ArrayList<Interval> input = new ArrayList<>();
@@ -23,22 +23,22 @@ public class MISC {
             System.out.println(item.start +"," + item.end);
         }*/
         MISC.HitCounter hit = misc.new HitCounter();
-        System.out.println(System.currentTimeMillis() /1000);
-        hit.hit((int)System.currentTimeMillis() /1000);
+        System.out.println(System.currentTimeMillis() / 1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
         Thread.sleep(1000);
         Thread.sleep(3000);
-        hit.hit((int)System.currentTimeMillis() /1000);
-        hit.hit((int)System.currentTimeMillis() /1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
         Thread.sleep(2500);
-        System.out.println(System.currentTimeMillis() /1000);
+        System.out.println(System.currentTimeMillis() / 1000);
         Thread.sleep(1000 * 55);
-        hit.hit((int)System.currentTimeMillis() /1000);
-        System.out.println(System.currentTimeMillis() /1000);
-        hit.hit((int)System.currentTimeMillis() /1000);
-        hit.hit((int)System.currentTimeMillis() /1000);
-        hit.hit((int)System.currentTimeMillis() /1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
+        System.out.println(System.currentTimeMillis() / 1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
+        hit.hit((int) System.currentTimeMillis() / 1000);
 
-        System.out.println(hit.getHits((int)System.currentTimeMillis() /1000));
+        System.out.println(hit.getHits((int) System.currentTimeMillis() / 1000));
 
     }
 
@@ -47,10 +47,15 @@ public class MISC {
     class Interval {
         int start;
         int end;
-        Interval(int s, int e) { start = s; end = e; }
+
+        Interval(int s, int e) {
+            start = s;
+            end = e;
+        }
     }
+
     public ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
-        if(intervals.size() == 0 || intervals.size() == 1)
+        if (intervals.size() == 0 || intervals.size() == 1)
             return intervals;
         // Sort Intervals in decreasing order of start time
         intervals.sort(new Comparator<Interval>() {
@@ -63,11 +68,11 @@ public class MISC {
         int start = first.start;
         int end = first.end;
         ArrayList<Interval> result = new ArrayList<>();
-        for(int i = 1; i < intervals.size(); i++){
+        for (int i = 1; i < intervals.size(); i++) {
             Interval current = intervals.get(i);
-            if(current.start <= end){
+            if (current.start <= end) {
                 end = Math.max(current.end, end);
-            }else{
+            } else {
                 result.add(new Interval(start, end));
                 start = current.start;
                 end = current.end;
@@ -76,6 +81,7 @@ public class MISC {
         result.add(new Interval(start, end));
         return result;
     }
+
     /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
     covered. e.g: [(1,3),(2,5),(8,9)] should return 5
     a) 1 2 3 = 2 unique intervals (1 to 2, 2 to 3)
@@ -622,6 +628,7 @@ public class MISC {
             }
         }
     }
+
     //Given a nested list of integers, returns the sum of all integers in the list weighted by their depth. For example,
     //given the list {{1,1},2,{1,1}} the function should return 10 (four 1's at depth 2, one 2 at depth 1)
     private static int depthNestedIntSum(List<NestedIntList> input, int level) {
@@ -789,6 +796,7 @@ public class MISC {
         DoublyNode next;
         DoublyNode prev;
     }
+
     class LRU {
         HashMap<Integer, DoublyNode> map;
         int capacity;
@@ -866,10 +874,9 @@ public class MISC {
             add(node);
             map.put(key, node);
         }
-        public void removeCache(int key)
-        {
-            if(map.containsKey(key))
-            {
+
+        public void removeCache(int key) {
+            if (map.containsKey(key)) {
                 DoublyNode node = map.get(key);
                 map.remove(key);
                 remove(node);
@@ -1014,8 +1021,9 @@ public class MISC {
         ArrayList<String> arr = new ArrayList<>();
         int index;
         int size;
+
         public void Insert(String key, int value) {
-            if(!_map.containsKey(key)) {
+            if (!_map.containsKey(key)) {
                 index = size;
                 List<Integer> temp = new ArrayList<>();
                 temp.add(value);
@@ -1023,32 +1031,34 @@ public class MISC {
                 _map.put(key, temp);
                 arr.add(index, key);
                 size++;
-            }
-            else
-            {
+            } else {
                 List<Integer> _list = _map.get(key);
-                _list.set(0,value);
-                _map.put(key,_list);
+                _list.set(0, value);
+                _map.put(key, _list);
             }
         }
+
         public int Get(String key) {
             return _map.get(key).get(0);
         }
+
         public void Delete(String key) {
             index = _map.get(key).get(1);
             //copy last element at array index and remove last element, so delete can done in O(1)
             arr.set(index, arr.get(size - 1));
-            arr.remove(size - 1 );
+            arr.remove(size - 1);
             size--;
             //delete from the map
             _map.remove(key);
             //update the index of the swapped key
             _map.get(arr.get(index)).set(1, index);
         }
+
         public String GetRandomKey() {
             int r = (int) (Math.random() * size + 1);
             return arr.get(r);
         }
+
         public void clear() {
             size = 0;
         }
@@ -1064,12 +1074,14 @@ public class MISC {
     //For example, if map contains (K,1,V1) and (K,2,V2) and the user does a get(k,1.5) then the output should be v1 as 1 is the next smallest number to 1.5
     class TimeHashMap<Key, Time, Value> {
         private HashMap<Key, TreeMap<Time, Value>> map = new HashMap<>();
+
         public Value get(Key key, Time time) {
             TreeMap<Time, Value> tree = map.get(key);
             if (tree == null) return null;
             final Time floorKey = tree.floorKey(time);
             return floorKey == null ? null : tree.get(floorKey);
         }
+
         public void put(Key key, Time time, Value value) {
             if (!map.containsKey(key)) {
                 map.put(key, new TreeMap<>());
@@ -1077,17 +1089,25 @@ public class MISC {
             map.get(key).put(time, value);
         }
     }
+
     //how do you count the number of visitors for the past 1 minute?
     class HitCounter {
         java.util.concurrent.atomic.AtomicIntegerArray time;
         java.util.concurrent.atomic.AtomicIntegerArray hit;
-        /** Initialize your data structure here. */
+
+        /**
+         * Initialize your data structure here.
+         */
         public HitCounter() {
-            time  = new java.util.concurrent.atomic.AtomicIntegerArray(60);
+            time = new java.util.concurrent.atomic.AtomicIntegerArray(60);
             hit = new java.util.concurrent.atomic.AtomicIntegerArray(60);
         }
-        /** Record a hit.
-         @param timestamp - The current timestamp (in seconds granularity). */
+
+        /**
+         * Record a hit.
+         *
+         * @param timestamp - The current timestamp (in seconds granularity).
+         */
         public void hit(int timestamp) {
             int index = timestamp % 60;
             if (time.get(index) != timestamp) {
@@ -1097,8 +1117,12 @@ public class MISC {
                 hit.incrementAndGet(index);//add one
             }
         }
-        /** Return the number of hits in the past 5 minutes.
-         @param timestamp - The current timestamp (in seconds granularity). */
+
+        /**
+         * Return the number of hits in the past 5 minutes.
+         *
+         * @param timestamp - The current timestamp (in seconds granularity).
+         */
         public int getHits(int timestamp) {
             int total = 0;
             for (int i = 0; i < 60; i++) {
@@ -1109,44 +1133,44 @@ public class MISC {
             return total;
         }
     }
+
     //Stream deduplication - Give a real-time source of data that emits strings.
     // print last 1 minute unique data.
-    class Streamdedu{
+    class Streamdedu {
         AtomicIntegerArray time;
         java.util.concurrent.atomic.AtomicReferenceArray data;
-        public Streamdedu()
-        {
-            time= new AtomicIntegerArray(60);
+
+        public Streamdedu() {
+            time = new AtomicIntegerArray(60);
             data = new java.util.concurrent.atomic.AtomicReferenceArray(60);
         }
-        void OnDataReceived(String input, int timestamp)
-        {
+
+        void OnDataReceived(String input, int timestamp) {
             ArrayList<String> temp;
             int index = timestamp % 60;
-            if(time.get(index) != timestamp){
+            if (time.get(index) != timestamp) {
                 time.set(index, timestamp);
                 temp = new ArrayList<>();
                 temp.add(input);
-                data.set(index,temp);
-            }
-            else
-            {
+                data.set(index, temp);
+            } else {
                 temp = (ArrayList<String>) data.get(index);
-                if(!temp.contains(input))
+                if (!temp.contains(input))
                     temp.add(input);
             }
         }
-        public List<String> PrintData(int timestamp)
-        {
+
+        public List<String> PrintData(int timestamp) {
             List<String> output = new ArrayList<>();
             for (int i = 0; i < 60; i++) {
                 if (timestamp - time.get(i) < 60) {
-                    output.addAll((ArrayList<String>)data.get(i));
+                    output.addAll((ArrayList<String>) data.get(i));
                 }
             }
             return output;
         }
     }
+
     /* Design a logger system that receive stream of messages along with its timestamps, each message should be printed
     if and only if it is not printed in the last 10 seconds. Given a message and a timestamp (in seconds granularity),
     return true if the message should be printed in the given timestamp, otherwise returns false.
@@ -1154,6 +1178,7 @@ public class MISC {
     class Logger {
         // Fast but space complexity is very high as map will keep on adding data
         private Map<String, Integer> map = new HashMap<>();
+
         public boolean shouldPrintMessage(int timestamp, String message) {
             if (map.containsKey(message) && (timestamp - map.get(message) < 10)) {
                 return false;
@@ -1161,5 +1186,57 @@ public class MISC {
             map.put(message, timestamp);
             return true;
         }
+    }
+    /* Given input which is vector of log entries of some online system each entry is something like (user_name, login_time, logout_time),
+    come up with an algorithm with outputs number of users logged in the system at each time slot in the input, output should contain only the time slot which are in the input.
+    input: [
+            ("Jane", 1.2, 4.5),
+            ("Jin", 3.1, 6.7),
+            ("June", 8.9, 10.3)
+           ]
+    Output: [(1.2, 1), (3.1, 2), (4.5, 1), (6.7, 0), (8.9, 1), (10.3,0)] */
+    class Input {
+        String name;
+        double login;
+        double logout;
+    }
+    class Type implements Comparable<Type> {
+        boolean loggedin;
+        double time;
+        public Type(double time, boolean loogedIn){
+            this.time = time;
+            this.loggedin = loogedIn;
+        }
+        @Override
+        public int compareTo(Type that) {
+            return (int) (this.time - that.time);
+        }
+    }
+
+    class Output {
+        double time;
+        int numLoggedIn;
+        public Output(double t, int num){
+            time = t;
+            numLoggedIn = num;
+        }
+    }
+
+    public List<Output> findLoggedIn(List<Input> list) {
+        List<Type> loggedIn = new ArrayList<>();
+        List<Output> retValue = new ArrayList<>();
+        int loggedInNow = 0;
+        for (Input iv: list) {
+            loggedIn.add(new Type(iv.login, true));
+            loggedIn.add(new Type(iv.logout, false));
+        }
+        Collections.sort(loggedIn);
+        for(Type t: loggedIn) {
+            if (t.loggedin == true)
+                loggedInNow++;
+            else loggedInNow--;
+            retValue.add(new Output(t.time, loggedInNow));
+        }
+        return retValue;
     }
 }
