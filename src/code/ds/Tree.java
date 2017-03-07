@@ -1111,23 +1111,22 @@ public class Tree {
     }
 
     // Given a Binary Tree mirror it with left and right subtree
-    //modify the existing binary tree
-    void mirror(Node node) {
-        if (node == null) {
-            return;
-        } else {
-            Node temp;
-             /* swap the objects/values in this node */
-            temp = node.left;
-            node.left = node.right;
-            node.right = temp;
-            /* do the subtrees */
-            mirror(node.left);
-            mirror(node.right);
-
+    private Node mirrorTreeIterative(Node root) {
+        Node newNode = new Node();
+        if (root == null)
+            return null;
+        Queue<Node> _q = new Queue<Node>();
+        _q.push(root);
+        while (!_q.empty()) {
+            newNode = _q.poll();
+            //SWAP(newNode.left, newNode.right);
+            if (newNode.left != null)
+                _q.add(newNode.left);
+            if (newNode.right != null)
+                _q.add(newNode.right);
         }
+        return newNode;
     }
-
     //with new tree
     private Node mirrorTree(Node root) {
         Node newNode = new Node();
@@ -1140,24 +1139,6 @@ public class Tree {
         }
         return newNode;
     }
-
-    private Node mirrorTreeIterative(Node root) {
-        Node newNode = new Node();
-        if (root == null)
-            return null;
-        Stack<Node> _stack = new Stack<Node>();
-        _stack.push(root);
-        while (!_stack.empty()) {
-            newNode = _stack.pop();
-            //SWAP(newNode.left, newNode.right);
-            if (newNode.left != null)
-                _stack.push(newNode.left);
-            if (newNode.right != null)
-                _stack.push(newNode.right);
-        }
-        return newNode;
-    }
-
     //Given a binary tree, check whether it is a mirror of itself.
     boolean isMirror(Node node1, Node node2) {
         // if both trees are empty, then they are mirror image
