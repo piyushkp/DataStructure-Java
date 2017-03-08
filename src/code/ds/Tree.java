@@ -1916,4 +1916,13 @@ public class Tree {
         count++;
         return true;
     }
+    //given a binary tree, write a function that returns the number of nodes beneath a specified level
+    public static int findNodesCountBelowLevel(Node root, int curr, int level, int count){
+        if(root == null)
+            return 0;
+        if(curr > level)
+            count++;
+        findNodesCountBelowLevel(root.left,curr+1, level, count) + findNodesCountBelowLevel(root.right,curr+1, level, count);
+        return count;
+    }
 }
