@@ -1115,9 +1115,9 @@ public class Tree {
         Node newNode = new Node();
         if (root == null)
             return null;
-        Queue<Node> _q = new Queue<Node>();
-        _q.push(root);
-        while (!_q.empty()) {
+        Queue<Node> _q = new LinkedList<>();
+        _q.add(root);
+        while (!_q.isEmpty()) {
             newNode = _q.poll();
             //SWAP(newNode.left, newNode.right);
             if (newNode.left != null)
@@ -1922,7 +1922,8 @@ public class Tree {
             return 0;
         if(curr > level)
             count++;
-        findNodesCountBelowLevel(root.left,curr+1, level, count) + findNodesCountBelowLevel(root.right,curr+1, level, count);
+        findNodesCountBelowLevel(root.left,curr+1, level, count);
+        findNodesCountBelowLevel(root.right,curr+1, level, count);
         return count;
     }
 }

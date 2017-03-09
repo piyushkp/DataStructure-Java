@@ -14,7 +14,8 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(areAnagram("abcd", "dcbz"));
+        String[] in = {"abc", "cba", "xyz", "ba"};
+        List<List<Integer>> out =  palindromePairs(in);
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */

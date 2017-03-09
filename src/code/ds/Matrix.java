@@ -248,6 +248,58 @@ public class Matrix {
                     helper(matrix, rowStart, rowMid, colMid + 1, colEnd, target);
         }
     }
+    //http://buttercola.blogspot.com/2014/08/leetcode-search-2d-matrix.html
+    //Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+    //Integers in each row are sorted from left to right.
+    //The first integer of each row is greater than the last integer of the previous row.
+    public boolean searchMatrix1(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        // Step 1: find the rowId of the target number
+        int lo = 0;
+        int hi = m - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (matrix[mid][0] == target) {
+                return true;
+            } else if (matrix[mid][0] < target) {
+                lo = mid;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        if (matrix[hi][0] == target || matrix[lo][0] == target) {
+            return true;
+        }
+        int rowId;
+        if (target > matrix[lo][0] && target <= matrix[lo][n - 1]) {
+            rowId = lo;
+        } else {
+            rowId = hi;
+        }
+        // Step 2: find the target number in the rowId
+        lo = 0;
+        hi = n - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (matrix[rowId][mid] == target) {
+                return true;
+            } else if (matrix[rowId][mid] < target) {
+                lo = mid + 1;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        if (matrix[rowId][hi] == target || matrix[rowId][lo] == target) {
+            return true;
+        }
+        return false;
+    }
+
+
     /*Given a 2D matrix(square or rectangular) print it in spiral way.
         e.g 1 2 3
             4 5 6

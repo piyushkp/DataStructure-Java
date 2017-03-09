@@ -31,13 +31,6 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        int[] a = {3,10,2,1,20};
-        max_lis_length = 1; // stores the final LIS
-
-        // max_lis_length is declared static above
-        // so that it can maintain its value
-        // between the recursive calls of _lis()
-        _lis( a, a.length );
 
     }
 
@@ -734,7 +727,7 @@ public class Array {
                 temp[len++] = A[i];
             else
                 // A[i] wants to be current end candidate of an existing subsequence. It will replace ceil value in tailTable
-                temp[CeilIndex(tailTable, -1, len-1, A[i])] = A[i];
+                temp[CeilIndex(temp, -1, len-1, A[i])] = A[i];
         }
         return len;
     }
