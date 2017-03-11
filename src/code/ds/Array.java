@@ -311,7 +311,7 @@ public class Array {
         return null;
     }
 
-    //k Sum problem, Time = O(N^k)
+    //k-Sum problem, Time = O(N^k)
     public static List<List<Integer>> kSum(int[] num, int k, int target, int start_index) {
         List<List<Integer>> result = new LinkedList<List<Integer>>();
         if (k == 0) {
