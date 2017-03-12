@@ -8,8 +8,20 @@ import java.util.*;
  * Created by Piyush Patel.
  */
 public class Tree {
+    static int countN = 0;
     public static void main(String[] args) {
-        System.out.print("Tree");
+
+        Tree t = new Tree();
+        Node root = t.new Node();
+        root.data = 1;
+        root.left = t.new Node(2);
+        root.right= t.new Node(3);
+        root.left.left= t.new Node(4);
+        root.left.right= t.new Node(5);
+        root.left.right.left = t.new Node(6);
+
+        int out = t.findNodesCountBelowLevel(root,0,1);
+        System.out.print(out);
     }
 
     public class Node {
@@ -1917,13 +1929,13 @@ public class Tree {
         return true;
     }
     //given a binary tree, write a function that returns the number of nodes beneath a specified level
-    public static int findNodesCountBelowLevel(Node root, int curr, int level, int count){
+    public static int findNodesCountBelowLevel(Node root, int curr, int level){
         if(root == null)
             return 0;
         if(curr > level)
-            count++;
-        findNodesCountBelowLevel(root.left,curr+1, level, count);
-        findNodesCountBelowLevel(root.right,curr+1, level, count);
-        return count;
+            countN++;
+        findNodesCountBelowLevel(root.left,curr+1, level);
+        findNodesCountBelowLevel(root.right,curr+1, level);
+        return countN;
     }
 }

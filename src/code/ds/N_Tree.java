@@ -9,11 +9,16 @@ import java.util.*;
  * Created by ppatel2 on 3/11/2017.
  */
 public class N_Tree {
+    public static void main(String [] args) {
+        N_Tree t = new N_Tree();
+        t.deserialize("ABE)FK)))C)DG)H)I)J)))");
+
+    }
     class NTree {
-        int data;
+        char data;
         ArrayList<NTree> children = new ArrayList<>();
 
-        public NTree(int c) {
+        public NTree(char c) {
             this.data = c;
         }
 
