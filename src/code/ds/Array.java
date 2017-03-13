@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.*;
 import java.lang.*;
+import javafx.util.Pair;
 import java.util.concurrent.*;
 
 /**
@@ -31,6 +32,8 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
+        double[] in = {0.5, 0.5, 11};
+        double[] out =  minimizeRoundSum(in, 12);
 
     }
 
@@ -140,7 +143,6 @@ public class Array {
     // provides O(1) find heap and O(logN) insert
     public Queue<Integer> minHeap = new PriorityQueue<Integer>();
     public Queue<Integer> maxHeap = new PriorityQueue<Integer>(10, new MaxHeapComparator());
-    ;
     public int numOfElements = 0;
 
     public void addNumberToStream(Integer num) {
@@ -2590,7 +2592,9 @@ public class Array {
     }
 
     /*Given an array of numbers A = [x1, x2, ..., xn] and T = Round(x1+x2+... +xn). We want to find a way to round each
-    element in A such that after rounding we get a new array B = [y1, y2, ...., yn] such that y1+y2+...+yn = T where yi = Floor(xi) or Ceil(xi), ceiling or floor of xi. We also want to minimize sum |xi-yi|
+    element in A such that after rounding we get a new array B = [y1, y2, ...., yn] such that y1+y2+...+yn = T where yi = Floor(xi) or Ceil(xi), ceiling or floor of xi.
+    We also want to minimize sum |xi-yi|
+    Minimize rounding sum: input = 30.3, 2.4, 3.5 output = 30 2 4
     */
     public static double[] minimizeRoundSum(double[] input, int T) {
         double sum = 0;
@@ -2600,11 +2604,28 @@ public class Array {
             output[i] = Math.round(input[i]);
         }
         double diff = T - sum;
-        int i = 0;
-        while (diff > 0) {
-            output[i] += 1;
-            diff -= 1;
-            i++;
+        if (diff > 0) {
+            int size = (int) Math.round(diff);
+            Queue<Pair<Double, Integer>> maxHeap = new PriorityQueue<Pair<Double, Integer>>(size, new Comparator<Pair<Double, Integer>>() {
+                @Override
+                public int compare(Pair<Double, Integer> o1, Pair<Double, Integer> o2) {
+                    return (int) (o2.getKey() - o1.getKey());
+                }
+            });
+            for (int i = 0; i < input.length; i++) {
+                double _deta = Math.abs(input[i] - output[i]);
+                if (i < Math.round(diff))
+                    maxHeap.add(new Pair(_deta, i));
+                else if (_deta > maxHeap.peek().getKey()) {
+                    maxHeap.poll();
+                    maxHeap.add(new Pair(_deta, i));
+                }
+            }
+            while (!maxHeap.isEmpty() && diff > 0) {
+                int index = maxHeap.poll().getValue();
+                output[index] += 1;
+                diff -= 1;
+            }
         }
         return output;
     }
