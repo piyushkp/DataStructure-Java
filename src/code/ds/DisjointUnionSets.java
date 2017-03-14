@@ -8,7 +8,7 @@ import java.util.*;
 public class DisjointUnionSets {
     public static void main(String[] args) {
         //System.out.print("DisjointUnionSets");
-        ArrayList<ArrayList<Integer>> input = new ArrayList<>();
+        /*ArrayList<ArrayList<Integer>> input = new ArrayList<>();
         ArrayList<Integer> tm = new ArrayList<>();
         tm.add(0);
         tm.add(1);
@@ -29,7 +29,14 @@ public class DisjointUnionSets {
         input.add(0,tm);
         input.add(1,tm1);
         input.add(2, tm2);
-        List<List<String>> out = getStacks(input, 9);
+        List<List<String>> out = getStacks(input, 9);*/
+        char[][] mat = {
+                {'x','.','.','x'},
+                {'.','x','.','.'},
+                {'.','.','x','x'},
+                {'x','.','x','x'}
+        };
+        System.out.println(findFriendCircles(mat));
     }
 
     int[] rank, parent;
@@ -177,6 +184,23 @@ public class DisjointUnionSets {
             }
         }
         return result;
+    }
+    static int findFriendCircles(char[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int count=0;
+        HashSet<Integer> set =  new HashSet<>();
+        DisjointUnionSets dus = new DisjointUnionSets(m * n);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 'x')
+                    dus.union(i, j);
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            set.add(dus.find(i));
+        }
+        return set.size();
     }
 
 }

@@ -788,4 +788,6 @@ public class Matrix {
         }
         return true;
     }
+    //find number of friend circle in given matrix
+
 }
