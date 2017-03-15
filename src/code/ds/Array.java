@@ -32,8 +32,10 @@ public class Array {
         tree.Add("Aan D");
         //String[] output = tree.AutoComplete("San");
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        double[] in = {0.5, 0.5, 11};
-        double[] out =  minimizeRoundSum(in, 12);
+        //double[] in = {0.5, 0.5, 11};
+        //double[] out =  minimizeRoundSum(in, 12);
+        char[] in = {'W','L','L','W','L','W'};
+        System.out.print(longestIsland(in));
 
     }
 
@@ -2604,8 +2606,8 @@ public class Array {
             output[i] = Math.round(input[i]);
         }
         double diff = T - sum;
-        if (diff > 0) {
-            int size = (int) Math.round(diff);
+        if(diff != 0) {
+            int size = Math.abs((int) Math.round(diff));
             Queue<Pair<Double, Integer>> maxHeap = new PriorityQueue<Pair<Double, Integer>>(size, new Comparator<Pair<Double, Integer>>() {
                 @Override
                 public int compare(Pair<Double, Integer> o1, Pair<Double, Integer> o2) {
@@ -3031,5 +3033,25 @@ public class Array {
         return true;
         // remainder = Math.abs(goal - ( (5* big) + small));
     }
-
+    /*Given a sequence of Land and water codes, find the longest island you can build by filling the water in between any two lands. You can fill only sequence of water, but any number of slots in that sequence.
+     Example sequence: L, W, L, W, W, L, W
+     The Longest sequence length is 4 because (Filled water slots are bolded)*/
+    private static int longestIsland(char[] arr)
+    {
+        int max = 0;
+        int start = 0;
+        int curr = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if(arr[i] == 'L')
+            {
+                max = Math.max(max, i-start+1);
+                if(i == 0 || arr[i-1] == 'W')
+                    curr = i;
+            }
+            else
+                start = curr;
+        }
+        max = Math.max(max, arr.length - start);
+        return max;
+    }
 }
