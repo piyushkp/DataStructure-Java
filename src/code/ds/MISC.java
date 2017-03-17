@@ -1239,4 +1239,32 @@ public class MISC {
         }
         return retValue;
     }
+    //Knight tour on keypad
+    void KnightTour(){
+        int keypad[][]  = new int[3][4];
+        int[] values = {1,2,3,4,5,6,7,8,9,-1,0,-1};
+        int count = 0;
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 3; j++)
+                keypad[i][j] = values[count];
+                count++;
+        int[][] mtable = new int[11][10];
+
+    }
+    int KnightUtil(int[][] table, int[][] mem, int digits, int start)
+    {
+        if (digits == 1)
+            return 1;
+        if (mem[digits][start] == 0) {
+            for(int next : nextKnightMove(start, table))
+                mem[digits][start] += KnightUtil(table, mem, digits - 1, next);
+        }
+        //#else:
+        //#print("found ...",digits,start)
+        return mem[digits][start];
+    }
+    int[] nextKnightMove(int start, int[][] table)
+    {
+        return new int[2];
+    }
 }
