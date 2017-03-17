@@ -34,8 +34,8 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        char[] in = {'W','L','L','W','L','W'};
-        System.out.print(longestIsland(in));
+        int[] arr = {1, 5, 1, 1, 6, 4};
+        wiggleSort(arr);
 
     }
 
@@ -1450,6 +1450,7 @@ public class Array {
         }
 
         int cntForMedian = (nums.length + 1) / 2;
+        //use median of median algo
         int median = findKthSmallest(nums, cntForMedian, 0, nums.length - 1);
         mapSortedArrayToWiggleInPlace(nums, median);
     }

@@ -14,8 +14,8 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        String[] in = {"abc", "cba", "xyz", "ba"};
-        List<List<Integer>> out =  palindromePairs(in);
+        String[] in = {"abc","ab"};
+        System.out.print(alienOrder(in));
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -2662,11 +2662,74 @@ public class StringImp {
             return findUtil(let);
         }
     }
+    /* There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you.
+    You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language.
+    Derive the order of letters in this language. For example, Given the following words in dictionary,
+    [ "wrt", "wrf", "er", "ett", "rftt" ] The correct order is: "wertf".*/
+    public static String alienOrder(String[] words) {
+        if (words == null || words.length == 0) {
+            return "";
+        }
+        Set<Character>[] graph = new Set[256];
+        Map<Character, Integer> map = new HashMap<>();
+        int len = words.length;
+        Queue<Character> queue = new LinkedList<>();
+        StringBuilder builder = new StringBuilder();
+
+        for (String word : words) {
+            for (char c : word.toCharArray()) {
+                map.put(c, 0);
+            }
+        }
+        for (int i = 0; i < 256; i++) {
+            graph[i] = new HashSet<Character>();
+        }
+        for (int i = 0; i < len - 1; i++) {
+            int minLen = Math.min(words[i].length(), words[i + 1].length());
+            for (int j = 0; j < minLen; j++) {
+                char c1 = words[i].charAt(j);
+                char c2 = words[i + 1].charAt(j);
+
+                if (c1 != c2) {
+                    if (!graph[c1].contains(c2)) {
+                        graph[c1].add(c2);
+                        map.put(c2, map.get(c2) + 1);
+                    }
+                    break;
+                }
+                // deal with the corner case [abc, ab]
+                if (words[i].charAt(minLen - 1) == words[i + 1].charAt(minLen - 1) && minLen < words[i].length()) {
+                    return "";
+                }
+            }
+        }
+        for (char c : map.keySet()) {
+            if (map.get(c) == 0) {
+                queue.offer(c);
+            }
+        }
+        while (!queue.isEmpty()) {
+            char node = queue.poll();
+            builder.append(node);
+            for (char nextNode : graph[node]) {
+                int count = map.get(nextNode);
+                if (count == 1) {
+                    queue.offer(nextNode);
+                } else {
+                    map.put(nextNode, count - 1);
+                }
+            }
+        }
+        return builder.length() == map.size() ? builder.toString() : "";
+    }
+
+
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
     out a list of words without the compound words that are made up of the simple words.
     Input: chat, ever, snapchat, snap, salesperson, per, person, sales, son, whatsoever, what so.
     Output should be: chat, ever, snap, per, sales, son, what, so
      */
+
 
 
 

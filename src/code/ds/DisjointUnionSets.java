@@ -188,7 +188,6 @@ public class DisjointUnionSets {
     static int findFriendCircles(char[][] mat) {
         int m = mat.length;
         int n = mat[0].length;
-        int count=0;
         HashSet<Integer> set =  new HashSet<>();
         DisjointUnionSets dus = new DisjointUnionSets(m * n);
         for (int i = 0; i < m; i++) {
