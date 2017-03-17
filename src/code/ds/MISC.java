@@ -1267,7 +1267,7 @@ public class MISC {
     {
         return new int[2];
     }
-    //Given users with locations in a list and a logged in user with locations... find their travel buddies (people who shared more than half of your locations).
+    //Given users with locations in a list and a logged in user with locations. find their travel buddies (people who shared more than half of your locations).
     public static void preProcess(List<javafx.util.Pair<String, List<Integer>>> input, javafx.util.Pair<String, List<Integer>> user)
     {
         HashMap<Integer, List<String>> map = new HashMap<>(); // map key is location, values is list of users
