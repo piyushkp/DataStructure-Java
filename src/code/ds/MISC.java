@@ -1267,4 +1267,44 @@ public class MISC {
     {
         return new int[2];
     }
+    //Given users with locations in a list and a logged in user with locations... find their travel buddies (people who shared more than half of your locations).
+    public static void preProcess(List<javafx.util.Pair<String, List<Integer>>> input, javafx.util.Pair<String, List<Integer>> user)
+    {
+        HashMap<Integer, List<String>> map = new HashMap<>(); // map key is location, values is list of users
+        for(javafx.util.Pair<String, List<Integer>> p : input)
+        {
+            List<String> _users;
+            for(Integer location: p.getValue()) {
+                if (map.get(location) == null)
+                    _users = new ArrayList<>();
+                else
+                    _users = map.get(location);
+                map.put(location,_users);
+            }
+        }
+        findTravelBuddy(user, map);
+    }
+    public static List<String> findTravelBuddy(javafx.util.Pair<String, List<Integer>> user, HashMap<Integer, List<String>> map){
+        List<String> _output = new ArrayList<>();
+        List<String> temp = new ArrayList<>();
+        int N = user.getValue().size();
+        HashMap<String, Integer> _commonUsers = new HashMap<>();
+        for(Integer _loc : user.getValue()){
+            if(map.containsKey(_loc)){
+                temp.addAll(map.get(_loc));
+            }
+        }
+        // find majority element from the temp array
+        for(String _user : temp){
+            if(_commonUsers.containsKey(_user))
+                _commonUsers.put(_user, _commonUsers.get(_user) + 1);
+            else
+                _commonUsers.put(_user,1);
+        }
+        for(String u : _commonUsers.keySet()){
+            if(_commonUsers.get(u) > N/2)
+                _output.add(u);
+        }
+        return _output;
+    }
 }

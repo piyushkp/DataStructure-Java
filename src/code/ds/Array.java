@@ -34,8 +34,8 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {1, 5, 1, 1, 6, 4};
-        wiggleSort(arr);
+        int[] arr = {1, 3, 2, 5, 4, 9};
+        System.out.print(GetmNumberOfSubsets(arr,9));
 
     }
 
@@ -335,6 +335,20 @@ public class Array {
             }
         }
         return result;
+    }
+    //Given a set of numbers: {1, 3, 2, 5, 4, 9}, find the number of subsets that sum to a particular value
+    //Algo complexity is O(Sum * N) and use O(Sum) memory
+    private static int GetmNumberOfSubsets(int[] numbers, int sum){
+        int[] dp = new int[sum + 1];
+        dp[0] = 1;
+        int currentSum =0;
+        for (int i = 0; i < numbers.length; i++)
+        {
+            currentSum += numbers[i];
+            for (int j = Math.min(sum, currentSum); j >= numbers[i]; j--)
+                dp[j] += dp[j - numbers[i]];
+        }
+        return dp[sum];
     }
 
     //Given an array of integers, find two numbers such that they add up to a specific target number. 2Sum
