@@ -185,6 +185,7 @@ public class DisjointUnionSets {
         }
         return result;
     }
+    //find number of friend circle in given matrix
     static int findFriendCircles(char[][] mat) {
         int m = mat.length;
         int n = mat[0].length;

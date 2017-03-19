@@ -1271,8 +1271,7 @@ public class MISC {
     public static void preProcess(List<javafx.util.Pair<String, List<Integer>>> input, javafx.util.Pair<String, List<Integer>> user)
     {
         HashMap<Integer, List<String>> map = new HashMap<>(); // map key is location, values is list of users
-        for(javafx.util.Pair<String, List<Integer>> p : input)
-        {
+        for(javafx.util.Pair<String, List<Integer>> p : input){
             List<String> _users;
             for(Integer location: p.getValue()) {
                 if (map.get(location) == null)
