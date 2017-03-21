@@ -3069,4 +3069,17 @@ public class Array {
         max = Math.max(max, arr.length - start);
         return max;
     }
+    //Given a sorted array consisting of only integers where every element appears twice except for one element which
+    //appears once. Find this single element that appears only once.
+    public int singleNonDuplicate(int[] nums) {
+        // binary search
+        int n=nums.length, lo=0, hi=n/2;
+        while (lo < hi) {
+            int m = (lo + hi) / 2;
+            if (nums[2*m]!=nums[2*m+1]) hi = m;
+            else lo = m+1;
+        }
+        return nums[2*lo];
+
+    }
 }

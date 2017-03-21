@@ -8,7 +8,8 @@ import java.util.*;
 public class test {
     public static void main(String[] args) {
         //List<String> out = iprange2cidr("192.168.1.8", "192.168.1.9");
-        long s = ip2long("192.168.1.0");
+        long s = ip2long("192.168.10.0");
+        String st = long2ip(s);
         long e = s + 12;
 
         List<String> out1 = iprange2cidr(s, e);
@@ -48,27 +49,26 @@ public class test {
         //long start = ipStart;
         //long end = ipEnd;
 
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         while ( end >= start ) {
-            byte maxSize = 32;
-            while ( maxSize > 0) {
-                long mask = iMask( maxSize - 1 );
+            byte max = 32;
+            while ( max > 0) {
+                long mask = iMask( max - 1 );
                 long maskBase = start & mask;
 
                 if ( maskBase != start ) {
                     break;
                 }
-
-                maxSize--;
+                max--;
             }
             double x = Math.log( end - start + 1) / Math.log( 2 );
             byte maxDiff = (byte)( 32 - Math.floor( x ) );
-            if ( maxSize < maxDiff) {
-                maxSize = maxDiff;
+            if ( max < maxDiff) {
+                max = maxDiff;
             }
             String ip = long2ip(start);
-            result.add( ip + "/" + maxSize);
-            start += Math.pow( 2, (32 - maxSize) );
+            result.add( ip + "/" + max);
+            start += Math.pow( 2, (32 - max) );
         }
         return result;
     }
