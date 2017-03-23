@@ -8,14 +8,14 @@ import java.util.*;
 public class test {
     public static void main(String[] args) {
         //List<String> out = iprange2cidr("192.168.1.8", "192.168.1.9");
-        long s = ip2long("192.168.10.0");
+        long s = ip2long("1.1.1.111");
         String st = long2ip(s);
-        long e = s + 12;
+        long e = s + 9;
 
         List<String> out1 = iprange2cidr(s, e);
         System.out.println(Arrays.toString(out1.toArray()));
     }
-
+    //http://stackoverflow.com/questions/5020317/in-java-given-an-ip-address-range-return-the-minimum-list-of-cidr-blocks-that
     public static List<String> iprange2cidr( String ipStart, String ipEnd ) {
         long start = ip2long(ipStart);
         long end = ip2long(ipEnd);

@@ -34,8 +34,8 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {1, 3, 2, 5, 4, 9};
-        System.out.print(GetmNumberOfSubsets(arr,9));
+        int[] arr = {1,5,6,9,28,30};
+        System.out.print(finMinTicketsCost(arr));
 
     }
 
@@ -3099,6 +3099,35 @@ public class Array {
         }
         return nums[low];
     }
+    /*Find minimum cost of tickets required to buy for traveling on known days of the month (1...30). Three types of
+    tickets are available : 1-day ticket valid for 1 days and costs 2 units, 7-days ticket valid for 7 days and costs 7 units,
+    30-days ticket valid for 30 days and costs 25 units.For eg: I want to travel on [1,4,6,7,28,30] days of the month
+    i.e. 1st, 4th, 6th ... day of the month. How to buy tickets so that the cost is minimum.*/
+    public static int finMinTicketsCost(int[] a){
+        boolean[] dayTrip = new boolean[31]; // note: initializes to false
+        for (final int day : a) {
+            dayTrip[day] = true;
+        }
+        int[] minCostDP = new int[31];
+        minCostDP[0] = 0; // technically redundant
+        for (int d = 1; d <= 30; d++) {
+            if (! dayTrip[d]) {
+                minCostDP[d] = minCostDP[d-1];
+                continue;
+            }
+            int minCost;
+            // Possibility #1: one-day pass on day d:
+            minCost = minCostDP[d-1] + 2;
+            // Possibility #2: seven-day pass ending on or after day d:
+            for (int prevD = Math.max(0, d - 7); prevD <= d - 4; ++prevD) {
+                minCost = Math.min(minCost, minCostDP[prevD] + 7);
+            }
+            // Possibility #3: 30-day pass for the whole period:
+            minCost = Math.min(minCost, 25);
 
+            minCostDP[d] = minCost;
+        }
+        return minCostDP[30];
+    }
 
 }

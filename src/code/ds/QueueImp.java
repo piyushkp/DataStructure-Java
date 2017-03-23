@@ -141,7 +141,7 @@ public class QueueImp{
         public T first() throws Exception
         {
             if (isEmpty())
-                throw new Exception ("queue is Empty");
+                throw new Exception ("queue is Empty= ");
 
             return queue[front];
         }
