@@ -34,7 +34,7 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {1,5,6,9,28,30};
+        int[] arr = {1,4,6,7,28,30};
         System.out.print(finMinTicketsCost(arr));
 
     }
@@ -3110,7 +3110,7 @@ public class Array {
         }
         int[] minCostDP = new int[31];
         minCostDP[0] = 0; // technically redundant
-        for (int d = 1; d <= 30; d++) {
+       for (int d = 1; d <= 30; d++) {
             if (! dayTrip[d]) {
                 minCostDP[d] = minCostDP[d-1];
                 continue;

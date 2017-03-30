@@ -1909,8 +1909,49 @@ public class StringImp {
         for (i = ch; i < 256; ++i)
             --count[i];
     }
+    //Given two words (start and end), and a dictionary, find the length of shortest transformation sequence from start to end, such that:
+    //Only one letter can be changed at a time Each intermediate word must exist in the dictionary
+    public int ladderLength(String start, String end, HashSet<String> dict) {
+        Map<String, Boolean> visited = new HashMap<String, Boolean>();
+        LinkedList<Count> queue = new LinkedList<Count>();
+        queue.add(new Count(start, 1));
+        visited.put(start, true);
+        while (!queue.isEmpty()) {
+            Count c = queue.poll();
+            // for each character in the string, start new branches
+            for (int i = 0; i < start.length(); i++) {
+                StringBuilder sb = new StringBuilder(c.string);
+                char sc = c.string.charAt(i);
+                // for each different character as new node
+                for (char cc = 'a'; cc <= 'z'; cc++) {
+                    if (cc == sc) continue;
+                    sb.setCharAt(i, cc);
+                    String tmp = sb.toString();
+                    // if we haven't visited this node and is in our dictionary
+                    // we visit this node
+                    if (visited.get(tmp) == null && dict.contains(tmp)) {
+                        if (tmp.equals(end)) return c.count+1;
+                        visited.put(tmp, true);
+                        queue.add(new Count(tmp, c.count+1));
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    class Count {
+        //string
+        String string;
+        //the counts from start string to current string
+        int count;
 
-    //Given a source word, target word and an English dictionary, transform the source word to target by
+        public Count(String string, int count) {
+            this.string = string;
+            this.count = count;
+        }
+    }
+
+    //Word Ladder: Given a source word, target word and an English dictionary, transform the source word to target by
     //changing/adding/removing 1 character at a time, while all intermediate words being valid English words.
     public static LinkedList<String> transform(String startWord, String stopWord, Set<String> dictionary) {
         startWord = startWord.toUpperCase();
