@@ -1927,8 +1927,7 @@ public class StringImp {
                     if (cc == sc) continue;
                     sb.setCharAt(i, cc);
                     String tmp = sb.toString();
-                    // if we haven't visited this node and is in our dictionary
-                    // we visit this node
+                    // if we haven't visited this node and is in our dictionary we visit this node
                     if (visited.get(tmp) == null && dict.contains(tmp)) {
                         if (tmp.equals(end)) return c.count+1;
                         visited.put(tmp, true);
