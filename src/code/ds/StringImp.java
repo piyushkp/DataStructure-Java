@@ -1939,11 +1939,9 @@ public class StringImp {
         return 0;
     }
     class Count {
-        //string
         String string;
         //the counts from start string to current string
         int count;
-
         public Count(String string, int count) {
             this.string = string;
             this.count = count;
