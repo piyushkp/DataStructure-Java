@@ -1313,7 +1313,6 @@ public class MISC {
         String url;
         Date time;
         BrowserNode curr;
-
         public BrowserNode(String url){
             this.url = url;
             //this.time = time;
@@ -1345,13 +1344,21 @@ public class MISC {
             size++;
         }
         public String forward(){
-            if(curr != null && curr.next != null)
+            if(curr != null && curr.next != null) {
+                curr.next = curr.next.next;
+                curr.prev = curr;
+                curr = curr.next;
                 return curr.next.url;
+            }
             return  null;
         }
         public String backward(){
-            if(curr != null && curr.prev != null)
+            if(curr != null && curr.prev != null) {
+                curr.next = curr;
+                curr.prev = curr.prev.prev;
+                curr = curr.prev;
                 return curr.prev.url;
+            }
             return  null;
         }
     }
