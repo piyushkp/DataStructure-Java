@@ -1306,4 +1306,53 @@ public class MISC {
         }
         return _output;
     }
+    //Implement Browser prev, forward, and History functionality
+    class BrowserNode {
+        BrowserNode next;
+        BrowserNode prev;
+        String url;
+        Date time;
+        BrowserNode curr;
+
+        public BrowserNode(String url){
+            this.url = url;
+            //this.time = time;
+        }
+    }
+    class Browser{
+        BrowserNode head;
+        BrowserNode end;
+        BrowserNode curr;
+        int size = 0;
+        public Browser(int size){
+            head = null;
+            end = null;
+            curr = null;
+            this.size = size;
+        }
+        public void add(String url){
+            BrowserNode node = new BrowserNode(url);
+            if(head == null){
+                head = node;
+                end = head;
+            }
+            else{
+                node.prev = end;
+                end.next = node;
+                end = node;
+            }
+            curr = node;
+            size++;
+        }
+        public String forward(){
+            if(curr != null && curr.next != null)
+                return curr.next.url;
+            return  null;
+        }
+        public String backward(){
+            if(curr != null && curr.prev != null)
+                return curr.prev.url;
+            return  null;
+        }
+    }
 }

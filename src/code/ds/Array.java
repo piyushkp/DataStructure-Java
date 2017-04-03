@@ -492,8 +492,7 @@ public class Array {
     //Given an unsorted array of integers, find a subarray which adds to a given number.
     // If there are more than one subarrays with sum as the given number, print any of them.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
-    //time complexity is O(2n) and space is O(n)
-    // only positive numbers
+    //time complexity is O(2n) only positive numbers
     public static void subArraySumPositive(int[] A, int target) {
         for (int i = 0, j = 0, sum = 0; i < A.length; i++) {
             for (; j < A.length && sum < target; j++) {
