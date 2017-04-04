@@ -5,8 +5,10 @@ package code.ds;
 import java.util.HashMap;
 import java.util.concurrent.locks.*;
 public class Threading {
-    public static void main(String[] args) {
-        System.out.print("Threading");
+    public static void main(String[] args)
+    {
+        ThreeThreads t = new ThreeThreads();
+        t.three();
     }
     // Multi Threading implementation
     class MultiThreading implements Runnable {
@@ -95,8 +97,8 @@ public class Threading {
     }
     //There are three threads in a process.The first thread prints 1 1 1 …, the second one prints 2 2 2 …, and the third one prints 3 3 3 … endlessly.
     //How do you schedule these three threads in order to print 1 2 3 1 2 3 …?
-    class ThreeThreads {
-        public  void main(String[] args) {
+    static class ThreeThreads {
+        public static void three() {
             final Lock lock = new ReentrantLock();
             final Condition condition = lock.newCondition();
 
@@ -109,7 +111,7 @@ public class Threading {
             t2.start();
             t3.start();
         }
-        private class ThreadId {
+        private static class ThreadId {
             private int id;
             public ThreadId(){}
             public int getId() {
@@ -119,11 +121,12 @@ public class Threading {
                 this.id = id;
             }
         }
-        private Thread setThread(final Lock lock, final Condition condition, int currentThreadId, int nextThreadId, ThreadId threadId) {
+        private static Thread setThread(final Lock lock, final Condition condition, int currentThreadId, int nextThreadId, ThreadId threadId) {
             Thread thread = new Thread() {
                 @Override
                 public void run() {
-                    while (true) {
+                    //while (true) {
+                    for(int i=0;i<3;i++){
                         lock.lock();
                         try {
                             while (threadId.getId() != currentThreadId)

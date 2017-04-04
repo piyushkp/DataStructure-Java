@@ -34,8 +34,8 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {1,4,6,7,28,30};
-        System.out.print(finMinTicketsCost(arr));
+        int[] arr = {1,0,5,0};
+        int[] out = selfExcludingProduct(arr);
 
     }
 
@@ -1204,7 +1204,7 @@ public class Array {
     //Given an array arr[] of n integers, construct a Product Array prod[] (Self Excluding)
     //such that prod[i] is equal to the product of all the elements of arr[] except arr[i].
     //Solve it without division operator and in O(n). e.g. [3, 1, 4, 2] => [8, 24, 6, 12]
-    private int[] selfExcludingProduct(int a[]) {
+    private static int[] selfExcludingProduct(int a[]) {
         int temp = 1;
         int[] prod = new int[a.length];
         for (int i = 0; i < a.length; i++) {
