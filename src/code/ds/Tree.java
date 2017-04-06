@@ -146,7 +146,7 @@ public class Tree {
     public static void printLevels(Node root) {
         if (root == null) return;
         // Create an empty queue for level order traversal
-        Queue<Node> q = null;
+        Queue<Node> q = new LinkedList<>();
         // Enqueue Root and initialize height
         q.add(root);
         while (true) {
