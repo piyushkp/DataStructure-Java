@@ -11,16 +11,17 @@ public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
 
-        Tree t = new Tree();
-        Node root = t.new Node();
-        root.data = 1;
-        root.left = t.new Node(2);
-        root.right= t.new Node(3);
-        root.left.left= t.new Node(4);
-        root.left.right= t.new Node(5);
-        root.left.right.left = t.new Node(6);
+     N_Tree.NTree t = new N_Tree.NTree('a');
+        N_Tree.NTree b =   new N_Tree.NTree('b');
+        N_Tree.NTree c =  new N_Tree.NTree('c');
+        t.addChild(b);
+        t.addChild(c);
+        b.addChild(new N_Tree.NTree('d'));
+        //t.addChild(new N_Tree.NTree('e'));
+        b.addChild(new N_Tree.NTree('f'));
+        c.addChild(new N_Tree.NTree('g'));
 
-        int out = t.findNodesCountBelowLevel(root,0,1);
+        int out = findLevelWithMaxNodes(t);
         System.out.print(out);
     }
 
@@ -1938,4 +1939,32 @@ public class Tree {
         findNodesCountBelowLevel(root.right,curr+1, level);
         return countN;
     }
+    // given a tree find the level that has maximum nodes
+    private static int findLevelWithMaxNodes(N_Tree.NTree root){
+        if(root == null) return 0;
+        Queue<N_Tree.NTree> q = new LinkedList<>();
+        q.add(root);
+        int max_Nodes = 1;
+        int level = 0;
+        int max_level = 0;
+        while(true){
+            int nodeCount = q.size();
+            if(nodeCount > max_Nodes) {
+                max_Nodes = nodeCount;
+                max_level = level;
+            }
+            if(nodeCount == 0)
+                break;;
+            while(nodeCount > 0){
+                N_Tree.NTree _node = q.poll();
+                for(N_Tree.NTree t : _node.children)
+                    q.add(t);
+                nodeCount--;
+            }
+            level++;
+        }
+        return max_level;
+    }
+    // given a binary tree boundry in anti-clock wise
+
 }

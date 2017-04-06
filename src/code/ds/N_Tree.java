@@ -14,7 +14,7 @@ public class N_Tree {
         t.deserialize("ABE)FK)))C)DG)H)I)J)))");
 
     }
-    class NTree {
+    static class NTree {
         char data;
         ArrayList<NTree> children = new ArrayList<>();
 
