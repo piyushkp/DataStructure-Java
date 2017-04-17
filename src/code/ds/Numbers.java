@@ -5,8 +5,8 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String[] args) {
-        System.out.println(biggestNumber(12543 ));
-        System.out.println(nextGreaterNumber(12543 ));
+        System.out.println(lookandsayUtil("1",4 ));
+        //System.out.println(nextGreaterNumber(12543 ));
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -618,6 +618,30 @@ public class Numbers {
             }
         }
         return -1;
+    }
+    /*Given a  number start and a number of iteration n, calculate the nth number in a "Look and Say" sequence starting with start.
+        Reusing the previous example with start = 11 and n = 2, LookAndSay(11, 2) = 1211 because LookAndSay(LookAndSay(11)) = 1211 */
+    public static String lookandsayUtil(String num, int n){
+        for (int i = 0; i < n; i++) {
+            num = lookandsay(num);
+        }
+        return num;
+    }
+    public static String lookandsay(String number){
+        StringBuilder result= new StringBuilder();
+        char repeat= number.charAt(0);
+        number= number.substring(1) + " ";
+        int times= 1;
+        for(char actual: number.toCharArray()){
+            if(actual != repeat){
+                result.append(times + "" + repeat);
+                times= 1;
+                repeat= actual;
+            }else{
+                times+= 1;
+            }
+        }
+        return result.toString();
     }
 }
 
