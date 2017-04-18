@@ -16,7 +16,7 @@ public class StringImp {
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
         String[] in = {"abc","ab"};
         //permute("AB");
-        getDerangement("ABC".toCharArray());
+        getDerangement("AABC".toCharArray());
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -786,21 +786,25 @@ public class StringImp {
     public static List<char[]> getDerangement(char[] in){
         HashMap<Integer, Character> map = new HashMap<>();
         List<char[]> result = new ArrayList<char[]>();
+        char[] ori = new char[in.length];
         for (int i = 0; i < in.length; i++) {
             map.put(i, in[i]);
+            ori[i] = in[i];
         }
-        return getDerangementUtil(in, map,0, result);
+        return getDerangementUtil(in, ori, map,0, result);
     }
-    public static List<char[]> getDerangementUtil(char[] in, HashMap<Integer,Character> map, int level, List<char[]> result){
+    public static List<char[]> getDerangementUtil(char[] in, char[] ori, HashMap<Integer,Character> map, int level, List<char[]> result){
         if (level == in.length) {
+            // when duplicate chars in input, result would contains duplicates so use Set to avoid duplicates
             result.add(in);
             System.out.println(Arrays.toString(in));
             return result;
         }
         for (int i = level; i < in.length; ++i) {
-            if (map.get(i) != in[level]) {
+            if ( map.get(i) != in[level]) {
+                if(i != level && (in[i] == ori[level] || in[level] == ori[i])) continue; // for duplicates
                 swap(in,i,level);
-                getDerangementUtil(in, map, level + 1, result);
+                getDerangementUtil(in, ori, map, level + 1, result);
                 swap(in,i,level);
             }
         }

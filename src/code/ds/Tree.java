@@ -1532,7 +1532,7 @@ public class Tree {
         return false;
     }
     //Convert Binary tree to Doubly Link list
-    // Pass head and prev as NULL
+    //Pass head and prev as NULL
     void BTtoDLLmorris(Node root,Node head,Node prev) {
         if (root == null)
             return;
