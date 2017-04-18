@@ -34,8 +34,8 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {1,0,5,0};
-        int[] out = selfExcludingProduct(arr);
+        int[] arr = {-1, 0, 1, 2, -1, -4};
+        find_triplets (arr);
 
     }
 
@@ -350,7 +350,29 @@ public class Array {
         }
         return dp[sum];
     }
-
+    //Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
+    /*nums = [1, 2, 3] target = 4 The possible combination ways are:
+    (1, 1, 1, 1)
+    (1, 1, 2)
+    (1, 2, 1)
+    (1, 3)
+    (2, 1, 1)
+    (2, 2)
+    (3, 1)
+    Note that different sequences are counted as different combinations.
+    Therefore the output is 7.*/
+    public int combinationSum4(int[] nums, int target) {
+        int[] comb = new int[target + 1];
+        comb[0] = 1;
+        for (int i = 1; i < comb.length; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i - nums[j] >= 0) {
+                    comb[i] += comb[i - nums[j]];
+                }
+            }
+        }
+        return comb[target];
+    }
     //Given an array of integers, find two numbers such that they add up to a specific target number. 2Sum
     //Time = O(n) space O(n)
     public ArrayList<Integer> twoSum(int[] numbers, int target) {
@@ -409,34 +431,65 @@ public class Array {
         return count;
     }
 
-    //Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
+    //Given a set S of n unique integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
     //the set which gives the sum of zero. 3Sum problem
     //For example, given set S = {-1 0 1 2 -1 -4}, One possible solution set is:  (-1, 0, 1)   (-1, 2, -1) Time = O(n^2)
-    public static HashSet<ArrayList<Integer>> find_triplets(int arr[]) {
+    public static void find_triplets(int arr[]) {
         Arrays.sort(arr);
-        HashSet<ArrayList<Integer>> triplets = new HashSet<ArrayList<Integer>>();
+        //List<ArrayList<Integer>> triplets = new ArrayList<ArrayList<Integer>>();
         int n = arr.length;
         for (int i = 0; i < n; i++) {
             int j = i + 1;
             int k = n - 1;
+            if (i > 0 && arr[i] == arr[i - 1])
+                continue ;
             while (j < k) {
-                ArrayList<Integer> triplet = new ArrayList<>();
+                //ArrayList<Integer> triplet = new ArrayList<>();
                 int sum_two = arr[i] + arr[j];
                 if (sum_two + arr[k] < 0) {
                     j++;
                 } else if (sum_two + arr[k] > 0) {
                     k--;
                 } else {
-                    triplet.add(0, arr[i]);
-                    triplet.add(1, arr[j]);
-                    triplet.add(2, arr[k]);
-                    if (!triplets.contains(triplet)) triplets.add(triplet);
+                    //triplet.add(0, arr[i]);
+                    //triplet.add(1, arr[j]);
+                    //triplet.add(2, arr[k]);
+                    System.out.println(arr[i] +" "+  arr[j] + " " +arr[k]);
+                    while (j < k && arr[j] == arr[j+1]) j++;
+                    while (j < k && arr[k] == arr[k-1]) k--;
+                    //System.out.println(i +" "+  j + " " + k);
+                    //triplets.add(triplet);
                     j++;
                     k--;
                 }
             }
         }
-        return triplets;
+        //return triplets;
+    }
+    public static void find_tripletsDuplicates(int arr[]) {
+        Arrays.sort(arr);
+        int n = arr.length;
+        for (int i = 0; i < n; i++) {
+            int j = i;
+            int k = n - 1;
+            if (i > 0 && arr[i] == arr[i - 1])
+                continue ;
+            while (j < k) {
+                int sum_two = arr[i] + arr[j];
+                if (sum_two + arr[k] < 0) {
+                    j++;
+                } else if (sum_two + arr[k] > 0) {
+                    k--;
+                } else {
+                    //System.out.println(arr[i] +" "+  arr[j] + " " +arr[k]);
+                    System.out.println(i +" "+  j + " " + k);
+                    while (j < k && arr[j] == arr[j+1]) j++;
+                    while (j < k && arr[k] == arr[k-1]) k--;
+                    j++;
+                    k--;
+                }
+            }
+        }
     }
 
     //Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target.
