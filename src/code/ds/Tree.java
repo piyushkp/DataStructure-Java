@@ -1564,6 +1564,7 @@ public class Tree {
                         curr.left = prev;
                         prev = curr;
                     }
+                    pre.right = null;
                     curr = curr.right;
                 }
             }
