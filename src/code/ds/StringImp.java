@@ -15,7 +15,8 @@ public class StringImp {
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
         String[] in = {"abc","ab"};
-        System.out.print(alienOrder(in));
+        //permute("AB");
+        getDerangement("ABC".toCharArray());
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -765,27 +766,51 @@ public class StringImp {
     //Permutations of the string
     public static void permute(String str) {
         int length = str.length();
-        boolean[] used = new boolean[length];
-        StringBuffer out = new StringBuffer();
         char[] in = str.toCharArray();
-        doPermute(in, out, used, length, 0);
+        doPermute(in, length, 0);
     }
 
-    static void doPermute(char[] in, StringBuffer out, boolean[] used, int length, int level) {
+    static void doPermute(char[] in, int length, int level) {
         if (level == length) {
-            System.out.println(out.toString());
+            System.out.println(Arrays.toString(in));
             return;
         }
-        for (int i = 0; i < length; ++i) {
-            if (used[i]) continue;
-            out.append(in[i]);
-            used[i] = true;
-            doPermute(in, out, used, length, level + 1);
-            used[i] = false;
-            out.setLength(out.length() - 1);
+        for (int i = level; i < length; ++i) {
+            swap(in, i, level);
+            doPermute(in, length, level + 1);
+            swap(in, i, level);
         }
     }
-
+    /*A "derangement" of a sequence is a permutation where no element appears in its original position.
+     For example ECABD is a derangement of ABCDE, given a string, may contain duplicate char, please find all the derangement*/
+    public static List<char[]> getDerangement(char[] in){
+        HashMap<Integer, Character> map = new HashMap<>();
+        List<char[]> result = new ArrayList<char[]>();
+        for (int i = 0; i < in.length; i++) {
+            map.put(i, in[i]);
+        }
+        return getDerangementUtil(in, map,0, result);
+    }
+    public static List<char[]> getDerangementUtil(char[] in, HashMap<Integer,Character> map, int level, List<char[]> result){
+        if (level == in.length) {
+            result.add(in);
+            System.out.println(Arrays.toString(in));
+            return result;
+        }
+        for (int i = level; i < in.length; ++i) {
+            if (map.get(i) != in[level]) {
+                swap(in,i,level);
+                getDerangementUtil(in, map, level + 1, result);
+                swap(in,i,level);
+            }
+        }
+        return result;
+    }
+    private static void swap(char[] chars,int i,int j){
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
     //combination of the string
     static void combine(String str) {
         int length = str.length();

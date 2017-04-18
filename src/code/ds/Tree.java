@@ -1531,6 +1531,44 @@ public class Tree {
             return true;
         return false;
     }
+    //Convert Binary tree to Doubly Link list
+    // Pass head and prev as NULL
+    void BTtoDLLmorris(Node root,Node head,Node prev) {
+        if (root == null)
+            return;
+        Node curr = root;
+        while (curr != null) {
+            if (curr.left == null) {
+                if (head == null) {
+                    head = curr;
+                    prev = curr;
+                } else {
+                    prev.right = curr;
+                    curr.left = prev;
+                    prev = curr;
+                }
+                curr = curr.right;
+            } else {
+                Node pre = curr.left;
+                while (pre.right != null && pre.right != curr)
+                    pre = pre.right;
+                if (pre.right == null) {
+                    pre.right = curr;
+                    curr = curr.left;
+                } else {
+                    if (head == null) {
+                        head = curr;
+                        prev = curr;
+                    } else {
+                        prev.right = curr;
+                        curr.left = prev;
+                        prev = curr;
+                    }
+                    curr = curr.right;
+                }
+            }
+        }
+    }
 
     //convert a binary tree to a circular doubly-linked list
     Node prev = null;
