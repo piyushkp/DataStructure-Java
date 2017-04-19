@@ -295,6 +295,43 @@ public class Array {
         }
         return -1;
     }
+    //Given a set of numbers: {1, 3, 2, 5, 4, 9}, find the number of subsets that sum to a particular value
+    //Algo complexity is O(Sum * N) and use O(Sum) memory
+    private static int GetmNumberOfSubsets(int[] numbers, int sum){
+        int[] dp = new int[sum + 1];
+        dp[0] = 1;
+        int currentSum =0;
+        for (int i = 0; i < numbers.length; i++)
+        {
+            currentSum += numbers[i];
+            for (int j = Math.min(sum, currentSum); j >= numbers[i]; j--)
+                dp[j] += dp[j - numbers[i]];
+        }
+        return dp[sum];
+    }
+    //Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
+    /*nums = [1, 2, 3] target = 4 The possible combination ways are:
+    (1, 1, 1, 1)
+    (1, 1, 2)
+    (1, 2, 1)
+    (1, 3)
+    (2, 1, 1)
+    (2, 2)
+    (3, 1)
+    Note that different sequences are counted as different combinations.
+    Therefore the output is 7.*/
+    public int combinationSum4(int[] nums, int target) {
+        int[] comb = new int[target + 1];
+        comb[0] = 1;
+        for (int i = 1; i < comb.length; i++) {
+            for (int j = 0; j < nums.length; j++) {
+                if (i - nums[j] >= 0) {
+                    comb[i] += comb[i - nums[j]];
+                }
+            }
+        }
+        return comb[target];
+    }
 
     //Given sorted array find two number sum to target, Each number can be used multiple times.
     public static int[] twoSumSortedArray(int[] A, int target) {
@@ -336,43 +373,7 @@ public class Array {
         }
         return result;
     }
-    //Given a set of numbers: {1, 3, 2, 5, 4, 9}, find the number of subsets that sum to a particular value
-    //Algo complexity is O(Sum * N) and use O(Sum) memory
-    private static int GetmNumberOfSubsets(int[] numbers, int sum){
-        int[] dp = new int[sum + 1];
-        dp[0] = 1;
-        int currentSum =0;
-        for (int i = 0; i < numbers.length; i++)
-        {
-            currentSum += numbers[i];
-            for (int j = Math.min(sum, currentSum); j >= numbers[i]; j--)
-                dp[j] += dp[j - numbers[i]];
-        }
-        return dp[sum];
-    }
-    //Given an integer array with all positive numbers and no duplicates, find the number of possible combinations that add up to a positive integer target.
-    /*nums = [1, 2, 3] target = 4 The possible combination ways are:
-    (1, 1, 1, 1)
-    (1, 1, 2)
-    (1, 2, 1)
-    (1, 3)
-    (2, 1, 1)
-    (2, 2)
-    (3, 1)
-    Note that different sequences are counted as different combinations.
-    Therefore the output is 7.*/
-    public int combinationSum4(int[] nums, int target) {
-        int[] comb = new int[target + 1];
-        comb[0] = 1;
-        for (int i = 1; i < comb.length; i++) {
-            for (int j = 0; j < nums.length; j++) {
-                if (i - nums[j] >= 0) {
-                    comb[i] += comb[i - nums[j]];
-                }
-            }
-        }
-        return comb[target];
-    }
+
     //Given an array of integers, find two numbers such that they add up to a specific target number. 2Sum
     //Time = O(n) space O(n)
     public ArrayList<Integer> twoSum(int[] numbers, int target) {
@@ -429,6 +430,29 @@ public class Array {
                 r++;
         }
         return count;
+    }
+    /*Given an unsorted array of integers, find all the pairs that they add up to a specific target number. The array may contain duplicated elements.
+    The output should not contain duplicated pairs, and each pair needs to be in ascending order, e.g., [1, 2] instead of [2, 1].*/
+    public List<List<Integer>> twoSumWithDuplicates(int[] num, int target) {
+        List<List<Integer>> _list = new ArrayList<List<Integer>>();
+        int n = num.length;
+        if (n < 2)  return _list;
+        // value and number of times element present
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            int k1 = num[i], k2 = target - num[i];
+            if (map.containsKey(k2) && map.get(k2) > 0) {
+                List<Integer> list = new ArrayList<Integer>();
+                if (k1 < k2)    list = Arrays.asList(k1, k2);
+                else            list = Arrays.asList(k2, k1);
+                if (!_list.contains(list)) _list.add(list);
+                map.put(k2, map.get(k2) - 1);
+            } else {
+                if (!map.containsKey(k1)) map.put(k1, 1);
+                else                        map.put(k1, map.get(k1) + 1);
+            }
+        }
+        return _list;
     }
 
     //Given a set S of n unique integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in
