@@ -34,8 +34,9 @@ public class Array {
         System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
         //double[] in = {0.5, 0.5, 11};
         //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {-1, 0, 1, 2, -1, -4};
-        find_triplets (arr);
+        int[] arr = {0,2,-2,-2};
+        //List<int[]> out = twoSumWithDuplicatesIndex (arr,0, 0);
+        find_tripletsDuplicates(arr);
 
     }
 
@@ -433,7 +434,7 @@ public class Array {
     }
     /*Given an unsorted array of integers, find all the pairs that they add up to a specific target number. The array may contain duplicated elements.
     The output should not contain duplicated pairs, and each pair needs to be in ascending order, e.g., [1, 2] instead of [2, 1].*/
-    public List<List<Integer>> twoSumWithDuplicates(int[] num, int target) {
+    public static List<List<Integer>> twoSumWithDuplicates(int[] num, int target) {
         List<List<Integer>> _list = new ArrayList<List<Integer>>();
         int n = num.length;
         if (n < 2)  return _list;
@@ -491,29 +492,38 @@ public class Array {
         //return triplets;
     }
     public static void find_tripletsDuplicates(int arr[]) {
-        Arrays.sort(arr);
-        int n = arr.length;
-        for (int i = 0; i < n; i++) {
-            int j = i;
-            int k = n - 1;
-            if (i > 0 && arr[i] == arr[i - 1])
-                continue ;
-            while (j < k) {
-                int sum_two = arr[i] + arr[j];
-                if (sum_two + arr[k] < 0) {
-                    j++;
-                } else if (sum_two + arr[k] > 0) {
-                    k--;
-                } else {
-                    //System.out.println(arr[i] +" "+  arr[j] + " " +arr[k]);
-                    System.out.println(i +" "+  j + " " + k);
-                    while (j < k && arr[j] == arr[j+1]) j++;
-                    while (j < k && arr[k] == arr[k-1]) k--;
-                    j++;
-                    k--;
+        HashSet<List<Integer>> set = new HashSet<>();
+        for (int i = 0; i < arr.length; i++) {
+            ArrayList<ArrayList<Integer>> out = twoSumWithDuplicatesIndex(arr, -arr[i], i);
+            for(List<Integer> list : out){
+                list.add(i);
+                Collections.sort(list);
+                if(!set.contains(list)) {
+                    System.out.println(list.get(0) + " " + list.get(1) + " " + list.get(2));
+                    set.add(list);
                 }
             }
         }
+    }
+    public static ArrayList<ArrayList<Integer>> twoSumWithDuplicatesIndex(int[] num, int target, int exclude) {
+        ArrayList<ArrayList<Integer>> _list = new ArrayList<ArrayList<Integer>>();
+        int n = num.length;
+        if (n < 2)  return _list;
+        // value and number of times element present
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            if(i == exclude) continue;
+            int k1 = num[i], k2 = target - num[i];
+            if (map.containsKey(k2) ) {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(i);
+                list.add(map.get(k2));
+                _list.add(list);
+            } else {
+                if (!map.containsKey(k1)) map.put(k1, i);
+            }
+        }
+        return _list;
     }
 
     //Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target.
