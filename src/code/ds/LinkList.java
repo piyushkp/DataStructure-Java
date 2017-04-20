@@ -944,4 +944,25 @@ public class LinkList {
         }
         return head;
     }
+    // deck of card LinkList shuffling i.e input = 1 2 3 4 5 6 7 8 9 10 output = 6 1 7 2 8 3 9 4 10 5
+    static void interleave(Node first, Node second) {
+        Node tail = null;
+        while (second != null) {
+            /* Append the first element of 'second' to the list. */
+            if (tail == null) {
+                tail = second;
+            } else {
+                tail.next = second;
+                tail = second;
+            }
+            /* Cut the head of 'second' from 'second.' */
+            Node next = second.next;
+            second.next = null;
+            second = next;
+            /* Swap the two lists. */
+            Node temp = first;
+            first = second;
+            second = temp;
+        }
+    }
 }
