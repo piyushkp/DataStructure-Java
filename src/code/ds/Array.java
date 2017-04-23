@@ -17,26 +17,15 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        /*RateLimiter rateGate = new RateLimiter(2, 2);
-        for (int i = 0; i < 10; i++)
-        {
-            rateGate.WaitToProceed();
-            System.out.println(i);
-        }*/
-        /*AutoComplete auto = new AutoComplete();
-        AutoComplete.TernaryTree tree = auto.new TernaryTree();
-        tree.Add("San Diego");
-        tree.Add("San Francisco");
-        tree.Add("Oakland");
-        tree.Add("San D123213213");
-        tree.Add("Aan D");
-        //String[] output = tree.AutoComplete("San");
-        System.out.println(Arrays.toString(tree.AutoComplete("San D").toArray()));*/
-        //double[] in = {0.5, 0.5, 11};
-        //double[] out =  minimizeRoundSum(in, 12);
-        int[] arr = {0,2,-2,-2};
+
+        int[] arr = {-2,1,-3,4,-1,2,1,-5,4};
         //List<int[]> out = twoSumWithDuplicatesIndex (arr,0, 0);
-        find_tripletsDuplicates(arr);
+        System.out.println(maxSubArraySum(arr));
+        for (int i = 0; i < arr.length; i++) {
+            maxSubArraySumOfStreamNum(arr[i]);
+            int[] out = getMaxSubArraySum();
+            System.out.println("Start Index: " + out[0] + " End Index: " + out[1] + " Max Sum: " + out[2]);
+        }
 
     }
 
@@ -731,7 +720,7 @@ public class Array {
 
     //find the sum of contiguous sub array within a one-dimensional array of numbers with negative which has the largest sum .
     // input {-2, -3, 4, -1, -2, 1, 5, -3} output = 7
-    private int maxSubArraySum(int a[]) {
+    private static int maxSubArraySum(int a[]) {
         int max_so_far = a[0];
         int curr_max = a[0];
         for (int i = 1; i < a.length; i++) {
@@ -745,23 +734,51 @@ public class Array {
     //Largest sum contiguous subarray
     private static int[] findMaxSumIndex(int[] arr) {
         int[] result = new int[3];
-        int maxSumTillNow = Integer.MIN_VALUE;
-        int tempStartIndex = 0;
-        int tempSum = 0;
+        int max_so_far = Integer.MIN_VALUE;
+        int startIndex = 0;
+        int curr_max = 0;
         for (int i = 0; i < arr.length; i++) {
-            tempSum = tempSum + arr[i];
-            if (tempSum > maxSumTillNow) {
-                maxSumTillNow = tempSum;
-                result[0] = tempStartIndex; // start index
+            curr_max = curr_max + arr[i];
+            if (curr_max > max_so_far) {
+                max_so_far = curr_max;
+                result[0] = startIndex; // start index
                 result[1] = i;              // end index
-                result[2] = maxSumTillNow;  // largest sum
+                result[2] = max_so_far;  // largest sum
             }
-            if (tempSum < 0) {
-                tempSum = 0;
-                tempStartIndex = i + 1;
+            if (curr_max < 0) {
+                curr_max = 0;
+                startIndex = i + 1;
             }
         }
         return result;
+    }
+    //max subarray sum for stream of input
+    static List<Integer> _stream = new ArrayList<>();
+    static int[] _out = new int[3];
+    static int max_so_far = Integer.MIN_VALUE;
+    static int curr_max = 0;
+    static int startIndex = 0;
+    private static void maxSubArraySumOfStreamNum(int num){
+        _stream.add(num);
+        if(curr_max + num > max_so_far) {
+            curr_max = 0;
+            for (int i = startIndex; i < _stream.size(); i++) {
+                curr_max = curr_max + _stream.get(i);
+                if (curr_max > max_so_far) {
+                    max_so_far = curr_max;
+                    _out[0] = startIndex; // start index
+                    _out[1] = i;              // end index
+                    _out[2] = max_so_far;  // largest sum
+                }
+                if (curr_max < 0) {
+                    curr_max = 0;
+                    startIndex = i + 1;
+                }
+            }
+        }
+    }
+    private static int[] getMaxSubArraySum(){
+        return _out;
     }
 
     //Smallest subarray with sum greater than a given value,  If there isn't one, return n+1 instead.
