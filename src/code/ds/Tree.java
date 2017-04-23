@@ -127,7 +127,7 @@ public class Tree {
     private Boolean BFS(Node root, int target) {
         if (root == null)
             return false;
-        Queue<Node> _queue = null;
+        Queue<Node> _queue = new LinkedList<>();
         Node tmp = null;
         _queue.add(root);
         while (_queue.size() > 0) {
@@ -168,7 +168,7 @@ public class Tree {
             System.out.println();
         }
     }
-    //Given a binary tree, print it vertically
+    //Given a binary tree, print vertically from left to right
     void printVerticalOrder(Node root) {
         if (root == null)
             return;
@@ -1208,9 +1208,8 @@ public class Tree {
         return close;
     }
 
-    //Given a binary search tree, sum all the nodes which are at on the same vertical line.
+    //Given a binary search tree(BST), sum all the nodes which are at on the same vertical line.
     int HD_OFFSET = 16;
-
     private void verticalSUM(Node root, int[] sum, int hd, int min, int max) {
         int index = hd + HD_OFFSET / 2;
         if (index < min) min = index;
@@ -1218,6 +1217,50 @@ public class Tree {
         sum[index] += root.data;
         verticalSUM(root.left, sum, hd - 1, min, max);
         verticalSUM(root.right, sum, hd + 1, min, max);
+    }
+    static class DLL
+    {
+        int data;
+        DLL next;
+        DLL prev;
+        public DLL(int data)
+            this.data = data;
+    }
+    //Given Binary tree print vertical sum
+    static void verticalSumDLL(DLL root){
+        // Create a doubly linked list node to store sum of lines going through root. Vertical sum is initialized as 0.
+        DLL _dllNode = new DLL(0);
+        // Compute vertical sum of different lines
+        verticalSumDLLUtil(root, _dllNode);
+        // llnode refers to sum of vertical line going through root. Move llnode to the leftmost line.
+        while (_dllNode.prev != null)
+            _dllNode = _dllNode.prev;
+        // Prints vertical sum of all lines starting from leftmost vertical line
+        while (_dllNode != null){
+            System.out.print(_dllNode.data +" ");
+            _dllNode = _dllNode.next;
+        }
+    }
+    // Constructs linked list
+    static void verticalSumDLLUtil(Node tnode, DLL _dllNode){
+        // Add current node's data to its vertical line
+        _dllNode.data = _dllNode.data + tnode.data;
+        // Recursively process left subtree
+        if (tnode.left != null){
+            if (_dllNode.prev == null){
+                _dllNode.prev = new DLL(0);
+                _dllNode.prev.next = _dllNode;
+            }
+            verticalSumDLLUtil(tnode.left, _dllNode.prev);
+        }
+        // Process right subtree
+        if (tnode.right != null){
+            if (_dllNode.next == null){
+                _dllNode.next = new DLL(0);
+                _dllNode.next.prev = _dllNode;
+            }
+            verticalSumDLLUtil(tnode.right, _dllNode.next);
+        }
     }
 
     //Given a binary tree where all the right nodes are leaf nodes,
