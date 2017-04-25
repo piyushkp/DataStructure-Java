@@ -1223,11 +1223,12 @@ public class Tree {
         int data;
         DLL next;
         DLL prev;
-        public DLL(int data)
+        public DLL(int data) {
             this.data = data;
+        }
     }
     //Given Binary tree print vertical sum
-    static void verticalSumDLL(DLL root){
+    static void verticalSumDLL(Node root){
         // Create a doubly linked list node to store sum of lines going through root. Vertical sum is initialized as 0.
         DLL _dllNode = new DLL(0);
         // Compute vertical sum of different lines

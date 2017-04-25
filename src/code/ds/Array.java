@@ -18,14 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        int[] arr = {-2,1,-3,4,-1,2,1,-5,4};
-        //List<int[]> out = twoSumWithDuplicatesIndex (arr,0, 0);
-        System.out.println(maxSubArraySum(arr));
-        for (int i = 0; i < arr.length; i++) {
-            maxSubArraySumOfStreamNum(arr[i]);
-            int[] out = getMaxSubArraySum();
-            System.out.println("Start Index: " + out[0] + " End Index: " + out[1] + " Max Sum: " + out[2]);
-        }
+        int[] arr = {5,2,3,6,8,3,5,7};
+        maxProfitAtMostKTrans(arr, 3);
 
     }
 
@@ -2164,7 +2158,7 @@ public class Array {
 
     //price array of a given stock on day i.If you were only permitted to complete at most one transaction find the
     // maximum profit.
-    public int maxProfit(int[] prices) {
+    public static int maxProfit(int[] prices) {
         if (prices == null || prices.length < 2) {
             return 0;
         }
@@ -2179,7 +2173,7 @@ public class Array {
     }
 
     // Stock problem: multiple transactions are allowed. you must sell the stock before you buy again
-    public int maxProfitMultiTrans(int[] arr) {
+    public static int maxProfitMultiTrans(int[] arr) {
         if (arr.length == 0) {
             return 0;
         }
@@ -2197,7 +2191,7 @@ public class Array {
     }
 
     //one more solution
-    public int maxProfit2(int[] prices) {
+    public static int maxProfit2(int[] prices) {
         int profit = 0;
         for (int i = 1; i < prices.length; i++) {
             int diff = prices[i] - prices[i - 1];
@@ -2209,7 +2203,7 @@ public class Array {
     }
     //Say you have an array for which the ith element is the price of a given stock on day i.
     // Design an algorithm to find the maximum profit. You may complete at most two transactions.
-    public int maxProfit3(int[] prices) {
+    public static int maxProfit3(int[] prices) {
         int hold1 = Integer.MIN_VALUE, hold2 = Integer.MIN_VALUE;
         int release1 = 0, release2 = 0;
         for(int i:prices){                              // Assume we only have 0 money at first
@@ -2222,22 +2216,29 @@ public class Array {
     }
 
     //Given stock prices for certain days how to maximize profit by buying or selling with at most K transactions
-    //Time complexity - O(number of transactions * number of days ^ 2) Space complexity - O(number of transcations * number of days)
-    public int maxProfitSlowSolution(int prices[], int K) {
-        if (K == 0 || prices.length == 0) {
+    //Time complexity - O(number of transactions * number of days) Space complexity - O(number of transcations * number of days)
+    public static int maxProfitAtMostKTrans(int prices[], int k) {
+        int n = prices.length;
+        if (n <= 1)
             return 0;
+        //if k >= n/2, then you can make maximum number of transactions.
+        if (k >=  n/2) {
+            int maxPro = 0;
+            for (int i = 1; i < n; i++) {
+                if (prices[i] > prices[i-1])
+                    maxPro += prices[i] - prices[i-1];
+            }
+            return maxPro;
         }
-        int T[][] = new int[K + 1][prices.length];
-        for (int i = 1; i < T.length; i++) {
-            for (int j = 1; j < T[0].length; j++) {
-                int maxVal = 0;
-                for (int m = 0; m < j; m++) {
-                    maxVal = Math.max(maxVal, prices[j] - prices[m] + T[i - 1][m]);
-                }
-                T[i][j] = Math.max(T[i][j - 1], maxVal);
+        int[][] dp = new int[k+1][n];
+        for (int i = 1; i <= k; i++) {
+            int localMax = dp[i-1][0] - prices[0];
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = Math.max(dp[i][j-1],  prices[j] + localMax);
+                localMax = Math.max(localMax, dp[i-1][j] - prices[j]);
             }
         }
-        return T[K][prices.length - 1];
+        return dp[k][n-1];
     }
 
     //Weighted Job Scheduling problem
