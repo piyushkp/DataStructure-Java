@@ -3246,5 +3246,18 @@ public class Array {
         }
         return minCostDP[30];
     }
+    //Find position of an element in a sorted array of infinite numbers
+    int findPos(int arr[], int key){
+        int l = 0, h = 1;
+        int val = arr[0];
+        // Find h to do binary search
+        while (val < key){
+            l = h;        // store previous high
+            h = 2*h;      // double high index,  Doubling/Halving will ensure that your time complexity will never exceed by O(log n)
+            val = arr[h]; // update new val
+        }
+        // at this point we have updated low and high indices, thus use binary search between them
+        return Search.binarySearch(arr, l, h, key);
+    }
 
 }

@@ -25,7 +25,7 @@ public class Search {
         // if we reach here, then element was not present
         return -1;
     }
-    int binarySearch(int arr[], int l, int r, int x){
+   static int binarySearch(int arr[], int l, int r, int x){
         if (r>=l){
             int mid = l + (r - l)/2;
             // If the element is present at the middle itself

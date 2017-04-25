@@ -729,7 +729,7 @@ public class StringImp {
         return rpt;
     }
     //number of occurrences of substring in string
-    private static int findSubOccur(String s, String sub){
+    private static int findSubOccur(String str, String findStr){
         int lastIndex = 0;
         int count = 0;
         while(lastIndex != -1){
