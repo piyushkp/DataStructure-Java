@@ -728,6 +728,20 @@ public class StringImp {
         }
         return rpt;
     }
+    //number of occurrences of substring in string
+    private static int findSubOccur(String s, String sub){
+        int lastIndex = 0;
+        int count = 0;
+        while(lastIndex != -1){
+            lastIndex = str.indexOf(findStr,lastIndex);
+            if(lastIndex != -1){
+                count ++;
+                lastIndex += findStr.length();
+            }
+        }
+        System.out.println(count);
+        return count;
+    }
 
     //Remove duplicate characters in a given string keeping only the first occurrences.
     private String removeDuplicate(String s) {
