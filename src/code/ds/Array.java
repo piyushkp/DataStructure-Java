@@ -18,8 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        int[] arr = {5,2,3,6,8,3,5,7};
-        maxProfitAtMostKTrans(arr, 3);
+        String[] arr = {"5","-2","4","Z","X","9","+"};
+        System.out.print(totalScore(arr));
 
     }
 
@@ -2126,10 +2126,33 @@ public class Array {
         }
         System.out.println(x[q.peek()]);
     }
-
+    //Given an unsorted array, sort it in such a way that the first element is the largest value, the second element is the smallest,
+    //the third element is the second largest element and so on. [2, 4, 3, 5, 1] ->  [5, 1, 4, 2, 3]
     //Given a sorted array of positive integers, rearrange the array alternately
     //i.e first element should be maximum value, second minimum value, third second max, fourth second min and so on.
     //Time = O(n)
+    void rearrange0(int arr[], int n){
+        // initialize index of first minimum and first maximum element
+        int max_idx = n-1 , min_idx = 0 ;
+        // store maximum element of array
+        int max_elem = arr[n-1] + 1 ;
+        // traverse array elements
+        for (int i=0; i < n ; i++){
+            // at even index : we have to put maximum element
+            if (i % 2 == 0){
+                arr[i] += arr[max_idx] * max_elem;
+                max_idx--;
+            }
+            // at odd index : we have to put minimum element
+            else{
+                arr[i] += arr[min_idx] * max_elem;
+                min_idx++;
+            }
+        }
+        // array elements back to it's original form
+        for (int i = 0 ; i < n; i++)
+            arr[i] = arr[i] / max_elem ;
+    }
     void rearrange1(int arr[], int n) {
         for (int i = 0; i < n; i++) {
             int temp = arr[i];
@@ -3259,5 +3282,30 @@ public class Array {
         // at this point we have updated low and high indices, thus use binary search between them
         return Search.binarySearch(arr, l, h, key);
     }
+
+    private static int totalScore(String[] a){
+        Stack<Integer> _stack = new Stack<>();
+        int totalScore = 0;
+        for(int i = 0; i<a.length;i++){
+            if(a[i] == "X"){
+                totalScore += 2 * (_stack.peek());
+            }
+            else if (a[i] == "Z"){
+                totalScore -= _stack.peek();
+                _stack.pop();
+            }
+            else if (a[i] == "+"){
+                int temp = _stack.pop();
+                totalScore += _stack.peek() + temp;
+                _stack.push(temp);
+            }
+            else{
+                totalScore += Integer.valueOf(a[i]);
+                _stack.push(Integer.valueOf(a[i]));
+            }
+        }
+        return totalScore;
+    }
+
 
 }
