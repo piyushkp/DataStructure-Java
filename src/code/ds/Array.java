@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        String[] arr = {"5","-2","4","Z","X","9","+"};
+        String[] arr = {"5","-2","4","Z","X","9","+", "+"};
         System.out.print(totalScore(arr));
 
     }
@@ -3289,6 +3289,7 @@ public class Array {
         for(int i = 0; i<a.length;i++){
             if(a[i] == "X"){
                 totalScore += 2 * (_stack.peek());
+                _stack.push(2 * _stack.peek());
             }
             else if (a[i] == "Z"){
                 totalScore -= _stack.peek();
@@ -3296,8 +3297,10 @@ public class Array {
             }
             else if (a[i] == "+"){
                 int temp = _stack.pop();
-                totalScore += _stack.peek() + temp;
+                int t2 = _stack.peek() + temp;
+                totalScore += t2;
                 _stack.push(temp);
+                _stack.push(t2);
             }
             else{
                 totalScore += Integer.valueOf(a[i]);
