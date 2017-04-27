@@ -18,8 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        String[] arr = {"5","-2","4","Z","X","9","+", "+"};
-        System.out.print(totalScore(arr));
+        int[] arr = {5,6,1,4,2,7,9};
+        rearrange0(arr, arr.length);
 
     }
 
@@ -2131,7 +2131,8 @@ public class Array {
     //Given a sorted array of positive integers, rearrange the array alternately
     //i.e first element should be maximum value, second minimum value, third second max, fourth second min and so on.
     //Time = O(n)
-    void rearrange0(int arr[], int n){
+    static void rearrange0(int arr[], int n){
+        Arrays.sort(arr);
         // initialize index of first minimum and first maximum element
         int max_idx = n-1 , min_idx = 0 ;
         // store maximum element of array
@@ -2140,12 +2141,12 @@ public class Array {
         for (int i=0; i < n ; i++){
             // at even index : we have to put maximum element
             if (i % 2 == 0){
-                arr[i] += arr[max_idx] * max_elem;
+                arr[i] += (arr[max_idx] % max_elem ) * max_elem;
                 max_idx--;
             }
             // at odd index : we have to put minimum element
             else{
-                arr[i] += arr[min_idx] * max_elem;
+                arr[i] += (arr[min_idx]% max_elem ) * max_elem;
                 min_idx++;
             }
         }
