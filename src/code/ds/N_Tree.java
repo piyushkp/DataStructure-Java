@@ -65,5 +65,32 @@ public class N_Tree {
         }
         return root;
     }
+    //longest path of tree undirected
+    static int maxSoFar;
+    private static int findLongestPath(NTree node ){
+        HashSet<Integer> set = new HashSet<>();
+        dfs(node, 0,set);
+        System.out.println(maxSoFar);
+        return maxSoFar;
+    }
+    static int dfs(NTree node, int idx, HashSet<Integer> set){
+        int maxFirst = 0;
+        int maxSecond = 0;
+        set.add(idx);
+        for(NTree next: node.children){
+            if(set.contains(next.data)){
+                continue;
+            }
+            int val = dfs(node, next.data,set);
+            if(val > maxFirst){
+                maxSecond = maxFirst;
+                maxFirst = val;
+            }else if(val > maxSecond){
+                maxSecond = val;
+            }
+        }
+        maxSoFar = Math.max(maxSoFar, (maxSecond+maxFirst));
+        return ++maxFirst;
+    }
 
 }
