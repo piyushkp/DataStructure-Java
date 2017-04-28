@@ -18,8 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        int[] arr = {5,6,1,4,2,7,9};
-        rearrange0(arr, arr.length);
+        int[] arr = {1,5,4};
+        System.out.print(longestZigZagSubArray(arr));
 
     }
 
@@ -3310,6 +3310,22 @@ public class Array {
         }
         return totalScore;
     }
-
+    //longest continuous zig-zag subarray in an integer array
+    // in = {10, 22, 9, 33, 49, 50, 31, 60} out = 6 10, 22, 9, 50, 31, 60
+    private static int longestZigZagSubArray(int[] a){
+        int b[] = new int[a.length -1];
+        for (int i = 0; i < a.length -1; i++) {
+            if(a[i] > a[i+1])
+                b[i] = 0;
+            else
+                b[i] = 1;
+        }
+        int count = 1;
+        for (int i = 0; i < b.length -1; i++) {
+            if(b[i] != b[i+1])
+                count++;
+        }
+        return count + 1;
+    }
 
 }
