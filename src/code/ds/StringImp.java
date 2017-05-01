@@ -16,7 +16,7 @@ public class StringImp {
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
         String[] in = {"abc","ab"};
         //permute("AB");
-        getDerangement("AABC".toCharArray());
+        System.out.print(isOrderingStringPresent("hello world!", "hlo!"));
     }
 
     /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -2533,7 +2533,22 @@ public class StringImp {
     //Given an input string and ordering string, need to return true if the ordering string is present in Input string.
     //input = "hello world!"  ordering = "hlo!"  result = FALSE (all Ls are not before all Os)
     public static boolean isOrderingStringPresent(String s, String ordering) {
-        HashMap<Character, Integer> map = new HashMap<>();
+        int[] label = new int[256];
+        int order = 1;
+        for (int i = 0; i < ordering.length(); i++) {
+            label[ordering.charAt(i)] = order;
+            order++;
+        }
+        int last = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if(label[s.charAt(i)] > 0){
+                if(label[s.charAt(i)] < last)
+                    return false;
+                last = label[s.charAt(i)];
+            }
+        }
+        return true;
+        /*HashMap<Character, Integer> map = new HashMap<>();
         char[] input = s.toCharArray();
         for (int i = 0; i < input.length; i++) {
             map.put(input[i], i);
@@ -2546,7 +2561,8 @@ public class StringImp {
             }
             temp = map.get(_order[i]);
         }
-        return true;
+        return true;*/
+        
     }
     /* Ransom Note problem: write code for this function matchstr() given "ab" in a(1)b(1) ---> true
         "z" in a(4)b(4) --> false
