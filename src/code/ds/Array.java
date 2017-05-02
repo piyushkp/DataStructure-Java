@@ -2963,7 +2963,7 @@ public class Array {
         }
         return arr;
     }
-
+    //Given an array of Ints find a maximum sum of non adjacent elements. for ex. arr = [1,0,3,9,2] then ans would be 10 = 1 + 9 (non adjacent element)
     public static int MaxSumNonAdjacent(int[] a) {
         int[] output = new int[a.length];
         if (a.length == 0)
