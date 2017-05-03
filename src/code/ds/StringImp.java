@@ -1113,8 +1113,7 @@ public class StringImp {
         return arr;
     }
 
-    private static void reverse(char[] arr, int wordIdx, int wordMidIdx,
-                                int wordLastIdx) {
+    private static void reverse(char[] arr, int wordIdx, int wordMidIdx, int wordLastIdx) {
         for (; wordIdx < wordMidIdx; wordIdx++) {
             // swap first letter with the last letter in the
             char tmp = arr[wordIdx];
