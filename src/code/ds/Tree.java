@@ -2049,5 +2049,49 @@ public class Tree {
         return max_level;
     }
     //given a binary tree print boundry nodes in anti-clock wise
-
+    //convert ternary expression to binary tree
+    public Node convertTtoBT (char[] values) {
+        Node n = new Node (values[0]);
+        for (int i = 1; i < values.length; i += 2) {
+            if (values[i] == '?') {
+                n.left = new Node (values[i + 1]);
+                n.left.parent = n;
+                n = n.left;
+            }
+            else if (values[i] == ':') {
+                n = n.parent;
+                while (n.right != null && n.parent != null ) {
+                    n = n.parent;
+                }
+                n.right = new Node (values[i + 1]);
+                n.right.parent = n;
+                n = n.right;
+            }
+        }
+        return n;
+    }
+    //With stack
+    public TreeNode convert(char[] expr) {
+        if (expr.length == 0) {
+            return null;
+        }
+        TreeNode root = new TreeNode(expr[0]);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        for (int i = 1; i < expr.length; i += 2) {
+            TreeNode node = new TreeNode(expr[i + 1]);
+            if (expr[i] == '?') {
+                stack.peek().left = node;
+            }
+            if (expr[i] == ':') {
+                stack.pop();
+                while (stack.peek().right != null) {
+                    stack.pop();
+                }
+                stack.peek().right = node;
+            }
+            stack.push(node);
+        }
+        return root;
+    }
 }
