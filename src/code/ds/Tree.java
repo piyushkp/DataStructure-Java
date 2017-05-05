@@ -2071,19 +2071,19 @@ public class Tree {
         return n;
     }
     //With stack
-    public TreeNode convert(char[] expr) {
+    public Node convert(char[] expr) {
         if (expr.length == 0) {
             return null;
         }
-        TreeNode root = new TreeNode(expr[0]);
-        Stack<TreeNode> stack = new Stack<>();
+        Node root = new Node(expr[0]);
+        Stack<Node> stack = new Stack<>();
         stack.push(root);
         for (int i = 1; i < expr.length; i += 2) {
-            TreeNode node = new TreeNode(expr[i + 1]);
+            Node node = new Node(expr[i + 1]);
             if (expr[i] == '?') {
                 stack.peek().left = node;
             }
-            if (expr[i] == ':') {
+            else if (expr[i] == ':') {
                 stack.pop();
                 while (stack.peek().right != null) {
                     stack.pop();
@@ -2092,6 +2092,7 @@ public class Tree {
             }
             stack.push(node);
         }
+        stack.clear();
         return root;
     }
 }
