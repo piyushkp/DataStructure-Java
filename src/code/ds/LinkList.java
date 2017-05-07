@@ -7,14 +7,22 @@ import java.util.HashSet;
  */
 public class LinkList {
     public static void main(String[] args) {
-        System.out.print("LinkList");
+        Node  head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        printReverse(head, null);
     }
 
-    class Node {
+    static class Node {
         int data;
         Node next;
         Node random;
         Node prev;
+        public Node(int data){
+            this.data = data;
+        }
+        public Node(){}
     }
 
     // Traverse Linked List
@@ -33,7 +41,7 @@ public class LinkList {
     void InsertNodeInLinkedListAtFront(int data) {
         // assumption: head is already defined elsewhere in the program
         // 1. create the new node
-        Node temp = new Node();
+        Node temp = new Node(data);
         temp.data = data;
         // 2. insert it at the first position
         temp.next = head;
@@ -45,7 +53,7 @@ public class LinkList {
     void InsertNodeInLinkedListAtEnd(int data) {
         // assumption: head is already defined elsewhere in the program
         // 1. create the new node
-        Node temp = new Node();
+        Node temp = new Node(data);
         temp.data = data;
         temp.next = null;
         // check if the list is empty
@@ -65,7 +73,7 @@ public class LinkList {
     void InsertNodeInLinkedList(int data, int position) {
         // assumption: head is already defined elsewhere in the program
         // 1. create the new node
-        Node temp = new Node();
+        Node temp = new Node(data);
         temp.data = data;
         temp.next = null;
         // check if the position to insert is first or the list is empty
@@ -219,6 +227,22 @@ public class LinkList {
             else if (currentNode.data < min) min = currentNode.data;
         }
         return 1;
+    }
+
+    //If your are given an Integer Singly linked list. Print it   backwards. Constraints: 1. Do not manipulate the list.
+    //(example: do not make it a doubly linked list, do not add or delete elements, do not change any memory location of any element)
+    //2. O(n) < time < O(n^2) 3. O(1) < space < O(n)
+    static void printReverse(Node head, Node end){
+        if(head == end)
+            return;
+        Node slow = head, fast = head;
+        while(fast.next != end && fast.next.next != end){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        printReverse(slow.next, end);
+        System.out.print(slow.data);
+        printReverse(head, slow);
     }
 
     // Reverse Linked List
@@ -422,7 +446,7 @@ public class LinkList {
         // 3) Reverse the second half, i.e., 5 -> 4
         node2 = reverselist(node2);
         // 4) Merge alternate nodes
-        node = new Node(); // Assign dummy Node
+        node = new Node(0); // Assign dummy Node
         // curr is the pointer to this dummy Node, which will be used to form the new list
         Node curr = node;
         while (node1 != null || node2 != null) {
