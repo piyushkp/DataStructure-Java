@@ -1,6 +1,7 @@
 package code.ds;
 
 import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by Piyush Patel.
@@ -11,7 +12,7 @@ public class LinkList {
         head.next = new Node(2);
         head.next.next = new Node(3);
         head.next.next.next = new Node(4);
-        printReverse(head, null);
+        printReverse1(head);
     }
 
     static class Node {
@@ -232,6 +233,7 @@ public class LinkList {
     //If your are given an Integer Singly linked list. Print it   backwards. Constraints: 1. Do not manipulate the list.
     //(example: do not make it a doubly linked list, do not add or delete elements, do not change any memory location of any element)
     //2. O(n) < time < O(n^2) 3. O(1) < space < O(n)
+    //Time = O(N log N) space = O(log N)
     static void printReverse(Node head, Node end){
         if(head == end)
             return;
@@ -243,6 +245,39 @@ public class LinkList {
         printReverse(slow.next, end);
         System.out.print(slow.data);
         printReverse(head, slow);
+    }
+    //print reverse in O(N) time and O(sqrt(N)) space
+    static void printReverse1(Node head){
+        Node node = head;
+        int n = 0;
+        while(node != null){
+            node = node.next;
+            n++;
+        }
+        node = head;
+        int k = (int)Math.sqrt(n);
+        Stack<Node> _stack = new Stack<>();
+        _stack.push(node);
+        int temp = 0;
+        for (int i = 0; i < n; i++) {
+            if(temp == k){
+                _stack.push(node);temp = 0;
+            }
+            node = node.next;
+            temp++;
+        }
+        Stack<Node> _stack2 = new Stack<>();
+        while(_stack.size() > 0){
+            Node _t = _stack.pop();
+            _stack2.push(_t);
+            for (int i = 1; i < k; i++) {
+                _stack2.push(_t.next);
+                _t = _t.next;
+            }
+            while(!_stack2.isEmpty()){
+                System.out.print(_stack2.pop().data);
+            }
+        }
     }
 
     // Reverse Linked List
