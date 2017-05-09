@@ -18,8 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        int[] arr = {1,5,4};
-        System.out.print(longestZigZagSubArray(arr));
+        int[] arr = {1,3,2,5,4,9};
+        System.out.print(GetmNumberOfSubsets(arr, 5));
 
     }
 
