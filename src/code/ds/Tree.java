@@ -724,18 +724,37 @@ public class Tree {
         // left subtree must be < root.val && right subtree must be > root.val
         return validateBST(root.left, min, root.data) && validateBST(root.right, root.data, max);
     }
-
-    private Boolean isBST(Node root) {
-        // do inorder traversal and check it is sorted or not
-        if (root != null) {
-            if (!isBST(root.left))
+    //iterative solution
+    public boolean isValidBST1(Node root) {
+        if (root == null)
+            return true;
+        Queue<BNode> queue = new LinkedList<BNode>();
+        queue.add(new BNode(root, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY));
+        while (!queue.isEmpty()) {
+            BNode b = queue.poll();
+            if (b.n.data <= b.left || b.n.data >= b.right) {
                 return false;
-            if (prev != null && root.data <= prev.data)
-                return false;
-            prev = root;
-            return isBST(root.right);
+            }
+            if (b.n.left != null) {
+                queue.offer(new BNode(b.n.left, b.left, b.n.data));
+            }
+            if (b.n.right != null) {
+                queue.offer(new BNode(b.n.right, b.n.data, b.right));
+            }
         }
         return true;
+    }
+    //define a BNode class with TreeNode and it's boundaries
+    class BNode {
+        Node n;
+        double left;
+        double right;
+
+        public BNode(Node n, double left, double right) {
+            this.n = n;
+            this.left = left;
+            this.right = right;
+        }
     }
 
     //Second largest element in BST. Time complexity of the above solution is O(h) where h is height of BST.
@@ -2050,6 +2069,7 @@ public class Tree {
         return max_level;
     }
     //given a binary tree print boundry nodes in anti-clock wise
+
     //convert ternary expression to binary tree
     public Node convertTtoBT (char[] values) {
         Node n = new Node (values[0]);
