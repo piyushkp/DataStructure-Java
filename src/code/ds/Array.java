@@ -18,8 +18,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        int[] arr = {1,3,2,5,4,9};
-        System.out.print(GetmNumberOfSubsets(arr, 5));
+        int[] arr = {1,3,2,0,4,9};
+        SumkLargest(arr, 3);
 
     }
 
@@ -3326,6 +3326,37 @@ public class Array {
                 count++;
         }
         return count + 1;
+    }
+    //sum of k largest elements in array
+    static int SumkLargest(int[] a, int k){
+        int sum = 0;
+        quick(a, 0, a.length-1, k);
+        for(int i=0;i<k;i++)
+            sum += a[i];
+        System.out.print(sum);
+        return sum;
+    }
+    static void quick(int[] a, int start, int end, int k){
+        if(start <= end){
+            int pivot = part(a, start, end);
+            if(pivot < k)
+                quick(a, pivot+1, end, k);
+            else
+                quick(a, start, pivot-1, k);
+        }
+    }
+    static int part(int[] a, int start, int end){
+        int pivot = a[end];
+        int index = start;
+        int i;
+        for( i = start; i < end;i++){
+            if(a[i] > pivot){
+                swap (a, index, i);
+                index++;
+            }
+        }
+        swap(a, index, end);
+        return index;
     }
 
 }

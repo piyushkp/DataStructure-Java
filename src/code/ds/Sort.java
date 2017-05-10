@@ -5,7 +5,8 @@ package code.ds;
  */
 public class Sort {
     public static void main(String [] args) {
-        System.out.print("Sort");
+        int[] a = {3,23,1,5,2,56,4};
+        mergeSort(a,0,a.length);
     }
     //Merge Sort
     public static void mergeSort(int[ ] data, int first, int n)
@@ -44,8 +45,9 @@ public class Sort {
         while (copied2 < n2)
             temp[copied++] = data[first + n1 + (copied2++)];
         // Copy from temp back to the data array.
-        for (i = 0; i < n1+n2; i++)
+        for (i = 0; i < n1+n2; i++) {
             data[first + i] = temp[i];
+        }
     }
     //Quick sort
     public void quickSort(int[] array, int startIdx, int endIdx) {
