@@ -1725,11 +1725,9 @@ public class StringImp {
             //current pattern pointer is not star, last patter pointer was not * characters do not match
             else return false;
         }
-
         //check for remaining characters in pattern
         while (p < pattern.length() && pattern.charAt(p) == '*')
             p++;
-
         return p == pattern.length();
     }
 
