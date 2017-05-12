@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        matchRegex("aa", "a*");
+        System.out.print(WildCardcomparison("xaylmz", "*z"));
 
     }
 
@@ -1702,6 +1702,39 @@ public class StringImp {
         else
             return null;
     }
+    //wildcard matching: '?' Matches any single character.
+    // '*' Matches any sequence of characters (including the empty sequence).
+    static boolean WildCardcomparison(String str, String pattern) {
+        int s = 0, p = 0, starIdx = -1;
+        while (s < str.length()){
+            // advancing both pointers
+            if (p < pattern.length()  && (pattern.charAt(p) == '?' || str.charAt(s) == pattern.charAt(p))){
+                s++;
+                p++;
+            }
+            // * found, only advancing pattern pointer
+            else if (p < pattern.length() && pattern.charAt(p) == '*'){
+                starIdx = p;
+                p++;
+            }
+            // last pattern pointer was *, advancing string pointer
+            else if (starIdx != -1){
+                p = starIdx + 1;
+                s++;
+            }
+            //current pattern pointer is not star, last patter pointer was not *
+            //characters do not match
+            else return false;
+        }
+
+        //check for remaining characters in pattern
+        while (p < pattern.length() && pattern.charAt(p) == '*')
+            p++;
+
+        return p == pattern.length();
+    }
+
+
     /* Implement regex regular expression matching with support for '.' and '*'.
     '.' Matches any single character.
     '*' Matches zero or more of the preceding element. */
@@ -1747,56 +1780,6 @@ public class StringImp {
             }
         }
         return dp[s.length()][p.length()];
-    }
-
-    //non-dynamic exponential complexity
-    public static boolean isMatch(String s, String p) {
-        // base case
-        if (p.length() == 0) {
-            return s.length() == 0;
-        }
-        // special case
-        if (p.length() == 1) {
-            // if the length of s is 0, return false
-            if (s.length() < 1) {
-                return false;
-            }
-            //if the first does not match, return false
-            else if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
-                return false;
-            }
-            // otherwise, compare the rest of the string of s and p.
-            else {
-                return isMatch(s.substring(1), p.substring(1));
-            }
-        }
-        // case 1: when the second char of p is not '*'
-        if (p.charAt(1) != '*') {
-            if (s.length() < 1) {
-                return false;
-            }
-            if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
-                return false;
-            } else {
-                return isMatch(s.substring(1), p.substring(1));
-            }
-        }
-        // case 2: when the second char of p is '*', complex case.
-        else {
-            //case 2.1: a char & '*' can stand for 0 element
-            if (isMatch(s, p.substring(2))) {
-                return true;
-            }
-            //case 2.2: a char & '*' can stand for 1 or more preceding element, so try every sub string
-            int i = 0;
-            while (i < s.length() && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
-                if (isMatch(s.substring(i + 1), p.substring(2))) {
-                    return true;
-                }
-                i++;
-            }
-            return false;
-        }
     }
 
     /* Implement a regular expression matching. There are three special characters.
