@@ -2377,7 +2377,7 @@ public class Array {
         return val;
     }
 
-    //Max product of the three numbers for a given array of size N
+    //Max product of the three numbers for a given array of size N, non duplicate elements
     static int maxproductofThree(int[] a) {
         int largest = a[0];
         int secondlargest = 0;
@@ -2892,7 +2892,7 @@ public class Array {
             if (i < x)
                 pq.add(a[i]);
             else {
-                result[k] = pq.poll();
+                result[k++] = pq.poll();
                 pq.add(a[i]);
             }
         }
