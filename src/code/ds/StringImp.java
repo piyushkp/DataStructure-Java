@@ -1722,8 +1722,7 @@ public class StringImp {
                 p = starIdx + 1;
                 s++;
             }
-            //current pattern pointer is not star, last patter pointer was not *
-            //characters do not match
+            //current pattern pointer is not star, last patter pointer was not * characters do not match
             else return false;
         }
 
