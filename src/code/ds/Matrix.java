@@ -115,7 +115,7 @@ public class Matrix {
         return count[m-1][n-1];
     }
     //Given  an  image  represented  by  an  NxN matrix,  where  each  pixel  in  the  image  is  4 bytes, write a
-    //method to rotate the image by 90 degrees Can you do this in place? time: O(n), space: O(1)
+    //method to rotate the image by 90 degrees clock wise Can you do this in place? time: O(n), space: O(1)
     public static void rotate(int[][] matrix, int n) {
         for (int layer = 0; layer < n / 2; layer++) {
             int first = layer;
@@ -135,25 +135,47 @@ public class Matrix {
         }
     }
     //Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0
-    public static void setZeros(int[][] matrix) {
-        int[] row = new int[matrix.length];
-        int[] column = new int[matrix[0].length];
-        // Store the row and column index with value 0
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == 0) {
-                    row[i] = 1;
-                    column[j] = 1;
+    public void setZeroes(int[][] matrix) {
+        boolean firstRowZero = false;
+        boolean firstColumnZero = false;
+        //set first row and column zero or not
+        for(int i=0; i<matrix.length; i++){
+            if(matrix[i][0] == 0){
+                firstColumnZero = true;
+                break;
+            }
+        }
+        for(int i=0; i<matrix[0].length; i++){
+            if(matrix[0][i] == 0){
+                firstRowZero = true;
+                break;
+            }
+        }
+        //mark zeros on first row and column
+        for(int i=1; i<matrix.length; i++){
+            for(int j=1; j<matrix[0].length; j++){
+                if(matrix[i][j] == 0){
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
                 }
             }
         }
-        // Set arr[i][j] to 0 if either row i or column j has a 0
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                if ((row[i] == 1 || column[j] == 1)) {
+        //use mark to set elements
+        for(int i=1; i<matrix.length; i++){
+            for(int j=1; j<matrix[0].length; j++){
+                if(matrix[i][0] == 0 || matrix[0][j] == 0){
                     matrix[i][j] = 0;
                 }
             }
+        }
+        //set first column and row
+        if(firstColumnZero){
+            for(int i=0; i<matrix.length; i++)
+                matrix[i][0] = 0;
+        }
+        if(firstRowZero){
+            for(int i=0; i<matrix[0].length; i++)
+                matrix[0][i] = 0;
         }
     }
     //Count zeros in a row wise and column wise sorted matrix
