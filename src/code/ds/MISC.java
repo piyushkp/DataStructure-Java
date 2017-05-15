@@ -1146,25 +1146,25 @@ public class MISC {
         }
 
         void OnDataReceived(String input, int timestamp) {
-            ArrayList<String> temp;
+            Set<String> temp;
             int index = timestamp % 60;
             if (time.get(index) != timestamp) {
                 time.set(index, timestamp);
-                temp = new ArrayList<>();
+                temp = new HashSet<>();
                 temp.add(input);
                 data.set(index, temp);
             } else {
-                temp = (ArrayList<String>) data.get(index);
+                temp = (HashSet<String>) data.get(index);
                 if (!temp.contains(input))
                     temp.add(input);
             }
         }
 
-        public List<String> PrintData(int timestamp) {
-            List<String> output = new ArrayList<>();
+        public Set<String> PrintData(int timestamp) {
+            Set<String> output = new HashSet<>();
             for (int i = 0; i < 60; i++) {
                 if (timestamp - time.get(i) < 60) {
-                    output.addAll((ArrayList<String>) data.get(i));
+                    output.addAll((HashSet<String>) data.get(i));
                 }
             }
             return output;
@@ -1338,6 +1338,7 @@ public class MISC {
             else{
                 node.prev = end;
                 end.next = node;
+                end = node;
                 end = node;
             }
             curr = node;
