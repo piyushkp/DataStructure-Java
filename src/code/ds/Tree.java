@@ -649,26 +649,16 @@ public class Tree {
     }
 
     // Find the Diameter of Binary Tree
-    private class HeightWrapper {
-        int height = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDepth(root);
+        return max;
     }
-
-    private int getDiameter_helper(Node root, HeightWrapper wrapper) {
-        if (root == null) {
-            return 0; // diameter and height are 0
-        }
-    /* wrappers for heights of the left and right subtrees */
-        HeightWrapper lhWrapper = new HeightWrapper();
-        HeightWrapper rhWrapper = new HeightWrapper();
-    /* get heights of left and right subtrees and their diameters */
-        int leftDiameter = getDiameter_helper(root.left, lhWrapper);
-        int rightDiameter = getDiameter_helper(root.right, rhWrapper);
-    /* calculate root diameter */
-        int rootDiameter = lhWrapper.height + rhWrapper.height + 1;
-    /* calculate height of current node */
-        wrapper.height = Math.max(lhWrapper.height, rhWrapper.height) + 1;
-    /* calculate the diameter */
-        return Math.max(rootDiameter, Math.max(leftDiameter, rightDiameter));
+    private int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        max = Math.max(max, left + right);
+        return Math.max(left, right) + 1;
     }
 
     // Convert sorted array into balanced tree

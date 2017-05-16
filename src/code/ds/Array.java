@@ -2228,15 +2228,18 @@ public class Array {
     //Say you have an array for which the ith element is the price of a given stock on day i.
     // Design an algorithm to find the maximum profit. You may complete at most two transactions.
     public static int maxProfit3(int[] prices) {
-        int hold1 = Integer.MIN_VALUE, hold2 = Integer.MIN_VALUE;
-        int release1 = 0, release2 = 0;
-        for(int i:prices){                              // Assume we only have 0 money at first
-            release2 = Math.max(release2, hold2+i);     // The maximum if we've just sold 2nd stock so far.
-            hold2    = Math.max(hold2,    release1-i);  // The maximum if we've just buy  2nd stock so far.
-            release1 = Math.max(release1, hold1+i);     // The maximum if we've just sold 1nd stock so far.
-            hold1    = Math.max(hold1,    -i);          // The maximum if we've just buy  1st stock so far.
+        int maxProfit1 = 0;
+        int maxProfit2 = 0;
+        int lowestBuyPrice1 = Integer.MAX_VALUE;
+        int lowestBuyPrice2 = Integer.MAX_VALUE;
+
+        for(int p:prices){
+            maxProfit2 = Math.max(maxProfit2, p-lowestBuyPrice2);
+            lowestBuyPrice2 = Math.min(lowestBuyPrice2, p-maxProfit1);
+            maxProfit1 = Math.max(maxProfit1, p-lowestBuyPrice1);
+            lowestBuyPrice1 = Math.min(lowestBuyPrice1, p);
         }
-        return release2; ///Since release1 is initiated as 0, so release2 will always higher than release1.
+        return maxProfit2;
     }
 
     //Given stock prices for certain days how to maximize profit by buying or selling with at most K transactions
@@ -3311,7 +3314,7 @@ public class Array {
         return totalScore;
     }
     //longest continuous zig-zag subarray in an integer array
-    // in = {10, 22, 9, 33, 49, 50, 31, 60} out = 6 10, 22, 9, 50, 31, 60
+    // in = {10, 22, 9, 33, 49, 50, 31, 60} out = 6 (10, 22, 9, 50, 31, 60)
     private static int longestZigZagSubArray(int[] a){
         int b[] = new int[a.length -1];
         for (int i = 0; i < a.length -1; i++) {
@@ -3328,8 +3331,7 @@ public class Array {
         return count + 1;
     }
     //sum of k largest elements in array
-    static int SumkLargest(int[] a, int k){
-        int sum = 0;
+    static int SumkLargest(int[] a, int k){        int sum = 0;
         quick(a, 0, a.length-1, k);
         for(int i=0;i<k;i++)
             sum += a[i];
