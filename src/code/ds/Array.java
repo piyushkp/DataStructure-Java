@@ -2245,27 +2245,28 @@ public class Array {
     //Given stock prices for certain days how to maximize profit by buying or selling with at most K transactions
     //Time complexity - O(number of transactions * number of days) Space complexity - O(number of transcations * number of days)
     public static int maxProfitAtMostKTrans(int prices[], int k) {
+        // table to store results of subproblems profit[t][i] stores maximum profit using atmost
+        // t transactions up to day i (including day i)
         int n = prices.length;
-        if (n <= 1)
-            return 0;
-        //if k >= n/2, then you can make maximum number of transactions.
-        if (k >=  n/2) {
-            int maxPro = 0;
-            for (int i = 1; i < n; i++) {
-                if (prices[i] > prices[i-1])
-                    maxPro += prices[i] - prices[i-1];
+        int profit[][] = new int[k+1][n+1];
+
+        // For day 0, you can't earn money irrespective of how many times you trade
+        for (int i = 0; i <= k; i++)
+            profit[i][0] = 0;
+
+        // profit is 0 if we don't do any transation (i.e. k =0)
+        for (int j= 0; j <= n; j++)
+            profit[0][j] = 0;
+
+        // fill the table in bottom-up fashion
+        for (int i = 1; i <= k; i++){
+            int prevDiff = Integer.MIN_VALUE;
+            for (int j = 1; j < n; j++){
+                prevDiff = Math.max(prevDiff, profit[i-1][j-1] - prices[j-1]);
+                profit[i][j] = Math.max(profit[i][j-1], prices[j] + prevDiff);
             }
-            return maxPro;
         }
-        int[][] dp = new int[k+1][n];
-        for (int i = 1; i <= k; i++) {
-            int localMax = dp[i-1][0] - prices[0];
-            for (int j = 1; j < n; j++) {
-                dp[i][j] = Math.max(dp[i][j-1],  prices[j] + localMax);
-                localMax = Math.max(localMax, dp[i-1][j] - prices[j]);
-            }
-        }
-        return dp[k][n-1];
+        return profit[k][n-1];
     }
 
     //Weighted Job Scheduling problem
