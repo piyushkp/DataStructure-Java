@@ -2253,7 +2253,6 @@ public class Array {
         // For day 0, you can't earn money irrespective of how many times you trade
         for (int i = 0; i <= k; i++)
             profit[i][0] = 0;
-
         // profit is 0 if we don't do any transation (i.e. k =0)
         for (int j= 0; j <= n; j++)
             profit[0][j] = 0;
