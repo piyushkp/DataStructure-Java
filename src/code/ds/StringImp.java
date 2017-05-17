@@ -1392,33 +1392,24 @@ public class StringImp {
         return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z'));
     }
 
-    //Given a string, determine if a permutation of the string could form a palindrome
-    public boolean canPermutePalindrome(String s) {
-        if (s == null || s.length() <= 1) {
-            return true;
-        }
-        Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            char letter = s.charAt(i);
-            if (map.containsKey(letter)) {
-                int count = map.get(letter) + 1;
-                map.put(letter, count);
-            } else {
-                map.put(letter, 1);
-            }
-        }
-        int delta = 0;
-        Iterator it = map.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            if ((int) pair.getValue() % 2 != 0) {
-                delta++;
-            }
-        }
-        if (s.length() % 2 == 0)
-            return delta == 0;
-        else
-            return delta == 1;
+    //Check if characters of a given string can be rearranged to form a palindrome
+    boolean canFormPalindrome(String str)
+    {
+        // Create a count array and initialize all values as 0
+        int count[] = new int[256];
+
+        // For each character in input strings, increment count in
+        // the corresponding count array
+        for (int i = 0; i< str.length(); i++)
+            count[str.charAt(i)]++;
+
+        // Count odd occurring characters
+        int odd = 0;
+        for (int i = 0; i < 256; i++)
+            if (count[i] %2 != 0)
+                odd++;
+        // Return true if odd count is 0 or 1, otherwise false
+        return (odd <= 1);
     }
 
     //A Program to check if strings are rotations of each other or not
