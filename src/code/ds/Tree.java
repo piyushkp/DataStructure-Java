@@ -649,11 +649,11 @@ public class Tree {
     }
 
     // Find the Diameter of Binary Tree
-    public int diameterOfBinaryTree(TreeNode root) {
+    public int diameterOfBinaryTree(Node root) {
         maxDepth(root);
         return max;
     }
-    private int maxDepth(TreeNode root) {
+    private int maxDepth(Node root) {
         if (root == null) return 0;
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
