@@ -17,9 +17,7 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-
-        int[] arr = {1,3,2,0,4,9};
-        SumkLargest(arr, 3);
+        System.out.print(combiStrings("918"));
 
     }
 
@@ -3359,6 +3357,44 @@ public class Array {
         }
         swap(a, index, end);
         return index;
+    }
+    //Given a task sequence tasks such as ABBABBC, and an integer k, which is the cool down time between two same tasks.
+    //Assume the execution for each individual task is 1 unit.
+    //Follow up: Given a task sequence and the cool down time, rearrange the task sequence such that the execution time is minimal.
+    public static int getTotalWaitTime (String s, int k) {
+        int total = 0;
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); ++i) {
+            if (!map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i), i);
+                total++;
+            } else {
+                total += k - (i - map.get(s.charAt(i)) - 1) + 1;
+                map.put(s.charAt(i), i);
+            }
+        }
+        return total;
+    }
+    // If a=1, b=2...z=26, the users give an input string, suppose 1123. Now the program should tell all the different combinations of the string.
+    //Eg: 1123 =aabc, kbc , kw , alc etc.
+    public static int combiStrings(String input) {
+        int prev_val=0,curr_val=0,prev_prev_val=1;
+        for(int i=0;i<input.length();i++)
+        {
+            if(i!=0) {
+                if ( (int) input.charAt(i - 1) < 2 + 48 || ((int) input.charAt(i - 1) == 2 + 48 && (int) input.charAt(i) < 7 +48))
+                    curr_val = prev_val + prev_prev_val;
+                else
+                    curr_val = prev_val;
+            }
+            else{
+                curr_val = 1;
+                prev_val = 1;
+            }
+            prev_prev_val = prev_val;
+            prev_val = curr_val;
+        }
+        return curr_val;
     }
 
 }
