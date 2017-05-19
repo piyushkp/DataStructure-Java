@@ -17,7 +17,7 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        System.out.print(combiStrings("918"));
+        System.out.print(getTotalWaitTime("ABBA", 3));
 
     }
 
@@ -3369,8 +3369,13 @@ public class Array {
                 map.put(s.charAt(i), i);
                 total++;
             } else {
-                total += k - (i - map.get(s.charAt(i)) - 1) + 1;
+                if(i - map.get(s.charAt(i)) < k || total - map.get(s.charAt(i)) <= k) {
+                    total += k - (i - map.get(s.charAt(i)) - 1) + 1;
+                }
+                else
+                    total++;
                 map.put(s.charAt(i), i);
+
             }
         }
         return total;

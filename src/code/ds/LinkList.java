@@ -394,6 +394,8 @@ public class LinkList {
         }
         return copy;
     }
+    // Reverse linkList with next and random pointers. all next and random pointer should be reversed.
+
 
     //Implement a function to check if a linked list is a palindrome (like 0->1->2->1->0)
     boolean isPalindrome(Node head) {
