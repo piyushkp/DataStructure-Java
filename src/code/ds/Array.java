@@ -17,7 +17,9 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        System.out.print(getTotalWaitTime("ABBA", 3));
+        System.out.println(getTotalWaitTime("ABA", 2));
+        char [] in = {'A','B','A'};
+        System.out.println(computeTatalTaskTime(in, 2));
 
     }
 
@@ -3361,22 +3363,21 @@ public class Array {
     //Given a task sequence tasks such as ABBABBC, and an integer k, which is the cool down time between two same tasks.
     //Assume the execution for each individual task is 1 unit.
     //Follow up: Given a task sequence and the cool down time, rearrange the task sequence such that the execution time is minimal.
-    public static int getTotalWaitTime (String s, int k) {
-        int total = 0;
+    public static int computeTotalTaskTime(char[] tasks, int k) {
         HashMap<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < s.length(); ++i) {
-            if (!map.containsKey(s.charAt(i))) {
-                map.put(s.charAt(i), i);
-                total++;
-            } else {
-                if(i - map.get(s.charAt(i)) < k || total - map.get(s.charAt(i)) <= k) {
-                    total += k - (i - map.get(s.charAt(i)) - 1) + 1;
-                }
-                else
+        int total = 0;
+        for (char task : tasks) {
+            if (map.containsKey(task)) {
+                int exceptedTime = map.get(task) + k + 1;
+                if (exceptedTime > total) {
+                    total = exceptedTime;
+                } else
                     total++;
-                map.put(s.charAt(i), i);
-
             }
+            else {
+                total++;
+            }
+            map.put(task, total);
         }
         return total;
     }
