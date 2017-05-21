@@ -17,9 +17,8 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        System.out.println(getTotalWaitTime("ABA", 2));
         char [] in = {'A','B','A'};
-        System.out.println(computeTatalTaskTime(in, 2));
+        System.out.println(computeTotalTaskTime(in, 2));
 
     }
 
@@ -3363,6 +3362,7 @@ public class Array {
     //Given a task sequence tasks such as ABBABBC, and an integer k, which is the cool down time between two same tasks.
     //Assume the execution for each individual task is 1 unit.
     //Follow up: Given a task sequence and the cool down time, rearrange the task sequence such that the execution time is minimal.
+    //http://tzutalin.blogspot.com/2017/02/interview-type-questions-task-sequence.html
     public static int computeTotalTaskTime(char[] tasks, int k) {
         HashMap<Character, Integer> map = new HashMap<>();
         int total = 0;
