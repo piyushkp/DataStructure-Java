@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(WildCardcomparison("xaylmz", "*z"));
+        System.out.print(addBinary("111111", "11", 2));
 
     }
 
@@ -2812,13 +2812,48 @@ public class StringImp {
         return builder.length() == map.size() ? builder.toString() : "";
     }
 
-
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
     out a list of words without the compound words that are made up of the simple words.
     Input: chat, ever, snapchat, snap, salesperson, per, person, sales, son, whatsoever, what so.
     Output should be: chat, ever, snap, per, sales, son, what, so
      */
-
+    // Given two binary strings, return their sum (also a binary string).
+    // For example, a = "11", b = "1", the return is "100".
+    public static String addBinary(String a, String b, int base) {
+        if(a == null || a.isEmpty()) {
+            return b;
+        }
+        if(b == null || b.isEmpty()) {
+            return a;
+        }
+        StringBuilder sb = new StringBuilder();
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+        while (i >= 0 || j >= 0) {
+            int sum = 0;
+            if (i >= 0) {
+                //sum++;
+                sum += Character.getNumericValue(a.charAt(i));
+                i--;
+            }
+            if (j >= 0) {
+                //sum++;
+                sum += Character.getNumericValue(b.charAt(j));
+                j--;
+            }
+            sum += carry;
+            if (sum >= base) {
+                carry = 1;
+            } else {
+                carry = 0;
+            }
+            sb.insert(0, (char) ((sum % base) + '0'));
+        }
+        if (carry == 1)
+            sb.insert(0, '1');
+        return sb.toString();
+    }
 
 
 

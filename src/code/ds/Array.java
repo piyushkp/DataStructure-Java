@@ -19,7 +19,6 @@ public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         char [] in = {'A','B','A'};
         System.out.println(computeTotalTaskTime(in, 2));
-
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
