@@ -14,7 +14,8 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(addBinary("111111", "11", 2));
+        System.out.println(canFormPalindrome("abdydb", 2));
+        //System.out.println(canFormPalindrome("aabxcc", 0));
 
     }
 
@@ -1393,25 +1394,26 @@ public class StringImp {
     }
 
     //Check if characters of a given string can be rearranged to form a palindrome
-    boolean canFormPalindrome(String str){
+    //Permutation of string can form palindrome
+    static boolean canFormPalindrome(String str, int totalCharsToCheck) {
         // Create a count array and initialize all values as 0
         int count[] = new int[256];
         // For each character in input strings, increment count in the corresponding count array
-        for (int i = 0; i< str.length(); i++)
+        for (int i = 0; i < str.length(); i++)
             count[str.charAt(i)]++;
         // Count odd occurring characters
         int odd = 0;
         for (int i = 0; i < 256; i++)
-            if (count[i] %2 != 0)
+            if (count[i] % 2 != 0)
                 odd++;
         // Return true if odd count is 0 or 1, otherwise false
-        return (odd <= 1);
+        return (odd <= totalCharsToCheck + 1);
     }
+    // input string is abxa
     private static boolean isAlmostPalindrome(String str){
         int diffCount = 0;
         int left = 0;
         int right = str.length() -1;
-
         while(right>left){
             if (str.charAt(right--)!= str.charAt(left++)){
                 diffCount++;
