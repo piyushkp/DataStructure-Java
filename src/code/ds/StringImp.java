@@ -14,8 +14,8 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.println(canFormPalindrome("abdydb", 2));
-        //System.out.println(canFormPalindrome("aabxcc", 0));
+        System.out.println(canFormPalindrome("aabbc", 1));
+        System.out.println(isAlmostPalindrome("aabbc"));
 
     }
 
@@ -1409,17 +1409,25 @@ public class StringImp {
         // Return true if odd count is 0 or 1, otherwise false
         return (odd <= totalCharsToCheck + 1);
     }
-    // input string is abxa
-    private static boolean isAlmostPalindrome(String str){
-        int diffCount = 0;
-        int left = 0;
-        int right = str.length() -1;
-        while(right>left){
-            if (str.charAt(right--)!= str.charAt(left++)){
-                diffCount++;
+    // input string is abxa. it will be determined whether removing one character from the line can result in the string being a palindrome
+    public static boolean isAlmostPalindrome(String s) {
+        for (int i = 0, j = s.length() - 1; i < j; i++, j--) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return isPalindrome(s, i + 1, j) || isPalindrome(s, i, j - 1);
             }
         }
-        return diffCount <2;
+
+        // Exact palindrome. Any palindrome is also an almost-palindrome,
+        // by deleting one of the middle characters.
+        return true;
+    }
+    private static boolean isPalindrome(String s, int firstIndex, int lastIndex) {
+        for (int i = firstIndex, j = lastIndex; i < j; i++, j--) {
+            if (s.charAt(i) != s.charAt(j)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //A Program to check if strings are rotations of each other or not
