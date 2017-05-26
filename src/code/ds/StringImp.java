@@ -14,8 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.println(canFormPalindrome("aabbc", 1));
-        System.out.println(isAlmostPalindrome("aabbc"));
+        List<String> out = letterPhoneCombinations("23");
 
     }
 
@@ -2864,7 +2863,22 @@ public class StringImp {
             sb.insert(0, '1');
         return sb.toString();
     }
-
+    //Given a digit string, return all possible letter combinations that the number could represent.
+    //A mapping of digit to letters (just like on the phone buttons) is given below.
+    public static List<String> letterPhoneCombinations(String digits) {
+        LinkedList<String> ans = new LinkedList<>();
+        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        ans.add("");
+        for(int i =0; i<digits.length();i++){
+            int x = Character.getNumericValue(digits.charAt(i));
+            while(ans.peek().length()==i){
+                String t = ans.remove();
+                for(char s : mapping[x].toCharArray())
+                    ans.add(t+s);
+            }
+        }
+        return ans;
+    }
 
 
 }

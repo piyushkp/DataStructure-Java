@@ -5,7 +5,7 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String[] args) {
-        System.out.println(lookandsayUtil("1",4 ));
+        int[] out = fib(11);
         //System.out.println(nextGreaterNumber(12543 ));
     }
 
