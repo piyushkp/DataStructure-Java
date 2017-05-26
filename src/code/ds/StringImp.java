@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        List<String> out = letterPhoneCombinations("23");
+        System.out.print(lengthOfLongestSubstringKDistinct("ececa", 2));
 
     }
 
@@ -646,9 +646,10 @@ public class StringImp {
         return maxSize;
     }
 
-    //Given a string, find the length of the longest substring T that contains at most k distinct characters.
-    //For example, Given s = “eceba” and k = 2,
-    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+    //Given a string, find the length of the longest substring T that contains at most k distinct(unique) characters.
+    //For example, Given s = “eceba” and k = 2, out = ece
+    //https://stackoverflow.com/questions/17646052/solve-number-of-substrings-having-two-unique-characters-in-on
+    public static int lengthOfLongestSubstringKDistinct(String s, int k) {
         if (k == 0 || s.length() == 0) {
             return 0;
         }
@@ -2867,14 +2868,14 @@ public class StringImp {
     //A mapping of digit to letters (just like on the phone buttons) is given below.
     public static List<String> letterPhoneCombinations(String digits) {
         LinkedList<String> ans = new LinkedList<>();
-        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        String[] mapping = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
         ans.add("");
-        for(int i =0; i<digits.length();i++){
+        for (int i = 0; i < digits.length(); i++) {
             int x = Character.getNumericValue(digits.charAt(i));
-            while(ans.peek().length()==i){
+            while (ans.peek().length() == i) {
                 String t = ans.remove();
-                for(char s : mapping[x].toCharArray())
-                    ans.add(t+s);
+                for (char s : mapping[x].toCharArray())
+                    ans.add(t + s);
             }
         }
         return ans;

@@ -22,23 +22,7 @@ public class MISC {
         for(Interval item : misc.mergeIntervals(input)){
             System.out.println(item.start +"," + item.end);
         }*/
-        MISC.HitCounter hit = misc.new HitCounter();
-        System.out.println(System.currentTimeMillis() / 1000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        Thread.sleep(1000);
-        Thread.sleep(3000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        Thread.sleep(2500);
-        System.out.println(System.currentTimeMillis() / 1000);
-        Thread.sleep(1000 * 55);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        System.out.println(System.currentTimeMillis() / 1000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-        hit.hit((int) System.currentTimeMillis() / 1000);
-
-        System.out.println(hit.getHits((int) System.currentTimeMillis() / 1000));
+        System.out.print(evaluate("-2+(3-5)"));
 
     }
 
@@ -98,7 +82,7 @@ public class MISC {
     }
 
     // Method to convert infix to postfix:
-    private boolean isOperator(char c) {
+    private static boolean isOperator(char c) {
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '^'
                 || c == '(' || c == ')';
     }
@@ -176,7 +160,8 @@ public class MISC {
     }
 
     //Evaluates the specified postfix expression.
-    public int evaluate(String expr) {
+    // infix evaluation: http://www.geeksforgeeks.org/expression-evaluation/
+    public static int evaluate(String expr) {
         Stack<Integer> stack = new Stack<Integer>();
         int op1, op2, result = 0;
         String token;
@@ -194,7 +179,7 @@ public class MISC {
         return result;
     }
 
-    private int evalSingleOp(char operation, int op1, int op2) {
+    private static int evalSingleOp(char operation, int op1, int op2) {
         int result = 0;
         switch (operation) {
             case '+':
