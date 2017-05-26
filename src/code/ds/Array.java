@@ -3380,6 +3380,49 @@ public class Array {
         }
         return total;
     }
+    //Given a task sequence and the cool down time, rearrange the task sequence such that the execution time is minimal.
+    static class Task {
+        char id;
+        int frequency;
+        Task(char i, int f) {
+            id = i;
+            frequency = f;
+        }
+    }
+    public static char[] findBestTaskArrangement(char[] tasks, int k) {
+        int n = tasks.length;
+        Map<Character, Integer> map = new HashMap<>();
+        for (char task : tasks) {
+            map.put(task, map.getOrDefault(task, 0) + 1);
+        }
+        PriorityQueue<Task> queue = new PriorityQueue<>(new Comparator<Task>() {
+            @Override
+            public int compare(Task a, Task b) {
+                return b.frequency - a.frequency;
+            }
+        });
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            queue.offer(new Task(entry.getKey(), entry.getValue()));
+        }
+        tasks = new char[n];
+        int i = 0;
+        while (!queue.isEmpty()) {
+            int c = 0;
+            List<Task> nextRoundTask = new ArrayList<>();
+            while(c++ < k && !queue.isEmpty()) {
+                Task task = queue.poll();
+                task.frequency--;
+                // Locate the next empty slot
+                tasks[i++] = task.id;
+                if (task.frequency > 0)
+                    nextRoundTask.add(task);
+            }
+            for (Task task : nextRoundTask) {
+                queue.offer(task);
+            }
+        }
+        return tasks;
+    }
     // If a=1, b=2...z=26, the users give an input string, suppose 1123. Now the program should tell all the different combinations of the string.
     //Eg: 1123 =aabc, kbc , kw , alc etc.
     public static int combiStrings(String input) {
