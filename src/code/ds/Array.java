@@ -3442,5 +3442,41 @@ public class Array {
         }
         return curr_val;
     }
+    //Sort array after converting elements to their squares
+    public static void sortSquares(int arr[]) {
+        int n = arr.length;
+        // first dived array into part negative and positive
+        int k;
+        for (k = 0; k < n; k++) {
+            if (arr[k] >= 0)
+                break;
+        }
+        // Merge two half are sorted and we traverse first half in reverse meaner becaus first half contain negative element
+        int i = k - 1; // Initial index of first half
+        int j = k; // Initial index of second half
+        int ind = 0; // Initial index of temp array
+
+        int[] temp = new int[n];
+        while (i >= 0 && j < n) {
+            if (arr[i] * arr[i] < arr[j] * arr[j]) {
+                temp[ind++] = arr[i] * arr[i];
+                i--;
+            } else {
+                temp[ind++] = arr[j] * arr[j];
+                j++;
+            }
+        }
+        while (i >= 0) {
+            temp[ind++] = arr[i] * arr[i];
+            i--;
+        }
+        while (j < n) {
+            temp[ind++] = arr[j] * arr[j];
+            j++;
+        }
+        // copy 'temp' array into original array
+        for (int x = 0; x < n; x++)
+            arr[x] = temp[x];
+    }
 
 }
