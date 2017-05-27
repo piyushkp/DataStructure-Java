@@ -678,6 +678,8 @@ public class Matrix {
     /* This function solves the Maze problem using Backtracking. It mainly uses solveMazeUtil() to solve the problem. It returns false if no
        path is possible, otherwise return true and prints the path in the form of 1s. Please note that there may be more than one solutions, this
        function prints one of the feasible solutions.*/
+    //https://gist.github.com/cloudbank/703e09268dd69f06392743cfd6b47f11
+    //https://gist.github.com/shufenghui/17b4effc3a48253c3c02
     boolean solveMaze(int maze[][]){
         int sol[][] =   {   {0, 0, 0, 0},
                             {0, 0, 0, 0},
