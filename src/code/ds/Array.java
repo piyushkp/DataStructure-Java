@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         char [] in = {'A','B','A'};
-        System.out.println(computeTotalTaskTime(in, 2));
+        System.out.println(combiStrings("123456"));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3424,19 +3424,16 @@ public class Array {
         return tasks;
     }
     // If a=1, b=2...z=26, the users give an input string, suppose 1123. Now the program should tell all the different combinations of the string.
-    //Eg: 1123 =aabc, kbc , kw , alc etc.
+    //Eg: 1123 =aabc, kbc , kw , alc, aaw etc.
     public static int combiStrings(String input) {
-        int prev_val = 0, curr_val = 0, prev_prev_val = 1;
-        for (int i = 0; i < input.length(); i++) {
-            if (i != 0) {
-                if ((int) input.charAt(i - 1) < 2 + 48 || ((int) input.charAt(i - 1) == 2 + 48 && (int) input.charAt(i) < 7 + 48))
-                    curr_val = prev_val + prev_prev_val;
-                else
-                    curr_val = prev_val;
-            } else {
-                curr_val = 1;
-                prev_val = 1;
-            }
+        if(input.isEmpty())
+            return 0;
+        int prev_val = 1, curr_val = 1, prev_prev_val = 1;
+        for (int i = 1; i < input.length(); i++) {
+            if ((int) input.charAt(i - 1) < 2 + 48 || ((int) input.charAt(i - 1) == 2 + 48 && (int) input.charAt(i) < 7 + 48))
+                curr_val = prev_val + prev_prev_val;
+            else
+                curr_val = prev_val;
             prev_prev_val = prev_val;
             prev_val = curr_val;
         }
