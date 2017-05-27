@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         char [] in = {'A','B','A'};
-        System.out.println(combiStrings("123456"));
+        System.out.println(combiStrings("0"));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3428,16 +3428,16 @@ public class Array {
     public static int combiStrings(String input) {
         if(input.isEmpty())
             return 0;
-        int prev_val = 1, curr_val = 1, prev_prev_val = 1;
+        int prev = 1, curr = 1, prev_prev = 1;
         for (int i = 1; i < input.length(); i++) {
             if ((int) input.charAt(i - 1) < 2 + 48 || ((int) input.charAt(i - 1) == 2 + 48 && (int) input.charAt(i) < 7 + 48))
-                curr_val = prev_val + prev_prev_val;
+                curr = prev + prev_prev;
             else
-                curr_val = prev_val;
-            prev_prev_val = prev_val;
-            prev_val = curr_val;
+                curr = prev;
+            prev_prev = prev;
+            prev = curr;
         }
-        return curr_val;
+        return curr;
     }
     //Sort array after converting elements to their squares
     public static void sortSquares(int arr[]) {
