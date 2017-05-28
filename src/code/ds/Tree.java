@@ -10,29 +10,26 @@ import java.util.*;
 public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
-
-     N_Tree.NTree t = new N_Tree.NTree('a');
-        N_Tree.NTree b =   new N_Tree.NTree('b');
-        N_Tree.NTree c =  new N_Tree.NTree('c');
-        t.addChild(b);
-        t.addChild(c);
-        b.addChild(new N_Tree.NTree('d'));
-        //t.addChild(new N_Tree.NTree('e'));
-        b.addChild(new N_Tree.NTree('f'));
-        c.addChild(new N_Tree.NTree('g'));
-
-        int out = findLevelWithMaxNodes(t);
-        System.out.print(out);
+        Node root = new Node(1);
+        root.left = new Node(2);
+        root.right = new Node(5);
+        root.left.left = new Node(4);
+        root.left.right = new Node(3);
+        root.left.right.left = new Node(0);
+        root.right.left = new Node(6);
+        root.right.left.left = new Node(7);
+        root.right.right = new Node(8);
+        printRootToLeaf(root);
     }
 
-    public class Node {
+    public static class Node {
         public int data;
         public Node left;
         public Node right;
         public Node parent;
 
         Node(int data) {
-            data = data;
+            this.data = data;
         }
 
         Node() {
@@ -1856,56 +1853,53 @@ public class Tree {
     //Fast but waste memory, not good for large trees.time and memory = O(n+m)
 
     //print all path from root to leaf in Binary tree
-    // do iterative preorder with map to store the parent node
-    void printRootToLeaf(Node root){
-        // Corner Case
-        if (root == null)
-            return;
-        // Create an empty stack and push root to it
-        Stack<Node> nodeStack = new Stack<>();
-        nodeStack.push(root);
-        // Create a map to store parent pointers of binary tree nodes
-        HashMap<Node, Node> parent = new HashMap<>();
-        // parent of root is NULL
-        parent.put(root,null);
-    /* Pop all items one by one. Do following for every popped item
-        a) push its right child and set its parent pointer
-        b) push its left child and set its parent pointer
-       Note that right child is pushed first so that left is processed first */
-        while (!nodeStack.empty()){
-            // Pop the top item from stack
-            Node current = nodeStack.peek();
-            nodeStack.pop();
-
-            // If leaf node encountered, print Top To Bottom path
-            if (current.left == null && current.right == null)
-                printTopToBottomPath(current, parent);
-            // Push right & left children of the popped node to stack. Also set their parent pointer in the map
-            if (current.right != null){
-                parent.put(current.right, current);
-                nodeStack.push(current.right);
+    public static void printAllPossiblePath(Node node,List<Node> nodelist) {
+        if (node != null) {
+            nodelist.add(node);
+            if (node.left != null)
+                printAllPossiblePath(node.left, nodelist);
+            if (node.right != null)
+                printAllPossiblePath(node.right, nodelist);
+            else if (node.left == null && node.right == null) {
+                for (int i = 0; i < nodelist.size(); i++) {
+                    System.out.print(nodelist.get(i).data);
+                }
+                System.out.println();
             }
-            if (current.left != null){
-                parent.put(current.left, current);
-                nodeStack.push(current.left);
-            }
+            nodelist.remove(node);
         }
     }
-    /* Function to print root to leaf path for a leaf using parent nodes stored in map */
-    void printTopToBottomPath(Node curr, HashMap<Node, Node> parent){
-        Stack<Node> stk = new Stack<>();
-        // start from leaf node and keep on pushing nodes into stack till root node is reached
-        while (curr != null){
-            stk.push(curr);
-            curr = parent.get(curr);
+    // do iterative version of print root to leaf nodes in new lines
+    // time = O(n) and space = O(n)
+    static void printRootToLeaf(Node root){
+       if (root == null)
+            return;
+        ArrayList<Node> list = new ArrayList<>();
+        list.add(root);
+        Node temp = root.left;
+        Set<Node> visited = new HashSet<>();
+        while (!list.isEmpty()){
+            while(temp != null){
+                list.add(temp);
+                temp = temp.left;
+            }
+            // Pop the top item from list
+            Node current = list.get(list.size() -1);
+            if(!visited.contains(current)) {
+                visited.add(current);
+                // If leaf node encountered, print Top To Bottom path
+                if (current.right == null && current.left == null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.print(list.get(i).data);
+                    }
+                    System.out.println();
+                    list.remove(list.size() -1);
+                }
+                temp = current.right;
+            }
+            else
+                list.remove(list.size() -1);
         }
-        // Start popping nodes from stack and print them
-        while (!stk.empty()){
-            curr = stk.peek();
-            stk.pop();
-            System.out.print(curr.data + " ");
-        }
-        System.out.println();
     }
 
     // Print longest path from root to leaf in Binary tree
@@ -1927,7 +1921,7 @@ public class Tree {
                 map.put(tmp.right, tmp);
             }
         }
-        printTopToBottomPath(tmp, map);
+        //printTopToBottomPath(tmp, map);
     }
 
     //Imagine you are reading in a stream of integers. Periodically, you wish to be able to look up the rank of a number x
