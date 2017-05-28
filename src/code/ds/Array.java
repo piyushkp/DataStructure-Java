@@ -1917,7 +1917,7 @@ public class Array {
         return i;
     }
 
-    //Given array remove duplicates items from array.
+    //Given array remove duplicates items from unsorted array.
     public static int[] removeDup(int[] a) {
         HashSet<Integer> set = new HashSet<>();
         int k = 0;
@@ -1954,7 +1954,7 @@ public class Array {
         return B;
     }
 
-    //Remove
+    //Remove duplicates from unsorted array
     //find unique integers from list of integers. Input = {1,2,3,4,6,2,3,4,5} out = {1,5,6}
     public static List<Integer> findUnique(int[] a) {
         HashMap<Integer, Integer> map = new HashMap<>();
