@@ -10,15 +10,11 @@ import java.lang.Object.*;
 public class Matrix {
     public static void main(String [] args) {
         //System.out.print("Matrix");
-        int mat[][] =
-                {
-                        {1, 1, 0, 0, 0},
-                        {1, 1, 0, 0, 0},
-                        {0, 0, 1, 0, 0},
-                        {0, 0, 0, 1, 1}
-
-                };
-        System.out.print(numIslands(mat));
+        int sol[][] = { {0, 0, 1, 0, 1},
+                        {0, 1, 0, 0, 0},
+                        {0, 0, 0, 1, 0}
+        };
+        System.out.println(getShortestPathLength(sol));
 
     }
     /* Find the number of islands. Given a boolean 2D matrix, find the number of islands.
@@ -680,43 +676,33 @@ public class Matrix {
        function prints one of the feasible solutions.*/
     //https://gist.github.com/cloudbank/703e09268dd69f06392743cfd6b47f11
     //https://gist.github.com/shufenghui/17b4effc3a48253c3c02
-    boolean solveMaze(int maze[][]){
-        int sol[][] =   {   {0, 0, 0, 0},
-                            {0, 0, 0, 0},
-                            {0, 0, 0, 0},
-                            {0, 0, 0, 0}
-                        };
+    public static int getShortestPathLength(int[][] maze){
+        if(maze == null || maze.length == 0) return 0;
+        Queue<Point> queue = new LinkedList<>();
+        boolean[][] visited = new boolean[maze.length][maze[0].length];
+        queue.add(new Point(0,0));
+        int level = 0;
+        while(queue.size() > 0){
+            int count = queue.size();
+            while(count -- > 0){
+                Point pt = queue.remove();
+                if(pt.x == maze.length - 1 && pt.y == maze[0].length - 1)
+                    return level;
+                visited[pt.x][pt.y] = true; // visited
+                if(pt.x - 1 >= 0 && maze[pt.x-1][pt.y] == 0 && !visited[pt.x-1][pt.y])
+                    queue.offer(new Point(pt.x-1, pt.y));
+                if(pt.x + 1 < maze.length && !visited[pt.x+1][pt.y] && maze[pt.x+1][pt.y] == 0)
+                    queue.offer(new Point(pt.x+1, pt.y));
+                if(pt.y - 1 >= 0 && !visited[pt.x][pt.y-1] && maze[pt.x][pt.y-1] == 0)
+                    queue.offer(new Point(pt.x, pt.y-1));
+                if(pt.y + 1 < maze[0].length && !visited[pt.x][pt.y+1] && maze[pt.x][pt.y+1] == 0)
+                    queue.offer(new Point(pt.x, pt.y+1));
+            }
+            level++;
+        }
+        return -1;
+    }
 
-        if (solveMazeUtil(maze, 0, 0, sol) == false){
-            System.out.print("Solution doesn't exist");
-            return false;
-        }
-        //printSolution(sol);
-        return true;
-    }
-    /* A recursive utility function to solve Maze problem */
-    boolean solveMazeUtil(int maze[][], int x, int y, int sol[][]){
-        // if (x,y is goal) return true
-        if (x == M - 1 && y == N - 1){
-            sol[x][y] = 1;
-            return true;
-        }
-        // Check if maze[x][y] is valid
-        if (isSafe(maze, x, y) == true){
-            // mark x,y as part of solution path
-            sol[x][y] = 1;
-            /* Move forward in x direction */
-            if (solveMazeUtil(maze, x + 1, y, sol))
-                return true;
-             /* If moving in x direction doesn't give solution then  Move down in y direction */
-            if (solveMazeUtil(maze, x, y + 1, sol))
-                return true;
-             /* If none of the above movements work then BACKTRACK: unmark x,y as part of solution path */
-            sol[x][y] = 0;
-            return false;
-        }
-        return false;
-    }
     //Count all paths in Maze. Robot Travel Problem.
     //In Dynamic pro­gram­ming solution, we need to take care of two conditions, first we are not solving it for
     //blocked cells and while solving for other cells do not involve blocked cells.
