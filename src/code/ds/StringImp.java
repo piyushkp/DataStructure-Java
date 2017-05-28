@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(lengthOfLongestSubstringKDistinct("ececa", 2));
+        System.out.print(getSecondMostChar("geeksforgeeks"));
 
     }
 
@@ -2923,6 +2923,24 @@ public class StringImp {
         }
         return count == 0;
     }
+    //Given a list of chars, return the 2nd most frequently occurring char.
+    static char getSecondMostChar(String s){
+        int[] count = new int[256];
+        for (char _ch: s.toCharArray()){
+            count[_ch]++;
+        }
+        int largest = 0, second = 0;
+        for (int i = 0; i < 256; i++) {
+            if(count[i] > count[largest]){
+                second = largest;
+                largest = i;
+            }
+            else if(count[i] > count[second] && count[i] != count[largest])
+                second = i;
+        }
+        return (char)second;
+    }
+
 
 }
 

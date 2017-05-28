@@ -621,6 +621,7 @@ public class Numbers {
         return  digits;
     }
     //How can you get the next greater number with the same set of digits?
+    //finding the greatest number (but less than the given number) by reordering the digits in the number
     private static int nextGreaterNumber(int number) {
         List<Integer> digits = numbertoDigits(number);
         for (int i = digits.size()-2; i >=0; i--) {
