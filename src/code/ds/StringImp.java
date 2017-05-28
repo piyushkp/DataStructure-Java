@@ -1298,25 +1298,6 @@ public class StringImp {
         return N;
     }
 
-    //Given a string return the longest palindrome that can be constructed by removing or shuffling characters.
-    // If there are multiple correct answers you need to return only 1 palindrome.
-    public static String LongestPalindromeRemoveShuffle(String s) {
-        String output = "";
-        String center = "";
-        int[] counter = new int[26];
-        for (int i = 0; i < s.length(); i++) {
-            counter[(int) s.charAt(i) - 'a']++;
-        }
-        for (int i = 0; i < counter.length; i++) {
-            int times = counter[i] / 2;
-            String repeated = new String(new char[times]).replace("\0", Character.toString((char) (i + 'a')));
-            output += repeated;
-            if (counter[i] % 2 != 0)
-                center = Character.toString((char) (i + 'a'));
-        }
-        return output + center + new StringBuilder(output).reverse().toString();
-    }
-
     /*Airbnb: Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
     e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
     //Put all words in a Set. For each word, get all it’s prefix and suffix. Search for reversed(prefix) and reversed(suffix) in the Set.
@@ -1416,9 +1397,7 @@ public class StringImp {
                 return isPalindrome(s, i + 1, j) || isPalindrome(s, i, j - 1);
             }
         }
-
-        // Exact palindrome. Any palindrome is also an almost-palindrome,
-        // by deleting one of the middle characters.
+        // Exact palindrome. Any palindrome is also an almost-palindrome, by deleting one of the middle characters.
         return true;
     }
     private static boolean isPalindrome(String s, int firstIndex, int lastIndex) {
@@ -1429,6 +1408,27 @@ public class StringImp {
         }
         return true;
     }
+    //Given a string return the longest palindrome that can be constructed by removing or shuffling characters.
+    // If there are multiple correct answers you need to return only 1 palindrome.
+    public static String LongestPalindromeRemoveShuffle(String s) {
+        String output = "";
+        String center = "";
+        int[] counter = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            counter[(int) s.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < counter.length; i++) {
+            int times = counter[i] / 2;
+            String repeated = new String(new char[times]).replace("\0", Character.toString((char) (i + 'a')));
+            output += repeated;
+            if (counter[i] % 2 != 0)
+                center = Character.toString((char) (i + 'a'));
+        }
+        return output + center + new StringBuilder(output).reverse().toString();
+    }
+    //Given a number, find the next smallest palindrome larger than the number. For example if the number is 125, next smallest palindrome is 131
+    //https://github.com/yxjiang/algorithms/blob/master/src/main/java/algorithm/recursive/NextPalindrome.java
+    //http://www.ardendertat.com/2011/12/01/programming-interview-questions-19-find-next-palindrome-number/
 
     //A Program to check if strings are rotations of each other or not
     //given s1 = ABCD and s2 = CDAB, return true
