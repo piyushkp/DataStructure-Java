@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(getSecondMostChar("geeksforgeeks"));
+        System.out.print(convertNumberToWords(1234311));
 
     }
 
@@ -2940,7 +2940,50 @@ public class StringImp {
         }
         return (char)second;
     }
+    //Write a function that takes an integer and prints out the English text of it.
+    // if “1234” is given as input, output should be “one thousand two hundred thirty four”.
+    private static final String[] one = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+            "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+    private static final String[] ten = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+    private static final String[] big = {"thousand", "million", "billion"};
+    public static String convertNumberToWords (int n) {
+        if (n < 0) {
+            return "minus " + convertNumberToWords(-n); }
+        if (n <= 999) {
+            return convert999(n); }
+        String s = null;
+        int t = 0;
+        while (n > 0) {
+            if (n % 1000 != 0) {
+                String s2 = convert999(n % 1000);
+                if (t > 0) {
+                    s2 = s2 + " " + big[t-1]; }
+                if (s == null) {
+                    s = s2; }
+                else {
+                    s = s2 + ", " + s; }}
+            n /= 1000;
+            t++; }
+        return s; }
 
-
+    // Range 0 to 999.
+    private static String convert999 (int n) {
+        String s1 = one[n / 100] + " hundred";
+        String s2 = convert99(n % 100);
+        if (n <= 99) {
+            return s2; }
+        else if (n % 100 == 0) {
+            return s1; }
+        else {
+            return s1 + " " + s2; }
+    }
+    // Range 0 to 99.
+    private static String convert99 (int n) {
+        if (n < 20) {
+            return one[n]; }
+        String s = ten[n / 10 - 2];
+        if (n % 10 == 0) {
+            return s; }
+        return s + "-" + one[n % 10]; }
 }
 
