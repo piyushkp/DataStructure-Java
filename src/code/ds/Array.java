@@ -17,8 +17,8 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        char [] in = {'A','B','A'};
-        System.out.println(combiStrings("0"));
+        int[] in = {1,1,1,0};
+        System.out.print(countZeros(in, in.length));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -255,7 +255,7 @@ public class Array {
 
     //Given an array of 1s and 0s which has all 1s first followed by all 0s. Find the number of 0s.
     // Count the number of zeroes in the given array.
-    int countOnes(int[] arr, int n) {
+    static int countZeros(int[] arr, int n) {
         // Find index of first zero in given array
         int first = firstZero(arr, 0, n - 1);
         // If 0 is not present at all, return 0
@@ -265,7 +265,7 @@ public class Array {
 
     /* if 0 is present in arr[] then returns the index of FIRST occurrence
     of 0 in arr[low..high], otherwise returns -1.  Time Complexity: O(Logn)*/
-    int firstZero(int[] arr, int low, int high) {
+    static int firstZero(int[] arr, int low, int high) {
         if (high >= low) {
             // Check if mid element is first 0
             int mid = low + (high - low) / 2;
@@ -1140,7 +1140,7 @@ public class Array {
 
     //Given a sorted array with duplicates and a positive number, find the range in the
     //form of (startIndex, endIndex) of that number. find_range({0 2 3 3 3 10 10}, 3) should return (2,4).Time = O(logn)
-    private int[] findRange(int a[], int num) {
+    static int[] findRange(int a[], int num) {
         int i; // index of first occurrence of x in arr[0..n-1]
         int j; // index of last occurrence of x in arr[0..n-1]
         /* get the index of first occurrence of x */
@@ -1155,7 +1155,7 @@ public class Array {
     }
 
     /* if x is present in arr[] then returns the index of FIRST occurrence of x in arr[0..n-1], otherwise returns -1 */
-    int first(int arr[], int low, int high, int x, int n) {
+    static int first(int arr[], int low, int high, int x, int n) {
         if (high >= low) {
             int mid = (low + high) / 2;  /*low + (high - low)/2;*/
             if ((mid == 0 || x > arr[mid - 1]) && arr[mid] == x)
