@@ -19,7 +19,7 @@ public class Tree {
         root.right.left = new Node(6);
         root.right.left.left = new Node(7);
         root.right.right = new Node(8);
-        printRootToLeaf(root);
+        RootToLeafPathPrint(root);
     }
 
     public static class Node {
@@ -1852,7 +1852,31 @@ public class Tree {
     //Approach 2: Compare whether T2's leaf-delimited traversal string (pre-order,in-order, etc) is a substring of T1's.
     //Fast but waste memory, not good for large trees.time and memory = O(n+m)
 
-    //print all path from root to leaf in Binary tree
+    //print all path from root to leaf in Binary tree in new line
+    // time = O(n) and space = O(n)
+    public static void RootToLeafPathPrint(Node root) {
+        Stack<Object> stack = new Stack<>();
+        if (root == null)
+            return;
+        stack.push(root.data + "");
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            Node temp = (Node) stack.pop();
+            String path = (String) stack.pop();
+
+            if (temp.right != null) {
+                stack.push(path + temp.right.data);
+                stack.push(temp.right);
+            }
+            if (temp.left != null) {
+                stack.push(path + temp.left.data);
+                stack.push(temp.left);
+            }
+            if (temp.left == null && temp.right == null) {
+                System.out.println(path);
+            }
+        }
+    }
     public static void printAllPossiblePath(Node node,List<Node> nodelist) {
         if (node != null) {
             nodelist.add(node);
@@ -1869,39 +1893,6 @@ public class Tree {
             nodelist.remove(node);
         }
     }
-    // do iterative version of print root to leaf nodes in new lines
-    // time = O(n) and space = O(n)
-    static void printRootToLeaf(Node root){
-       if (root == null)
-            return;
-        ArrayList<Node> list = new ArrayList<>();
-        list.add(root);
-        Node temp = root.left;
-        Set<Node> visited = new HashSet<>();
-        while (!list.isEmpty()){
-            while(temp != null){
-                list.add(temp);
-                temp = temp.left;
-            }
-            // Pop the top item from list
-            Node current = list.get(list.size() -1);
-            if(!visited.contains(current)) {
-                visited.add(current);
-                // If leaf node encountered, print Top To Bottom path
-                if (current.right == null && current.left == null) {
-                    for (int i = 0; i < list.size(); i++) {
-                        System.out.print(list.get(i).data);
-                    }
-                    System.out.println();
-                    list.remove(list.size() -1);
-                }
-                temp = current.right;
-            }
-            else
-                list.remove(list.size() -1);
-        }
-    }
-
     // Print longest path from root to leaf in Binary tree
     // Do BFS and maintain map to add parent node for all traverse node.
     private void printLongestPath(Node root) {
