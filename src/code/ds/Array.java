@@ -3439,6 +3439,9 @@ public class Array {
         }
         return curr;
     }
+    static void print(){
+
+    }
     //Sort array after converting elements to their squares
     public static void sortSquares(int arr[]) {
         int n = arr.length;
