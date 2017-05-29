@@ -10,16 +10,42 @@ import java.util.*;
 public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
-        Node root = new Node(1);
-        root.left = new Node(2);
-        root.right = new Node(5);
-        root.left.left = new Node(4);
-        root.left.right = new Node(3);
-        root.left.right.left = new Node(0);
-        root.right.left = new Node(6);
-        root.right.left.left = new Node(7);
-        root.right.right = new Node(8);
-        RootToLeafPathPrint(root);
+        Node tree = new Node(1);
+        tree.left = new Node(2);
+        tree.right = new Node(7);
+        tree.left.left = new Node(4);
+        tree.left.right = new Node(3);
+        tree.left.right.right = new Node(5);
+        tree.left.right.right.left = new Node(6);
+        tree.right.right = new Node(9);
+        tree.right.right.right = new Node(12);
+        tree.right.right.right.left = new Node(13);
+        tree.right.left = new Node(8);
+        tree.right.left.right = new Node(10);
+        tree.right.left.right.left = new Node(11);
+        tree.right.left.right.left.right = new Node(14);
+        //System.out.println(diameterOfBinaryTree(tree));
+        //System.out.print(printDiameterOfBinaryTree(tree));
+        N_Tree.NTree nt0 = new N_Tree.NTree('0');
+        N_Tree.NTree nt1 = new N_Tree.NTree('1');
+        N_Tree.NTree nt6 = new N_Tree.NTree('6');
+        N_Tree.NTree nt7 = new N_Tree.NTree('7');
+        N_Tree.NTree nt8 = new N_Tree.NTree('8');
+        N_Tree.NTree nt2 = new N_Tree.NTree('2');
+        N_Tree.NTree nt3 = new N_Tree.NTree('3');
+        N_Tree.NTree nt4 = new N_Tree.NTree('4');
+        N_Tree.NTree nt5 = new N_Tree.NTree('5');
+        N_Tree.NTree nt9 = new N_Tree.NTree('9');
+        nt0.addChild(nt1);
+        nt1.addChild(nt2);
+        nt1.addChild(nt6);
+        nt6.addChild(nt7);
+        nt6.addChild(nt8);
+        nt2.addChild(nt3);
+        nt2.addChild(nt9);
+        nt2.addChild(nt4);
+        nt4.addChild(nt5);
+        System.out.print(longestPathNaryTree(nt0));
     }
 
     public static class Node {
@@ -645,19 +671,73 @@ public class Tree {
         return contains(root.left, n) || contains(root.right, n);
     }
 
-    // Find the Diameter of Binary Tree
-    public int diameterOfBinaryTree(Node root) {
+    // Find the Diameter of Binary Tree. The diameter of a binary tree is the length of the longest path between
+    //any two nodes in a tree. This path may or may not pass through the root.
+    //http://www.makeinjava.com/find-diameter-binary-tree-java-dfs-recursive-example/
+    static int diameter  = 0;
+    public static int  diameterOfBinaryTree(Node root) {
         maxDepth(root);
-        return max;
+        return diameter ;
     }
-    private int maxDepth(Node root) {
+    private static int maxDepth(Node root) {
         if (root == null) return 0;
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
-        max = Math.max(max, left + right);
+        diameter  = Math.max(diameter , left + right+1);
         return Math.max(left, right) + 1;
     }
-
+    // print longest path of binary tree (directed)
+    public static String  printDiameterOfBinaryTree(Node root) {
+        longestPath(root);
+        String s = "";
+        while(!path.isEmpty())
+            s += path.pop().data + " ";
+        return s;
+    }
+    static Stack<Node> path;
+    static Stack<Node> longestPath(Node root) {
+        if (root == null) {
+            Stack s = new Stack();
+            return s;
+        }
+        Stack<Node> l = longestPath(root.left);
+        Stack<Node> r = longestPath(root.right);
+        if (l.size() + r.size() + 1 > diameter ) {
+            diameter  = l.size() + r.size() + 1;
+            Stack<Node> tmp = new Stack();
+            tmp.addAll(l);
+            tmp.push(root);
+            tmp.addAll(r);
+            path = tmp;
+        }
+        l.push(root);
+        r.push(root);
+        return l.size() > r.size() ? l : r;
+    }
+    // Write a program to output the length of the longest path (from one node to another) in undirected tree
+    static int longestPathNaryTree(N_Tree.NTree root) {
+        longestPathNaryTreeUtil(root, new HashSet<>());
+        return maxSoFar;
+    }
+    static int maxSoFar = 0;
+    static int longestPathNaryTreeUtil(N_Tree.NTree root, Set<N_Tree.NTree> visited) {
+        int large = 0;
+        int small = 0;
+        visited.add(root);
+        for (N_Tree.NTree next : root.children) {
+            if (!visited.contains(next)) {
+                int val = longestPathNaryTreeUtil(next, visited);
+                if (val > large) {
+                    small = large;
+                    large = val;
+                } else if (val > small && val != large) {
+                    small = val;
+                }
+            }
+        }
+        maxSoFar = Math.max(maxSoFar, (small + large));
+        return large + 1;
+    }
     // Convert sorted array into balanced tree
     private Node sortedArraytoBST(int[] arr, int start, int end) {
         if (end < start)
@@ -911,7 +991,7 @@ public class Tree {
     /* A O(n) iterative program for construction of BST from preorder traversal
     * Deserialize the BST*/
     int min = Integer.MIN_VALUE;
-    int max = Integer.MAX_VALUE;
+    static int max = Integer.MAX_VALUE;
 
     private Node deserializeArrayOptimized(int[] preorder, int currIndex, int min, int max) {
         if (currIndex >= preorder.length) return null;
