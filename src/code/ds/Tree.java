@@ -24,7 +24,24 @@ public class Tree {
         tree.right.left.right = new Node(10);
         tree.right.left.right.left = new Node(11);
         tree.right.left.right.left.right = new Node(14);
-        //System.out.println(diameterOfBinaryTree(tree));
+        System.out.println(diameterOfBinaryTree(tree));
+
+        Node1 tree1 = new Node1(1);
+        tree1.left = new Node1(2);
+        tree1.right = new Node1(7);
+        tree1.left.left = new Node1(4);
+        tree1.left.right = new Node1(3);
+        tree1.left.right.right = new Node1(5);
+        tree1.left.right.right.left = new Node1(6);
+        tree1.right.right = new Node1(9);
+        tree1.right.right.right = new Node1(12);
+        tree1.right.right.right.left = new Node1(13);
+        tree1.right.left = new Node1(8);
+        tree1.right.left.right = new Node1(10);
+        tree1.right.left.right.left = new Node1(11);
+        tree1.right.left.right.left.right = new Node1(14);
+        System.out.println(iterativeDiameter(tree1));
+
         //System.out.print(printDiameterOfBinaryTree(tree));
         N_Tree.NTree nt0 = new N_Tree.NTree('0');
         N_Tree.NTree nt1 = new N_Tree.NTree('1');
@@ -673,6 +690,57 @@ public class Tree {
 
     // Find the Diameter of Binary Tree. The diameter of a binary tree is the length of the longest path between
     //any two nodes in a tree. This path may or may not pass through the root.
+    // Iterative [http://techieme.in/tree-diameter/]
+    static class Node1{
+        int data;
+        Node1 left;
+        Node1 right;
+        int maxDistance;
+        int rHeight;
+        int lHeight;
+        Node1(int data) {
+            this.data = data;
+        }
+    }
+    public static int iterativeDiameter(Node1 root) {
+        if (root == null)
+            return 0;
+        Stack<Node1> S = new Stack<>();
+        Stack<Node1> O = new Stack<>();
+        Node1 node;
+        int maxDistance = 0;
+        S.push(root);
+        while (!S.empty()) {
+            node = S.pop();
+            O.push(node);
+            if (node.left != null)
+                S.push(node.left);
+            if (node.right != null)
+                S.push(node.right);
+        }
+        while (!O.empty()) {
+            node = O.pop();
+            if (node.left == null) {
+                node.lHeight = 1;
+                node.maxDistance = 0;
+            } else
+                node.lHeight = Math.max(node.left.lHeight, node.left.rHeight) + 1;
+            if (node.right == null) {
+                node.rHeight = 1;
+                node.maxDistance = 0;
+            } else
+                node.rHeight = Math.max(node.right.rHeight, node.right.lHeight) + 1;
+
+           if(node.left != null && node.right != null){
+                int temp = node.lHeight + node.rHeight - 1;
+                node.maxDistance = temp;
+                if (maxDistance < temp)
+                    maxDistance = temp;
+            }
+        }
+        return maxDistance;
+    }
+    // recursive
     //http://www.makeinjava.com/find-diameter-binary-tree-java-dfs-recursive-example/
     static int diameter  = 0;
     public static int  diameterOfBinaryTree(Node root) {
@@ -717,9 +785,11 @@ public class Tree {
     // Write a program to output the length of the longest path (from one node to another) in undirected tree
     static int longestPathNaryTree(N_Tree.NTree root) {
         longestPathNaryTreeUtil(root, new HashSet<>());
+        System.out.println("start: - " + (char)_path[0] + " End: - "+ (char)_path[1]);
         return maxSoFar;
     }
     static int maxSoFar = 0;
+    static int[] _path = new int[2];
     static int longestPathNaryTreeUtil(N_Tree.NTree root, Set<N_Tree.NTree> visited) {
         int large = 0;
         int small = 0;
@@ -730,8 +800,11 @@ public class Tree {
                 if (val > large) {
                     small = large;
                     large = val;
+                    _path[1] = _path[0];
+                    _path[0] = next.data;
                 } else if (val > small && val != large) {
                     small = val;
+                    _path[1] = next.data;
                 }
             }
         }
