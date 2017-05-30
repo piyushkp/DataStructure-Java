@@ -17,8 +17,9 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] in = {1,1,1,0};
-        System.out.print(countZeros(in, in.length));
+        int[] in = {1,1,1,1,-2,9};
+        //System.out.print(countZeros(in, in.length));
+        System.out.print(maxSubArrayWithK(in, 2));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -773,6 +774,30 @@ public class Array {
         return _out;
     }
 
+    /*For a given array, find the subarray (containing at least k number) which has the largest sum. try to do it in O(n) time
+      Followup, if input is stream, how to solve it
+        Example: [-4, -2, 1, -3], k = 2, return -1, and the subarray is [-2, 1]
+         [1, 1, 1, 1, 1, 1], k = 3, return 6, and the subarray is [1, 1, 1, 1, 1, 1] */
+    static int maxSubArrayWithK(int[] a,int k) {
+        int i, maxendhere = 0, maxsofar, sumoflastk;
+        Set<Integer> set = new HashSet<>();
+        for (i = 0; i < k; i++) {
+            maxendhere += a[i];
+            set.add(a[i]);
+        }
+        maxsofar = maxendhere;
+        sumoflastk = maxendhere;
+        for (; i < a.length; i++) {
+            if(set.contains(a[i]))
+                maxendhere += a[i];
+            sumoflastk += a[i] - a[i - k];
+            if (maxendhere < sumoflastk) maxendhere = sumoflastk;
+            if (maxsofar < maxendhere) maxsofar = maxendhere;
+            set.add(a[i]);
+        }
+        return maxsofar;
+    }
+
     //Smallest subarray with sum greater than a given value,  If there isn't one, return n+1 instead.
     // arr[] = {1, 4, 45, 6, 0, 19}   x  =  51   Output: 3
     public static int smallestSubWithSum(int arr[], int n, int x) {
@@ -1247,13 +1272,13 @@ public class Array {
                 if (arr[0] > 0)
                     arr[0] = -arr[0];
                 else
-                    System.out.print("0");
+                    System.out.println("0");
             } else if (arr[Math.abs(arr[i])] == 0)
                 arr[Math.abs(arr[i])] = Integer.MIN_VALUE;
             else if (arr[Math.abs(arr[i])] > 0)
                 arr[Math.abs(arr[i])] = -arr[Math.abs(arr[i])];
             else
-                System.out.print(Math.abs(arr[i]));
+                System.out.println(Math.abs(arr[i]));
         }
     }
 
@@ -3477,6 +3502,27 @@ public class Array {
         // copy 'temp' array into original array
         for (int x = 0; x < n; x++)
             arr[x] = temp[x];
+    }
+    /* There are N gas stations along a circular route, where the amount of gas at station i is gas[i]. You have a car
+    with an unlimited gas tank and it costs cost[i] of gas to travel from station i to its next station (i+1).
+    You begin the journey with an empty tank at one of the gas stations.Return the starting gas station's index if you can travel
+    around the circuit once, otherwise return -1. */
+    public static int canCompleteCircuit(int[] gas, int[] cost) {
+        int sumGas = 0, sumCost = 0, start = 0, tank = 0;
+        for (int i = 0; i < gas.length; i++) {
+            sumGas += gas[i];
+            sumCost += cost[i];
+            tank += gas[i] - cost[i];
+            if (tank < 0) {
+                start = i + 1;
+                tank = 0;
+            }
+        }
+        if (sumGas < sumCost) {
+            return -1;
+        } else {
+            return start;
+        }
     }
 
 }
