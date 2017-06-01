@@ -5,6 +5,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * Created by Piyush Patel.
@@ -35,10 +36,11 @@ public class MISC {
         l3.id = "1";
         l3.time = 14;
         Log l4 = new Log();
-        l4.id = "2";
+        l4.id = "1";
         l4.time = 15;
         Log[] logs = {l,l1,l2,l3,l4};
-        getBots(logs,3,3);
+        //getBots(logs,3,3);
+        getBots1(logs,3,3);
 
     }
 
@@ -214,10 +216,11 @@ public class MISC {
     }
 
     /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
-    followingMatrix[i][j] == true if user i is following user j
-    thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
+    followingMatrix[i][j] == true if user i is following user j thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
     Let's also agree that followingMatrix[i][i] == false */
     //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
+    //Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
+    //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
     private int getInfluencer(Boolean[][] M) {
         for (int influencer = 0; influencer < M.length; influencer++) {
             boolean is_influencer = true;
@@ -1147,36 +1150,65 @@ public class MISC {
             this.count = count;
         }
     }
+    public static HashSet<String> getBots1(Log[] logs, int m, int n){
+        HashMap<String, LogCount> map = new HashMap<>();
+        HashSet<String> out = new HashSet<>();
+        for(Log log: logs){
+            if (map.containsKey(log.id) && (log.time - map.get(log.id).time <= n)) {
+                LogCount _lc = map.get(log.id);
+                _lc.time = log.time;
+                _lc.count++;
+                map.put(log.id,_lc);
+               if(map.get(log.id).count == m) {
+                   System.out.println(log.id);
+                   out.add(log.id);
+               }
+            }else
+                map.put(log.id, new LogCount(log.time,1));
+        }
+        return  out;
+    }
     public static HashSet<String> getBots(Log[] logs, int m, int n) {
         int[] time  = new int[n];
-        ArrayList<HashMap<String, Integer>> data = new ArrayList<>(n);
+        AtomicReferenceArray  data = new AtomicReferenceArray(n);
         //HashMap<String, LogCount> bot = new HashMap<>(n);
         HashSet<String> output = new HashSet<>();
+        int count = 0;
         for (Log log: logs) {
             HashMap<String, Integer> temp;
             int index = log.time % n;
             if (time[index] != log.time) {
-                time[index]= log.time;
-                temp = new HashMap<>();
-                temp.put(log.id, 1);
-                data.set(index, temp);
+                temp =  (HashMap<String, Integer>)data.get(index);
+                if(temp != null && temp.containsKey(log.id))
+                {
+                    temp.put(log.id, temp.get(log.id) + 1);
+                }
+                else {
+                    time[index] = log.time;
+                    temp = new HashMap<>();
+                    temp.put(log.id, 1);
+                    data.set(index, temp);
+                }
             } else {
-                temp =  data.get(index);
+                temp =  (HashMap<String, Integer>)data.get(index);
                 if (!temp.containsKey(log.id))
                     temp.put(log.id,1);
                 else
                     temp.put(log.id, temp.get(log.id) + 1);
             }
+            if(count > n){
             for (int i = 0; i < n; i++) {
                 if (log.time - time[i] < n) {
-                    for(String key : data.get(i).keySet()){
-                        if(data.get(i).get(key) >= m) {
+                    HashMap<String, Integer> _map = (HashMap<String, Integer>)data.get(i);
+                    for(String key : _map.keySet()){
+                        if(_map.get(key) >= m) {
                             System.out.println(key);
                             output.add(key);
                         }
                     }
                 }
-            }
+            }}
+            count++;
         }
         return output;
     }
