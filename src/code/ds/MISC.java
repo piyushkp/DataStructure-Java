@@ -219,8 +219,6 @@ public class MISC {
     followingMatrix[i][j] == true if user i is following user j thus followingMatrix[i][j] doesn't imply followingMatrix[j][i].
     Let's also agree that followingMatrix[i][i] == false */
     //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
-    //Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
-    //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
     static int getInfluencer(boolean[][] followingMatrix) {
         if (followingMatrix.length == 0 || followingMatrix[0].length == 0) return -1;
         // Phase 1. elimination
@@ -230,9 +228,29 @@ public class MISC {
             if (followingMatrix[c][i] == true) c = i; // switch candidate
         }
         // Phase 2. validation
-        for (int i = 0; i < followingMatrix.length; i++)
+        for (int i = 0; i < followingMatrix.length; i++) {
+            if (i == c) continue;
             if (followingMatrix[c][i] == true) return -1;
+        }
         return c;
+    }
+    //Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
+    //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
+    static int getFamousPerson(int[] persons){
+        if(persons.length == 0) return  -1;
+        int c = 0;
+        for (int i = 1; i < persons.length; i++) {
+            if(isKnow(c,i)) // given
+                c = i;
+        }
+        for (int i = 0; i < persons.length; i++) {
+            if(i == c) continue;;
+            if(isKnow(c,i)) return -1;
+        }
+        return c;
+    }
+    static boolean isKnow(int i, int j){
+        return  true;
     }
 
     public class Singleton {
