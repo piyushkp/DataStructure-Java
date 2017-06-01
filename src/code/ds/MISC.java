@@ -221,20 +221,18 @@ public class MISC {
     //Logic: a person "i" is not an influencer if "i" is following any "j" or any "j" is not following "i"
     //Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
     //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
-    private int getInfluencer(Boolean[][] M) {
-        for (int influencer = 0; influencer < M.length; influencer++) {
-            boolean is_influencer = true;
-            for (int followedBy = 0; followedBy < M.length; followedBy++) {
-                if (influencer == followedBy) continue; //the same user, check the next user
-                if (M[influencer][followedBy] || !M[followedBy][influencer]) {
-                    is_influencer = false;
-                    break;
-                }
-            }
-            if (is_influencer)
-                return influencer;
+    static int getInfluencer(boolean[][] followingMatrix) {
+        if (followingMatrix.length == 0 || followingMatrix[0].length == 0) return -1;
+        // Phase 1. elimination
+        int c = 0; // candidate
+        for (int i = 1; i < followingMatrix.length; i++) {
+            // Check if candidate
+            if (followingMatrix[c][i] == true) c = i; // switch candidate
         }
-        return -1;
+        // Phase 2. validation
+        for (int i = 0; i < followingMatrix.length; i++)
+            if (followingMatrix[c][i] == true) return -1;
+        return c;
     }
 
     public class Singleton {
