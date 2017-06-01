@@ -22,7 +22,23 @@ public class MISC {
         for(Interval item : misc.mergeIntervals(input)){
             System.out.println(item.start +"," + item.end);
         }*/
-        System.out.print(evaluate("-2+(3-5)"));
+        Log l = new Log();
+        l.id = "1";
+        l.time = 10;
+        Log l1 = new Log();
+        l1.id = "2";
+        l1.time = 11;
+        Log l2 = new Log();
+        l2.id = "1";
+        l2.time = 13;
+        Log l3 = new Log();
+        l3.id = "1";
+        l3.time = 14;
+        Log l4 = new Log();
+        l4.id = "2";
+        l4.time = 15;
+        Log[] logs = {l,l1,l2,l3,l4};
+        getBots(logs,3,3);
 
     }
 
@@ -1117,6 +1133,52 @@ public class MISC {
             }
             return total;
         }
+    }
+    /*A bot is an id that visit the site m times in the last n seconds, given a list of logs with id and time sorted by time, return all the bots's id */
+    static class Log{
+        String id;
+        int time;
+    }
+    static class LogCount{
+        int time;
+        int count;
+        public LogCount(int time, int count){
+            this.time = time;
+            this.count = count;
+        }
+    }
+    public static HashSet<String> getBots(Log[] logs, int m, int n) {
+        int[] time  = new int[n];
+        ArrayList<HashMap<String, Integer>> data = new ArrayList<>(n);
+        //HashMap<String, LogCount> bot = new HashMap<>(n);
+        HashSet<String> output = new HashSet<>();
+        for (Log log: logs) {
+            HashMap<String, Integer> temp;
+            int index = log.time % n;
+            if (time[index] != log.time) {
+                time[index]= log.time;
+                temp = new HashMap<>();
+                temp.put(log.id, 1);
+                data.set(index, temp);
+            } else {
+                temp =  data.get(index);
+                if (!temp.containsKey(log.id))
+                    temp.put(log.id,1);
+                else
+                    temp.put(log.id, temp.get(log.id) + 1);
+            }
+            for (int i = 0; i < n; i++) {
+                if (log.time - time[i] < n) {
+                    for(String key : data.get(i).keySet()){
+                        if(data.get(i).get(key) >= m) {
+                            System.out.println(key);
+                            output.add(key);
+                        }
+                    }
+                }
+            }
+        }
+        return output;
     }
 
     //Stream deduplication - Give a real-time source of data that emits strings.
