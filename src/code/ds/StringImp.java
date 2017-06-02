@@ -66,6 +66,17 @@ public class StringImp {
     }
 
     //Find first non repeated character in a String in just one pass. more space but in one pass
+    public static Character getFirstNotRepeatedChar(String input) {
+        int[] flags = new int[256]; //all is initialized by 0
+        for (int i = 0; i < input.length(); i++) { // O(n)
+            flags[(int)input.charAt(i)]++ ;
+        }
+        for (int i = 0; i < input.length(); i++) { // O(n)
+            if(flags[(int)input.charAt(i)] == 1)
+                return input.charAt(i);
+        }
+        return null;
+    }
     private char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
         List<Character> nonrepeating = new ArrayList<Character>();
