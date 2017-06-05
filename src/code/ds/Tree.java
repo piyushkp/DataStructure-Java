@@ -2198,7 +2198,7 @@ public class Tree {
     }
     //given a binary tree print boundry nodes in anti-clock wise
 
-    //convert ternary expression to binary tree
+    //convert ternary expression to binary tree i.e. a?b:c , a?b?c:d:e
     public Node convertTtoBT (char[] values) {
         Node n = new Node (values[0]);
         for (int i = 1; i < values.length; i += 2) {
