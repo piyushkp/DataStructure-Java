@@ -8,28 +8,25 @@ import java.util.*;
 public class DisjointUnionSets {
     public static void main(String[] args) {
         //System.out.print("DisjointUnionSets");
-        /*ArrayList<ArrayList<Integer>> input = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> input = new ArrayList<>();
         ArrayList<Integer> tm = new ArrayList<>();
         tm.add(0);
         tm.add(1);
-        tm.add(2);
+        //tm.add(2);
 
         ArrayList<Integer> tm1 = new ArrayList<>();
-        tm1.add(0);
-        tm1.add(3);
-        tm1.add(4);
-        tm1.add(0);
+        tm1.add(1);
+        tm1.add(2);
 
 
         ArrayList<Integer> tm2 = new ArrayList<>();
-        tm2.add(5);
-        tm2.add(6);
-        tm2.add(7);
-        tm2.add(8);
+        tm2.add(2);
+        tm2.add(1);
+
         input.add(0,tm);
         input.add(1,tm1);
         input.add(2, tm2);
-        List<List<String>> out = getStacks(input, 9);*/
+        List<List<String>> out = getStacks(input, 3);
         char[][] mat = {
                 {'x','.','.','x'},
                 {'.','x','.','.'},
@@ -163,12 +160,13 @@ public class DisjointUnionSets {
         DisjointUnionSets dus = new DisjointUnionSets(n);
         dus.union(0,1);
         dus.union(1,2);
-        dus.union(0,3);
-        dus.union(3,4);
-        dus.union(4,0);
-        dus.union(5,6);
-        dus.union(6,7);
-        dus.union(7,8);
+        //dus.union(0,3);
+        dus.union(2,0);
+        //dus.union(3,4);
+        //dus.union(4,0);
+        //dus.union(5,6);
+        //dus.union(6,7);
+        //dus.union(7,8);
         for (int i = 0; i < input.size(); i++) {
             if(!set.contains("Stack " + (i+1))) {
                 List<String> temp = new ArrayList<>();
