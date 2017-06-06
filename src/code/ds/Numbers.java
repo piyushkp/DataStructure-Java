@@ -5,7 +5,8 @@ import java.util.*;
  */
 public class Numbers {
     public static void main(String[] args) {
-        int[] out = fib(11);
+        int [] in ={0, 2, 8, 5, 2, 1, 4, 13, 23};
+        List<Integer> out = getFibonnaciNumbers(in);
         //System.out.println(nextGreaterNumber(12543 ));
     }
 
@@ -44,6 +45,29 @@ public class Numbers {
         }
         return b;
     }
+    //Given an array with positive number the task to find the largest subsequence from array that contain elements which are Fibonacci numbers.
+    // input = {1 4 3 9 10 13 7} output = {1 3 13} in = {0 2 8 5 2 1 4 13 23} out = {0 2 8 5 2 1 13}
+    private static List<Integer> getFibonnaciNumbers(int[] given) {
+        ArrayList<Integer> output = new ArrayList<>();
+        for(int x : given) {
+            int nearestFib = getNthFibonacciNumber(x);
+            if (x == nearestFib)
+                output.add(x);
+        }
+        return output;
+    }
+    private static int getNthFibonacciNumber(int given) {
+        int fN = 1;
+        int fNPrev = 1;
+        while(fN < given) {
+            int temp = fN;
+            fN = fN + fNPrev;
+            fNPrev = temp;
+        }
+        System.out.println("Neartest to " + given + " is " + fN);
+        return fN;
+    }
+
 
     //Write a function that takes a number n and returns an array containing a Factorial of length n
     // Time  = O(n), Space  = O(n)

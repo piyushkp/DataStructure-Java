@@ -14,7 +14,7 @@ public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int[] in = {1,1,1,1,-2,9};
         //System.out.print(countZeros(in, in.length));
-        System.out.print(maxSubArrayWithK(in, 2));
+        System.out.print(combiStrings("11"));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3411,16 +3411,17 @@ public class Array {
     }
     public static char[] findBestTaskArrangement(char[] tasks, int k) {
         int n = tasks.length;
-        Map<Character, Integer> map = new HashMap<>();
-        for (char task : tasks) {
-            map.put(task, map.getOrDefault(task, 0) + 1);
-        }
         PriorityQueue<Task> queue = new PriorityQueue<>(new Comparator<Task>() {
             @Override
             public int compare(Task a, Task b) {
                 return b.frequency - a.frequency;
             }
         });
+        Map<Character, Integer> map = new HashMap<>();
+        for (char task : tasks) {
+            map.put(task, map.getOrDefault(task, 0) + 1);
+        }
+
         for (Map.Entry<Character, Integer> entry : map.entrySet()) {
             queue.offer(new Task(entry.getKey(), entry.getValue()));
         }
