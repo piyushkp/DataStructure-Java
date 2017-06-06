@@ -68,7 +68,6 @@ public class Numbers {
         return fN;
     }
 
-
     //Write a function that takes a number n and returns an array containing a Factorial of length n
     // Time  = O(n), Space  = O(n)
     public static int[] factorial(int n) {
