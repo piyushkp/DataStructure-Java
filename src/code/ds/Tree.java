@@ -2244,4 +2244,23 @@ public class Tree {
         stack.clear();
         return root;
     }
+    // Convert binary tree to ternary expression
+    static String convertBack(Node root){
+        Stack<Node> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+        stack.push(root);
+        while(!stack.isEmpty()){
+            Node node = stack.pop();
+            if(node.left != null && node.right != null){
+                stack.push(node.right);
+                stack.push(node.left);
+                sb.append(node.data + "?");
+            }
+            else if (node.left == null && node.right == null){
+                sb.append(node.data + ":");
+            }
+        }
+        sb.deleteCharAt(sb.length() -1);
+        return sb.toString();
+    }
 }
