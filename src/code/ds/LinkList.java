@@ -1072,4 +1072,34 @@ public class LinkList {
 
         return root;
     }
+    //Flatten Linked list. Given a linked list where in addition to the next pointer, each node has a child pointer, which may or may not point to a separate list.
+    //http://www.geeksforgeeks.org/flatten-a-multi-level-linked-list-set-2-depth-wise/
+    class flatList{
+        int data;
+        flatList next;
+        flatList down;
+    }
+    flatList flattenLinkedList(flatList head){
+        Stack<flatList> stack = new Stack<>();
+        stack.push(head);
+        while(!stack.isEmpty()){
+            flatList node = stack.pop();
+            if(node.down != null && node.next != null){
+                stack.push(node.next);
+                stack.push(node.down);
+                node.next = node.down;
+                node.down = null;
+            }
+            else if(node.next != null){
+                stack.push(node.next);
+            }
+            else if(node.down != null){
+                stack.push(node.down);
+                node.next = node.down;
+                node.down = null;
+            }else
+                node.next = stack.peek();
+        }
+        return head;
+    }
 }

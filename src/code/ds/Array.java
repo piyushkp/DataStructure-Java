@@ -12,9 +12,9 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] in = {1,1,1,1,-2,9};
+        int[] in = {1,5,2,6,9,8};
         //System.out.print(countZeros(in, in.length));
-        System.out.print(combiStrings("11"));
+        int[] out = sort012(in);
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -1451,7 +1451,7 @@ public class Array {
     }
 
     //Sort an array of 0s,1s,2s. Input={0, 1, 1, 0, 1, 2, 1, 2, 0, 0, 0, 1} Output={0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2}
-    public static void sort012(int[] a) {
+    public static int[] sort012(int[] a) {
         int low = 0;
         int mid = 0;
         int high = a.length - 1;
@@ -1467,6 +1467,7 @@ public class Array {
                 high--;
             }
         }
+        return a;
     }
 
     //Give you an array which has n integers,it has both  positive and negative integers.Now you need sort this array
