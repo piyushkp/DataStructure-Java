@@ -10,7 +10,9 @@ import java.util.*;
 public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
-        Node tree = new Node(1);
+        int[] in = {11,6,4,8,19,17,43};
+        inOrderFromPreOrderBST(in);
+        /*Node tree = new Node(1);
         tree.left = new Node(2);
         tree.right = new Node(7);
         tree.left.left = new Node(4);
@@ -62,7 +64,7 @@ public class Tree {
         nt2.addChild(nt9);
         nt2.addChild(nt4);
         nt4.addChild(nt5);
-        System.out.print(longestPathNaryTree(nt0));
+        System.out.print(longestPathNaryTree(nt0));*/
     }
 
     public static class Node {
@@ -1089,6 +1091,22 @@ public class Tree {
             }
         }
         return root;
+    }
+    //Given a preorder traversal of a BST, print out the inorder traversal of the BST
+    static void inOrderFromPreOrderBST(int[] pre){
+        if(pre == null)
+            return;
+        if(pre.length < 2)
+            System.out.println(pre[0]);
+        Stack<Integer> s = new Stack<>();
+        s.push(pre[0]);
+        for (int i = 1; i < pre.length; i++) {
+            while(!s.empty() && pre[i] > s.peek()){
+                System.out.println( s.pop());
+            }
+            s.push(pre[i]);
+        }
+        System.out.println(s.pop());
     }
 
     //Two nodes of a BST are swapped, correct the BST
