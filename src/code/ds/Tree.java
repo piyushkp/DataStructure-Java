@@ -1062,18 +1062,31 @@ public class Tree {
     }
 
     /* A O(n) iterative program for construction of BST from preorder traversal
-    * Deserialize the BST*/
-    int min = Integer.MIN_VALUE;
-    static int max = Integer.MAX_VALUE;
-
-    private Node deserializeArrayOptimized(int[] preorder, int currIndex, int min, int max) {
-        if (currIndex >= preorder.length) return null;
-        Node root = null;
-        if ((preorder[currIndex] > min) && (preorder[currIndex] < max)) {
-            root = new Node(preorder[currIndex]);
-            currIndex += 1;
-            root.left = deserializeArrayOptimized(preorder, currIndex, min, root.data);
-            root.right = deserializeArrayOptimized(preorder, currIndex, root.data, max);
+    * Deserialize the BST IN = 11,6,4,8,19,17,43 */
+    Node constructBST(int pre[], int size) {
+        // The first element of pre[] is always root
+        Node root = new Node(pre[0]);
+        Stack<Node> s = new Stack<>();
+        s.push(root);
+        // Iterate through rest of the size-1 items of given preorder array
+        for (int i = 1; i < size; ++i) {
+            Node temp = null;
+            /* Keep on popping while the next value is greater than stack's top value. */
+            while (!s.isEmpty() && pre[i] > s.peek().data) {
+                temp = s.pop();
+            }
+            // Make this greater value as the right child and push it to the stack
+            if (temp != null) {
+                temp.right = new Node(pre[i]);
+                s.push(temp.right);
+            }
+            // If the next value is less than the stack's top value, make this value
+            // as the left child of the stack's top node. Push the new node to stack
+            else {
+                temp = s.peek();
+                temp.left = new Node(pre[i]);
+                s.push(temp.left);
+            }
         }
         return root;
     }
