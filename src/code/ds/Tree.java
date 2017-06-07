@@ -1063,13 +1063,13 @@ public class Tree {
 
     /* A O(n) iterative program for construction of BST from preorder traversal
     * Deserialize the BST IN = 11,6,4,8,19,17,43 */
-    Node constructBST(int pre[], int size) {
+    Node constructBST(int pre[]) {
         // The first element of pre[] is always root
         Node root = new Node(pre[0]);
         Stack<Node> s = new Stack<>();
         s.push(root);
         // Iterate through rest of the size-1 items of given preorder array
-        for (int i = 1; i < size; ++i) {
+        for (int i = 1; i < pre.length; ++i) {
             Node temp = null;
             /* Keep on popping while the next value is greater than stack's top value. */
             while (!s.isEmpty() && pre[i] > s.peek().data) {
