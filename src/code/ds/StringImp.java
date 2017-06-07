@@ -810,7 +810,7 @@ public class StringImp {
      For example ECABD is a derangement of ABCDE, given a string, may contain duplicate char, please find all the derangement*/
     public static List<char[]> getDerangement(char[] in){
         HashMap<Integer, Character> map = new HashMap<>();
-        List<char[]> result = new ArrayList<char[]>();
+        List<char[]> result = new ArrayList<>();
         char[] ori = new char[in.length];
         for (int i = 0; i < in.length; i++) {
             map.put(i, in[i]);
