@@ -10,8 +10,11 @@ import java.util.*;
 public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
-        int[] in = {11,6,4,8,19,17,43};
-        inOrderFromPreOrderBST(in);
+        Node tree = new Node(5);
+        tree.left = new Node(1);
+        tree.right = new Node(7);
+        tree.left.right = new Node(6);
+        System.out.println(validateBST(tree,Integer.MIN_VALUE, Integer.MAX_VALUE));
         /*Node tree = new Node(1);
         tree.left = new Node(2);
         tree.right = new Node(7);
@@ -827,7 +830,7 @@ public class Tree {
 
     // Find out if given tree is Binary Search Tree or not
     //Using Morris traversal and maintaining the pre node, solution in O(n) time complexity and O(1) space complexity.
-    public boolean isValidBST(Node root) {
+    public static boolean isValidBST(Node root) {
         Node pre = null, cur = root, tmp;
         while (cur != null) {
             if (cur.left == null) {
@@ -867,7 +870,7 @@ public class Tree {
         return validateBST(root.left, min, root.data) && validateBST(root.right, root.data, max);
     }
     //iterative solution
-    public boolean isValidBST1(Node root) {
+    public static boolean isValidBST1(Node root) {
         if (root == null)
             return true;
         Queue<BNode> queue = new LinkedList<BNode>();
@@ -887,7 +890,7 @@ public class Tree {
         return true;
     }
     //define a BNode class with TreeNode and it's boundaries
-    class BNode {
+    static class BNode {
         Node n;
         double left;
         double right;
