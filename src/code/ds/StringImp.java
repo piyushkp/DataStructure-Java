@@ -1001,7 +1001,7 @@ public class StringImp {
     //Find if the given string contains an anagram of another smaller string.
     // Find all permutation of string s in string b/
     public static List<Integer> anagramsMatch(String s, String p) {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         int[] count = new int[256];
         int[] tc = new int[256];
         for (int i = 0; i < p.length(); i++) {
