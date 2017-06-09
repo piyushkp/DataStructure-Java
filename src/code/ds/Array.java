@@ -1597,11 +1597,18 @@ public class Array {
     //Given a set of distinct unsorted integers s1, s2, .., sn how do you arrange integers such that s1 <= s2 >= s3 <= s4.
     // without order maintaining. wiggle-sort
     public static void wiggleSort1(int[] nums) {
-        for (int i = 1; i < nums.length; i++) {
-            int a = nums[i - 1];
-            if ((i % 2 == 1) == (a > nums[i])) {
-                nums[i - 1] = nums[i];
-                nums[i] = a;
+        if (nums == null || nums.length <= 1) {
+            return;
+        }
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (i % 2 == 0) {
+                if (nums[i] > nums[i + 1]) {
+                    swap(nums, i, i + 1);
+                }
+            } else {
+                if (nums[i] < nums[i + 1]) {
+                    swap(nums, i, i + 1);
+                }
             }
         }
     }
