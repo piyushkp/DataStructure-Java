@@ -963,6 +963,7 @@ public class StringImp {
 
     // Check whether two strings are anagram  or not
     // For example, “abcd” and “dabc” are anagram of each other.
+    // Check if two strings are permutaion to each other or not
     private static boolean areAnagram(String s1, String s2) {
         if (s1.length() != s2.length()) return false;
         int[] counter = new int[256];
