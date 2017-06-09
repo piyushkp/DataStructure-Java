@@ -999,6 +999,7 @@ public class StringImp {
     //Given a text txt[0..n-1] and a pattern pat[0..m-1], write a function search(char pat[], char txt[]) that prints
     //all occurrences of pat[] and its permutations (or anagrams) in txt[].
     //Find if the given string contains an anagram of another smaller string.
+    // Find all permutation of string s in string b/
     public static List<Integer> anagramsMatch(String s, String p) {
         List<Integer> list = new ArrayList<Integer>();
         int[] count = new int[256];
