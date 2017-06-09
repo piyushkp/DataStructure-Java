@@ -968,12 +968,11 @@ public class StringImp {
         int[] counter = new int[256];
         for (int i = 0; i < s1.length(); i++) {
             counter[s1.charAt(i)]++;
+            counter[s2.charAt(i)]--;
         }
-        for (int i = 0; i < s2.length(); i++) {
-            if (counter[s2.charAt(i)] > 0)
-                counter[s2.charAt(i)]--;
-            else
-                return false;
+        for (int i = 0; i < 256; i++) {
+            if (counter[i] != 0)
+               return false;
         }
         return true;
     }
