@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(convertNumberToWords(1234311));
+        System.out.print(anagramsMatch("babcabbacaabcbabcacbb","abbc"));
 
     }
 
@@ -1002,10 +1002,9 @@ public class StringImp {
     public static List<Integer> anagramsMatch(String s, String p) {
         List<Integer> list = new ArrayList<Integer>();
         int[] count = new int[256];
-        for (char c : p.toCharArray())
-            count[c]++;
         int[] tc = new int[256];
         for (int i = 0; i < p.length(); i++) {
+            count[p.charAt(i)]++;
             tc[s.charAt(i)]++;
         }
         if (matchCount(count, tc))
