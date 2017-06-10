@@ -12,7 +12,7 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] in = {1, 5, 1, 1, 6, 4};
+        int[] in =  {3,3,1,5,4};
         wiggleSort(in);
     }
 
@@ -1611,6 +1611,30 @@ public class Array {
             }
         }
         return nums;
+    }
+    //Given an unsorted array nums, reorder it such that   nums[0] < nums[1] > nums[2] < nums[3]....
+    public void wiggleSortll(int[] nums) {
+        //int median = findKthLargest(nums, (nums.length + 1) / 2);
+        int median = 0;
+        int n = nums.length;
+
+        int left = 0, i = 0, right = n - 1;
+
+        while (i <= right) {
+
+            if (nums[newIndex(i,n)] > median) {
+                swap(nums, newIndex(left++,n), newIndex(i++,n));
+            }
+            else if (nums[newIndex(i,n)] < median) {
+                swap(nums, newIndex(right--,n), newIndex(i,n));
+            }
+            else {
+                i++;
+            }
+        }
+    }
+    private int newIndex(int index, int n) {
+        return (1 + 2*index) % (n | 1);
     }
 
     //Find the two numbers with odd occurrences in an unsorted array

@@ -2297,4 +2297,28 @@ public class Tree {
         sb.deleteCharAt(sb.length() -1);
         return sb.toString();
     }
+    //Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+    public boolean hasPathSum(Node root, int sum) {
+        if (root == null)
+            return false;
+        if (root.data == sum && (root.left == null && root.right == null))
+            return true;
+
+        return hasPathSum(root.left, sum - root.data)
+                || hasPathSum(root.right, sum - root.data);
+    }
+    //print all paths that add to sum
+    public void printAllPathSum(Node root, int sum, String path) {
+        if (root != null) {
+            if (root.data > sum) { // if root is greater than Sum required, return
+                return;
+            } else {
+                path += " " + root.data; //add root to path
+                if (root.data == sum && (root.left == null && root.right == null))
+                    System.out.println(path);
+                hasPathSum(root.left, sum - root.data);
+                hasPathSum(root.right, sum - root.data);
+            }
+        }
+    }
 }
