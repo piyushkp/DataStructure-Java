@@ -2303,9 +2303,7 @@ public class Tree {
             return false;
         if (root.data == sum && (root.left == null && root.right == null))
             return true;
-
-        return hasPathSum(root.left, sum - root.data)
-                || hasPathSum(root.right, sum - root.data);
+        return hasPathSum(root.left, sum - root.data) || hasPathSum(root.right, sum - root.data);
     }
     //print all paths that add to sum
     public void printAllPathSum(Node root, int sum, String path) {
