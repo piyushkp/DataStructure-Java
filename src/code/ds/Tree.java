@@ -10,11 +10,11 @@ import java.util.*;
 public class Tree {
     static int countN = 0;
     public static void main(String[] args) {
-        Node tree = new Node(5);
+        Node tree = new Node(1);
         tree.left = new Node(1);
-        tree.right = new Node(7);
+        tree.right = new Node(6);
         tree.left.right = new Node(6);
-        System.out.println(validateBST(tree,Integer.MIN_VALUE, Integer.MAX_VALUE));
+        printAllPathSum(tree,7, "");
         /*Node tree = new Node(1);
         tree.left = new Node(2);
         tree.right = new Node(7);
@@ -2306,7 +2306,7 @@ public class Tree {
         return hasPathSum(root.left, sum - root.data) || hasPathSum(root.right, sum - root.data);
     }
     //print all paths that add to sum
-    public void printAllPathSum(Node root, int sum, String path) {
+    public static void printAllPathSum(Node root, int sum, String path) {
         if (root != null) {
             if (root.data > sum) { // if root is greater than Sum required, return
                 return;
@@ -2314,8 +2314,8 @@ public class Tree {
                 path += " " + root.data; //add root to path
                 if (root.data == sum && (root.left == null && root.right == null))
                     System.out.println(path);
-                hasPathSum(root.left, sum - root.data);
-                hasPathSum(root.right, sum - root.data);
+                printAllPathSum(root.left, sum - root.data, path);
+                printAllPathSum(root.right, sum - root.data, path);
             }
         }
     }
