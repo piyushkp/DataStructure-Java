@@ -318,7 +318,37 @@ public class LinkList {
         reverseUtil(next1, curr);
         return head;
     }
-
+    //Reverse a Linked List in groups of given size
+    //Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3  Output:  3->2->1->6->5->4->8->7->NULL.
+    public Node reverseKGroup(Node head, int k) {
+        if (head == null || k == 1)
+            return head;
+        Node fake = new Node(0);
+        fake.next = head;
+        Node pre = fake;
+        int i = 0;
+        Node p = head;
+        while (p != null) {
+            i++;
+            if (i % k == 0) {
+                pre = reverse(pre, p.next);
+                p = pre.next;
+            } else {
+                p = p.next;
+            }
+        }
+        return fake.next;
+    }
+    Node reverse(Node prev, Node end) {
+        Node p = prev.next;
+        while (p.next != end) {
+            Node n = p.next;
+            p.next = n.next;
+            n.next = prev.next;
+            prev.next = n;
+        }
+        return p;
+    }
 
     // Find List is circular or not. Detect cycle time O(n) space O(1)
     Boolean findCircular(Node head) {
@@ -611,29 +641,6 @@ public class LinkList {
             q_curr = q_next;
         }
         q.head = q_curr;
-    }
-
-    //Reverse a Linked List in groups of given size
-    //Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3  Output:  3->2->1->6->5->4->8->7->NULL.
-    Node reverse(Node head, int k) {
-        Node current = head;
-        Node next = null;
-        Node prev = null;
-        int count = 0;
-       /* Reverse first k nodes of linked list */
-        while (count < k && current != null) {
-            next = current.next;
-            current.next = prev;
-            prev = current;
-            current = next;
-            count++;
-        }
-       /*next is now a pointer to (k+1)th node Recursively call for the list starting from current.
-        And make rest of the list as next of first node */
-        if (next != null)
-            head.next = reverse(next, k);
-        // prev is now head of input list
-        return prev;
     }
 
     //Given a singly linked list, select a random node from linked list (the probability of picking a node should be
