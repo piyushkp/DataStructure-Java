@@ -321,33 +321,38 @@ public class LinkList {
     //Reverse a Linked List in groups of given size
     //Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3  Output:  3->2->1->6->5->4->8->7->NULL.
     public Node reverseKGroup(Node head, int k) {
-        if (head == null || k == 1)
+        Node begin;
+        if (head==null || head.next ==null || k==1)
             return head;
-        Node fake = new Node(0);
-        fake.next = head;
-        Node pre = fake;
-        int i = 0;
-        Node p = head;
-        while (p != null) {
+        Node dummyhead = new Node(-1);
+        dummyhead.next = head;
+        begin = dummyhead;
+        int i=0;
+        while (head != null){
             i++;
-            if (i % k == 0) {
-                pre = reverse(pre, p.next);
-                p = pre.next;
+            if (i%k == 0){
+                begin = reverse(begin, head.next);
+                head = begin.next;
             } else {
-                p = p.next;
+                head = head.next;
             }
         }
-        return fake.next;
+        return dummyhead.next;
     }
-    Node reverse(Node prev, Node end) {
-        Node p = prev.next;
-        while (p.next != end) {
-            Node n = p.next;
-            p.next = n.next;
-            n.next = prev.next;
-            prev.next = n;
+    public Node reverse(Node begin, Node end){
+        Node curr = begin.next;
+        Node next, first;
+        Node prev = begin;
+        first = curr;
+        while (curr!=end){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
-        return p;
+        begin.next = prev;
+        first.next = curr;
+        return first;
     }
 
     // Find List is circular or not. Detect cycle time O(n) space O(1)
