@@ -339,12 +339,12 @@ public class LinkList {
         }
         return dummyhead.next;
     }
-    public static Node reverse(Node begin, Node end){
+    public static Node reverse(Node begin, Node end) {
         Node curr = begin.next;
         Node next, first;
         Node prev = begin;
         first = curr;
-        while (curr!=end){
+        while (curr != end) {
             next = curr.next;
             curr.next = prev;
             prev = curr;
