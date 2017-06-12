@@ -322,15 +322,15 @@ public class LinkList {
     //Inputs:  1->2->3->4->5->6->7->8->NULL and k = 3  Output:  3->2->1->6->5->4->8->7->NULL.
     public static Node reverseKGroup(Node head, int k) {
         Node begin;
-        if (head==null || head.next ==null || k==1)
+        if (head == null || head.next == null || k == 1)
             return head;
         Node dummyhead = new Node(-1);
         dummyhead.next = head;
         begin = dummyhead;
-        int i=0;
-        while (head != null){
+        int i = 0;
+        while (head != null) {
             i++;
-            if (i%k == 0){
+            if (i % k == 0) {
                 begin = reverse(begin, head.next);
                 head = begin.next;
             } else {
