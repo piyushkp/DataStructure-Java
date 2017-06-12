@@ -83,6 +83,35 @@ public class MISC {
         result.add(new Interval(start, end));
         return result;
     }
+    /* You have a number of envelopes with widths and heights given as a pair of integers (w, h). One envelope can fit
+    into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
+    What is the maximum number of envelopes can you Russian doll? (put one inside other)*/
+    static int maxEnvelope(ArrayList<Interval> intervals) {
+        if (intervals.size() == 0 || intervals.size() == 1)
+            return 0;
+        // Sort Intervals in Ascend on width and descend on height if width are same.
+        intervals.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval i1, Interval i2) {
+                if (i1.start == i2.start)
+                    return i2.end - i1.end;
+                return i1.start - i2.start;
+            }
+        });
+        Interval first = intervals.get(0);
+        int width = first.start;
+        int height = first.end;
+        int count = 0;
+        for (int i = 1; i < intervals.size(); i++) {
+            Interval curr = intervals.get(i);
+            if (width < curr.start && height < curr.end)
+                count++;
+            width = curr.start;
+            height = curr.end;
+        }
+        return count + 1;
+    }
+
 
     /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
     covered. e.g: [(1,3),(2,5),(8,9)] should return 5
