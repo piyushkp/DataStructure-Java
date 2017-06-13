@@ -518,52 +518,27 @@ public class Matrix {
                     temp[j] += input[i][j];
                 }
             }
-            area = maxHistogram(temp);
+            area = largestRectangleArea(temp);
             if(area > maxArea){
                 maxArea = area;
             }
         }
         return maxArea;
     }
-    public int maxHistogram(int input[]){
-        Deque<Integer> stack = new java.util.LinkedList<Integer>();
+    //Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+    //input = [2,1,5,6,2,3] output = 10
+    public int largestRectangleArea(int[] height) {
+        int len = height.length;
+        Stack<Integer> s = new Stack<Integer>();
         int maxArea = 0;
-        int area = 0;
-        int i;
-        for(i=0; i < input.length;){
-            if(stack.isEmpty() || input[stack.peekFirst()] <= input[i]){
-                stack.offerFirst(i++);
+        for(int i = 0; i <= len; i++){
+            int h = (i == len ? 0 : height[i]);
+            if(s.isEmpty() || h >= height[s.peek()]){
+                s.push(i);
             }else{
-                int top = stack.pollFirst();
-                //if stack is empty means everything till i has to be greater or equal to input[top] so get area by
-                //input[top] * i;
-                if(stack.isEmpty()){
-                    area = input[top] * i;
-                }
-                //if stack is not empty then everything from i-1 to input.peek() + 1 has to be greater or equal to input[top]
-                //so area = input[top]*(i - stack.peek() - 1);
-                else{
-                    area = input[top] * (i - stack.peekFirst() - 1);
-                }
-                if(area > maxArea){
-                    maxArea = area;
-                }
-            }
-        }
-        while(!stack.isEmpty()){
-            int top = stack.pollFirst();
-            //if stack is empty means everything till i has to be greater or equal to input[top] so get area by
-            //input[top] * i;
-            if(stack.isEmpty()){
-                area = input[top] * i;
-            }
-            //if stack is not empty then everything from i-1 to input.peek() + 1 has to be greater or equal to input[top]
-            //so area = input[top]*(i - stack.peek() - 1);
-            else{
-                area = input[top] * (i - stack.peekFirst() - 1);
-            }
-            if(area > maxArea){
-                maxArea = area;
+                int tp = s.pop();
+                maxArea = Math.max(maxArea, height[tp] * (s.isEmpty() ? i : i - 1 - s.peek()));
+                i--;
             }
         }
         return maxArea;
