@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(anagramsMatch("babcabbacaabcbabcacbb","abbc"));
+        System.out.print(minSubString("ADOBECODEBANC","ABC"));
 
     }
 
@@ -575,119 +575,78 @@ public class StringImp {
 
     //give you two strings S and T, find the shortest string in S which contains all the characters in T
     //Input string1: “this is a test string” string2: “tist” Output string: “t stri”
+    //S = "ADOBECODEBANC" T = "ABC" out = BANC
     public static String minSubString(String s, String t) {
-        if (s == null || t == null)
-            return null;
-        if (s.length() == 0 && t.length() == 0)
-            return "";
-        if (t.length() > s.length())
-            return "";
-        //character counter for t
-        HashMap<Character, Integer> target = new HashMap<Character, Integer>();
-        for (int i = 0; i < t.length(); i++) {
-            char c = t.charAt(i);
-            if (target.containsKey(c)) {
-                target.put(c, target.get(c) + 1);
-            } else {
-                target.put(c, 1);
+        int [] map = new int[128];
+        for (char c : t.toCharArray()) {
+            map[c]++;
+        }
+        int start = 0, end = 0, minStart = 0, minLen = Integer.MAX_VALUE, counter = t.length();
+        while (end < s.length()) {
+            final char c1 = s.charAt(end);
+            if (map[c1] > 0) counter--;
+            map[c1]--;
+            end++;
+            while (counter == 0) {
+                if (minLen > end - start) {
+                    minLen = end - start;
+                    minStart = start;
+                }
+                final char c2 = s.charAt(start);
+                map[c2]++;
+                if (map[c2] > 0) counter++;
+                start++;
             }
         }
-        // character counter for s
-        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-        int left = 0;
-        int minLen = s.length() + 1;
-        int minStart = -1;
-        int minEnd = s.length();
-        int count = 0; // the total of mapped characters
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (target.containsKey(c)) {
-                if (map.containsKey(c)) {
-                    if (map.get(c) < target.get(c)) {
-                        count++;
-                    }
-                    map.put(c, map.get(c) + 1);
-                } else {
-                    map.put(c, 1);
-                    count++;
-                }
-            }
-            if (count == t.length()) {
-                char sc = s.charAt(left);
-                while (!map.containsKey(sc) || map.get(sc) > target.get(sc)) {
-                    if (map.containsKey(sc) && map.get(sc) > target.get(sc))
-                        map.put(sc, map.get(sc) - 1);
-                    left++;
-                    sc = s.charAt(left);
-                }
 
-                if (i - left + 1 < minLen) {
-                    minStart = left;
-                    minEnd = i;
-                    minLen = i - left + 1;
-                }
-            }
-        }
-        if (minStart == -1) {
-            return "";
-        }
-        return s.substring(minStart, minEnd + 1);
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(minStart, minStart + minLen);
     }
 
     /* Given a string, find the length of the longest substring without repeating characters.
        For example, the longest substring without repeating letters for “abcabcbb” is “abc” */
     public int lengthOfLongestSubstring(String s) {
-        Set<Character> uniqueSet = new HashSet<Character>();
-        int maxSize = 0;
-        int start = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (!uniqueSet.contains(s.charAt(i))) {
-                uniqueSet.add(s.charAt(i));
-                if (uniqueSet.size() > maxSize) {
-                    maxSize = uniqueSet.size();
-                }
-            } else {
-                while (s.charAt(start) != s.charAt(i)) {
-                    uniqueSet.remove(s.charAt(start));
-                    start++;
-                }
+        int[] map = new int[128];
+        int start = 0, end = 0, maxLen = 0, counter = 0;
+        while (end < s.length()) {
+            final char c1 = s.charAt(end);
+            if (map[c1] > 0) counter++;
+            map[c1]++;
+            end++;
+
+            while (counter > 0) {
+                final char c2 = s.charAt(start);
+                if (map[c2] > 1) counter--;
+                map[c2]--;
                 start++;
             }
+            maxLen = Math.max(maxLen, end - start);
         }
-        return maxSize;
+        return maxLen;
     }
 
     //Given a string, find the length of the longest substring T that contains at most k distinct(unique) characters.
     //For example, Given s = “eceba” and k = 2, out = ece
     //https://stackoverflow.com/questions/17646052/solve-number-of-substrings-having-two-unique-characters-in-on
     public static int lengthOfLongestSubstringKDistinct(String s, int k) {
-        if (k == 0 || s.length() == 0) {
-            return 0;
-        }
-        int[] ascii = new int[256];
-        int count = 0;
-        int start = 0;
-        int max = 0;
-        for (int i = 0; i < s.length(); i++) {
-            int ch = s.charAt(i);
-            if (count < k) {
-                if (ascii[ch] == 0) {
-                    count++;
-                }
-            } else if (ascii[ch] == 0) {
-                while (start < i) {
-                    char ch1 = s.charAt(start);
-                    ascii[ch1]--;
-                    if (ascii[ch1] == 0) {
-                        break;
-                    }
-                    start++;
-                }
+        int[] map = new int[256];
+        int start = 0, end = 0, maxLen = Integer.MIN_VALUE, counter = 0;
+
+        while (end < s.length()) {
+            final char c1 = s.charAt(end);
+            if (map[c1] == 0) counter++;
+            map[c1]++;
+            end++;
+
+            while (counter > k) {
+                final char c2 = s.charAt(start);
+                if (map[c2] == 1) counter--;
+                map[c2]--;
+                start++;
             }
-            ascii[ch]++;
-            max = Math.max(max, i - start + 1);
+
+            maxLen = Math.max(maxLen, end - start);
         }
-        return max;
+        return maxLen;
     }
 
     //Find all the repeating sub-string sequence of specified length in a large string sequence.
@@ -742,7 +701,7 @@ public class StringImp {
     //For a given source string and a target string, you should output the "first" index(from 0) of target string in source string.
     //If target is not exist in source, just return -1.
     // can be improve using KMP algorithm
-    public int strStr(String source, String target) {
+    public static int strStr(String source, String target) {
         if(source == null || target == null){
             return -1;
         }
