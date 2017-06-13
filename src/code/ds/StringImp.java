@@ -739,6 +739,27 @@ public class StringImp {
         }
         return rpt;
     }
+    //For a given source string and a target string, you should output the "first" index(from 0) of target string in source string.
+    //If target is not exist in source, just return -1.
+    // can be improve using KMP algorithm
+    public int strStr(String source, String target) {
+        if(source == null || target == null){
+            return -1;
+        }
+        //Two Pointer check for target
+        int i,j;
+        for (i = 0; i < source.length() - target.length() + 1; i++){
+            for (j = 0; j < target.length(); j++){
+                if (source.charAt(i+j) != target.charAt(j)){
+                    break;
+                }
+            }
+            if( j == target.length()){
+                return i;
+            }
+        }
+        return -1;
+    }
     //number of occurrences of substring in string
     private static int findSubOccur(String str, String findStr){
         int lastIndex = 0;

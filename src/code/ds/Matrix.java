@@ -15,7 +15,7 @@ public class Matrix {
                         {0, 0, 0, 1, 0}
         };
         System.out.println(getShortestPathLength(sol));*/
-        int[] in = {1,2,3,4};
+        int[] in = {2,1,5,6,2,3};
         largestRectangleArea(in);
 
     }
