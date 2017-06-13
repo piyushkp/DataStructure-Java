@@ -509,36 +509,32 @@ public class StringImp {
     //space-separated sequence of dictionary words.
     //Consider the following dictionary { i, like, sam, sung, samsung, mobile, ice,cream, icecream, man, go, mango}
     //Input:  ilike  Output: Yes The string can be segmented as "i like".
-    Boolean wordBreak(String str) {
-        int size = str.length();
-        if (size == 0) return true;
-        // Create the DP table to store results of subroblems. The value wb[i] will be true if str[0..i-1]
-        // can be segmented into dictionary words, otherwise false.
-        boolean[] wb = new boolean[size + 1];
-        wb[0] = false; // Initialize all values as false.
-        for (int i = 1; i <= size; i++) {
-            // if wb[i] is false, then check if current prefix can make it true.
-            // Current prefix is "str.substr(0, i)"
-            if (wb[i] == false && dictionaryContains(str.substring(0, i)))
-                wb[i] = true;
-            // wb[i] is true, then check for all substrings starting from (i+1)th character and store their results.
-            if (wb[i] == true) {
-                // If we reached the last prefix
-                if (i == size)
-                    return true;
-                for (int j = i + 1; j <= size; j++) {
-                    //Update wb[j] if it is false and can be updated Note the parameter passed to dictionaryContains() is
-                    //substring starting from index 'i' and length 'j-i'
-                    if (wb[j] == false && dictionaryContains(str.substring(i, j - i)))
-                        wb[j] = true;
-                    //If we reached the last character
-                    if (j == size && wb[j] == true)
-                        return true;
+    public static boolean wordBreak(String s, Set<String> dict) {
+        boolean[] f = new boolean[s.length() + 1];
+        f[0] = true;
+        /* First DP
+        for(int i = 1; i <= s.length(); i++){
+            for(String str: dict){
+                if(str.length() <= i){
+                    if(f[i - str.length()]){
+                        if(s.substring(i-str.length(), i).equals(str)){
+                            f[i] = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }*/
+        //Second DP
+        for(int i=1; i <= s.length(); i++){
+            for(int j=0; j < i; j++){
+                if(f[j] && dict.contains(s.substring(j, i))){
+                    f[i] = true;
+                    break;
                 }
             }
         }
-        // If we have tried all prefixes and none of them worked
-        return false;
+        return f[s.length()];
     }
 
     /*A utility function to check whether a word is present in dictionary or not.An array of strings is used for
