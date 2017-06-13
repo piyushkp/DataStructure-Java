@@ -1968,6 +1968,15 @@ public class Array {
         int[] B = Arrays.copyOf(A, j + 1);
         return B;
     }
+    //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
+    // for upto K modify if (i < k || n > nums[i-k])
+    public static int removeDuplicates1(int[] nums) {
+        int i = 0;
+        for (int n : nums)
+            if (i < 2 || n > nums[i-2])
+                nums[i++] = n;
+        return i;
+    }
 
     //Remove duplicates from unsorted array
     //find unique integers from list of integers. Input = {1,2,3,4,6,2,3,4,5} out = {1,5,6}
@@ -2021,24 +2030,6 @@ public class Array {
                 i = temp + 1;
         }
         return result;
-    }
-
-    //Follow up for "Remove Duplicates": What if duplicates are allowed at most twice?
-    public int removeDuplicates1(int[] A) {
-        if (A.length <= 2)
-            return A.length;
-        int prev = 1; // point to previous
-        int curr = 2; // point to current
-        while (curr < A.length) {
-            if (A[curr] == A[prev] && A[curr] == A[prev - 1]) {
-                curr++;
-            } else {
-                prev++;
-                A[prev] = A[curr];
-                curr++;
-            }
-        }
-        return prev + 1;
     }
 
     //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
