@@ -10,11 +10,13 @@ import java.lang.Object.*;
 public class Matrix {
     public static void main(String [] args) {
         //System.out.print("Matrix");
-        int sol[][] = { {0, 0, 1, 0, 1},
+        /*int sol[][] = { {0, 0, 1, 0, 1},
                         {0, 1, 0, 0, 0},
                         {0, 0, 0, 1, 0}
         };
-        System.out.println(getShortestPathLength(sol));
+        System.out.println(getShortestPathLength(sol));*/
+        int[] in = {1,2,3,4};
+        largestRectangleArea(in);
 
     }
     /* Find the number of islands. Given a boolean 2D matrix, find the number of islands.
@@ -527,21 +529,25 @@ public class Matrix {
     }
     //Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
     //input = [2,1,5,6,2,3] output = 10
-    public int largestRectangleArea(int[] height) {
-        int len = height.length;
-        Stack<Integer> s = new Stack<Integer>();
-        int maxArea = 0;
-        for(int i = 0; i <= len; i++){
-            int h = (i == len ? 0 : height[i]);
-            if(s.isEmpty() || h >= height[s.peek()]){
-                s.push(i);
-            }else{
-                int tp = s.pop();
-                maxArea = Math.max(maxArea, height[tp] * (s.isEmpty() ? i : i - 1 - s.peek()));
-                i--;
+    public static int largestRectangleArea(int[] height) {
+        Stack<Integer> stack = new Stack<>();
+        int max_area = 0;
+        for (int i = 0; i <= height.length; ++i) {
+            int height_bound = (i == height.length) ? 0 : height[i];
+            while (!stack.isEmpty()) {
+                int h = height[stack.peek()];
+                // calculate the area for every ascending slope.
+                if (h < height_bound) {
+                    break;
+                }
+                stack.pop();
+                // at the end, the area with the height of the minimal element.
+                int index = stack.isEmpty() ? -1 : i - 1 - stack.peek();
+                max_area = Math.max(max_area, h * index);
             }
+            stack.push(i);
         }
-        return maxArea;
+        return max_area;
     }
     /*Write a program to find maximum sum rectangle in give 2D matrix. Assume there is at least one positive number in the 2D matrix.
      Solution: * Keep temp array with size as number of rows. Start left and right from 0
