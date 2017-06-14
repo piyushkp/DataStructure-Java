@@ -1895,30 +1895,25 @@ public class Tree {
         return n;
     }
     //Maximum Height (Depth) of a Binary Tree
-    int maxDepthIterative(Node root) {
+    public int maxDepthIter(Node root) {
         if (root == null) return 0;
-        Stack<Node> s = new Stack<>();
-        s.push(root);
-        int maxDepth = 0;
-        Node prev = null;
-        while (!s.empty()) {
-            Node curr = s.peek();
-            if (prev == null || prev.left == curr || prev.right == curr) {
-                if (curr.left != null)
-                    s.push(curr.left);
-                else if (curr.right != null)
-                    s.push(curr.right);
-            } else if (curr.left == prev) {
-                if (curr.right != null)
-                    s.push(curr.right);
-            } else {
-                s.pop();
+        Deque<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        int count = 0;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            while (size-- > 0) {
+                Node node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
             }
-            prev = curr;
-            if (s.size() > maxDepth)
-                maxDepth = s.size();
+            count++;
         }
-        return maxDepth;
+        return count;
     }
 
     //Deepest left leaf node in a binary tree
