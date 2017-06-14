@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int[] in =  {3,3,1,5,4};
-        wiggleSort(in);
+        System.out.print(isValidLotteryNUmber("1122334"));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3449,6 +3449,23 @@ public class Array {
     static void print(){
 
     }
+    //Find out if the given string forms a valid lottery number. A valid lottery number contains 7 unique digits between 1 and 59.
+    //4938532894754 (yes) -> 49 38 53 28 9 47 54   1634616512 (yes) -> 1 6 34 6 16 51 2    1122334 (no)
+    public static boolean isValidLotteryNUmber(String input) {
+        if(input.isEmpty() || input.length() < 7 || input.length() > 14)
+            return false;
+        int prev = 1, curr = 1, prev_prev = 1;
+        for (int i = 1; i < input.length(); i++) {
+            if ((int) input.charAt(i - 1) < 5 + 48 || ((int) input.charAt(i - 1) == 5 + 48 && (int) input.charAt(i) <= 9 + 48))
+                curr = prev + prev_prev;
+            else
+                curr = prev;
+            prev_prev = prev;
+            prev = curr;
+        }
+        return curr == 7;
+    }
+
     //Sort array after converting elements to their squares
     public static void sortSquares(int arr[]) {
         int n = arr.length;
