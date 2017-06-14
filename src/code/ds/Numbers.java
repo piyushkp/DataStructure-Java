@@ -6,8 +6,9 @@ import java.util.*;
 public class Numbers {
     public static void main(String[] args) {
         int [] in ={0, 2, 8, 5, 2, 1, 4, 13, 23};
-        List<Integer> out = getFibonnaciNumbers(in);
+        //List<Integer> out = getFibonnaciNumbers(in);
         //System.out.println(nextGreaterNumber(12543 ));
+        lookandsayUtil("11",1);
     }
 
     //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
