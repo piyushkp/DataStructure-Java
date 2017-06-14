@@ -83,6 +83,33 @@ public class MISC {
         result.add(new Interval(start, end));
         return result;
     }
+    //Find least number of intervals from A that can fully cover B
+    //A =[[0,3],[3,4],[4,6],[2,7]] B =[0,6] return 2
+    //A =[[0,3],[4,7]] B =[0,6] return 0
+    static int find_min_intervals(List<Interval> intervals, Interval target) {
+        // Sort Intervals in decreasing order of start time
+        intervals.sort(new Comparator<Interval>() {
+            @Override
+            public int compare(Interval i1, Interval i2) {
+                return i1.start - i2.start;
+            }
+        });
+        int count = 0;
+        int cur_target = target.start;
+        int i = 0;
+        int max_step = 0;
+        while (i < intervals.size() && cur_target < target.end) {
+            while (i < intervals.size() && intervals.get(i).start <= cur_target) {
+                max_step = Math.max(max_step, intervals.get(i).end);
+                i += 1;
+            }
+            cur_target = max_step;
+            count += 1;
+        }
+        if (cur_target >= target.end)
+            return count;
+        else return 0;
+    }
     /* You have a number of envelopes with widths and heights given as a pair of integers (w, h). One envelope can fit
     into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
     What is the maximum number of envelopes can you Russian doll? (put one inside other)*/
