@@ -14,7 +14,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(minSubString("ADOBECODEBANC","ABC"));
+        System.out.print(WildCardcomparison("aa","*b"));
 
     }
 
@@ -1701,7 +1701,7 @@ public class StringImp {
             }
             // last pattern pointer was *, advancing string pointer
             else if (starIdx != -1){
-                p = starIdx + 1;
+                //p = starIdx + 1;
                 s++;
             }
             //current pattern pointer is not star, last patter pointer was not * characters do not match
