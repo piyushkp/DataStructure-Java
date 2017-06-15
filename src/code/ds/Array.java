@@ -3465,7 +3465,7 @@ public class Array {
     // If a=1, b=2...z=26, the users give an input string, suppose 1123. Now the program should tell all the different combinations of the string.
     //Eg: 1123 =aabc, kbc , kw , alc, aaw etc.
     public static int combiStrings(String input) {
-        if(input.isEmpty())
+        if(input.isEmpty() || (input.length() == 1 && input.charAt(0) == '0'))
             return 0;
         int prev = 1, curr = 1, prev_prev = 1;
         for (int i = 1; i < input.length(); i++) {
