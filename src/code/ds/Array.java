@@ -3452,16 +3452,20 @@ public class Array {
     //Find out if the given string forms a valid lottery number. A valid lottery number contains 7 unique digits between 1 and 59.
     //4938532894754 (yes) -> 49 38 53 28 9 47 54   1634616512 (yes) -> 1 6 34 6 16 51 2    1122334 (no)
     public static boolean isValidLotteryNUmber(String input) {
+        HashSet<Integer> set  = new HashSet<>();
         if(input.isEmpty() || input.length() < 7 || input.length() > 14)
             return false;
         int prev = 1, curr = 1, prev_prev = 1;
         for (int i = 1; i < input.length(); i++) {
-            if ((int) input.charAt(i - 1) < 5 + 48 || ((int) input.charAt(i - 1) == 5 + 48 && (int) input.charAt(i) <= 9 + 48))
-                curr = prev + prev_prev;
-            else
-                curr = prev;
-            prev_prev = prev;
-            prev = curr;
+            if(!set.contains((int)input.charAt(i))) {
+                if ((int) input.charAt(i - 1) < 5 + 48 || ((int) input.charAt(i - 1) == 5 + 48 && (int) input.charAt(i) <= 9 + 48))
+                    curr = prev + prev_prev;
+                else
+                    curr = prev;
+                prev_prev = prev;
+                prev = curr;
+            }
+            set.add((int)input.charAt(i));
         }
         return curr == 7;
     }
