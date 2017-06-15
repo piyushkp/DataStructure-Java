@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int[] in =  {1, 11, 2 ,10, 4, 5, 2, 1};
-        System.out.print(maxLenBitonicSubArray(in));
+        System.out.print(combiStrings("101890"));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3469,6 +3469,13 @@ public class Array {
             return 0;
         int prev = 1, curr = 1, prev_prev = 1;
         for (int i = 1; i < input.length(); i++) {
+            if(input.charAt(i) == '0' && (input.charAt(i-1) == '0' || input.charAt(i-1) > '2')){
+                return 0;
+            }
+            if(input.charAt(i) == '0' && input.charAt(i-1) <= '2'){
+                curr = prev_prev;
+                continue;
+            }
             if ((int) input.charAt(i - 1) < 2 + 48 || ((int) input.charAt(i - 1) == 2 + 48 && (int) input.charAt(i) < 7 + 48))
                 curr = prev + prev_prev;
             else
