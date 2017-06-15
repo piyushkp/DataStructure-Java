@@ -569,8 +569,7 @@ public class Tree {
                 Node temp = root.left;
                 return temp;
             }
-            // node with two children: Get the inorder successor (smallest
-            // in the right subtree)
+            // node with two children: Get the inorder successor (smallest in the right subtree)
             root.data = minValuedata(root.right);
             // Delete the inorder successor
             root.right = deleteRec(root.right, root.data);

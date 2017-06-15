@@ -12,8 +12,8 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] in =  {3,3,1,5,4};
-        System.out.print(isValidLotteryNUmber("1122334"));
+        int[] in =  {1, 11, 2 ,10, 4, 5, 2, 1};
+        System.out.print(maxLenBitonicSubArray(in));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -863,6 +863,38 @@ public class Array {
         }
         return len;
     }
+    // Method to find length of longest bitonic subarray
+    //A[] = {12, 4, 78, 90, 45, 23}, the maximum length bitonic subarray is {4, 78, 90, 45, 23} which is of length 5.
+    static int maxLenBitonicSubArray(int[] A) {
+        int n = A.length;
+        if (n == 0)
+            return 0;
+        int end_index = 0, max_len = 0;
+        int i = 0;
+        while (i + 1 < n) {
+            int len = 1;
+            // run till sequence is increasing
+            while (i + 1 < n && A[i] < A[i + 1]) {
+                i++;
+                len++;
+            }
+            // run till sequence is decreasing
+            while (i + 1 < n && A[i] > A[i + 1]) {
+                i++;
+                len++;
+            }
+            // update Longest Bitonic Subarray if required
+            if (len > max_len) {
+                max_len = len;
+                end_index = i;
+            }
+        }
+        return max_len;
+    }
+    /* Given an array of integers, find the length of longest subsequence which is first increasing then decreasing.  **Example: **
+    For the given array [1 11 2 10 4 5 2 1] Longest subsequence is [1 2 10 4 2 1] Return value 6 */
+
+
     //Maximum Sum Increasing Subsequence
     static int maxSumIS( int arr[], int n ) {
         int i, j, max = 0;
