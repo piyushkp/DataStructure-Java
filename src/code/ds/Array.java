@@ -3228,7 +3228,8 @@ public class Array {
         return true;
         // remainder = Math.abs(goal - ( (5* big) + small));
     }
-    /*Given a sequence of Land and water codes, find the longest island you can build by filling the water in between any two lands. You can fill only sequence of water, but any number of slots in that sequence.
+    /*Given a sequence of Land and water codes, find the longest island you can build by filling the water in between any two lands.
+    You can fill only sequence of water, but any number of slots in that sequence.
      Example sequence: L, W, L, W, W, L, W
      The Longest sequence length is 4 because (Filled water slots are bolded)*/
     private static int longestIsland(char[] arr)

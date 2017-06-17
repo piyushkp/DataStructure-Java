@@ -13,40 +13,23 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class MISC {
 
     public static void main(String[] args) throws InterruptedException {
-        //System.out.print("MISC");
-        MISC misc = new MISC();
-        /*ArrayList<Interval> input = new ArrayList<>();
-        //input.add(misc.new Interval(1,4));
-        input.add(misc.new Interval(5,10));
-        input.add(misc.new Interval(1,2));
-        //input.add(misc.new Interval(6,8));
-        for(Interval item : misc.mergeIntervals(input)){
-            System.out.println(item.start +"," + item.end);
-        }*/
-        Log l = new Log();
-        l.id = "1";
-        l.time = 10;
-        Log l1 = new Log();
-        l1.id = "2";
-        l1.time = 11;
-        Log l2 = new Log();
-        l2.id = "1";
-        l2.time = 13;
-        Log l3 = new Log();
-        l3.id = "1";
-        l3.time = 14;
-        Log l4 = new Log();
-        l4.id = "1";
-        l4.time = 15;
-        Log[] logs = {l,l1,l2,l3,l4};
-        //getBots(logs,3,3);
-        getBots1(logs,3,3);
+        Interval i1 = new Interval(0,3);
+        Interval i2 = new Interval(3,4);
+        Interval i3 = new Interval(4,6);
+        Interval i4 = new Interval(2,7);
+        ArrayList<Interval> list = new ArrayList<>();
+        list.add(i1);
+        list.add(i2);
+        list.add(i3);
+        list.add(i4);
+         Interval target = new Interval(0,6);
+        System.out.print(find_min_intervals(list,target ));
 
     }
 
     //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
     //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8} Time Complexity: O(n Log n)
-    class Interval {
+    static class Interval {
         int start;
         int end;
 
@@ -94,21 +77,30 @@ public class MISC {
                 return i1.start - i2.start;
             }
         });
-        int count = 0;
-        int cur_target = target.start;
         int i = 0;
-        int max_step = 0;
-        while (i < intervals.size() && cur_target < target.end) {
-            while (i < intervals.size() && intervals.get(i).start <= cur_target) {
-                max_step = Math.max(max_step, intervals.get(i).end);
-                i += 1;
+        int start = target.start;
+        int max_end = -1;
+        int num = 0;
+        while (i < intervals.size() && max_end < target.end) {
+            if (intervals.get(i).end <= start)
+                i++;
+            else {
+                if (intervals.get(i).start > start)
+                    break;
+                while (i < intervals.size() && max_end < target.end && intervals.get(i).start <= start) {
+                    max_end = Math.max(max_end, intervals.get(i).end);
+                    i++;
+                }
+                if (start != max_end) {
+                    start = max_end;
+                    num++;
+                }
+
             }
-            cur_target = max_step;
-            count += 1;
         }
-        if (cur_target >= target.end)
-            return count;
-        else return 0;
+        if (max_end < target.end)
+            return 0;
+        return num;
     }
     /* You have a number of envelopes with widths and heights given as a pair of integers (w, h). One envelope can fit
     into another if and only if both the width and height of one envelope is greater than the width and height of the other envelope.
