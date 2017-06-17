@@ -74,6 +74,8 @@ public class MISC {
         intervals.sort(new Comparator<Interval>() {
             @Override
             public int compare(Interval i1, Interval i2) {
+                if (i1.start == i2.start)
+                    return i2.end - i1.end;
                 return i1.start - i2.start;
             }
         });
