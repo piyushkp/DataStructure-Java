@@ -293,7 +293,7 @@ public class MISC {
                 c = i;
         }
         for (int i = 0; i < persons.length; i++) {
-            if(i == c) continue;;
+            if(i == c) continue;
             if(isKnow(c,i)) return -1;
         }
         return c;
