@@ -13,7 +13,7 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int[] in =  {-4, -2, 1, -3};
-        System.out.print(maxSubArrayWithK(in, 2));
+        System.out.print(firstMissingPositive(in));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3568,27 +3568,17 @@ public class Array {
         }
     }
     //Smallest missing positive natural number in a linked list in linear time without a hash table
-    public static int GetSmallest(int[] items) {
-        int startIndex = 0;
-        int result = 0;
-        int i = 0;
-        while (i < items.length) {
-            if (items[i] == result) {
-                result++;
-                i = startIndex;
-            } else {
-                if (items[i] < result) {
-                    if (i != startIndex) {
-                        int temp = items[startIndex];
-                        items[startIndex] = items[i];
-                        items[i] = temp;
-                    }
-                    startIndex++;
-                }
-                i++;
-            }
+    public static int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        for(int i = 0; i < n; i++) {
+            while(nums[i] > 0 && nums[i] <= n && nums[i] != nums[nums[i]])
+                swap(nums, i, nums[i]);
         }
-        return result;
+        for(int i = 0; i < n; i++)
+            if(nums[i] != i)
+                return i;
+        return n + 1;
     }
+
 
 }
