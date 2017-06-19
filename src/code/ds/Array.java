@@ -3567,5 +3567,28 @@ public class Array {
             return start;
         }
     }
+    //Smallest missing positive natural number in a linked list in linear time without a hash table
+    public static int GetSmallest(int[] items) {
+        int startIndex = 0;
+        int result = 0;
+        int i = 0;
+        while (i < items.length) {
+            if (items[i] == result) {
+                result++;
+                i = startIndex;
+            } else {
+                if (items[i] < result) {
+                    if (i != startIndex) {
+                        int temp = items[startIndex];
+                        items[startIndex] = items[i];
+                        items[i] = temp;
+                    }
+                    startIndex++;
+                }
+                i++;
+            }
+        }
+        return result;
+    }
 
 }
