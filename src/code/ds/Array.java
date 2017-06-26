@@ -12,8 +12,8 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] in =  {2,3,4};
-        combinationMultiply(12);
+        int[] a = {1, 4, 6, 2, 8, 3, 10, 14};
+        System.out.print(stockWithFees(a,3));
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -768,6 +768,28 @@ public class Array {
         return _out;
     }
 
+    /* Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum. The number in each subarray should be contiguous.
+       Return the largest sum.*/
+    static int maxKSubArray(int[] nums, int k) {
+        if (nums.length < k) return 0;
+        int len = nums.length;
+        //d[i][j]: select j subarrays from the first i elements, the max sum we can get.
+        int[] d = new int[len + 1];
+        for (int j = 1; j <= k; j++)
+            for (int i = len; i >= j; i--) {
+                d[i] = Integer.MIN_VALUE;
+                int endMax = 0;
+                int max = Integer.MIN_VALUE;
+                for (int p = i - 1; p >= j - 1; p--) {
+                    endMax = Math.max(nums[p], endMax + nums[p]);
+                    max = Math.max(endMax, max);
+                    if (d[i] < d[p] + max)
+                        d[i] = d[p] + max;
+                }
+            }
+        return d[len];
+    }
+
     /*For a given array, find the subarray (containing at least k number) which has the largest sum. try to do it in O(n) time
       Followup, if input is stream, how to solve it
         Example: [-4, -2, 1, -3], k = 2, return -1, and the subarray is [-2, 1]
@@ -791,6 +813,12 @@ public class Array {
         }
         return maxsofar;
     }
+
+    /* Sum of max M subarray(Non Overlapping) of size K. you have given array of Size N and two numbers M, K. K is size of subarray and M is count of subarray.
+       You have to return sum of max M subarray of size K (non-overlapping)
+       N = 7, M = 3 , K = 1  A={2 10 7 18 5 33 0} = 61 ,  subsets are: 33, 18, 10 (top M of size K)
+       M=2,K=2 {3,2,100,1} = 106 - subsets are: (3,2), (100,1) 2 subsets of size 2
+    */
 
     //Smallest subarray with sum greater than a given value,  If there isn't one, return n+1 instead.
     // arr[] = {1, 4, 45, 6, 0, 19}   x  =  51   Output: 3
@@ -2303,6 +2331,21 @@ public class Array {
         }
         return profit[k][n-1];
     }
+    //stock max profit with commision fee. Design an algorithm to find the maximum profit. You may complete as many
+    //transactions as you like (ie, buy one and sell one share of the stock multiple times). However, you may not engage
+    //in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+    // [1, 3, 7, 5, 10, 3], 3 out = 6 [1, 4, 6, 2, 8, 3, 10, 14], 3 out = 13
+    private static int stockWithFees(int prices[], int fee) {
+        int afterBuy = -prices[0];
+        int afterSell = 0;
+        for (int i = 1; i < prices.length; i++) {
+            int oldBuy = afterBuy;
+            int oldSell = afterSell;
+            afterBuy = Math.max(oldBuy, oldSell - prices[i]);
+            afterSell = Math.max(oldSell, oldBuy + prices[i] - fee);
+        }
+        return afterSell;
+    }
 
     //Weighted Job Scheduling problem
     // Maximize ad revenue given a set of of advertisements with a start time, end time and revenue
@@ -3621,5 +3664,6 @@ public class Array {
             }
         }
     }
+
 
 }
