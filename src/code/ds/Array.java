@@ -13,7 +13,8 @@ import java.util.concurrent.*;
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int[] a = {1, 4, 6, 2, 8, 3, 10, 14};
-        System.out.print(stockWithFees(a,3));
+        //System.out.print(stockWithFees(a,3));
+        System.out.print("hello");
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
