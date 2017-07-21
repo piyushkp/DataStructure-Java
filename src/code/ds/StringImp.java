@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.lang.*;
+import javafx.util.Pair;
 /**
  * Created by Piyush Patel.
  */
@@ -2849,6 +2850,25 @@ public class StringImp {
             }
         }
         return ans;
+    }
+    //Remove unbalanced parenthesis from a string
+    public String removeUnbalancedParentheses(String s){
+        Stack<Pair<Character, Integer>> stack = new Stack<>();
+        int i =0;
+        for (char c : s.toCharArray()) {
+            if (isOpeningBracket(c)) {
+                stack.push(new Pair<>(c, i));
+            } else if (isClosingBracket(c)) {
+                if (stack.isEmpty()) {
+                    stack.push(new Pair<>(c, i));
+                } else if (isMatchingBrackets(stack.peek().getKey(), c)) {
+                    stack.pop();
+                }
+            }
+            i++;
+        }
+        return s;
+
     }
     //Remove the minimum number of invalid parentheses in order to make the input string valid. Return all possible results.
     public List<String> removeInvalidParentheses(String s) {
