@@ -2976,10 +2976,37 @@ public class StringImp {
     // Range 0 to 99.
     private static String convert99 (int n) {
         if (n < 20) {
-            return one[n]; }
+            return one[n];
+        }
         String s = ten[n / 10 - 2];
         if (n % 10 == 0) {
-            return s; }
-        return s + "-" + one[n % 10]; }
+            return s;
+        }
+        return s + "-" + one[n % 10];
+    }
+    //Given a string containing only digits, restore it by returning all possible valid IP address combinations.
+    // Given "25525511135", return ["255.255.11.135", "255.255.111.35"] (Order does not matter)
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        if (s == null || s.length() == 0) return res;
+        int len = s.length();
+        if (len < 4 || len > 12) return res;
+        for (int i = 1; i < 4; i++) {
+            for (int j = i + 1; j < i + 4; j++) {
+                for (int k = j + 1; k < j + 4 && k < len; k++) {
+                    String s1 = s.substring(0, i), s2 = s.substring(i, j), s3 = s.substring(j, k), s4 = s.substring(k, len);
+                    if (isValid1(s1) && isValid1(s2) && isValid1(s3) && isValid1(s4))
+                        res.add(s1 + "." + s2 + "." + s3 + "." + s4);
+                }
+            }
+        }
+        return res;
+    }
+
+    private boolean isValid1(String s) {
+        if (s.length() > 1 && s.charAt(0) == '0' || Integer.parseInt(s)>255) return false;
+        return true;
+    }
+
 }
 
