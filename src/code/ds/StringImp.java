@@ -15,7 +15,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.print(WildCardcomparison("aa","*b"));
+        restoreIpAddresses("25525511135");
 
     }
 
@@ -147,6 +147,26 @@ public class StringImp {
         }
     }
 
+    //Function to find duplicate parenthesis in balanced expression. expression is redundant or not.
+    private static boolean isRedudantExpresssion(String s){
+        Stack<Character> _stack = new Stack<>();
+        for(char c : s.toCharArray()){
+            if(c == ')'){
+                char top = _stack.pop();
+                if(top == '(')
+                    return true;
+                else{
+                    while(top != '('){
+                        top = _stack.pop();
+                    }
+                }
+            }
+            else
+                _stack.push(c);
+        }
+        return false;
+    }
+    
     //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
     //{(abc)22}[14(xyz)2] should pass
     static boolean isBalanced(String input) {
@@ -2986,7 +3006,7 @@ public class StringImp {
     }
     //Given a string containing only digits, restore it by returning all possible valid IP address combinations.
     // Given "25525511135", return ["255.255.11.135", "255.255.111.35"] (Order does not matter)
-    public List<String> restoreIpAddresses(String s) {
+    public static List<String> restoreIpAddresses(String s) {
         List<String> res = new ArrayList<>();
         if (s == null || s.length() == 0) return res;
         int len = s.length();
@@ -3003,7 +3023,7 @@ public class StringImp {
         return res;
     }
 
-    private boolean isValid1(String s) {
+    private static boolean isValid1(String s) {
         if (s.length() > 1 && s.charAt(0) == '0' || Integer.parseInt(s)>255) return false;
         return true;
     }
