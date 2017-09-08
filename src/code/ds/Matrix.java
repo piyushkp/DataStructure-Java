@@ -16,7 +16,7 @@ public class Matrix {
         };
         System.out.println(getShortestPathLength(sol));*/
         int[] in = {2,1,5,6,2,3};
-        largestRectangleArea(in);
+        printMatrix(15);
 
     }
     /* Find the number of islands. Given a boolean 2D matrix, find the number of islands.
@@ -352,6 +352,75 @@ public class Matrix {
             left++;
         }
     }
+    /*Write some code that accepts an integer and prints the integers from 0 to that input integer in a spiral format.
+    For example, if I supplied 24 the output would be:
+    ```
+    20 21 22 23 24
+    19  6  7  8  9
+    18  5  0  1 10
+    17  4  3  2 11
+    16 15 14 13 12
+    ```                 */
+    private static void printMatrix(int n){
+        double sqrt = Math.sqrt(n+1);
+        int k = (int) sqrt;
+        if(Math.pow(sqrt,2) != Math.pow(k,2))
+           k+= 1;
+        int[][] result = new int[k][k];
+        int top = 0, bottom  = k -1, left = 0, right = k-1;
+        int m = k * k;
+        boolean flag = false;
+        while(n >=0)
+        {
+            for(int i = right; i>= left;i--) {
+                if ( !flag && n+1 < m) {
+                    m--;
+                    continue;
+                }
+                flag =true;
+                result[top][i] = n;
+                n--;
+            }
+            top++;
+            for(int i = top;i<=bottom;i++) {
+                if ( !flag && n+1 < m) {
+                    m--;
+                    continue;
+                }
+                flag =true;
+                result[i][left] = n;
+                n--;
+            }
+            left++;
+            for(int i= left;i<=right;i++){
+                if ( !flag && n+1 < m) {
+                    m--;
+                    continue;
+                }
+                flag =true;
+                result[bottom][i] = n;
+                n--;
+            }
+            bottom--;
+            for(int i= bottom; i>= top;i--){
+                if ( !flag && n+1 < m) {
+                    m--;
+                    continue;
+                }
+                flag =true;
+                result[i][right] = n;
+                n--;
+            }
+            right--;
+        }
+        for(int i =0; i<k;i++){
+            for(int j = 0;j<k;j++){
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     /* Print matrix in below order
     * 1 2 3
     * 4 5 6
