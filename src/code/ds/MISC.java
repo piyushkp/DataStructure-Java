@@ -954,34 +954,65 @@ public class MISC {
     }
 
     //Implement a peek using a existing iterator next and hasnext function.
-    class PeekingIterator implements Iterator<Integer> {
-        private Integer next; //cache the next peek
-        private Iterator<Integer> iter;
+    // better implementation https://commons.apache.org/proper/commons-collections/jacoco/org.apache.commons.collections4.iterators/PeekingIterator.java.html
+    class PeekingIterator<E> implements Iterator<E>{
+        private final Iterator<? extends E> iterator;
+        /** Indicates that the decorated iterator is exhausted. */
+        private boolean exhausted = false;
+        /** Indicates if the lookahead slot is filled. */
+        private boolean slotFilled = false;
+        /** The current slot for lookahead. */
+        private E slot;
 
-        public PeekingIterator(Iterator<Integer> iterator) {
-            // initialize any member here.
-            iter = iterator;
-            if (iter.hasNext()) {
-                next = iter.next();
+        public PeekingIterator(Iterator<E> iter) {
+            iterator = iter;
+        }
+        private void fill() {
+            if (exhausted || slotFilled) {
+                return;
+            }
+            if (iterator.hasNext()) {
+                slot = iterator.next();
+                slotFilled = true;
+            } else {
+                exhausted = true;
+                slot = null;
+                slotFilled = false;
             }
         }
 
         // Returns the next element in the iteration without advancing the iterator.
-        public Integer peek() {
-            return next;
+        public E peek() {
+            fill();
+            return exhausted ? null : slot;
         }
-
+        
         // hasNext() and next() should behave the same as in the Iterator interface. Override them if needed.
         @Override
-        public Integer next() {
-            Integer ret = next;
-            next = iter.hasNext() ? iter.next() : null;
-            return ret;
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            final E x = slotFilled ? slot : iterator.next();
+            // reset the lookahead slot
+            slot = null;
+            slotFilled = false;
+            return x;
         }
 
         @Override
         public boolean hasNext() {
-            return next != null;
+            if (exhausted) {
+                return false;
+            }
+            return slotFilled ? true : iterator.hasNext();
+        }
+        @Override
+        public void remove() {
+            if (slotFilled) {
+                throw new IllegalStateException("peek() or element() called before remove()");
+            }
+            iterator.remove();
         }
     }
 
