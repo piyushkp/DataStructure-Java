@@ -215,7 +215,7 @@ public class Array {
     //Find the second largest/smallest number from the array
     static int secondlargest(int[] a) {
         int largest = a[0];
-        int secondlargest = 0;
+        int secondlargest = Integer.MIN_VALUE;
         for (int i = 1; i < a.length; i++) {
             int number = a[i];
             if (number > largest) {
@@ -225,7 +225,10 @@ public class Array {
                 secondlargest = number;
             }
         }
-        return secondlargest;
+        if(secondlargest == Integer.MIN_VALUE)
+            return -1;
+        else
+            return secondlargest;
     }
 
     //Find k maximum integers from an array of infinite integers. Find first 100 maximum numbers from billion numbers

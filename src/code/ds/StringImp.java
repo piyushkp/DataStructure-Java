@@ -15,7 +15,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        restoreIpAddresses("25525511135");
+        System.out.println(convertNumberToWords(45678));
 
     }
 
@@ -166,7 +166,7 @@ public class StringImp {
         }
         return false;
     }
-    
+
     //Write an algorithm to determine if all of the delimiters in an expression are matched and closed
     //{(abc)22}[14(xyz)2] should pass
     static boolean isBalanced(String input) {
