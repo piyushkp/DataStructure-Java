@@ -16,7 +16,7 @@ public class Matrix {
         };
         System.out.println(getShortestPathLength(sol));*/
         int[] in = {2,1,5,6,2,3};
-        printMatrix(15);
+        printMatrix(5000);
 
     }
     /* Find the number of islands. Given a boolean 2D matrix, find the number of islands.
@@ -366,7 +366,7 @@ public class Matrix {
         int k = (int) sqrt;
         if(Math.pow(sqrt,2) != Math.pow(k,2))
            k+= 1;
-        int[][] result = new int[k][k];
+        Integer[][] result = new Integer[k][k];
         int top = 0, bottom  = k -1, left = 0, right = k-1;
         int m = k * k;
         boolean flag = false;
@@ -415,7 +415,8 @@ public class Matrix {
         }
         for(int i =0; i<k;i++){
             for(int j = 0;j<k;j++){
-                System.out.print(result[i][j] + " ");
+                if(result[i][j] != null)
+                    System.out.print(result[i][j] + " ");
             }
             System.out.println();
         }

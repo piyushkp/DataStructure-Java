@@ -12,9 +12,8 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] a = {1, 4, 6, 2, 8, 3, 10, 14};
-        //System.out.print(stockWithFees(a,3));
-        System.out.print("hello");
+        int[] a = {0,1,0,3,15,0};
+        moveZeroWithOrder(a);
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)
@@ -3049,6 +3048,18 @@ public class Array {
         }
         return arr;
     }
+    // Given an array nums, write a function to move all 0's to the front of it while maintaining the relative order
+    // of the non-zero elements. For example, given nums = [0, 1, 0, 3, 12], after calling your function,
+    // nums should be [0,0,1, 3, 12]
+    public static void moveZeroWithOrder(int[] input) {
+        for (int lastNonZeroFoundAt = input.length -1, cur = input.length-1; cur > 0; cur--) {
+            if (input[cur] != 0) {
+                swap(input, lastNonZeroFoundAt, cur);
+                lastNonZeroFoundAt--;
+            }
+        }
+    }
+
     //Given an array of Ints find a maximum sum of non adjacent elements. for ex. arr = [1,0,3,9,2] then ans would be 10 = 1 + 9 (non adjacent element)
     public static int MaxSumNonAdjacent(int[] a) {
         int[] output = new int[a.length];
