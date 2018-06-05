@@ -12,8 +12,12 @@ import java.util.concurrent.*;
  */
 public class Array {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        int[] a = {0,1,0,3,15,0};
-        moveZeroWithOrder(a);
+        int a =10;
+        if(a == 10)
+
+      System.out.print("print");
+        //int[] a = {0,1,0,3,15,0};
+        //moveZeroWithOrder(a);
     }
 
     //Merge two sorted array into sorted array Time = O(N+M)

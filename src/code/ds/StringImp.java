@@ -15,7 +15,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.println(convertNumberToWords(45678));
+        System.out.println(firstNonRepeatingChar("leetcode"));
 
     }
 
@@ -72,13 +72,13 @@ public class StringImp {
         for (int i = 0; i < input.length(); i++) { // O(n)
             flags[(int)input.charAt(i)]++ ;
         }
-        for (int i = 0; i < input.length(); i++) { // O(n)
-            if(flags[(int)input.charAt(i)] == 1)
+        for (int i = 0; i < flags.length; i++) { // O(256)
+            if(flags[i] == 1)
                 return input.charAt(i);
         }
         return null;
     }
-    private char firstNonRepeatingChar(String word) {
+    private static char firstNonRepeatingChar(String word) {
         Set<Character> repeating = new HashSet<Character>();
         List<Character> nonrepeating = new ArrayList<Character>();
         for (int i = 0; i < word.length(); i++) {
