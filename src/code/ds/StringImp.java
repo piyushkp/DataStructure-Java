@@ -147,7 +147,8 @@ public class StringImp {
         }
     }
 
-    //Function to find duplicate parenthesis in balanced expression. expression is redundant or not.
+    //Given an balanced expression, find if it contains duplicate parenthesis or not.
+    //A set of parenthesis are duplicate if same subexpression is surrounded by multiple parenthesis
     private static boolean isRedudantExpresssion(String s){
         Stack<Character> _stack = new Stack<>();
         for(char c : s.toCharArray()){
@@ -2858,15 +2859,15 @@ public class StringImp {
     //Given a digit string, return all possible letter combinations that the number could represent.
     //A mapping of digit to letters (just like on the phone buttons) is given below.
     public static List<String> letterPhoneCombinations(String digits) {
-        LinkedList<String> ans = new LinkedList<>();
-        String[] mapping = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        LinkedList<String> ans = new LinkedList<String>();
+        if(digits.isEmpty()) return ans;
+        String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
         ans.add("");
-        for (int i = 0; i < digits.length(); i++) {
-            int x = Character.getNumericValue(digits.charAt(i));
-            while (ans.peek().length() == i) {
-                String t = ans.remove();
-                for (char s : mapping[x].toCharArray())
-                    ans.add(t + s);
+        while(ans.peek().length()!=digits.length()){
+            String remove = ans.remove();
+            String map = mapping[digits.charAt(remove.length())-'0'];
+            for(char c: map.toCharArray()){
+                ans.addLast(remove+c);
             }
         }
         return ans;
@@ -3026,6 +3027,62 @@ public class StringImp {
     private static boolean isValid1(String s) {
         if (s.length() > 1 && s.charAt(0) == '0' || Integer.parseInt(s)>255) return false;
         return true;
+    }
+    /* Given a string that contains only digits from 0 to 9, and an integer value, target.
+    Find out how many expressions are possible which evaluate to target using binary operator
+    +, – and * in given string of digits.
+    Input : "123",  Target : 6
+    Output : {“1+2+3”, “1*2*3”} */
+    public List<String> addOperators(String num, int target) {
+        List<String> res = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        dfs(res, sb, num.toCharArray(), 0, target, 0, 0);
+        return res;
+    }
+    public void dfs(List<String> res, StringBuilder sb, char[] num, int pos, int target, long prev, long multi) {
+        if(pos == num.length) {
+            if(target == prev) res.add(sb.toString());
+            return;
+        }
+        long curr = 0;
+        for(int i = pos; i < num.length; i++) {
+            if(num[pos] == '0' && i != pos) break;
+            curr = 10 * curr + num[i] - '0';
+            int len = sb.length();
+            if(pos == 0) {
+                dfs(res, sb.append(curr), num, i + 1, target, curr, curr);
+                sb.setLength(len);
+            } else {
+                dfs(res, sb.append("+").append(curr), num, i + 1, target, prev + curr, curr);
+                sb.setLength(len);
+                dfs(res, sb.append("-").append(curr), num, i + 1, target, prev - curr, -curr);
+                sb.setLength(len);
+                dfs(res, sb.append("*").append(curr), num, i + 1, target, prev - multi + multi * curr, multi * curr);
+                sb.setLength(len);
+            }
+        }
+    }
+    /*Given a time represented in the format "HH:MM", form the next closest time by reusing the current digits.
+    There is no limit on how many times a digit can be reused. You may assume the given input string
+    is always valid. For example, "01:34", "12:09" are all valid. "1:34", "12:9" are all invalid.*/
+    public String nextClosestTime(String time) {
+        int hour = Integer.parseInt(time.substring(0, 2));
+        int min = Integer.parseInt(time.substring(3, 5));
+        while (true) {
+            if (++min == 60) {
+                min = 0;
+                ++hour;
+                hour %= 24;
+            }
+            String curr = String.format("%02d:%02d", hour, min);
+            Boolean valid = true;
+            for (int i = 0; i < curr.length(); ++i)
+                if (time.indexOf(curr.charAt(i)) < 0) {
+                    valid = false;
+                    break;
+                }
+            if (valid) return curr;
+        }
     }
 
 }
