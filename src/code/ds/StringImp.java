@@ -2859,7 +2859,7 @@ public class StringImp {
     //Given a digit string, return all possible letter combinations that the number could represent.
     //A mapping of digit to letters (just like on the phone buttons) is given below.
     public static List<String> letterPhoneCombinations(String digits) {
-        LinkedList<String> ans = new LinkedList<String>();
+        LinkedList<String> ans = new LinkedList<>();
         if(digits.isEmpty()) return ans;
         String[] mapping = new String[] {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
         ans.add("");
