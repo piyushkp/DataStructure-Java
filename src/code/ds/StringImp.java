@@ -15,7 +15,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.println(firstNonRepeatingChar("leetcode"));
+        System.out.println(nextClosestTime("01:34"));
 
     }
 
@@ -2819,6 +2819,8 @@ public class StringImp {
     Input: chat, ever, snapchat, snap, salesperson, per, person, sales, son, whatsoever, what so.
     Output should be: chat, ever, snap, per, sales, son, what, so
      */
+
+
     // Given two binary strings, return their sum (also a binary string).
     // For example, a = "11", b = "1", the return is "100".
     public static String addBinary(String a, String b, int base) {
@@ -3033,13 +3035,13 @@ public class StringImp {
     +, – and * in given string of digits.
     Input : "123",  Target : 6
     Output : {“1+2+3”, “1*2*3”} */
-    public List<String> addOperators(String num, int target) {
+    public static List<String> addOperators(String num, int target) {
         List<String> res = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         dfs(res, sb, num.toCharArray(), 0, target, 0, 0);
         return res;
     }
-    public void dfs(List<String> res, StringBuilder sb, char[] num, int pos, int target, long prev, long multi) {
+    private static void dfs(List<String> res, StringBuilder sb, char[] num, int pos, int target, long prev, long multi) {
         if(pos == num.length) {
             if(target == prev) res.add(sb.toString());
             return;
@@ -3065,7 +3067,7 @@ public class StringImp {
     /*Given a time represented in the format "HH:MM", form the next closest time by reusing the current digits.
     There is no limit on how many times a digit can be reused. You may assume the given input string
     is always valid. For example, "01:34", "12:09" are all valid. "1:34", "12:9" are all invalid.*/
-    public String nextClosestTime(String time) {
+    public static String nextClosestTime(String time) {
         int hour = Integer.parseInt(time.substring(0, 2));
         int min = Integer.parseInt(time.substring(3, 5));
         while (true) {

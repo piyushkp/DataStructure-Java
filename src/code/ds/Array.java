@@ -559,6 +559,33 @@ public class Array {
         return null;
     }
 
+    //3sum smaller Input: nums = [-2,0,1,3], and target = 2 Output: 2 Time = O(n^2)
+    //Given an array of n integers nums and a target, find the number of index triplets i, j, k
+    //with 0 <= i < j < k < n that satisfy the condition nums[i] + nums[j] + nums[k] < target.
+    public static int threeSumSmaller(int[] nums, int target) {
+        Arrays.sort(nums);
+        int sum = 0;
+        for (int i = 0; i < nums.length - 2; i++) {
+            sum += twoSumSmaller(nums, i + 1, target - nums[i]);
+        }
+        return sum;
+    }
+    private static int twoSumSmaller(int[] nums, int startIndex, int target) {
+        int sum = 0;
+        int left = startIndex;
+        int right = nums.length - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] < target) {
+                sum += right - left;
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return sum;
+    }
+
+
     //Given an unsorted array of integers, find a subarray which adds to a given number.
     // If there are more than one subarrays with sum as the given number, print any of them.
     //arr[] = {1, 4, 20, 3, 10, 5}, sum = 33  output = true
