@@ -5,6 +5,7 @@ package code.ds;
 import java.util.ArrayList;
 import java.util.*;
 
+//https://www.geeksforgeeks.org/implementing-our-own-hash-table-with-separate-chaining-in-java/
 public class Hasher<K, V> {
     public static void main(String [] args) {
         System.out.print("Hasher");
@@ -32,7 +33,7 @@ public class Hasher<K, V> {
     private ArrayList<LinkedListNode<K, V>> arr;
     public Hasher(int capacity) {
 		/* Create list of linked lists. */
-        arr = new ArrayList<LinkedListNode<K, V>>();
+        arr = new ArrayList<>();
         arr.ensureCapacity(capacity);
         for (int i = 0; i < capacity; i++) {
             arr.add(null);

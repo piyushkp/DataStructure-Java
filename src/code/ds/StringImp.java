@@ -15,7 +15,7 @@ public class StringImp {
         //printAllKLength(set1,3);
         //System.out.print(ransomNote2("aaaba", "aaabbb"));
        //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-        System.out.println(nextClosestTime("01:34"));
+        System.out.println(letterPhoneCombinations("23"));
 
     }
 
