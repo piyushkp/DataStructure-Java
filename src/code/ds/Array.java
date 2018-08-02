@@ -11,6 +11,7 @@ import java.util.concurrent.*;
  * Created by Piyush Patel.
  */
 public class Array {
+    //https://github.com/tongzhang1994/Facebook-Interview-Coding
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         int a =10;
         if(a == 10)
@@ -2865,7 +2866,7 @@ public class Array {
         return min_distance;
     }
 
-    /*Given an array of numbers A = [x1, x2, ..., xn] and T = Round(x1+x2+... +xn). We want to find a way to round each
+    /*airbnb: Given an array of numbers A = [x1, x2, ..., xn] and T = Round(x1+x2+... +xn). We want to find a way to round each
     element in A such that after rounding we get a new array B = [y1, y2, ...., yn] such that y1+y2+...+yn = T where yi = Floor(xi) or Ceil(xi), ceiling or floor of xi.
     We also want to minimize sum |xi-yi|
     Minimize rounding sum: input = 30.3, 2.4, 3.5 output = 30 2 4
@@ -3507,6 +3508,17 @@ public class Array {
             map.put(task, total);
         }
         return total;
+    }
+    public static int leastInterval(char[] tasks, int n) {
+        int[] map = new int[26];
+        for (char c: tasks)
+            map[c - 'A']++;
+        Arrays.sort(map);
+        int max_val = map[25] - 1, idle_slots = max_val * n;
+        for (int i = 24; i >= 0 && map[i] > 0; i--) {
+            idle_slots -= Math.min(map[i], max_val);
+        }
+        return idle_slots > 0 ? idle_slots + tasks.length : tasks.length;
     }
     //Given a task sequence and the cool down time, rearrange the task sequence such that the execution time is minimal.
     static class Task {

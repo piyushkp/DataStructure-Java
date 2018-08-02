@@ -1114,7 +1114,7 @@ public class MISC {
         return true;
     }
 
-    //Implement data structure “Map” storing pairs of integers (key, value) and define following member functions in O(1)
+    //Design data structure “Map” storing pairs of integers (key, value) and define following member functions in O(1)
     //runtime: void insert(key, value), void delete(key), int get(key), int getRandomKey().
     class CustomMap {
         HashMap<String, List<Integer>> _map = new HashMap<>();

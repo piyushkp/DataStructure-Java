@@ -866,6 +866,20 @@ public class Matrix {
                 tc[i][j] = Math.min(Math.min(tc[i-1][j-1], tc[i-1][j]), tc[i][j-1]) + cost[i][j];
         return tc[m][n];
     }
-
+    //Given two sparse matrices A and B, return the result of AB O(N^2)
+    public int[][] multiply(int[][] A, int[][] B) {
+        //validity check
+        int[][] C = new int[A.length][B[0].length];
+        for(int i=0; i<C.length; i++){
+            for(int k=0; k<A[0].length; k++){
+                if(A[i][k]!=0){
+                    for(int j=0; j<C[0].length; j++){
+                        C[i][j] += A[i][k]*B[k][j];
+                    }
+                }
+            }
+        }
+        return C;
+    }
 
 }

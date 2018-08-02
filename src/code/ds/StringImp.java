@@ -119,7 +119,6 @@ public class StringImp {
   //Find first non repeating character in stream of characters
   // use DLL and store reference in map so you can delete in O(1)
   class streamNonRepeatingChar {
-
     LinkedList<Character> list = new LinkedList();
     HashMap<Character, Character> map = new HashMap<>();
     //char appear more than two times
