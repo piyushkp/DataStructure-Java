@@ -74,8 +74,9 @@ public class Threading {
     while (i < a.length) {
       r[k++] = a[i++];
     }
-    while (j < b.length)
+    while (j < b.length) {
       r[k++] = b[j++];
+    }
   }
 
   // Deadlock example in Java

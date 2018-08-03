@@ -17,7 +17,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.util.Pair;
 
 /**
  * Created by Piyush Patel.
@@ -119,6 +118,7 @@ public class StringImp {
   //Find first non repeating character in stream of characters
   // use DLL and store reference in map so you can delete in O(1)
   class streamNonRepeatingChar {
+
     LinkedList<Character> list = new LinkedList();
     HashMap<Character, Character> map = new HashMap<>();
     //char appear more than two times
@@ -3091,11 +3091,11 @@ public class StringImp {
   public static String removeUnbalanceParenthesis(String s) {
     StringBuilder str = new StringBuilder(s);
     int left = 0;
-    for(int i = 0; i < str.length(); i++) {
-      if(str.charAt(i) == '(') {
+    for (int i = 0; i < str.length(); i++) {
+      if (str.charAt(i) == '(') {
         left++;
-      } else if(str.charAt(i) == ')') {
-        if(left > 0) {
+      } else if (str.charAt(i) == ')') {
+        if (left > 0) {
           left--;
         } else {
           str.deleteCharAt(i--);
@@ -3103,12 +3103,13 @@ public class StringImp {
       }
     }
     int right = 0;
-    for(int i = str.length() - 1; i >= 0; i--) {
-      if(str.charAt(i) == ')') {
+    for (int i = str.length() - 1; i >= 0; i--) {
+      if (str.charAt(i) == ')') {
         right++;
-      } else if(str.charAt(i) == '('){
-        if(right > 0) right--;
-        else {
+      } else if (str.charAt(i) == '(') {
+        if (right > 0) {
+          right--;
+        } else {
           str.deleteCharAt(i);
         }
       }
