@@ -687,7 +687,7 @@ public class Numbers {
     }
     return selected; // when iterations end, selected is some element of sequence.
   }
-  
+
   //return a random number from (0,...,n-1) with given weights
   private static int randomNumber(int[] weights) {
     if (weights == null || weights.length == 0)    return 0;

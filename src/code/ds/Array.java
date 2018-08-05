@@ -4139,5 +4139,20 @@ public class Array {
     return a * x * x + b * x + c;
   }
 
+  /* Given an array with n integers, your task is to check if it could become non-decreasing by modifying at most 1 element.
+    We define an array is non-decreasing if array[i] <= array[i + 1] holds for every i (1 <= i < n).
+    Monotonous Array, input = [4,2,3] output = true; [4,2,1] => false    */
+  public boolean checkPossibility(int[] nums) {
+    int index = -1;
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i-1] > nums[i]) {
+        if (index != -1) return false;
+        else index = i;
+      }
+    }
+    return (index == -1 ||   // no reversed pair
+        index == 1 || index == nums.length - 1 ||  // reversed pair is first or last element
+        nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index + 1]); // normal case range [p-2 --> p+1] all valid
+  }
 
 }

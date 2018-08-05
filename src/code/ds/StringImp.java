@@ -144,29 +144,41 @@ public class StringImp {
   }
 
   //Return maximum occurring character in the input string
-  public static void getMaxRepeatedChar(String txt) {
-    if ((txt != null)) {
-      HashMap<Character, Integer> hash = new HashMap<Character, Integer>();
-      char maxCh = 1;
-      int maxCnt = 0;
-      for (char ch : txt.toCharArray()) {
-        if (hash.containsKey(ch)) {
-          int i = hash.get(ch);
-          hash.put(ch, i + 1);
-          if (maxCnt < (i + 1)) {
-            maxCh = ch;
-            maxCnt = 1 + i;
-          }
-        } else {
-          hash.put(ch, 1);
-          if (maxCnt < 1) {
-            maxCh = ch;
-            maxCnt = 1;
-          }
-        }
+  //Most Frequent Character in a String
+  public char findMostFrequent(String s) {
+    Map<Character,Integer> map=new HashMap<>();
+    int count = 0;
+    char res = ' ';
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      Character.toLowerCase(c);
+      if (!Character.isLetterOrDigit(c)) 	continue;
+      if (c == ' ') 	continue;
+      map.put(c, map.getOrDefault(c, 0)+1);
+      if (map.get(c) > count) {
+        count = map.get(c);
+        res = c;
       }
-      System.out.print("Most Repeated character : " + maxCh + " and Count : " + maxCnt);
     }
+    return res;
+  }
+
+  //Given a list of chars, return the 2nd most frequently occurring char.
+  static char getSecondMostChar(String s) {
+    int[] count = new int[256];
+    for (char _ch : s.toCharArray()) {
+      count[_ch]++;
+    }
+    int largest = 0, second = 0;
+    for (int i = 0; i < 256; i++) {
+      if (count[i] > count[largest]) {
+        second = largest;
+        largest = i;
+      } else if (count[i] > count[second] && count[i] != count[largest]) {
+        second = i;
+      }
+    }
+    return (char) second;
   }
 
   //Given an balanced expression, find if it contains duplicate parenthesis or not.
@@ -3142,24 +3154,6 @@ public class StringImp {
       }
     }
     return s;
-  }
-
-  //Given a list of chars, return the 2nd most frequently occurring char.
-  static char getSecondMostChar(String s) {
-    int[] count = new int[256];
-    for (char _ch : s.toCharArray()) {
-      count[_ch]++;
-    }
-    int largest = 0, second = 0;
-    for (int i = 0; i < 256; i++) {
-      if (count[i] > count[largest]) {
-        second = largest;
-        largest = i;
-      } else if (count[i] > count[second] && count[i] != count[largest]) {
-        second = i;
-      }
-    }
-    return (char) second;
   }
 
   //Write a function that takes an integer and prints out the English text of it.
