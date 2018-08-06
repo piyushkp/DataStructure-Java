@@ -67,8 +67,7 @@ public class MISC {
       if (merged.isEmpty() || merged.getLast().end < interval.start) {
         merged.add(interval);
       }
-      // otherwise, there is overlap, so we merge the current and previous
-      // intervals.
+      // otherwise, there is overlap, so we merge the current and previous intervals.
       else {
         merged.getLast().end = Math.max(merged.getLast().end, interval.end);
       }
