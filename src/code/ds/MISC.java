@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -50,34 +51,29 @@ public class MISC {
       end = e;
     }
   }
-
-  public ArrayList<Interval> mergeIntervals(ArrayList<Interval> intervals) {
-    if (intervals.size() == 0 || intervals.size() == 1) {
-      return intervals;
+  private static class IntervalComparator implements Comparator<Interval> {
+    @Override
+    public int compare(Interval a, Interval b) {
+      return a.start < b.start ? -1 : a.start == b.start ? 0 : 1;
     }
-    // Sort Intervals in decreasing order of start time
-    intervals.sort(new Comparator<Interval>() {
-      @Override
-      public int compare(Interval i1, Interval i2) {
-        return i1.start - i2.start;
+  }
+  //in place merge interval
+  public static List<Interval> merge(List<Interval> intervals) {
+    Collections.sort(intervals, new IntervalComparator());
+    LinkedList<Interval> merged = new LinkedList<>();
+    for (Interval interval : intervals) {
+      // if the list of merged intervals is empty or if the current
+      // interval does not overlap with the previous, simply append it.
+      if (merged.isEmpty() || merged.getLast().end < interval.start) {
+        merged.add(interval);
       }
-    });
-    Interval first = intervals.get(0);
-    int start = first.start;
-    int end = first.end;
-    ArrayList<Interval> result = new ArrayList<>();
-    for (int i = 1; i < intervals.size(); i++) {
-      Interval current = intervals.get(i);
-      if (current.start <= end) {
-        end = Math.max(current.end, end);
-      } else {
-        result.add(new Interval(start, end));
-        start = current.start;
-        end = current.end;
+      // otherwise, there is overlap, so we merge the current and previous
+      // intervals.
+      else {
+        merged.getLast().end = Math.max(merged.getLast().end, interval.end);
       }
     }
-    result.add(new Interval(start, end));
-    return result;
+    return merged;
   }
 
   //Find least number of intervals from A that can fully cover B
