@@ -29,7 +29,7 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(removeInvalidParentheses1("((abc)((de))"));
+    System.out.println(addBinary("12","1",10));
 
   }
 
@@ -3039,8 +3039,9 @@ public class StringImp {
      */
 
 
-  // Given two binary strings, return their sum (also a binary string).
+  // decimal addition: Given two binary strings, return their sum (also a binary string).
   // For example, a = "11", b = "1", the return is "100".
+  //Given k = 3, a = "12", b = "1", return "20".
   public static String addBinary(String a, String b, int base) {
     if (a == null || a.isEmpty()) {
       return b;

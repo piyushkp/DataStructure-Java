@@ -56,7 +56,7 @@ public class Array {
     return answer;
   }
 
-  //merge k sorted list/array. We can merge arrays in O(nk*Logk) time using Min Heap
+  //merge k sorted list/array. We can merge arrays in O(nk*Logk) time using Min Heap space O(k)
   class Triplet {
 
     int pos;
@@ -4153,6 +4153,24 @@ public class Array {
     return (index == -1 ||   // no reversed pair
         index == 1 || index == nums.length - 1 ||  // reversed pair is first or last element
         nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index + 1]); // normal case range [p-2 --> p+1] all valid
+  }
+  /*Give a Pair (M, N) to represent the coordinates, you start from (1, 1), each time (x, y) => (x + y, y) or (x, x + y)
+  moves to the lower right, if Can reach (M, N) is True, otherwise False.
+  Idea: Starting from (M, N), M and N must be one big and one small, otherwise it is impossible to meet the above conditions.
+  So the larger of the two is X + Y, the smaller is X or Y. From the bottom right to the top left,
+  there is only one path for each step, so the final can reach (1, 1) is True
+  Time = O(m + n)  */
+  public static boolean canReachMN(int m, int n) {
+    int[] prev = new int[]{m, n};
+    while (prev[0] >= 1 && prev[1] >= 1) {
+      getPreviousPos(prev);
+      if (prev[0] == 1 && prev[1] == 1)	return true;
+    }
+    return false;
+  }
+  private static void getPreviousPos(int[] cur) {
+    if (cur[0] < cur[1])	cur[1] -= cur[0];
+    else	cur[0] -= cur[1];
   }
 
 }

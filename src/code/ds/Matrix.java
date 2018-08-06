@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.Random;
 
 /**
  * Created by Piyush Patel.
@@ -986,5 +987,24 @@ public class Matrix {
     }
     return result;
   }
+  /*Design and implement the constructor of a minesweeper game that takes in the dimension of the field and number of mines as input.*/
+  public int[][] putBomb(int h, int w, int count){
+    Random r = new Random();
+    int[] bombLocs = new int[count]; // bomb location array
+    for (int i = 0; i < count; i++)
+      bombLocs[i] = i;
+    for (int i = count; i < h * w; i++) {
+      int j = r.nextInt(i + 1);
+      if (j < count)	bombLocs[j] = i;
+    }
+    int[][] res = new int[h][w];
+    for (int i = 0; i < bombLocs.length; i++) {
+      int x = bombLocs[i] / w;
+      int y = bombLocs[i] % w;
+      res[x][y] = 1;
+    }
+    return res;
+  }
+
 
 }
