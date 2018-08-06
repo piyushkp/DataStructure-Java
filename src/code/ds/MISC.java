@@ -58,7 +58,7 @@ public class MISC {
     }
   }
   //in place merge interval
-  public static List<Interval> merge(List<Interval> intervals) {
+  public static List<Interval> mergeIntervals(List<Interval> intervals) {
     Collections.sort(intervals, new IntervalComparator());
     LinkedList<Interval> merged = new LinkedList<>();
     for (Interval interval : intervals) {
@@ -159,7 +159,7 @@ public class MISC {
   result = 2 + 2 + 1 = 5 */
   private int getCoverageOfIntervals(ArrayList<Interval> intervals) {
     int range = 0;
-    ArrayList<Interval> mergeIntervals = mergeIntervals(intervals);
+    List<Interval> mergeIntervals = mergeIntervals(intervals);
     for (Interval _interval : mergeIntervals) {
       range += (_interval.end - _interval.start);
     }
