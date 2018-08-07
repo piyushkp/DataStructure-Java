@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -41,6 +41,7 @@ public class MISC {
 
   //Given a set of time intervals in any order, merge all overlapping intervals into one and output the result
   //{{1,3}, {2,4}, {5,7}, {6,8} }. output {1, 4} and {5, 8} Time Complexity: O(n Log n)
+  // merge overlapping intervals
   static class Interval {
 
     int start;
@@ -57,7 +58,26 @@ public class MISC {
       return a.start < b.start ? -1 : a.start == b.start ? 0 : 1;
     }
   }
-  //in place merge interval
+  //in place merge interval with space O(1) and time O(nlogn) with modifying input
+  public static List<Interval> mergeIntervalsInPlace(List<Interval> intervals) {
+    if (intervals == null) {
+      throw new IllegalArgumentException();
+    }
+    Collections.sort(intervals, new IntervalComparator());
+    Iterator<Interval> it = intervals.iterator();
+    Interval prev = it.hasNext() ? it.next() : null;
+    while (it.hasNext()) {
+      Interval next = it.next();
+      if (prev.end >= next.start) {
+        prev.end = Math.max(prev.end, next.end);
+        it.remove();
+      } else {
+        prev = next;
+      }
+    }
+    return intervals;
+  }
+  //Space is O(n)
   public static List<Interval> mergeIntervals(List<Interval> intervals) {
     Collections.sort(intervals, new IntervalComparator());
     LinkedList<Interval> merged = new LinkedList<>();
