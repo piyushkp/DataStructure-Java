@@ -2636,6 +2636,48 @@ public class Tree {
       }
     }
   }
+  // using morris traversal in O(1) next() and hasNext()
+  class BSTIteratorUsingMorris {
+    private Node root,cur;
+    public BSTIteratorUsingMorris(Node root) {
+      root = root;
+      cur = root;
+    }
+
+    /** @return whether we have a next smallest number */
+    public boolean hasNext() {
+      return cur != null;
+    }
+
+    /** @return the next smallest number */
+    public int next() {
+      int r = 0;
+      while(cur!=null){
+        if(cur.left==null){
+          r = cur.data;
+          cur = cur.right;
+          // Got the node, break loop
+          break;
+        }else{
+          Node node = cur.left;
+          while(node.right!=null&&node.right!=cur){
+            node  = node.right;
+          }
+          if(node.right==null){
+            node.right = cur;
+            cur = cur.left;
+          }else{
+            node.right = null;
+            r = cur.data;
+            cur = cur.right;
+            // Got the node, break loop
+            break;
+          }
+        }
+      }
+      return r;
+    }
+  }
 
   /* upside down tree: Given a binary tree where all the right nodes are either leaf nodes with a sibling
   (a left node that shares the same parent node) or empty, flip it upside down and turn it into a
