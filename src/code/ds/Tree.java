@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-import java.util.TreeMap;
+import java.util.Map;
 import javafx.util.Pair;
 
 /**
@@ -243,17 +243,20 @@ public class Tree {
   }
 
   //Given a binary tree, print vertically from left to right
-  void printVerticalOrder(Node root) {
+  //Binary Tree Vertical Order Traversal.
+  // Time = O(n) and space = O(n)
+  static void printVerticalOrder(Node root) {
     if (root == null) {
       return;
     }
     // Create a map and store vertical oder
-    TreeMap<Integer, ArrayList<Integer>> map = new TreeMap<>();
+    Map<Integer, ArrayList<Integer>> map = new HashMap<>();
     ArrayList<Integer> list;
     int hd = 0;
     // Create queue to do level order traversal. Every item of queue contains node and horizontal distance.
     Queue<Pair<Node, Integer>> que = new LinkedList<>();
     que.add(new Pair(root, hd));
+    int max = 0, min = 0;
     while (!que.isEmpty()) {
       // pop from queue front
       Pair<Node, Integer> temp = que.poll();
@@ -269,15 +272,16 @@ public class Tree {
       map.put(hd, list);
       if (node.left != null) {
         que.add(new Pair<>(node.left, hd - 1));
+        min = Math.min(min, hd - 1);
       }
       if (node.right != null) {
         que.add(new Pair<>(node.right, hd + 1));
+        max = Math.max(max, hd + 1);
       }
     }
     // Traverse the map and print nodes at every horizontal distance (hd)
-    Set<Integer> i = map.keySet();
-    for (int keys : i) {
-      System.out.println(map.get(keys));
+    for (int i = min; i <= max; i++){
+      System.out.println(map.get(i));
     }
   }
 
