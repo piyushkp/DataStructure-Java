@@ -1,8 +1,6 @@
 package code.ds;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.locks.*;
 import java.util.Stack;
 
 /**
@@ -58,65 +56,41 @@ public class QueueImp {
 
   //Blocking Queue  is a queue that blocks when you try to dequeue from it when the queue is empty
   // or if you try to enqueue items to it when the queue is already full.
-  public class BlockingQueue {
+  class BoundedBuffer {
+    final Lock lock = new ReentrantLock();
+    final Condition notFull  = lock.newCondition();
+    final Condition notEmpty = lock.newCondition();
 
-    private List queue = new LinkedList();
-    private int limit = 10;
+    final Object[] items = new Object[100];
+    int putptr, takeptr, count;
 
-    public BlockingQueue(int limit) {
-      this.limit = limit;
-    }
-
-    public synchronized void enqueue(Object item) throws InterruptedException {
+    public void put(Object x) throws InterruptedException {
+      lock.lock();
       try {
-        while (this.queue.size() == this.limit) {
-          wait();
-        }
-      } catch (InterruptedException ie) {
-        notify();
-        throw ie;
-      }
-      this.queue.add(item);
-      if (this.queue.size() < limit) {
-        notify();
+        while (count == items.length)
+          notFull.await();
+        items[putptr] = x;
+        if (++putptr == items.length) putptr = 0;
+        ++count;
+        notEmpty.signal();
+      } finally {
+        lock.unlock();
       }
     }
 
-    public synchronized Object dequeue() throws InterruptedException {
+    public Object take() throws InterruptedException {
+      lock.lock();
       try {
-        while (this.queue.size() == 0) {
-          wait();
-        }
-      } catch (InterruptedException ie) {
-        notify();
-        throw ie;
+        while (count == 0)
+          notEmpty.await();
+        Object x = items[takeptr];
+        if (++takeptr == items.length) takeptr = 0;
+        --count;
+        notFull.signal();
+        return x;
+      } finally {
+        lock.unlock();
       }
-      Object x = this.queue.remove(0);
-      if (this.queue.size() > 1) {
-        notify();
-      }
-      return x;
-    }
-
-    public synchronized void multiput(List<Object> objs) throws Exception {
-      if (objs.size() > limit) {
-        throw new IllegalArgumentException();
-      }
-      while (!hasCapacity(objs.size())) {
-        try {
-          wait();
-        } catch (final InterruptedException e) {
-        }
-      }
-      for (final Object obj : objs) {
-        Objects.requireNonNull(obj);
-        this.queue.add(obj);
-      }
-      notifyAll();
-    }
-
-    private synchronized boolean hasCapacity(int n) {
-      return (this.queue.size() + n <= limit);
     }
   }
 
