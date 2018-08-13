@@ -29,8 +29,8 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(addBinary("12","1",10));
-
+    System.out.println(compressString1("aabbbcc"));
+    compressString("asdssdewdddcf");
   }
 
   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
@@ -52,7 +52,25 @@ public class StringImp {
     }
     System.out.printf("%c%d", first, count);
   }
+  public static String compressString1(String s) {
+    if (s == null || s.length() < 3) {
+      return s;
+    }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < s.length(); i++) {
+      sb.append(s.charAt(i));
+      int count = 1;
+      while (i+1 < s.length() && s.charAt(i+1) == s.charAt(i)) {
+        i++;
+        count++;
+      }
+      sb.append(count);
+    }
+    return sb.length() >= s.length() ? s : sb.toString();
+  }
 
+
+  //input = aabcccccaaa output = ab5c3a
   public static String encode(String source) {
     StringBuffer dest = new StringBuffer();
     for (int i = 0; i < source.length(); i++) {

@@ -894,8 +894,8 @@ public class Array {
     return _out;
   }
 
-  /* Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum. The number in each subarray should be contiguous.
-       Return the largest sum.*/
+  /* Given an array of integers and a number k, find k non-overlapping subarrays which have the largest sum.
+  The number in each subarray should be contiguous. Return the largest sum.*/
   static int maxKSubArray(int[] nums, int k) {
     if (nums.length < k) {
       return 0;

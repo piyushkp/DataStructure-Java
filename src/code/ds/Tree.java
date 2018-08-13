@@ -172,16 +172,15 @@ public class Tree {
     Stack<Node> _stack = new Stack<Node>();
     _stack.push(root);
     while (_stack.size() > 0) {
-      Node temp = _stack.peek();
+      Node temp = _stack.pop();
       if (temp.data == target) {
         return true;
       }
+      if (temp.right != null) {
+        _stack.push(temp.right);
+      }
       if (temp.left != null) {
         _stack.push(temp.left);
-      } else if (temp.right != null) {
-        _stack.push(temp.right);
-      } else {
-        _stack.pop();
       }
     }
     return false;

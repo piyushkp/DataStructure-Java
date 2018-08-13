@@ -742,7 +742,7 @@ public class MISC {
       while (i < s.length()) {
         char c = s.charAt(i);
         if (c == '[') {
-          NestedIntList num = new NestedIntList();
+          NestedIntList num = new NestedIntList(Integer.parseInt(s.substring(counter, i)));
           if (!stack.isEmpty()) {
             stack.peek().add(num);
           }
