@@ -29,30 +29,13 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(compressString1("aabbbcc"));
-    compressString("asdssdewdddcf");
+    System.out.println(compressString("aabbbbbcc"));
+    System.out.println(compressInPlace("aabbbbbcc".toCharArray()));
   }
 
-  /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3    */
-  static void compressString(String s) {
-    char[] string = s.toCharArray();
-    if (string.length == 0) {
-      return;
-    }
-    char first = string[0];
-    int count = 0;
-    for (int i = 0; i < string.length; i++) {
-      if (first != string[i]) {
-        System.out.printf("%c%d", first, count);
-        count = 1;
-        first = string[i];
-      } else {
-        count++;
-      }
-    }
-    System.out.printf("%c%d", first, count);
-  }
-  public static String compressString1(String s) {
+  /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3
+   *  TIme = O(n) space O(n) */
+  public static String compressString(String s) {
     if (s == null || s.length() < 3) {
       return s;
     }
@@ -60,13 +43,32 @@ public class StringImp {
     for (int i = 0; i < s.length(); i++) {
       sb.append(s.charAt(i));
       int count = 1;
-      while (i+1 < s.length() && s.charAt(i+1) == s.charAt(i)) {
+      while (i + 1 < s.length() && s.charAt(i + 1) == s.charAt(i)) {
         i++;
         count++;
       }
       sb.append(count);
     }
     return sb.length() >= s.length() ? s : sb.toString();
+  }
+
+  // in-place Time = O(n) space O(1)
+  public static String compressInPlace(char[] chars) {
+    int j = 0;
+    for (int i = 1, cnt = 1; i <= chars.length; i++) {
+      if (i < chars.length && chars[i] == chars[i - 1]) {
+        cnt++;
+      } else {
+        chars[j++] = chars[i - 1];
+        if (cnt != 1) {
+          for (char c : String.valueOf(cnt).toCharArray()) {
+            chars[j++] = c;
+          }
+          cnt = 1;
+        }
+      }
+    }
+    return String.valueOf(chars, 0, j);
   }
 
 
@@ -164,15 +166,19 @@ public class StringImp {
   //Return maximum occurring character in the input string
   //Most Frequent Character in a String
   public char findMostFrequent(String s) {
-    Map<Character,Integer> map=new HashMap<>();
+    Map<Character, Integer> map = new HashMap<>();
     int count = 0;
     char res = ' ';
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       Character.toLowerCase(c);
-      if (!Character.isLetterOrDigit(c)) 	continue;
-      if (c == ' ') 	continue;
-      map.put(c, map.getOrDefault(c, 0)+1);
+      if (!Character.isLetterOrDigit(c)) {
+        continue;
+      }
+      if (c == ' ') {
+        continue;
+      }
+      map.put(c, map.getOrDefault(c, 0) + 1);
       if (map.get(c) > count) {
         count = map.get(c);
         res = c;

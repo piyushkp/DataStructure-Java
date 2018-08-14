@@ -24,7 +24,7 @@ public class Tree {
     tree.left = new Node(1);
     tree.right = new Node(6);
     tree.left.right = new Node(6);
-    printAllPathSum(tree, 7, "");
+    //printAllPathSum(tree, 7, "");
         /*Node tree = new Node(1);
         tree.left = new Node(2);
         tree.right = new Node(7);
@@ -78,6 +78,9 @@ public class Tree {
         nt2.addChild(nt4);
         nt4.addChild(nt5);
         System.out.print(longestPathNaryTree(nt0));*/
+    int a[] = {1,5,6,9,10,11};
+    Node n1 = sortedArraytoBST(a, 0, a.length -1);
+    System.out.println(isBalanced3(n1));
   }
 
   public static class Node {
@@ -927,19 +930,6 @@ public class Tree {
     return large + 1;
   }
 
-  // Convert sorted array into balanced tree
-  private Node sortedArraytoBST(int[] arr, int start, int end) {
-    if (end < start) {
-      return null;
-    }
-    int mid = (start + end) / 2;
-    Node tree = new Node();
-    tree.data = arr[mid];
-    tree.left = sortedArraytoBST(arr, start, mid - 1);
-    tree.right = sortedArraytoBST(arr, mid + 1, end);
-    return tree;
-  }
-
   // Find out if given tree is Binary Search Tree or not
   //Using Morris traversal and maintaining the pre node, solution in O(n) time complexity and O(1) space complexity.
   public static boolean isValidBST(Node root) {
@@ -1195,6 +1185,20 @@ public class Tree {
       }
     }
     return ret;
+  }
+
+  // Convert sorted array into balanced tree
+  // construct BST from inorder traversal
+  private static Node sortedArraytoBST(int[] arr, int start, int end) {
+    if (end < start) {
+      return null;
+    }
+    int mid = start + (end - start) / 2;
+    Node tree = new Node();
+    tree.data = arr[mid];
+    tree.left = sortedArraytoBST(arr, start, mid - 1);
+    tree.right = sortedArraytoBST(arr, mid + 1, end);
+    return tree;
   }
 
   /* A O(n) iterative program for construction of BST from preorder traversal
