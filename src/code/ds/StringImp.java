@@ -29,8 +29,7 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(compressString("aabbbbbcc"));
-    System.out.println(compressInPlace("aabbbbbcc".toCharArray()));
+    System.out.println(numberToWords(1231231232));
   }
 
   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3
@@ -3181,66 +3180,46 @@ public class StringImp {
     return s;
   }
 
-  //Write a function that takes an integer and prints out the English text of it.
+  //Integer to English Words: Write a function that takes an integer and prints out the English text of it.
   // if “1234” is given as input, output should be “one thousand two hundred thirty four”.
-  private static final String[] one = {"zero", "one", "two", "three", "four", "five", "six",
+  private static final String[] one = {"", "one", "two", "three", "four", "five", "six",
       "seven", "eight", "nine", "ten",
       "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
       "nineteen"};
-  private static final String[] ten = {"twenty", "thirty", "forty", "fifty", "sixty", "seventy",
+  private static final String[] ten = {"", "Ten", "twenty", "thirty", "forty", "fifty", "sixty",
+      "seventy",
       "eighty", "ninety"};
-  private static final String[] big = {"thousand", "million", "billion"};
+  private static final String[] big = {"", "thousand", "million", "billion"};
 
-  public static String convertNumberToWords(int n) {
-    if (n < 0) {
-      return "minus " + convertNumberToWords(-n);
+  public static String numberToWords(int num) {
+    if (num == 0) {
+      return "Zero";
     }
-    if (n <= 999) {
-      return convert999(n);
-    }
-    String s = null;
-    int t = 0;
-    while (n > 0) {
-      if (n % 1000 != 0) {
-        String s2 = convert999(n % 1000);
-        if (t > 0) {
-          s2 = s2 + " " + big[t - 1];
-        }
-        if (s == null) {
-          s = s2;
-        } else {
-          s = s2 + ", " + s;
-        }
+
+    int i = 0;
+    String output = "";
+
+    while (num > 0) {
+      if (num % 1000 != 0) {
+        output = util(num % 1000) + big[i] + " " + output;
       }
-      n /= 1000;
-      t++;
+      num /= 1000;
+      i++;
     }
-    return s;
+
+    return output.trim();
   }
 
-  // Range 0 to 999.
-  private static String convert999(int n) {
-    String s1 = one[n / 100] + " hundred";
-    String s2 = convert99(n % 100);
-    if (n <= 99) {
-      return s2;
-    } else if (n % 100 == 0) {
-      return s1;
+  private static String util(int num) {
+    if (num == 0) {
+      return "";
+    } else if (num < 20) {
+      return one[num] + " ";
+    } else if (num < 100) {
+      return ten[num / 10] + " " + util(num % 10);
     } else {
-      return s1 + " " + s2;
+      return one[num / 100] + " Hundred " + util(num % 100);
     }
-  }
-
-  // Range 0 to 99.
-  private static String convert99(int n) {
-    if (n < 20) {
-      return one[n];
-    }
-    String s = ten[n / 10 - 2];
-    if (n % 10 == 0) {
-      return s;
-    }
-    return s + "-" + one[n % 10];
   }
 
   //Given a string containing only digits, restore it by returning all possible valid IP address combinations.

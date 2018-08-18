@@ -18,6 +18,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.io.File;
 
 /**
  * Created by Piyush Patel.
@@ -1681,6 +1682,17 @@ public class MISC {
         return curr.prev.url;
       }
       return null;
+    }
+  }
+
+  // read all files from directory in java
+  public void listFilesForFolder(final File folder) {
+    for (final File fileEntry : folder.listFiles()) {
+      if (fileEntry.isDirectory()) {
+        listFilesForFolder(fileEntry);
+      } else {
+        System.out.println(fileEntry.getName());
+      }
     }
   }
 }
