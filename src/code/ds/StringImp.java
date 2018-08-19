@@ -29,7 +29,7 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(numberToWords(1231231232));
+    System.out.println(multiply("23433242334323342", "23223233232434324"));
   }
 
   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3
@@ -3094,13 +3094,52 @@ public class StringImp {
       } else {
         carry = 0;
       }
-      sb.insert(0, (char) ((sum % base) + '0'));
+      sb.append((char) ((sum % base) + '0'));
     }
     if (carry == 1) {
-      sb.insert(0, '1');
+      sb.append('1');
     }
-    return sb.toString();
+    return sb.reverse().toString();
   }
+
+  //Given two big integers represented as strings, Multiplication them and return the production as string.
+  //For example, given a=2343324 and b=232232 then return c = a*b = 23433242334323342 * 23223233232434324 = 544195652122144709711313995190808
+  //Multiply two big numbers, Add two big numbers
+  //O(nm)
+  public static String multiply(String str1, String str2){
+    String res = new String("0");
+
+    int count = 0;
+    for(int i = str2.length()-1; i>=0 ; i--){
+      int d2 = str2.charAt(i)-'0';
+
+      int carry = 0;
+      StringBuffer prod = new StringBuffer();
+      for(int j = str1.length()-1; j>=0; j--){
+        int d1 = str1.charAt(j)-'0';
+        int p = carry+(d1*d2);
+        prod.append(p%10);
+        carry = p/10;
+      }
+
+      if(carry != 0){
+        prod.append(carry);
+      }
+
+      prod.reverse();
+
+      for(int k = 0; k<count; k++){
+        prod.append(0);
+      }
+
+      res = addBinary(res, prod.toString(), 10);
+      count++;
+    }
+
+    return res.toString();
+  }
+
+
 
   //Given a digit string, return all possible letter combinations that the number could represent.
   //A mapping of digit to letters (just like on the phone buttons) is given below.
