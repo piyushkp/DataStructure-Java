@@ -1,5 +1,6 @@
 package code.ds;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +19,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.io.File;
 
 /**
  * Created by Piyush Patel.
@@ -53,12 +53,15 @@ public class MISC {
       end = e;
     }
   }
+
   private static class IntervalComparator implements Comparator<Interval> {
+
     @Override
     public int compare(Interval a, Interval b) {
       return a.start < b.start ? -1 : a.start == b.start ? 0 : 1;
     }
   }
+
   //in place merge interval with space O(1) and time O(nlogn) with modifying input
   public static List<Interval> mergeIntervalsInPlace(List<Interval> intervals) {
     if (intervals == null) {
@@ -78,6 +81,7 @@ public class MISC {
     }
     return intervals;
   }
+
   //Space is O(n)
   public static List<Interval> mergeIntervals(List<Interval> intervals) {
     Collections.sort(intervals, new IntervalComparator());
@@ -231,8 +235,8 @@ public class MISC {
       if ((token.length() == 1) && isOperator(c)) {    // if token is an operator
         while (!operatorStack.empty() &&
             !lowerPrecedence((operatorStack.peek()).charAt(0), c))
-          // (Operator on the stack does not have lower precedence, so
-          //  it goes before this one.)
+        // (Operator on the stack does not have lower precedence, so
+        //  it goes before this one.)
         {
           postfix.append(" ").append(operatorStack.pop());
         }
@@ -849,7 +853,7 @@ public class MISC {
       if (newNode.start < l) {
         root.left = insert(root.left, newNode);
       }
-        // Else, new node goes to right subtree.
+      // Else, new node goes to right subtree.
       else {
         root.right = insert(root.right, newNode);
       }
@@ -1693,6 +1697,31 @@ public class MISC {
       } else {
         System.out.println(fileEntry.getName());
       }
+    }
+  }
+  //Design a class to calculate moving average of last N numbers in a stream of real numbers
+  //Given a stream of integers and a window size, calculate the moving average of all integers in the sliding window.
+  //Complexity: time O(1), space O(window size)
+  class MovingAverage {
+    private int [] window;
+    private int n, insert;
+    private long sum;
+
+    /** Initialize your data structure here. */
+    public MovingAverage(int size) {
+      window = new int[size];
+      insert = 0;
+      sum = 0;
+    }
+
+    public double next(int val) {
+      if (n < window.length)  n++;
+      sum -= window[insert];
+      sum += val;
+      window[insert] = val;
+      insert = (insert + 1) % window.length;
+
+      return (double)sum / n; // handle divide by zero exception here
     }
   }
 }
