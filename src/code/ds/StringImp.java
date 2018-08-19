@@ -3106,39 +3106,33 @@ public class StringImp {
   //For example, given a=2343324 and b=232232 then return c = a*b = 23433242334323342 * 23223233232434324 = 544195652122144709711313995190808
   //Multiply two big numbers, Add two big numbers
   //O(nm)
-  public static String multiply(String str1, String str2){
-    String res = new String("0");
-
+  public static String multiply(String str1, String str2) {
+    String output = new String("0");
     int count = 0;
-    for(int i = str2.length()-1; i>=0 ; i--){
-      int d2 = str2.charAt(i)-'0';
-
+    for (int i = str2.length() - 1; i >= 0; i--) {
+      int d2 = str2.charAt(i) - '0';
       int carry = 0;
       StringBuffer prod = new StringBuffer();
-      for(int j = str1.length()-1; j>=0; j--){
-        int d1 = str1.charAt(j)-'0';
-        int p = carry+(d1*d2);
-        prod.append(p%10);
-        carry = p/10;
+      for (int j = str1.length() - 1; j >= 0; j--) {
+        int d1 = str1.charAt(j) - '0';
+        int p = carry + (d1 * d2);
+        prod.append(p % 10);
+        carry = p / 10;
       }
-
-      if(carry != 0){
+      if (carry != 0) {
         prod.append(carry);
       }
-
       prod.reverse();
-
-      for(int k = 0; k<count; k++){
+      for (int k = 0; k < count; k++) {
         prod.append(0);
       }
 
-      res = addBinary(res, prod.toString(), 10);
+      output = addBinary(output, prod.toString(), 10);
       count++;
     }
 
-    return res.toString();
+    return output;
   }
-
 
 
   //Given a digit string, return all possible letter combinations that the number could represent.
