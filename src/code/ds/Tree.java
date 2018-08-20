@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map;
 import javafx.util.Pair;
 
 /**
@@ -89,6 +89,7 @@ public class Tree {
     public Node left;
     public Node right;
     public Node parent;
+    public boolean isVisited;
 
     Node(int data) {
       this.data = data;
@@ -2326,6 +2327,40 @@ public class Tree {
       }
     }
   }
+  // print root to leaf.
+  void printPaths(Node root) {
+    if (root == null) {
+      return;
+    }
+    Stack<Node> s = new Stack<>();
+    s.push(root);
+    Node temp = root.left;
+
+    while (s.size() != 0) {
+      while (temp != null) {
+        s.push(temp);
+        temp = temp.left;
+      }
+      Node top = s.peek();
+      if (!top.isVisited) {
+        top.isVisited = true;
+        temp = top.right;
+        if (temp == null) {
+          printThePath(s);
+          s.pop();
+        }
+      } else {
+        s.pop();
+      }
+    }
+
+  }
+
+  void printThePath(Stack<Node> s) {
+    // get an iterator and print the stack
+  }
+
+
 
   public static void printAllPossiblePath(Node node, List<Node> nodelist) {
     if (node != null) {

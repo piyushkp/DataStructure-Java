@@ -27,13 +27,7 @@ public class Array {
 
   //https://github.com/tongzhang1994/Facebook-Interview-Coding
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    int a = 10;
-    if (a == 10)
 
-    {
-      System.out.print("print");
-    }
-    leastInterval(new char[]{'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'C', 'D'}, 4);
   }
 
   //Merge two sorted array into sorted array Time = O(N+M)
@@ -3909,29 +3903,28 @@ public class Array {
 
   // If a=1, b=2...z=26, the users give an input string, suppose 1123. Now the program should tell all the different combinations of the string.
   //Eg: 1123 =aabc, kbc , kw , alc, aaw etc.
-  public static int decodeWay(String input) {
-    if (input.isEmpty() || (input.length() == 1 && input.charAt(0) == '0')) {
-      return 0;
+  //decodeWay
+  public static int decodeWay(String s) {
+    final int len = s.length();
+    if (len == 0)
+      throw new IllegalArgumentException("s can't be empty");
+
+    int pre = 1, cur = s.charAt(0) == '0' ? 0 : 1, tmp;
+    for (int i = 1; i < len && cur != 0; i++) {
+      tmp = cur;
+      if (s.charAt(i - 1) == '1' || (s.charAt(i - 1) == '2' && s.charAt(i) <= '6')) {
+        if (s.charAt(i) == '0')
+          cur = pre;
+        else
+          cur += pre;
+      } else if (s.charAt(i) == '0') {
+        cur = 0;
+      }
+      pre = tmp;
     }
-    int prev = 1, curr = 1, prev_prev = 1;
-    for (int i = 1; i < input.length(); i++) {
-      if (input.charAt(i) == '0' && (input.charAt(i - 1) == '0' || input.charAt(i - 1) > '2')) {
-        return 0;
-      }
-      if (input.charAt(i) == '0' && input.charAt(i - 1) <= '2') {
-        curr = prev_prev;
-        continue;
-      }
-      if (input.charAt(i - 1) < '2' || ((input.charAt(i - 1) == '2' && input.charAt(i) < '7'))) {
-        curr = prev + prev_prev;
-      } else {
-        curr = prev;
-      }
-      prev_prev = prev;
-      prev = curr;
-    }
-    return curr;
+    return cur;
   }
+
 
   static void print() {
 
