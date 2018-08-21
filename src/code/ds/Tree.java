@@ -2756,5 +2756,26 @@ public class Tree {
     }
     return prev;
   }
+  //largest perfect tree size in given tree
+  static int maxSize = 1;
+  public static int getLargestSizeOfPerfactTree(Node root){
+    if(root.left == null && root.right == null){
+      return 1;
+    }
+    if(root.left == null || root.right == null){
+      return 0;
+    }
+    int left = getLargestSizeOfPerfactTree(root.left);
+    int right = getLargestSizeOfPerfactTree(root.right);
+
+    if(left < 1 || right < 1) return 1;
+    if(left == right){
+      maxSize = left + right  +1;
+    }
+    else{
+
+    }
+    return 0;
+  }
 
 }
