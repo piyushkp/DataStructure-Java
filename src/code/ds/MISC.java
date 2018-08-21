@@ -1724,4 +1724,52 @@ public class MISC {
       return (double)sum / n; // handle divide by zero exception here
     }
   }
+
+  //Find Duplicate File in System
+  /*- /foo
+    - /images
+      - /foo.png  <------.
+      - /temp              | same file contents
+      - /baz             |
+      - /that.foo  <---|--.
+      - /bar.png  <--------'  |
+      - /file.tmp  <----------| same file contents
+    - /other.temp  <--------'
+      - /blah.txt
+
+  Input: "/foo"
+      [['/foo/bar.png', '/foo/images/foo.png'],
+      ['/foo/file.tmp', '/foo/other.temp', '/foo/temp/baz/that.foo']
+      ] */
+  public List<List<String>> findDuplicateFiles(List<String> paths) {
+    List<List<String>> output = new ArrayList<>();
+    HashMap<Long, List<String>> mapSize = new HashMap<>();
+    HashMap<String, List<String>> map = new HashMap<>();
+    for (String path : paths) {
+      File f = new File(path);
+
+      if (!mapSize.containsKey(f.length())) {
+        mapSize.put(f.length(), new ArrayList<>());
+      }
+      mapSize.get(f.length()).add(path);
+    }
+    for (Map.Entry<Long, List<String>> files : mapSize.entrySet()) {
+      if (files.getValue().size() > 1) {
+        for (String file : files.getValue()) {
+          String hashCode = "";// Utils.getMD5(file);
+          //String value = f.getContent(0, f.length());
+          if (!map.containsKey(hashCode)) {
+            map.put(hashCode, new ArrayList<>());
+          }
+          map.get(hashCode).add(file);
+        }
+      }
+    }
+    for (Map.Entry<String, List<String>> file : map.entrySet()) {
+      if (file.getValue().size() > 1) {
+        output.add(file.getValue());
+      }
+    }
+    return output;
+  }
 }
