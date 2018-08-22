@@ -5,6 +5,7 @@ import java.util.EmptyStackException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.atomic.*;
 
 /**
  * Created by Piyush Patel.
@@ -53,7 +54,6 @@ public class StackImp {
 
   //Implementing a Stack in Java using Arrays
   public class StackArray<T> implements Stack<T> {
-
     private T[] arr;
     private int total;
 
@@ -95,34 +95,28 @@ public class StackImp {
 
   //Implementing a Stack in Java using LinkList
   public class StackLinkedList<T> implements Stack<T> {
-
     private int total;
-    private Node first;
-
+    private Node head;
     private class Node {
-
       private T ele;
       private Node next;
     }
 
-    public StackLinkedList() {
-    }
-
     public StackLinkedList<T> push(T ele) {
-      Node current = first;
-      first = new Node();
-      first.ele = ele;
-      first.next = current;
+      Node current = head;
+      head = new Node();
+      head.ele = ele;
+      head.next = current;
       total++;
       return this;
     }
 
     public T pop() {
-      if (first == null) {
+      if (head == null) {
         new java.util.NoSuchElementException();
       }
-      T ele = first.ele;
-      first = first.next;
+      T ele = head.ele;
+      head = head.next;
       total--;
       return ele;
     }
@@ -130,12 +124,46 @@ public class StackImp {
     @Override
     public String toString() {
       StringBuilder sb = new StringBuilder();
-      Node tmp = first;
+      Node tmp = head;
       while (tmp != null) {
         sb.append(tmp.ele).append(", ");
         tmp = tmp.next;
       }
       return sb.toString();
+    }
+  }
+  //implement nonblocking ConcurrentStack
+  class ConcurrentStack <E> {
+    AtomicReference<Node<E>> top = new AtomicReference<>();
+    public void push(E item) {
+      Node<E> newHead = new Node<E>(item);
+      Node<E> oldHead;
+      do {
+        oldHead = top.get();
+        newHead.next = oldHead;
+      } while (!top.compareAndSet(oldHead, newHead));
+    }
+
+    public E pop() {
+      Node<E> oldHead;
+      Node<E> newHead;
+      do {
+        oldHead = top.get();
+        if (oldHead == null)
+          return null;
+        newHead = oldHead.next;
+      } while (!top.compareAndSet(oldHead, newHead));
+      return oldHead.item;
+    }
+
+    class Node<E> {
+
+      public final E item;
+      public Node<E> next;
+
+      public Node(E item) {
+        this.item = item;
+      }
     }
   }
 

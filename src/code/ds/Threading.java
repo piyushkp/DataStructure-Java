@@ -119,6 +119,47 @@ public class Threading {
     }
   }
 
+  class CasNumberRange {
+
+    private final java.util.concurrent.atomic.AtomicReference<IntPair> values = new java.util.concurrent.atomic.AtomicReference<>(
+        new IntPair(0, 0));
+
+    public int getLower() {
+      return values.get().lower;
+    }
+
+    public void setLower(int i) {
+      while (true) {
+        IntPair oldv = values.get();
+        if (i > oldv.upper) {
+          throw new IllegalArgumentException();
+        }
+        IntPair newv = new IntPair(i, oldv.upper);
+        if (values.compareAndSet(oldv, newv)) {
+          return;
+        }
+      }
+    }
+
+    public int getUpper() {
+      return values.get().upper;
+    }
+
+    public void setUpper(int i) {
+      while (true) {
+        IntPair oldv = values.get();
+        if (i < oldv.lower) {
+          throw new IllegalArgumentException();
+        }
+        IntPair newv = new IntPair(oldv.lower, i);
+        if (values.compareAndSet(oldv, newv)) {
+          return;
+        }
+      }
+    }
+  }
+
+
   //There are three threads in a process.The first thread prints 1 1 1 …, the second one prints 2 2 2 …, and the third one prints 3 3 3 … endlessly.
   //How do you schedule these three threads in order to print 1 2 3 1 2 3 …?
   static class ThreeThreads {
@@ -206,46 +247,6 @@ public class Threading {
     public void run() {
       synchronized (tLock) {
         //do work
-      }
-    }
-  }
-
-  public class CasNumberRange {
-
-    private final java.util.concurrent.atomic.AtomicReference<IntPair> values = new java.util.concurrent.atomic.AtomicReference<>(
-        new IntPair(0, 0));
-
-    public int getLower() {
-      return values.get().lower;
-    }
-
-    public void setLower(int i) {
-      while (true) {
-        IntPair oldv = values.get();
-        if (i > oldv.upper) {
-          throw new IllegalArgumentException();
-        }
-        IntPair newv = new IntPair(i, oldv.upper);
-        if (values.compareAndSet(oldv, newv)) {
-          return;
-        }
-      }
-    }
-
-    public int getUpper() {
-      return values.get().upper;
-    }
-
-    public void setUpper(int i) {
-      while (true) {
-        IntPair oldv = values.get();
-        if (i < oldv.lower) {
-          throw new IllegalArgumentException();
-        }
-        IntPair newv = new IntPair(oldv.lower, i);
-        if (values.compareAndSet(oldv, newv)) {
-          return;
-        }
       }
     }
   }

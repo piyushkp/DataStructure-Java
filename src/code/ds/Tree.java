@@ -2360,6 +2360,30 @@ public class Tree {
     // get an iterator and print the stack
   }
 
+  // print root to leaf paths using StringBuilder
+  public List<String> binaryTreePaths(Node root) {
+    List<String> res = new ArrayList<>();
+    StringBuilder sb = new StringBuilder();
+    helper(res, root, sb);
+    return res;
+  }
+
+  private void helper(List<String> res, Node root, StringBuilder sb) {
+    if(root == null) {
+      return;
+    }
+    int len = sb.length();
+    sb.append(root.data);
+    if(root.left == null && root.right == null) {
+      res.add(sb.toString());
+    } else {
+      sb.append("->");
+      helper(res, root.left, sb);
+      helper(res, root.right, sb);
+    }
+    sb.setLength(len);
+  }
+
 
 
   public static void printAllPossiblePath(Node node, List<Node> nodelist) {
