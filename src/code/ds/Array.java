@@ -405,7 +405,7 @@ public class Array {
   //Given an array of integers, find two numbers such that they add up to a specific target number. 2Sum
   //Time = O(n) space O(n)
   public ArrayList<Integer> twoSum(int[] numbers, int target) {
-    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    HashMap<Integer, Integer> map = new HashMap<>();
     ArrayList<Integer> result = new ArrayList<>();
     for (int i = 0; i < numbers.length; i++) {
       if (map.containsKey(numbers[i])) {
@@ -423,8 +423,8 @@ public class Array {
   //Follow up: what if we need to speedup the proceess to know whether 2-sum present or not.
   //The solution is when we store an element, we could also store the sum of the current number with all previous numbers.
   //Then in the test, we only need to check if the sum exists.
-  Set<Integer> set = new HashSet<Integer>();
-  List<Integer> nums = new ArrayList<Integer>();
+  Set<Integer> set = new HashSet<>();
+  List<Integer> nums = new ArrayList<>();
 
   public void store(int input) {
     if (!nums.isEmpty()) {
@@ -465,7 +465,7 @@ public class Array {
   /*Given an unsorted array of integers, find all the pairs that they add up to a specific target number. The array may contain duplicated elements.
     The output should not contain duplicated pairs, and each pair needs to be in ascending order, e.g., [1, 2] instead of [2, 1].*/
   public static List<List<Integer>> twoSumWithDuplicates(int[] num, int target) {
-    List<List<Integer>> _list = new ArrayList<List<Integer>>();
+    List<List<Integer>> _list = new ArrayList<>();
     int n = num.length;
     if (n < 2) {
       return _list;
@@ -475,7 +475,7 @@ public class Array {
     for (int i = 0; i < n; i++) {
       int k1 = num[i], k2 = target - num[i];
       if (map.containsKey(k2) && map.get(k2) > 0) {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list;
         if (k1 < k2) {
           list = Arrays.asList(k1, k2);
         } else {

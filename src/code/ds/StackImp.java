@@ -136,7 +136,7 @@ public class StackImp {
   class ConcurrentStack <E> {
     AtomicReference<Node<E>> top = new AtomicReference<>();
     public void push(E item) {
-      Node<E> newHead = new Node<E>(item);
+      Node<E> newHead = new Node<>(item);
       Node<E> oldHead;
       do {
         oldHead = top.get();
@@ -157,7 +157,6 @@ public class StackImp {
     }
 
     class Node<E> {
-
       public final E item;
       public Node<E> next;
 

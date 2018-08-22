@@ -254,21 +254,6 @@ public class LinkList {
   //If your are given an Integer Singly linked list. Print it   backwards. Constraints: 1. Do not manipulate the list.
   //(example: do not make it a doubly linked list, do not add or delete elements, do not change any memory location of any element)
   //2. O(n) < time < O(n^2) 3. O(1) < space < O(n)
-  //Time = O(N log N) space = O(log N)
-  static void printReverse(Node head, Node end) {
-    if (head == end) {
-      return;
-    }
-    Node slow = head, fast = head;
-    while (fast.next != end && fast.next.next != end) {
-      slow = slow.next;
-      fast = fast.next.next;
-    }
-    printReverse(slow.next, end);
-    System.out.print(slow.data);
-    printReverse(head, slow);
-  }
-
   //print reverse in O(N) time and O(sqrt(N)) space
   static void printReverse1(Node head) {
     Node node = head;
@@ -303,8 +288,18 @@ public class LinkList {
       }
     }
   }
+  /* Function to print reverse of linked list
+  * Time = O(N) space = O(N) */
+  static void printReverse(Node head) {
+    if (head == null) return;
+    // print list of head node
+    printReverse(head.next);
+    // After everything else is printed
+    System.out.print(head.data+" ");
+  }
 
   // Reverse Linked List
+  // Time = O(N) space = O(1)
   public static void Reverse(Node head) {
     // Initialize currentNode pointer to the start of the list and prevNode to null
     // (as the new list is currently pointing to null).

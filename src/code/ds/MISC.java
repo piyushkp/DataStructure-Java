@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.Random;
 
 /**
  * Created by Piyush Patel.
@@ -37,7 +37,10 @@ public class MISC {
     list.add(i3);
     list.add(i4);
     Interval target = new Interval(0, 6);
-    System.out.print(find_min_intervals(list, target));
+    //System.out.print(find_min_intervals(list, target));
+    drawCircle(2);
+    System.out.println();
+    drawCircle1(2);
 
   }
 
@@ -620,7 +623,7 @@ public class MISC {
   }
 
   //draw a circle
-  void drawCircle(int r) {
+  static void drawCircle(int r) {
     // Consider a rectangle of size N*N
     int N = 2 * r + 1;
     int x, y;  // Coordinates inside the rectangle
@@ -638,6 +641,19 @@ public class MISC {
           System.out.print(" ");
         }
         System.out.print(" ");
+      }
+      System.out.println();
+    }
+  }
+
+  static void drawCircle1(int n) {
+    for (int i = -n; i <= n; i++) {
+      for (int j = -n; j <= n; j++) {
+        if (i * i + j * j <= n * n + 1) {
+          System.out.print("* ");
+        } else {
+          System.out.print("  ");
+        }
       }
       System.out.println();
     }
