@@ -94,7 +94,7 @@ public class QueueImp {
     }
   }
 
-  //Implemented simple thread safe circular queue
+  //Implemented simple circular queue
   public class CircularArrayQueue<T> {
 
     private final int DEFAULT_CAPACITY = 100;
