@@ -943,11 +943,40 @@ public class Array {
     return maxsofar;
   }
 
-    /* Sum of max M subarray(Non Overlapping) of size K. you have given array of Size N and two numbers M, K. K is size of subarray and M is count of subarray.
-       You have to return sum of max M subarray of size K (non-overlapping)
-       N = 7, M = 3 , K = 1  A={2 10 7 18 5 33 0} = 61 ,  subsets are: 33, 18, 10 (top M of size K)
-       M=2,K=2 {3,2,100,1} = 106 - subsets are: (3,2), (100,1) 2 subsets of size 2
-    */
+  // Returns maximum sum in a subarray of size k.
+  public static int maxSum(int arr[], int n, int k) {
+    // k must be greater
+    if (n < k) {
+      System.out.println("Invalid");
+      return -1;
+    }
+    // Compute sum of first window of size k
+    int res = 0;
+    for (int i = 0; i < k; i++) {
+      res += arr[i];
+    }
+    // Compute sums of remaining windows by removing first element of previous window and adding last element of
+    // current window.
+    int curr_sum = res;
+    for (int i = k; i < n; i++) {
+      curr_sum += arr[i] - arr[i - k];
+      res = Math.max(res, curr_sum);
+    }
+    return res;
+  }
+  /*Maximum Sum of 3 Non-Overlapping Subarrays size of k
+  Input: [1,2,1,2,6,7,5,1], 2
+  Output: [0, 3, 5]
+  Explanation: Subarrays [1, 2], [2, 6], [7, 5] correspond to the starting indices [0, 3, 5].
+  We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicographically larger.*/
+
+
+
+  /* Sum of max M subarray(Non Overlapping) of size K. you have given array of Size N and two numbers M, K. K is size of subarray and M is count of subarray.
+     You have to return sum of max M subarray of size K (non-overlapping)
+     N = 7, M = 3 , K = 1  A={2 10 7 18 5 33 0} = 61 ,  subsets are: 33, 18, 10 (top M of size K)
+     M=2,K=2 {3,2,100,1} = 106 - subsets are: (3,2), (100,1) 2 subsets of size 2
+  */
 
   //Smallest subarray with sum greater than a given value,  If there isn't one, return n+1 instead.
   // arr[] = {1, 4, 45, 6, 0, 19}   x  =  51   Output: 3
@@ -2749,6 +2778,7 @@ public class Array {
   }
 
   //Max product of the three numbers for a given array of size N, non duplicate elements
+  //Find maximum of the sum/multiplication of 3 numbers in a array
   static int maxproductofThree(int[] a) {
     int largest = a[0];
     int secondlargest = 0;
@@ -3906,17 +3936,19 @@ public class Array {
   //decodeWay
   public static int decodeWay(String s) {
     final int len = s.length();
-    if (len == 0)
+    if (len == 0) {
       throw new IllegalArgumentException("s can't be empty");
+    }
 
     int pre = 1, cur = s.charAt(0) == '0' ? 0 : 1, tmp;
     for (int i = 1; i < len && cur != 0; i++) {
       tmp = cur;
       if (s.charAt(i - 1) == '1' || (s.charAt(i - 1) == '2' && s.charAt(i) <= '6')) {
-        if (s.charAt(i) == '0')
+        if (s.charAt(i) == '0') {
           cur = pre;
-        else
+        } else {
           cur += pre;
+        }
       } else if (s.charAt(i) == '0') {
         cur = 0;
       }
@@ -4138,15 +4170,20 @@ public class Array {
   public boolean checkPossibility(int[] nums) {
     int index = -1;
     for (int i = 1; i < nums.length; i++) {
-      if (nums[i-1] > nums[i]) {
-        if (index != -1) return false;
-        else index = i;
+      if (nums[i - 1] > nums[i]) {
+        if (index != -1) {
+          return false;
+        } else {
+          index = i;
+        }
       }
     }
     return (index == -1 ||   // no reversed pair
         index == 1 || index == nums.length - 1 ||  // reversed pair is first or last element
-        nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index + 1]); // normal case range [p-2 --> p+1] all valid
+        nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index
+        + 1]); // normal case range [p-2 --> p+1] all valid
   }
+
   /*Give a Pair (M, N) to represent the coordinates, you start from (1, 1), each time (x, y) => (x + y, y) or (x, x + y)
   moves to the lower right, if Can reach (M, N) is True, otherwise False.
   Idea: Starting from (M, N), M and N must be one big and one small, otherwise it is impossible to meet the above conditions.
@@ -4157,13 +4194,19 @@ public class Array {
     int[] prev = new int[]{m, n};
     while (prev[0] >= 1 && prev[1] >= 1) {
       getPreviousPos(prev);
-      if (prev[0] == 1 && prev[1] == 1)	return true;
+      if (prev[0] == 1 && prev[1] == 1) {
+        return true;
+      }
     }
     return false;
   }
+
   private static void getPreviousPos(int[] cur) {
-    if (cur[0] < cur[1])	cur[1] -= cur[0];
-    else	cur[0] -= cur[1];
+    if (cur[0] < cur[1]) {
+      cur[1] -= cur[0];
+    } else {
+      cur[0] -= cur[1];
+    }
   }
 
 }

@@ -2797,9 +2797,31 @@ public class Tree {
       maxSize = left + right  +1;
     }
     else{
-
+        maxSize = Math.max(left,right);
     }
-    return 0;
+    return maxSize;
+  }
+
+  //Given a binary tree, find the number of subtrees having odd count of even numbers.
+  int countSubtrees(Node root) {
+    if (root == null)
+      return 0;
+    // count even numbers in left subtree
+    int c = countSubtrees(root.left);
+
+    // Add count of even numbers in right subtree
+    c += countSubtrees(root.right);
+
+    // check if root data is an even number
+    if (root.data % 2 == 0)
+      c += 1;
+
+    // If total count of even numbers for the subtree is odd
+    if (c % 2 != 0)
+      count++;
+
+    // return total count of even numbers of the subtree
+    return c;
   }
 
 }
