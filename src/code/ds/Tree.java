@@ -78,8 +78,8 @@ public class Tree {
         nt2.addChild(nt4);
         nt4.addChild(nt5);
         System.out.print(longestPathNaryTree(nt0));*/
-    int a[] = {1,5,6,9,10,11};
-    Node n1 = sortedArraytoBST(a, 0, a.length -1);
+    int a[] = {1, 5, 6, 9, 10, 11};
+    Node n1 = sortedArraytoBST(a, 0, a.length - 1);
     System.out.println(isBalanced3(n1));
   }
 
@@ -283,14 +283,14 @@ public class Tree {
       }
     }
     // Traverse the map and print nodes at every horizontal distance (hd)
-    for (int i = min; i <= max; i++){
+    for (int i = min; i <= max; i++) {
       System.out.println(map.get(i));
     }
   }
 
   /* Given a binary tree, print its nodes in reverse level order */
   void reverseLevelOrder(Node root) {
-    Stack<Node> S = new Stack<Node>();
+    Stack<Node> S = new Stack<>();
     Queue<Node> Q = null;
     Q.add(root);
     // Do something like normal level order traversal order. Following are the
@@ -321,8 +321,8 @@ public class Tree {
     if (root == null) {
       return;
     }
-    Stack<Node> _stack1 = new Stack<Node>();
-    Stack<Node> _stack2 = new Stack<Node>();
+    Stack<Node> _stack1 = new Stack<>();
+    Stack<Node> _stack2 = new Stack<>();
     _stack1.push(root);
     while (!_stack1.empty() || !_stack2.empty()) {
       while (!_stack1.empty()) {
@@ -1029,7 +1029,7 @@ public class Tree {
       secondMax = cur.data;
     } else {
       if (cur == root && pre == root)
-        //Only one node in BST
+      //Only one node in BST
       {
         secondMax = Integer.MIN_VALUE;
       } else {
@@ -2327,6 +2327,7 @@ public class Tree {
       }
     }
   }
+
   // print root to leaf.
   void printPaths(Node root) {
     if (root == null) {
@@ -2369,12 +2370,12 @@ public class Tree {
   }
 
   private void helper(List<String> res, Node root, StringBuilder sb) {
-    if(root == null) {
+    if (root == null) {
       return;
     }
     int len = sb.length();
     sb.append(root.data);
-    if(root.left == null && root.right == null) {
+    if (root.left == null && root.right == null) {
       res.add(sb.toString());
     } else {
       sb.append("->");
@@ -2383,7 +2384,6 @@ public class Tree {
     }
     sb.setLength(len);
   }
-
 
 
   public static void printAllPossiblePath(Node node, List<Node> nodelist) {
@@ -2702,37 +2702,44 @@ public class Tree {
       }
     }
   }
+
   // using morris traversal in O(1) next() and hasNext()
   class BSTIteratorUsingMorris {
-    private Node root,cur;
+
+    private Node root, cur;
+
     public BSTIteratorUsingMorris(Node root) {
       root = root;
       cur = root;
     }
 
-    /** @return whether we have a next smallest number */
+    /**
+     * @return whether we have a next smallest number
+     */
     public boolean hasNext() {
       return cur != null;
     }
 
-    /** @return the next smallest number */
+    /**
+     * @return the next smallest number
+     */
     public int next() {
       int r = 0;
-      while(cur!=null){
-        if(cur.left==null){
+      while (cur != null) {
+        if (cur.left == null) {
           r = cur.data;
           cur = cur.right;
           // Got the node, break loop
           break;
-        }else{
+        } else {
           Node node = cur.left;
-          while(node.right!=null&&node.right!=cur){
-            node  = node.right;
+          while (node.right != null && node.right != cur) {
+            node = node.right;
           }
-          if(node.right==null){
+          if (node.right == null) {
             node.right = cur;
             cur = cur.left;
-          }else{
+          } else {
             node.right = null;
             r = cur.data;
             cur = cur.right;
@@ -2780,48 +2787,68 @@ public class Tree {
     }
     return prev;
   }
+
   //largest perfect tree size in given tree
   static int maxSize = 1;
-  public static int getLargestSizeOfPerfactTree(Node root){
-    if(root.left == null && root.right == null){
+
+  public static int getLargestSizeOfPerfactTree(Node root) {
+    if (root.left == null && root.right == null) {
       return 1;
     }
-    if(root.left == null || root.right == null){
+    if (root.left == null || root.right == null) {
       return 0;
     }
     int left = getLargestSizeOfPerfactTree(root.left);
     int right = getLargestSizeOfPerfactTree(root.right);
 
-    if(left < 1 || right < 1) return 1;
-    if(left == right){
-      maxSize = left + right  +1;
+    if (left < 1 || right < 1) {
+      return 1;
     }
-    else{
-        maxSize = Math.max(left,right);
+    if (left == right) {
+      maxSize = left + right + 1;
+    } else {
+      maxSize = Math.max(left, right);
     }
     return maxSize;
   }
 
   //Given a binary tree, find the number of subtrees having odd count of even numbers.
   int countSubtrees(Node root) {
-    if (root == null)
+    if (root == null) {
       return 0;
+    }
     // count even numbers in left subtree
     int c = countSubtrees(root.left);
-
     // Add count of even numbers in right subtree
     c += countSubtrees(root.right);
-
     // check if root data is an even number
-    if (root.data % 2 == 0)
+    if (root.data % 2 == 0) {
       c += 1;
-
+    }
     // If total count of even numbers for the subtree is odd
-    if (c % 2 != 0)
+    if (c % 2 != 0) {
       count++;
-
+    }
     // return total count of even numbers of the subtree
     return c;
+  }
+
+  //Find if Two binary trees are considered leaf-similar if their leaf value sequence is the same.
+  static boolean leafSimilar(Node root1, Node root2) {
+    Stack<Node> s1 = new Stack<>(), s2 = new Stack<>();
+    s1.push(root1); s2.push(root2);
+    while (!s1.empty() && !s2.empty())
+      if (dfs(s1) != dfs(s2)) return false;
+    return s1.empty() && s2.empty();
+  }
+
+  static int dfs(Stack<Node> s) {
+    while (true) {
+      Node node = s.pop();
+      if (node.right != null) s.push(node.right);
+      if (node.left != null) s.push(node.left);
+      if (node.left == null && node.right == null) return node.data;
+    }
   }
 
 }
