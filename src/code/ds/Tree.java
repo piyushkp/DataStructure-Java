@@ -21,9 +21,9 @@ public class Tree {
 
   public static void main(String[] args) {
     Node tree = new Node(1);
-    tree.left = new Node(1);
-    tree.right = new Node(6);
-    tree.left.right = new Node(6);
+    tree.right = new Node(0);
+    tree.right.left = new Node(0);
+    tree.right.right = new Node(1);
     //printAllPathSum(tree, 7, "");
         /*Node tree = new Node(1);
         tree.left = new Node(2);
@@ -78,9 +78,7 @@ public class Tree {
         nt2.addChild(nt4);
         nt4.addChild(nt5);
         System.out.print(longestPathNaryTree(nt0));*/
-    int a[] = {1, 5, 6, 9, 10, 11};
-    Node n1 = sortedArraytoBST(a, 0, a.length - 1);
-    System.out.println(isBalanced3(n1));
+    pruneTree(tree);
   }
 
   public static class Node {
@@ -2850,5 +2848,17 @@ public class Tree {
       if (node.left == null && node.right == null) return node.data;
     }
   }
+
+  //We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
+  //Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
+  public static Node pruneTree(Node root) {
+    if (root == null) return null;
+    root.left = pruneTree(root.left);
+    root.right = pruneTree(root.right);
+    if (root.left == null && root.right == null && root.data == 0) return null;
+    return root;
+  }
+
+
 
 }

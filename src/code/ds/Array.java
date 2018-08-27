@@ -1820,6 +1820,50 @@ public class Array {
     return a;
   }
 
+  //Given an array of n objects with k different colors (numbered from 1 to k),
+  // sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
+  //Method I: O(k) space, O(n) time; two-pass algorithm, counting sort
+  public void sortKColors2TwoPass(int[] colors, int k) {
+    int[] count = new int[k];
+    for (int color : colors) {
+      count[color-1]++;
+    }
+    int index = 0;
+    for (int i = 0; i < k; i++) {
+      while (count[i]>0) {
+        colors[index++] = i+1;
+        count[i]--;
+      }
+    }
+  }
+
+  /** Method II: Each time sort the array into three parts: [all min] [all unsorted others] [all max],
+   *  then update min and max and sort the [all unsorted others] with the same method. */
+  public void sortKColors2(int[] colors, int k) {
+    int pl = 0;
+    int pr = colors.length - 1;
+    int i = 0;
+    int min = 1, max = k;
+    while (min < max) {
+      while (i <= pr) {
+        if (colors[i] == min) {
+          swap(colors, pl, i);
+          i++;
+          pl++;
+        } else if (colors[i] == max) {
+          swap(colors, pr, i);
+          pr--;
+        } else {
+          i++;
+        }
+        // printArray(colors);
+      }
+      i = pl;
+      min++;
+      max--;
+    }
+  }
+
   //Give you an array which has n integers,it has both  positive and negative integers.Now you need sort this array
   //in a special way.After that,the negative integers should in the front,and the positive integers should in the back.
   //Also the relative position should not be changed.eg. -1 1 3 -2 2 ans: -1 -2 1 3 2. should be Time= O(n) and Space O(1)
