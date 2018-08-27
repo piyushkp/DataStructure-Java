@@ -1214,6 +1214,27 @@ public class StringImp {
   }
 
   //Reverse words in a string
+  // in place reversal of words.Time = O(n) space O(1)
+  public static void reverseWords(char[] s) {
+    reverse(s, 0, s.length - 1); // reverse the whole sentense
+    int start = 0;
+    for (int i = 0; i < s.length; i++) // reverse each word
+      if (s[i] == ' ') {
+        reverse(s, start, i - 1);
+        start = i + 1;
+      }
+    reverse(s, start, s.length - 1); // reverse the last word
+  }
+
+  static void reverse(char[] s, int start, int end) {
+    while (start < end) {
+      char tmp = s[start];
+      s[start++] = s[end];
+      s[end--] = tmp;
+    }
+  }
+
+  //Reverse words in a string
   public static String reverseWords(String sentence) {
     StringBuilder sb = new StringBuilder(sentence.length() + 1);
     String[] words = sentence.split(" ");
@@ -1222,44 +1243,6 @@ public class StringImp {
     }
     sb.setLength(sb.length() - 1);  // Strip trailing space
     return sb.toString();
-  }
-
-  //Revesre words in a string
-  public static char[] reverseWords() {
-    // reverse the string
-    char[] arr = "welcome to coding algorithms".toCharArray();
-    reverse(arr, 0, arr.length / 2, arr.length);
-    // reverse words of a string
-    int wordIdx = 0;
-    int wordMidIdx = 0;
-    int prevWordLastIdx = 0;
-    // outer loop to track spaces
-    for (int sentenceIdx = 0; sentenceIdx < arr.length; sentenceIdx++) {
-      if (arr[sentenceIdx] != ' ') {
-        continue;
-      }
-      wordIdx = prevWordLastIdx;
-      int wordLastIdx = sentenceIdx;
-      wordMidIdx = (sentenceIdx + wordIdx) / 2;
-      // reverse each word in a string
-      reverse(arr, wordIdx, wordMidIdx, wordLastIdx);
-      prevWordLastIdx = sentenceIdx + 1;
-    }
-    // reverse last word
-    wordIdx = prevWordLastIdx;
-    wordMidIdx = (arr.length + wordIdx) / 2;
-    reverse(arr, wordIdx, wordMidIdx, arr.length);
-    return arr;
-  }
-
-  private static void reverse(char[] arr, int wordIdx, int wordMidIdx, int wordLastIdx) {
-    for (; wordIdx < wordMidIdx; wordIdx++) {
-      // swap first letter with the last letter in the
-      char tmp = arr[wordIdx];
-      arr[wordIdx] = arr[wordLastIdx - 1];
-      arr[wordLastIdx - 1] = tmp;
-      wordLastIdx--;
-    }
   }
 
   //find count of common characters presented in an array of strings or array of character arrays
