@@ -4252,5 +4252,23 @@ public class Array {
       cur[0] -= cur[1];
     }
   }
-
+  //write an algorithm to determine the number of set bits in integer.
+  public static int countSetBits(int x) {
+    int count = 0;
+    while(x > 0){
+      x  = x & (x -1);
+      count++;
+    }
+    return count;
+  }
+  private static int countSetBit(int number){
+    int counter = 0;
+    while(number>0){
+      if(number%2 == 1){
+        counter++;
+      }
+      number = number/2; //or number = number >> 1
+    }
+    return counter;
+  }
 }
