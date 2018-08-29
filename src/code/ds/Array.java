@@ -4294,6 +4294,7 @@ public class Array {
       list.value = input.get(i).get(0);
       list.kIndex = i;
       minHeap.add(list);
+      max = Math.max(max, input.get(i).get(0));
     }
     while (minHeap.size() == input.size()) {
       KSortedList item = minHeap.poll();
