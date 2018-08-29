@@ -59,8 +59,8 @@ public class Array {
   }
 
   public List<Integer> mergeUsingHeap(List<List<Integer>> chunks) {
-    List<Integer> result = new ArrayList<Integer>();
-    PriorityQueue<Triplet> minHeap = new PriorityQueue<Triplet>();
+    List<Integer> result = new ArrayList<>();
+    PriorityQueue<Triplet> minHeap = new PriorityQueue<>();
     //add first element of every chunk into queue
     for (int i = 0; i < chunks.size(); i++) {
       Triplet p = new Triplet();
@@ -4271,4 +4271,47 @@ public class Array {
     }
     return counter;
   }
+  //Find smallest range from k sorted lists
+  //You have k lists of sorted integers in ascending order. Find the smallest range that includes
+  // at least one number from each of the k lists.
+  //Input:[[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
+  //Output: [20,24]
+  static class KSortedList {
+    int position;
+    int value;
+    int kIndex;
+  }
+  // Time = O(K) + O(n * logK)
+  static List<Integer> smallestRange(List<List<Integer>> input) {
+    PriorityQueue<KSortedList> minHeap = new PriorityQueue<>();
+    int max = Integer.MIN_VALUE;
+    int range = Integer.MAX_VALUE;
+    int start = -1, end = -1;
+    //add first element of every chunk into queue
+    for (int i = 0; i < input.size(); i++) {
+      KSortedList list = new KSortedList();
+      list.position = 1;
+      list.value = input.get(i).get(0);
+      list.kIndex = i;
+      minHeap.add(list);
+    }
+    while (minHeap.size() == input.size()) {
+      KSortedList item = minHeap.poll();
+      if (max - item.value < range) {
+        range = max - item.value;
+        start = item.value;
+        end = max;
+      }
+      if (item.position < input.get(item.kIndex).size()) {
+        item.value = input.get(item.kIndex).get(item.position);
+        item.position += 1;
+        minHeap.add(item);
+        if (item.value > max) {
+          max = item.value;
+        }
+      }
+    }
+    return new ArrayList<>(Arrays.asList(start, end));
+  }
+
 }
