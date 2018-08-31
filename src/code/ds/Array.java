@@ -1272,34 +1272,59 @@ public class Array {
     }
   }
 
-  //Searching an Element in a Rotated Sorted Array
-  private static int rotated_binary_search(int A[], int N, int key) {
-    int L = 0;
-    int R = N - 1;
-    while (L <= R) {
+  //Searching an Element in a Rotated Sorted Array. no duplicates
+  private static int rotated_binary_search(int nums[], int N, int key) {
+    int left = 0;
+    int right = N - 1;
+    while (left <= right) {
       // Avoid overflow, same as M=(L+R)/2
-      int M = L + ((R - L) / 2);
-      if (A[M] == key) {
-        return M;
+      int mid = left + ((right - left) / 2);
+      if (nums[mid] == key) {
+        return mid;
       }
       // the bottom half is sorted
-      if (A[L] <= A[M]) {
-        if (key >= A[L] && key < A[M]) {
-          R = M - 1;
+      if (nums[left] <= nums[mid]) {
+        if (nums[left] <= key && key < nums[mid]) {
+          right = mid - 1;
         } else {
-          L = M + 1;
+          left = mid + 1;
         }
       }
       // the upper half is sorted
       else {
-        if (key > A[M] && key <= A[R]) {
-          L = M + 1;
+        if (key > nums[mid] && key <= nums[right]) {
+          left = mid + 1;
         } else {
-          R = M - 1;
+          right = mid - 1;
         }
       }
     }
     return -1;
+  }
+  //search target in rotated sorted array with duplicates allowed
+  private static boolean rotatedArrayWithDuplicates(int nums[], int target) {
+    int left = 0, right = nums.length - 1, mid;
+    while (left <= right) {
+      mid = (left + right) >> 1;
+      if (nums[mid] == target)
+        return true;
+      // the only difference from the first one, tricky case, just update left and right
+      if ((nums[left] == nums[mid]) && (nums[right] == nums[mid])) {
+        ++left;
+        --right;
+      } else if (nums[left] <= nums[mid]) {
+        if ((nums[left] <= target) && (nums[mid] > target))
+          right = mid - 1;
+        else
+          left = mid + 1;
+      } else {
+        if ((nums[mid] < target) && (nums[right] >= target))
+          left = mid + 1;
+        else
+          right = mid - 1;
+      }
+    }
+    return false;
   }
 
   //Given a sorted array of n integers with duplicates that has been rotated an unknown number of times, write code to find an element
