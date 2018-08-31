@@ -592,7 +592,6 @@ public class StringImp {
 
   //General Solution, Time = O(n2) assuming substring is O(1)
   static Map<String, String> memoized = new HashMap<>();
-
   public static String wordBreakUsingDP(String input, Set<String> dict) {
     if (dict.contains(input)) {
       return input;
@@ -633,6 +632,54 @@ public class StringImp {
       }
     }
     return f[s.length()];
+  }
+
+  //wordbreak II: Given a non-empty string s and a dictionary wordDict containing a list of non-empty words,
+  //add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+  //Input: s = "catsanddog" wordDict = ["cat", "cats", "and", "sand", "dog"]
+  //Output: ["cats and dog", "cat sand dog"]
+  //O(len(wordDict) * len(s / minWordLenInDict))
+  HashMap<String, List<String>> map = new HashMap<>();
+  public List<String> wordBreakII(String s, Set<String> wordDict) {
+    if (map.containsKey(s))
+      return map.get(s);
+
+    LinkedList<String> res = new LinkedList<>();
+    if (s.length() == 0) {
+      res.add("");
+      return res;
+    }
+    for (String word : wordDict) {
+      if (s.startsWith(word)) {
+        List<String> sublist = wordBreakII(s.substring(word.length()), wordDict);
+        for (String sub : sublist)
+          res.add(word + (sub.isEmpty() ? "" : " ") + sub);
+      }
+    }
+    map.put(s, res);
+    return res;
+  }
+  // second approach
+  public List<String> wordBreakIII(String s, Set<String> wordDict) {
+    if(map.containsKey(s))
+      return map.get(s);
+    int len = s.length();
+    List<String> ret = new ArrayList<>();
+    if(wordDict.contains(s))
+      ret.add(s);
+    for(int i=1;i<len;i++){
+      String curr = s.substring(i);
+      if(wordDict.contains(curr)){
+        List<String> strs = wordBreakIII(s.substring(0,i),wordDict);
+        if(strs.size() != 0 ){
+          for(Iterator<String> it = strs.iterator(); it.hasNext();){
+            ret.add(it.next() + " " + curr);
+          }
+        }
+      }
+    }
+    map.put(s, ret);
+    return ret;
   }
 
   /*A utility function to check whether a word is present in dictionary or not.An array of strings is used for
@@ -3123,7 +3170,7 @@ public class StringImp {
   }
 
 
-  //Given a digit string, return all possible letter combinations that the number could represent.
+  //Letter Combinations of a Phone Number: Given a digit string, return all possible letter combinations that the number could represent.
   //A mapping of digit to letters (just like on the phone buttons) is given below.
   public static List<String> letterPhoneCombinations(String digits) {
     LinkedList<String> ans = new LinkedList<>();
@@ -3346,7 +3393,7 @@ public class StringImp {
   //wordPattern: Given a pattern and a string str, find if str follows the same pattern.
   //Input: pattern = "abba", str = "dog cat cat dog"
   //Output: true
-  public boolean wordPattern(String pattern, String str) {
+  public static boolean wordPattern(String pattern, String str) {
     String[] words = str.split(" ");
     if (words.length != pattern.length()) {
       return false;

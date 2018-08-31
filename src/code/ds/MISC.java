@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
@@ -1286,6 +1287,7 @@ public class MISC {
       size = 0;
     }
   }
+
   /* Java program to design a data structure that support folloiwng operations
   //   in Theta(n) time
   //   a) Insert
@@ -1293,20 +1295,24 @@ public class MISC {
   //   c) Search
   //   d) getRandom */
   class MyDS {
+
     ArrayList<Integer> arr;   // A resizable array
     // A hash where keys are array elements and values are
     // indexes in arr[]
-    HashMap<Integer, Integer>  hash;
+    HashMap<Integer, Integer> hash;
+
     // Constructor (creates arr[] and hash)
     public MyDS() {
       arr = new ArrayList<>();
       hash = new HashMap<>();
     }
+
     // A Theta(1) function to add an element
     void add(int x) {
       // If element is already present, then noting to do
-      if (hash.get(x) != null)
+      if (hash.get(x) != null) {
         return;
+      }
       // Else put element at the end of arr[]
       int s = arr.size();
       arr.add(x);
@@ -1318,18 +1324,19 @@ public class MISC {
     void remove(int x) {
       // Check if element is present
       Integer index = hash.get(x);
-      if (index == null)
+      if (index == null) {
         return;
+      }
       // If present, then remove element from hash
       hash.remove(x);
       // Swap element with last element so that remove from
       // arr[] can be done in O(1) time
       int size = arr.size();
-      Integer last = arr.get(size-1);
-      Collections.swap(arr, index,  size-1);
+      Integer last = arr.get(size - 1);
+      Collections.swap(arr, index, size - 1);
 
       // Remove last element (This is O(1))
-      arr.remove(size-1);
+      arr.remove(size - 1);
 
       // Update hash table for new index of last element
       hash.put(last, index);
@@ -1343,6 +1350,7 @@ public class MISC {
       // Return element at randomly picked index
       return arr.get(index);
     }
+
     // Returns index of element if element is present, otherwise null
     Integer search(int x) {
       return hash.get(x);
@@ -1777,15 +1785,19 @@ public class MISC {
       }
     }
   }
+
   //Design a class to calculate moving average of last N numbers in a stream of real numbers
   //Given a stream of integers and a window size, calculate the moving average of all integers in the sliding window.
   //Complexity: time O(1), space O(window size)
   class MovingAverage {
-    private int [] window;
+
+    private int[] window;
     private int n, insert;
     private long sum;
 
-    /** Initialize your data structure here. */
+    /**
+     * Initialize your data structure here.
+     */
     public MovingAverage(int size) {
       window = new int[size];
       insert = 0;
@@ -1793,13 +1805,15 @@ public class MISC {
     }
 
     public double next(int val) {
-      if (n < window.length)  n++;
+      if (n < window.length) {
+        n++;
+      }
       sum -= window[insert];
       sum += val;
       window[insert] = val;
       insert = (insert + 1) % window.length;
 
-      return (double)sum / n; // handle divide by zero exception here
+      return (double) sum / n; // handle divide by zero exception here
     }
   }
 
@@ -1849,5 +1863,50 @@ public class MISC {
       }
     }
     return output;
+  }
+
+  //next() : given a list containing k sorted lists of integers , each list is of varying size, max of
+  // which is n. Implement an iterator in java that with each call to its next() function retrieves the
+  // next integer in the overall order of all the integers in all the lists combined. Answer should be
+  // efficient depending on the number of calls to next().
+  // Example: lists = [[1,2,3],[1,4],[2,5,7,8]] n = 4 k = 3 iterator should return (if called 9 times): 1,1,2,2,3,4,5,7,8
+  // Time = O(logk) space = O(k)
+  PriorityQueue<Element> minHeap = new PriorityQueue<>(new ElementComparator());
+  List<List<Integer>> data;
+  public Integer next() {
+    Integer result = null;
+    if (!minHeap.isEmpty()) {
+      Element output = minHeap.poll();
+      result = output.value;
+      if (output.position + 1 < data.get(output.kIndex).size()) {
+        output.value = data.get(output.kIndex).get(output.position + 1);
+        output.position += 1;
+        minHeap.add(output);
+      }
+    }
+    return result;
+  }
+
+  public void process(List<List<Integer>> data) {
+    for (int i = 0; i < data.size(); i++) {
+      Element e = new Element();
+      e.position = 0;
+      e.value = data.get(i).get(0);
+      e.kIndex = i;
+      minHeap.add(e);
+    }
+  }
+
+  class Element {
+    int value;
+    int position;
+    int kIndex;
+  }
+
+  class ElementComparator implements Comparator<Element> {
+    @Override
+    public int compare(Element e1, Element e2) {
+      return e1.value - e2.value;
+    }
   }
 }

@@ -66,7 +66,7 @@ public class Array {
       Triplet p = new Triplet();
       p.pos = i;
       p.val = chunks.get(i).get(0);
-      p.index = 1;
+      p.index = 0;
       minHeap.add(p);
     }
     while (!minHeap.isEmpty()) {
@@ -4281,16 +4281,28 @@ public class Array {
     int value;
     int kIndex;
   }
+  static class KSortedListComparator implements Comparator<KSortedList>{
+    @Override
+    public int compare(KSortedList e1, KSortedList e2){
+      if(e1.value >= e2.value){
+        return 1;
+      }
+      else if (e1.value <= e2.value){
+        return -1;
+      }
+      return 0;
+    }
+  }
   // Time = O(K) + O(n * logK)
   static List<Integer> smallestRange(List<List<Integer>> input) {
-    PriorityQueue<KSortedList> minHeap = new PriorityQueue<>();
+    PriorityQueue<KSortedList> minHeap = new PriorityQueue<>(new KSortedListComparator());
     int max = Integer.MIN_VALUE;
     int range = Integer.MAX_VALUE;
     int start = -1, end = -1;
     //add first element of every chunk into queue
     for (int i = 0; i < input.size(); i++) {
       KSortedList list = new KSortedList();
-      list.position = 1;
+      list.position = 0;
       list.value = input.get(i).get(0);
       list.kIndex = i;
       minHeap.add(list);

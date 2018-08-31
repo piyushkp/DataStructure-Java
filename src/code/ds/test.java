@@ -2,21 +2,27 @@ package code.ds;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * Created by ppatel2 on 11/9/2016.
  */
 public class test {
 
+
+  static List<List<Integer>> data;
+
   public static void main(String[] args) {
     //List<String> out = iprange2cidr("192.168.1.8", "192.168.1.9");
-    long s = ip2long("1.1.1.111");
+    /*long s = ip2long("1.1.1.111");
     String st = long2ip(s);
     long e = s + 9;
 
     List<String> out1 = iprange2cidr(s, e);
-    System.out.println(Arrays.toString(out1.toArray()));
+    System.out.println(Arrays.toString(out1.toArray()));*/
+
   }
 
   //http://stackoverflow.com/questions/5020317/in-java-given-an-ip-address-range-return-the-minimum-list-of-cidr-blocks-that
@@ -104,10 +110,8 @@ public class test {
 
     return sbIP.toString();
   }
-
-  
-
-
 }
+
+
 
 
