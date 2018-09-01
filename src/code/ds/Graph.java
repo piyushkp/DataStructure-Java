@@ -20,8 +20,8 @@ public class Graph<T> {
   boolean isDirected = false;
 
   public Graph(boolean isDirected) {
-    allEdges = new ArrayList<Edge<T>>();
-    allVertex = new HashMap<Long, Vertex<T>>();
+    allEdges = new ArrayList<>();
+    allVertex = new HashMap<>();
     this.isDirected = isDirected;
   }
 
@@ -59,14 +59,14 @@ public class Graph<T> {
     if (allVertex.containsKey(id1)) {
       vertex1 = allVertex.get(id1);
     } else {
-      vertex1 = new Vertex<T>(id1);
+      vertex1 = new Vertex<>(id1);
       allVertex.put(id1, vertex1);
     }
     Vertex<T> vertex2 = null;
     if (allVertex.containsKey(id2)) {
       vertex2 = allVertex.get(id2);
     } else {
-      vertex2 = new Vertex<T>(id2);
+      vertex2 = new Vertex<>(id2);
       allVertex.put(id2, vertex2);
     }
 
@@ -110,8 +110,8 @@ class Vertex<T> {
 
   long id;
   private T data;
-  private List<Edge<T>> edges = new ArrayList<Edge<T>>();
-  private List<Vertex<T>> adjacentVertex = new ArrayList<Vertex<T>>();
+  private List<Edge<T>> edges = new ArrayList<>();
+  private List<Vertex<T>> adjacentVertex = new ArrayList<>();
 
   Vertex(long id) {
     this.id = id;

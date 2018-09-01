@@ -592,6 +592,7 @@ public class StringImp {
 
   //General Solution, Time = O(n2) assuming substring is O(1)
   static Map<String, String> memoized = new HashMap<>();
+
   public static String wordBreakUsingDP(String input, Set<String> dict) {
     if (dict.contains(input)) {
       return input;
@@ -640,9 +641,11 @@ public class StringImp {
   //Output: ["cats and dog", "cat sand dog"]
   //O(len(wordDict) * len(s / minWordLenInDict))
   HashMap<String, List<String>> map = new HashMap<>();
+
   public List<String> wordBreakII(String s, Set<String> wordDict) {
-    if (map.containsKey(s))
+    if (map.containsKey(s)) {
       return map.get(s);
+    }
 
     LinkedList<String> res = new LinkedList<>();
     if (s.length() == 0) {
@@ -652,27 +655,31 @@ public class StringImp {
     for (String word : wordDict) {
       if (s.startsWith(word)) {
         List<String> sublist = wordBreakII(s.substring(word.length()), wordDict);
-        for (String sub : sublist)
+        for (String sub : sublist) {
           res.add(word + (sub.isEmpty() ? "" : " ") + sub);
+        }
       }
     }
     map.put(s, res);
     return res;
   }
+
   // second approach
   public List<String> wordBreakIII(String s, Set<String> wordDict) {
-    if(map.containsKey(s))
+    if (map.containsKey(s)) {
       return map.get(s);
+    }
     int len = s.length();
     List<String> ret = new ArrayList<>();
-    if(wordDict.contains(s))
+    if (wordDict.contains(s)) {
       ret.add(s);
-    for(int i=1;i<len;i++){
+    }
+    for (int i = 1; i < len; i++) {
       String curr = s.substring(i);
-      if(wordDict.contains(curr)){
-        List<String> strs = wordBreakIII(s.substring(0,i),wordDict);
-        if(strs.size() != 0 ){
-          for(Iterator<String> it = strs.iterator(); it.hasNext();){
+      if (wordDict.contains(curr)) {
+        List<String> strs = wordBreakIII(s.substring(0, i), wordDict);
+        if (strs.size() != 0) {
+          for (Iterator<String> it = strs.iterator(); it.hasNext(); ) {
             ret.add(it.next() + " " + curr);
           }
         }
@@ -1266,10 +1273,12 @@ public class StringImp {
     reverse(s, 0, s.length - 1); // reverse the whole sentense
     int start = 0;
     for (int i = 0; i < s.length; i++) // reverse each word
+    {
       if (s[i] == ' ') {
         reverse(s, start, i - 1);
         start = i + 1;
       }
+    }
     reverse(s, start, s.length - 1); // reverse the last word
   }
 
@@ -3032,64 +3041,80 @@ public class StringImp {
     You receive a list of words from the dictionary, where words are sorted lexicographically by the rules of this new language.
     Derive the order of letters in this language. For example, Given the following words in dictionary,
     [ "wrt", "wrf", "er", "ett", "rftt" ] The correct order is: "wertf".*/
-  public static String alienOrder(String[] words) {
-    if (words == null || words.length == 0) {
-      return "";
-    }
-    Set<Character>[] graph = new Set[256];
-    Map<Character, Integer> map = new HashMap<>();
-    int len = words.length;
-    Queue<Character> queue = new LinkedList<>();
-    StringBuilder builder = new StringBuilder();
+  // Time = O( N * M * no of Alphabet] where n is no of words and m is avg word length.
+  static class Graph {
 
-    for (String word : words) {
-      for (char c : word.toCharArray()) {
-        map.put(c, 0);
+    List<Integer>[] adjacencyList;
+
+    Graph(int nVertices) {
+      adjacencyList = new ArrayList[nVertices];
+      for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) {
+        adjacencyList[vertexIndex] = new ArrayList<>();
       }
     }
-    for (int i = 0; i < 256; i++) {
-      graph[i] = new HashSet<Character>();
-    }
-    for (int i = 0; i < len - 1; i++) {
-      int minLen = Math.min(words[i].length(), words[i + 1].length());
-      for (int j = 0; j < minLen; j++) {
-        char c1 = words[i].charAt(j);
-        char c2 = words[i + 1].charAt(j);
 
-        if (c1 != c2) {
-          if (!graph[c1].contains(c2)) {
-            graph[c1].add(c2);
-            map.put(c2, map.get(c2) + 1);
+    // function to add an edge to graph
+    void addEdge(int startVertex, int endVertex) {
+      adjacencyList[startVertex].add(endVertex);
+    }
+
+    private int getNoOfVertices() {
+      return adjacencyList.length;
+    }
+
+
+    public static String alienOrder(String[] words, int noOfAlpha) {
+      // Create a graph with 'aplha' edges
+      Graph graph = new Graph(noOfAlpha);
+      for (int i = 0; i < words.length - 1; i++) {
+        // Take the current two words and find the first mismatching character
+        String word1 = words[i];
+        String word2 = words[i + 1];
+        for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
+          // If we find a mismatching character, then add an edge from character of word1 to that of word2
+          if (word1.charAt(j) != word2.charAt(j)) {
+            graph.addEdge(word1.charAt(j) - 'a', word2.charAt(j) - 'a');
+            break;
           }
-          break;
-        }
-        // deal with the corner case [abc, ab]
-        if (words[i].charAt(minLen - 1) == words[i + 1].charAt(minLen - 1) && minLen < words[i]
-            .length()) {
-          return "";
         }
       }
-    }
-    for (char c : map.keySet()) {
-      if (map.get(c) == 0) {
-        queue.offer(c);
-      }
-    }
-    while (!queue.isEmpty()) {
-      char node = queue.poll();
-      builder.append(node);
-      for (char nextNode : graph[node]) {
-        int count = map.get(nextNode);
-        if (count == 1) {
-          queue.offer(nextNode);
-        } else {
-          map.put(nextNode, count - 1);
-        }
-      }
-    }
-    return builder.length() == map.size() ? builder.toString() : "";
-  }
 
+      // Print topological sort of the above created graph
+      return graph.topologicalSort();
+    }
+
+    String topologicalSort() {
+      Stack<Integer> stack = new Stack<>();
+      Set visited = new HashSet();
+
+      // Call the recursive helper function to store Topological Sort starting from all vertices one by one
+      for (int i = 0; i < getNoOfVertices(); i++) {
+        if (!visited.contains(i)) {
+          topologicalSortUtil(i, visited, stack);
+        }
+      }
+      StringBuilder output = new StringBuilder();
+      while (!stack.isEmpty()) {
+        output.append((char) ('a' + stack.pop()) + " ");
+      }
+      return output.reverse().toString();
+    }
+
+    // A recursive function used by topologicalSort
+    private void topologicalSortUtil(int currentVertex, Set visited,
+        Stack<Integer> stack) {
+      // Mark the current node as visited.
+      visited.add(currentVertex);
+
+      // Recur for all the vertices adjacent to this vertex
+      for (int adjacentVertex : adjacencyList[currentVertex]) {
+        if (!visited.contains(adjacentVertex)) {
+          topologicalSortUtil(adjacentVertex, visited, stack);
+        }
+      }
+      stack.push(currentVertex);
+    }
+  }
     /* We are given a list of words that have both 'simple' and 'compound' words in them. Write an algorithm that prints
     out a list of words without the compound words that are made up of the simple words.
     Input: chat, ever, snapchat, snap, salesperson, per, person, sales, son, whatsoever, what so.
@@ -3461,6 +3486,33 @@ public class StringImp {
     }
     // we've tried our best but still no luck
     return false;
+  }
+
+  //Given a non-negative integer num represented as a string, remove k digits from the number so
+  //that the new number is the smallest possible.
+  //Input: num = "1432219", k = 3  Output: "1219"  "10200", k = 1 Output: "200"
+  public String removeKdigits(String num, int k) {
+    int digits = num.length() - k;
+    char[] stk = new char[num.length()];
+    int top = 0;
+    // k keeps track of how many characters we can remove
+    // if the previous character in stk is larger than the current one
+    // then removing it will get a smaller number
+    // but we can only do so when k is larger than 0
+    for (int i = 0; i < num.length(); ++i) {
+      char c = num.charAt(i);
+      while (top > 0 && stk[top - 1] > c && k > 0) {
+        top -= 1;
+        k -= 1;
+      }
+      stk[top++] = c;
+    }
+    // find the index of first non-zero digit
+    int idx = 0;
+    while (idx < digits && stk[idx] == '0') {
+      idx++;
+    }
+    return idx == digits ? "0" : new String(stk, idx, digits - idx);
   }
 
 }

@@ -4235,7 +4235,8 @@ public class Array {
 
   /* Given an array with n integers, your task is to check if it could become non-decreasing by modifying at most 1 element.
     We define an array is non-decreasing if array[i] <= array[i + 1] holds for every i (1 <= i < n).
-    Monotonous Array, input = [4,2,3] output = true; [4,2,1] => false    */
+    Monotonous Array, input = [4,2,3] output = true; [4,2,1] => false
+     [3,4,2,3] output = false*/
   public boolean checkPossibility(int[] nums) {
     int index = -1;
     for (int i = 1; i < nums.length; i++) {
@@ -4251,6 +4252,18 @@ public class Array {
         index == 1 || index == nums.length - 1 ||  // reversed pair is first or last element
         nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index
         + 1]); // normal case range [p-2 --> p+1] all valid
+  }
+  public static boolean checkPossibility1(int[] nums) {
+    int cnt = 0, n = nums.length;
+    for (int i = 0; i < n - 1; i++) {
+      if (nums[i] > nums[i + 1]) {
+        cnt++;
+        if (i >= 1 && nums[i + 1] < nums[i - 1])
+          nums[i + 1] = nums[i];
+      }
+      if (cnt > 1) return false;
+    }
+    return true;
   }
 
   /*Give a Pair (M, N) to represent the coordinates, you start from (1, 1), each time (x, y) => (x + y, y) or (x, x + y)
