@@ -2942,6 +2942,10 @@ public class Array {
     System.out.println("N1: " + p + " N2: " + q);
   }
 
+  //Single Number II: Given a non-empty array of integers, every element appears three times except for one,
+  // which appears exactly once. Find that single one.
+
+
   //Given a stream of numbers, print average (or mean) of the stream at every point.
   // Returns the new average after including x
   float getAvg(float prev_avg, int x, int n) {
