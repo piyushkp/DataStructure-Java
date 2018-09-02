@@ -3062,7 +3062,6 @@ public class StringImp {
       return adjacencyList.length;
     }
 
-
     public static String alienOrder(String[] words, int noOfAlpha) {
       // Create a graph with 'aplha' edges
       Graph graph = new Graph(noOfAlpha);

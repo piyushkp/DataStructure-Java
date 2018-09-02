@@ -344,7 +344,7 @@ public class MISC {
     return c;
   }
 
-  //Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
+  //findCelebrity: Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
   //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
   static int getFamousPerson(int[] persons) {
     if (persons.length == 0) {
@@ -352,8 +352,7 @@ public class MISC {
     }
     int c = 0;
     for (int i = 1; i < persons.length; i++) {
-      if (isKnow(c, i)) // given
-      {
+      if (isKnow(c, i)) {
         c = i;
       }
     }
@@ -366,6 +365,27 @@ public class MISC {
       }
     }
     return c;
+  }
+
+  public static int findCelebrity(int n) {
+    int celeb = 0;
+    // We find a 'i' which is known by everyone, but doesn't know anyone.
+    for (int i = 1; i < n; i++) {
+      if (isKnow(celeb, i)) {
+        celeb = i;
+      }
+    }
+    /*
+     * To make sure the value we find out is actually the celebrity, we
+     * check if celeb knows none and everyone knows him.
+     */
+    for (int i = 0; i < n; i++) {
+      if (i != celeb && (isKnow(celeb, i) || !isKnow(i, celeb))) {
+        return -1;
+      }
+    }
+
+    return celeb;
   }
 
   static boolean isKnow(int i, int j) {
@@ -1873,6 +1893,7 @@ public class MISC {
   // Time = O(logk) space = O(k)
   PriorityQueue<Element> minHeap = new PriorityQueue<>(new ElementComparator());
   List<List<Integer>> data;
+
   public Integer next() {
     Integer result = null;
     if (!minHeap.isEmpty()) {
@@ -1898,12 +1919,14 @@ public class MISC {
   }
 
   class Element {
+
     int value;
     int position;
     int kIndex;
   }
 
   class ElementComparator implements Comparator<Element> {
+
     @Override
     public int compare(Element e1, Element e2) {
       return e1.value - e2.value;

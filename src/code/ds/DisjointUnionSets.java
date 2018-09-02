@@ -203,7 +203,7 @@ public class DisjointUnionSets {
     return result;
   }
 
-  //find number of friend circle in given matrix
+  //bloomberg: find number of friend circle in given matrix
   static int findFriendCircles(char[][] mat) {
     int m = mat.length;
     int n = mat[0].length;
@@ -220,6 +220,27 @@ public class DisjointUnionSets {
       set.add(dus.find(i));
     }
     return set.size();
+  }
+
+  public int findCircleNum(int[][] M) {
+    boolean[] visited = new boolean[M.length]; //visited[i] means if ith person is visited in this algorithm
+    int count = 0;
+    for(int i = 0; i < M.length; i++) {
+      if(!visited[i]) {
+        dfs(M, visited, i);
+        count++;
+      }
+    }
+    return count;
+  }
+  private void dfs(int[][] M, boolean[] visited, int person) {
+    for(int other = 0; other < M.length; other++) {
+      if(M[person][other] == 1 && !visited[other]) {
+        //We found an unvisited person in the current friend cycle
+        visited[other] = true;
+        dfs(M, visited, other); //Start DFS on this new found person
+      }
+    }
   }
 
 }
