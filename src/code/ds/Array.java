@@ -1301,27 +1301,31 @@ public class Array {
     }
     return -1;
   }
+
   //search target in rotated sorted array with duplicates allowed
   private static boolean rotatedArrayWithDuplicates(int nums[], int target) {
     int left = 0, right = nums.length - 1, mid;
     while (left <= right) {
       mid = (left + right) >> 1;
-      if (nums[mid] == target)
+      if (nums[mid] == target) {
         return true;
+      }
       // the only difference from the first one, tricky case, just update left and right
       if ((nums[left] == nums[mid]) && (nums[right] == nums[mid])) {
         ++left;
         --right;
       } else if (nums[left] <= nums[mid]) {
-        if ((nums[left] <= target) && (nums[mid] > target))
+        if ((nums[left] <= target) && (nums[mid] > target)) {
           right = mid - 1;
-        else
+        } else {
           left = mid + 1;
+        }
       } else {
-        if ((nums[mid] < target) && (nums[right] >= target))
+        if ((nums[mid] < target) && (nums[right] >= target)) {
           left = mid + 1;
-        else
+        } else {
           right = mid - 1;
+        }
       }
     }
     return false;
@@ -1851,19 +1855,21 @@ public class Array {
   public void sortKColors2TwoPass(int[] colors, int k) {
     int[] count = new int[k];
     for (int color : colors) {
-      count[color-1]++;
+      count[color - 1]++;
     }
     int index = 0;
     for (int i = 0; i < k; i++) {
-      while (count[i]>0) {
-        colors[index++] = i+1;
+      while (count[i] > 0) {
+        colors[index++] = i + 1;
         count[i]--;
       }
     }
   }
 
-  /** Method II: Each time sort the array into three parts: [all min] [all unsorted others] [all max],
-   *  then update min and max and sort the [all unsorted others] with the same method. */
+  /**
+   * Method II: Each time sort the array into three parts: [all min] [all unsorted others] [all
+   * max], then update min and max and sort the [all unsorted others] with the same method.
+   */
   public void sortKColors2(int[] colors, int k) {
     int pl = 0;
     int pr = colors.length - 1;
@@ -4257,15 +4263,19 @@ public class Array {
         nums[index - 2] <= nums[index] || nums[index - 1] <= nums[index
         + 1]); // normal case range [p-2 --> p+1] all valid
   }
+
   public static boolean checkPossibility1(int[] nums) {
     int cnt = 0, n = nums.length;
     for (int i = 0; i < n - 1; i++) {
       if (nums[i] > nums[i + 1]) {
         cnt++;
-        if (i >= 1 && nums[i + 1] < nums[i - 1])
+        if (i >= 1 && nums[i + 1] < nums[i - 1]) {
           nums[i + 1] = nums[i];
+        }
       }
-      if (cnt > 1) return false;
+      if (cnt > 1) {
+        return false;
+      }
     }
     return true;
   }
@@ -4294,47 +4304,53 @@ public class Array {
       cur[0] -= cur[1];
     }
   }
+
   //write an algorithm to determine the number of set bits in integer.
   public static int countSetBits(int x) {
     int count = 0;
-    while(x > 0){
-      x  = x & (x -1);
+    while (x > 0) {
+      x = x & (x - 1);
       count++;
     }
     return count;
   }
-  private static int countSetBit(int number){
+
+  private static int countSetBit(int number) {
     int counter = 0;
-    while(number>0){
-      if(number%2 == 1){
+    while (number > 0) {
+      if (number % 2 == 1) {
         counter++;
       }
-      number = number/2; //or number = number >> 1
+      number = number / 2; //or number = number >> 1
     }
     return counter;
   }
+
   //Find smallest range from k sorted lists
   //You have k lists of sorted integers in ascending order. Find the smallest range that includes
   // at least one number from each of the k lists.
   //Input:[[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
   //Output: [20,24]
   static class KSortedList {
+
     int position;
     int value;
     int kIndex;
   }
-  static class KSortedListComparator implements Comparator<KSortedList>{
+
+  static class KSortedListComparator implements Comparator<KSortedList> {
+
     @Override
-    public int compare(KSortedList e1, KSortedList e2){
-      if(e1.value >= e2.value){
+    public int compare(KSortedList e1, KSortedList e2) {
+      if (e1.value >= e2.value) {
         return 1;
-      }
-      else if (e1.value <= e2.value){
+      } else if (e1.value <= e2.value) {
         return -1;
       }
       return 0;
     }
   }
+
   // Time = O(K) + O(n * logK)
   static List<Integer> smallestRange(List<List<Integer>> input) {
     PriorityQueue<KSortedList> minHeap = new PriorityQueue<>(new KSortedListComparator());
@@ -4367,6 +4383,33 @@ public class Array {
       }
     }
     return new ArrayList<>(Arrays.asList(start, end));
+  }
+
+  //Trapping Rain Water: Given n non-negative integers representing an elevation map where the width
+  // of each bar is 1, compute how much water it is able to trap after raining.
+  // Input: [0,1,0,2,1,0,1,3,2,1,2,1], return 6
+  static int trapWater(int[] input) {
+    int left = 0, right = input.length - 1;
+    int ans = 0;
+    int left_max = 0, right_max = 0;
+    while (left < right) {
+      if (input[left] < input[right]) {
+        if (input[left] >= left_max) {
+          left_max = input[left];
+        } else {
+          ans += (left_max - input[left]);
+        }
+        ++left;
+      } else {
+        if (input[right] >= right_max) {
+          right_max = input[right];
+        } else {
+          ans += (right_max - input[right]);
+        }
+        --right;
+      }
+    }
+    return ans;
   }
 
 }
