@@ -18,8 +18,6 @@ public class design {
 
     String licencePlate;
 
-    // enum colors;
-
     boolean canFitInSmallSlot() {
       return false;
     }
@@ -34,19 +32,15 @@ public class design {
   }
 
   class Car extends Vehicle {
-
   }
 
   class Motorcycle extends Vehicle {
-
   }
 
   class Bus extends Vehicle {
-
   }
 
   class Truck extends Vehicle {
-
   }
 
   // think about concurrency and pricing
@@ -116,9 +110,6 @@ public class design {
         smallSlots.push(slot);
       }
       occupiedSlots.remove(uniqueToken);
-      //remove from hashmap
-      // add spot in stack
-
     }
 
     private long parkHelper(Slot slot, Vehicle vehicle) {
