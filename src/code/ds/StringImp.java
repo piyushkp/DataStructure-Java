@@ -1485,7 +1485,9 @@ public class StringImp {
   /*Airbnb: Given a list of strings, find all the palindromic pairs of the string and output the concatenated palindrome.
     e.g. [abc, cba], output is abccba, cbaabc.            e.g. [aabc, cb], output is cbaabc
     //Put all words in a Set. For each word, get all it’s prefix and suffix. Search for reversed(prefix) and reversed(suffix) in the Set.
-    //If found, check if the rest of the string is a palindrome or not. Time complexity O(nk^2).*/
+    //If found, check if the rest of the string is a palindrome or not. Time complexity O(n^2 k) where k is avg length of word and n is number of words.
+    better solution is O(n k^2) since words can be big list
+    another solution using trie*/
   public static List<List<Integer>> palindromePairs(String[] words) {
     List<List<Integer>> ans = new ArrayList<List<Integer>>();
     Map<String, Integer> map = new HashMap<String, Integer>();
@@ -1507,6 +1509,66 @@ public class StringImp {
       }
     }
     return ans;
+  }
+
+  //palindromic pairs with trie and time = O(nk ^2)
+  //https://leetcode.com/problems/palindrome-pairs/discuss/79195/O(n*k2)-java-solution-with-Trie-structure
+  class TrieNode2 {
+
+    TrieNode2[] next;
+    int index;
+    List<Integer> list;
+
+    TrieNode2() {
+      next = new TrieNode2[26];
+      index = -1;
+      list = new ArrayList<>();
+    }
+  }
+
+  public List<List<Integer>> palindromePairsImproved(String[] words) {
+    List<List<Integer>> res = new ArrayList<>();
+    TrieNode2 root = new TrieNode2();
+    for (int i = 0; i < words.length; i++) {
+      addWord(root, words[i], i);
+    }
+    for (int i = 0; i < words.length; i++) {
+      search(words, i, root, res);
+    }
+    return res;
+  }
+
+  private void addWord(TrieNode2 root, String word, int index) {
+    for (int i = word.length() - 1; i >= 0; i--) {
+      int j = word.charAt(i) - 'a';
+      if (root.next[j] == null) {
+        root.next[j] = new TrieNode2();
+      }
+      if (isPalindrome(word, 0, i)) {
+        root.list.add(index);
+      }
+      root = root.next[j];
+    }
+    root.list.add(index);
+    root.index = index;
+  }
+
+  private void search(String[] words, int i, TrieNode2 root, List<List<Integer>> res) {
+    for (int j = 0; j < words[i].length(); j++) {
+      if (root.index >= 0 && root.index != i && isPalindrome(words[i], j, words[i].length() - 1)) {
+        res.add(Arrays.asList(i, root.index));
+      }
+      root = root.next[words[i].charAt(j) - 'a'];
+      if (root == null) {
+        return;
+      }
+    }
+    for (int j : root.list) {
+      if (i == j) {
+        continue;
+      }
+      res.add(Arrays.asList(i, j));
+    }
   }
 
   //Given a list of words, filter it such that it would only contain those words that have palindrome in an original list.
@@ -1889,7 +1951,7 @@ public class StringImp {
     return result;
   }
 
-  //Airbnb:Decode String. Given a string try lower/upper case combinations to decode the string.
+  //Airbnb: Decode String. Given a string try lower/upper case combinations to decode the string.
   //e.g. kljJJ324hjkS_ decodes to 848662 now given Input is : kljjj324hjks_
   //Time complexity is exponential
   private static Integer decodeFindHelper(int start, StringBuffer curr, String badEncString) {

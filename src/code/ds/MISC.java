@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -461,7 +462,8 @@ public class MISC {
     }
   }
 
-  //Given a 2-D int array, write an iterator that traverses it   from left to right and top to bottom.
+  // Airbnb: 2D Iterator with remove()
+  // Given a 2-D int array, write an iterator that traverses it   from left to right and top to bottom.
   class twoDArrayIterator<T> {
 
     private List<List<Integer>> array;
@@ -1308,12 +1310,13 @@ public class MISC {
     }
   }
 
-  /* Java program to design a data structure that support folloiwng operations
+  /* Java program to design a data structure that support following operations
   //   in Theta(n) time
   //   a) Insert
   //   b) Delete
   //   c) Search
-  //   d) getRandom */
+  //   d) getRandom
+     doesnt work with duplicates value [1, 1, 2, 2, 3,3] and then remove(2) and remove(2) */
   class MyDS {
 
     ArrayList<Integer> arr;   // A resizable array
@@ -1374,6 +1377,92 @@ public class MISC {
     // Returns index of element if element is present, otherwise null
     Integer search(int x) {
       return hash.get(x);
+    }
+  }
+
+  // Insert Delete GetRandom O(1) - Duplicates allowed
+  class RandomizedCollection {
+
+    private List<Integer> list;
+    private Map<Integer, LinkedHashSet<Integer>> map;
+
+    /**
+     * Initialize your data structure here.
+     */
+    public RandomizedCollection() {
+      list = new ArrayList<>();
+      map = new HashMap<>();
+    }
+
+    /**
+     * Inserts a value to the collection. Returns true if the collection did not already contain the
+     * specified element.
+     */
+    public boolean insert(int val) {
+      boolean ans = true;
+
+      LinkedHashSet<Integer> indices;
+      int loc = list.size();
+
+      list.add(val);
+
+      if (map.containsKey(val)) {
+        ans = false;
+        indices = map.get(val);
+      } else {
+        indices = new LinkedHashSet<>();
+      }
+      indices.add(loc);
+      map.put(val, indices);
+
+      return ans;
+    }
+
+    /**
+     * Removes a value from the collection. Returns true if the collection contained the specified
+     * element.
+     */
+    public boolean remove(int val) {
+      if (!map.containsKey(val) || map.get(val).isEmpty()) {
+        return false;
+      }
+      // Get loc of the val to be removed
+      int locToRemove = map.get(val).iterator().next();
+
+      // Remove the val
+      map.get(val).remove(locToRemove);
+
+      if (locToRemove < list.size() - 1) {
+
+        // Get the number to be swapped
+        int numToSwap = list.get(list.size() - 1);
+
+        // Put the tail number to the location to be removed
+        list.set(locToRemove, numToSwap);
+
+        // Update the loc
+        if (map.get(numToSwap).contains(list.size() - 1)) {
+          map.get(numToSwap).remove(list.size() - 1);
+        }
+        map.get(numToSwap).add(locToRemove);
+      }
+
+      // Remove the val
+      list.remove(list.size() - 1);
+
+      return true;
+    }
+
+    /**
+     * Get a random element from the collection.
+     */
+    public int getRandom() {
+      if (list.isEmpty()) {
+        return 0;
+      }
+      Random rand = new Random();
+      int loc = rand.nextInt(list.size());
+      return list.get(loc);
     }
   }
 
