@@ -2450,9 +2450,9 @@ public class Array {
     return result;
   }
 
-  //Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
+  //Contains Duplicate II: Given an unsorted array that may contain duplicates.returns true if array contains duplicates within k distance.
   private boolean checkDuplicatesWithinK(int a[], int k) {
-    HashSet<Integer> hash = new HashSet<Integer>();
+    HashSet<Integer> hash = new HashSet<>();
     for (int i = 0; i < a.length; i++) {
       if (hash.contains(a[i])) {
         return true;
@@ -2461,6 +2461,30 @@ public class Array {
       if (i >= k) {
         hash.remove(a[i - k]);
       }
+    }
+    return false;
+  }
+  //Contains Duplicate III: Given an array of integers, find out whether there are two distinct indices i and j in
+  // the array such that the absolute difference between nums[i] and nums[j] is at most t and the
+  // absolute difference between i and j is at most k.
+  //Input: nums = [1,2,3,1], k = 3, t = 0 Output: true
+  //Input: nums = [1,5,9,1,5,9], k = 2, t = 3 Output: false
+  public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+    if (k < 1 || t < 0) return false;
+    Map<Long, Long> map = new HashMap<>();
+    for (int i = 0; i < nums.length; i++) {
+      long remappedNum = (long) nums[i] - Integer.MIN_VALUE;
+      long bucket = remappedNum / ((long) t + 1); // why t+1 ? because, if t not plus 1, when t == 0, num divide by 0 will cause crash.
+
+      if (map.containsKey(bucket) // means the key in the map duplicated, it means the must be exist two numbers that the different value between them are less than t
+          || (map.containsKey(bucket - 1) && remappedNum - map.get(bucket - 1) <= t) // if the two different numbers are located in two adjacent bucket, the value still might be less than t
+          || (map.containsKey(bucket + 1) && map.get(bucket + 1) - remappedNum <= t))
+        return true; // the same reason for -1
+      if (map.entrySet().size() >= k) {
+        long lastBucket = ((long) nums[i - k] - Integer.MIN_VALUE) / ((long) t + 1);
+        map.remove(lastBucket);
+      }
+      map.put(bucket, remappedNum); //replace the duplicated key
     }
     return false;
   }
