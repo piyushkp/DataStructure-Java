@@ -3293,7 +3293,7 @@ public class Array {
     double diff = T - sum;
     if (diff != 0) {
       int size = Math.abs((int) Math.round(diff));
-      Queue<Pair<Double, Integer>> maxHeap = new PriorityQueue<Pair<Double, Integer>>(size,
+      PriorityQueue<Pair<Double, Integer>> maxHeap = new PriorityQueue<>(size,
           new Comparator<Pair<Double, Integer>>() {
             @Override
             public int compare(Pair<Double, Integer> o1, Pair<Double, Integer> o2) {
@@ -3301,12 +3301,12 @@ public class Array {
             }
           });
       for (int i = 0; i < input.length; i++) {
-        double _deta = Math.abs(input[i] - output[i]);
+        double delta = Math.abs(input[i] - output[i]);
         if (i < Math.round(diff)) {
-          maxHeap.add(new Pair(_deta, i));
-        } else if (_deta > maxHeap.peek().getKey()) {
+          maxHeap.add(new Pair(delta, i));
+        } else if (delta > maxHeap.peek().getKey()) {
           maxHeap.poll();
-          maxHeap.add(new Pair(_deta, i));
+          maxHeap.add(new Pair(delta, i));
         }
       }
       while (!maxHeap.isEmpty() && diff > 0) {

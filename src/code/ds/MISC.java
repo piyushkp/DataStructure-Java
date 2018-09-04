@@ -20,8 +20,14 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * Created by Piyush Patel.
@@ -992,7 +998,9 @@ public class MISC {
   3. If cache is full and its cache miss, remove the item at end and insert the new item at front of queue.
   4. To check hit or miss, use hash table.
    So at front items would be most recently used while in the end of queue least recently used items
-  O(1) all operations*/
+  O(1) all operations
+  use pseudo head and tail to avoid null checks. https://leetcode.com/problems/lru-cache/discuss/45911/Java-Hashtable-+-Double-linked-list-(with-a-touch-of-pseudo-nodes)
+  */
   class DoublyNode {
 
     int data;
@@ -1006,39 +1014,34 @@ public class MISC {
     HashMap<Integer, DoublyNode> map;
     int capacity;
     DoublyNode head;
-    DoublyNode end;
+    DoublyNode tail;
 
     LRU(int capacity) {
       this.capacity = capacity;
       map = new HashMap<>();
+      //pseudo head and tail to avoid null checks
+      head = new DoublyNode();
+      head.prev = null;
+      tail = new DoublyNode();
+      tail.next = null;
+      head.next = tail;
+      tail.prev = head;
     }
 
     private void add(DoublyNode item) {
-      if (head == null) {
-        head = item;
-        end = item;
-      }
-      head.prev = item;
-      item.next = head;
-      head = item;
+      item.prev = head;
+      item.next = head.next;
+
+      head.next.prev = item;
+      head.next = item;
     }
 
     private void remove(DoublyNode item) {
-      if (head == null || item == null) {
-        return;
-      } else if (head == item && head == end) {
-        head = null;
-        end = null;
-      } else if (head == item) {
-        head.next.prev = null;
-        head = head.next;
-      } else if (end == item) {
-        end.prev.next = null;
-        end = end.prev;
-      } else {
-        item.prev.next = item.next;
-        item.next.prev = item.prev;
-      }
+      DoublyNode pre = item.prev;
+      DoublyNode post = item.next;
+
+      pre.next = post;
+      post.prev = pre;
     }
 
     private void moveFirst(DoublyNode item) {
@@ -1046,8 +1049,10 @@ public class MISC {
       add(item);
     }
 
-    private void removeLast() {
-      remove(this.end);
+    private DoublyNode removeLast() {
+      DoublyNode res = tail.prev;
+      this.remove(res);
+      return res;
     }
 
     public int get(int key) {
@@ -1070,8 +1075,8 @@ public class MISC {
       }
       //cache is full and cache miss
       if (map.size() >= capacity) {
-        removeLast();
-        map.remove(this.end.key);
+        DoublyNode end = removeLast();
+        map.remove(end.key);
       }
       DoublyNode node = new DoublyNode();
       node.key = key;
@@ -1085,6 +1090,80 @@ public class MISC {
         DoublyNode node = map.get(key);
         map.remove(key);
         remove(node);
+      }
+    }
+  }
+
+  // Thread Safe LRU cache with use pseudo head and tail to avoid null checks.
+  //https://www.ebayinc.com/stories/blogs/tech/high-throughput-thread-safe-lru-caching/
+  //https://github.com/ben-manes/concurrentlinkedhashmap/blob/master/src/main/java/com/googlecode/concurrentlinkedhashmap/ConcurrentLinkedHashMap.java
+  class LRUThreadSafe<K, V> {
+
+    private ConcurrentLinkedQueue<K> queue = new ConcurrentLinkedQueue<>();
+
+    private ConcurrentHashMap<K, V> map = new ConcurrentHashMap<>();
+
+    private ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+
+    private Lock readLock = readWriteLock.readLock();
+
+    private Lock writeLock = readWriteLock.writeLock();
+
+    AtomicLong capacity;
+
+    AtomicLong total;
+
+    LRUThreadSafe(long capacity) {
+      this.capacity.lazySet(capacity);
+    }
+
+    public V get(K key) {
+      readLock.lock();
+      try {
+        V v = null;
+        if (map.contains(key)) {
+          v = map.get(key);
+          queue.remove(key);
+          queue.add(key);
+        }
+        return v;
+      } finally {
+        readLock.unlock();
+      }
+    }
+
+    public V set(K key, V value) {
+      writeLock.lock();
+      try {
+        if (map.contains(key)) {
+          queue.remove(key);
+        }
+        while (total.get() >= capacity.get()) {
+          K queueKey = queue.poll();
+          map.remove(queueKey);
+        }
+        //New elements are inserted at the tail of the queue
+        queue.add(key);
+        total.incrementAndGet();
+        map.put(key, value);
+
+        return value;
+      } finally {
+        writeLock.unlock();
+      }
+    }
+
+    public V remove(K key) {
+      writeLock.lock();
+      try {
+        V v = null;
+        if (map.contains(key)) {
+          v = map.remove(key);
+          queue.remove(key);
+        }
+        return v;
+      } finally {
+        writeLock.unlock();
       }
     }
   }
