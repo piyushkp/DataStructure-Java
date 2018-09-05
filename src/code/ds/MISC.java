@@ -22,8 +22,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -186,6 +186,60 @@ public class MISC {
     return count + 1;
   }
 
+  /**
+   * Adds an interval [from, to] into internal structure. https://github.com/yubinbai/leetcode/blob/master/common_questions/add_interval_total_length/AddInterval.java
+   */
+  private static List<Interval> intervals = new ArrayList<>();
+  static int coverage = 0;
+  static void addInterval(int from, int to) {
+    Interval interval = new Interval(from, to);
+    intervals.add(interval);
+  }
+
+  // in place add interval time = O(n) space O(1)
+  static void addInterval1(int from, int to) {
+    Interval newInterval = new Interval(from, to);
+    if(intervals.size() == 0){
+      intervals.add(newInterval);
+      coverage = newInterval.end - newInterval.start;
+      return;
+    }
+    Iterator<Interval> it = intervals.iterator();
+    while (it.hasNext()) {
+      Interval prev = it.next();
+      if (prev.end >= newInterval.start) {
+        newInterval.end = Math.max(prev.end, newInterval.end);
+        newInterval.start = Math.min(prev.start, newInterval.start);
+        coverage -= prev.end - prev.start;
+        it.remove();
+      }
+      intervals.add(newInterval);
+      coverage += newInterval.end - newInterval.start;
+    }
+    /*List<Interval> result = new LinkedList<>();
+    int i = 0;
+    // add all the intervals ending before newInterval starts
+    while (i < intervals.size() && intervals.get(i).end < newInterval.start) {
+      i++;
+    }
+    // merge all overlapping intervals to one considering newInterval
+    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+      newInterval.start =
+          Math.min(newInterval.start, intervals.get(i).start);
+      newInterval.end =
+          Math.max(newInterval.end, intervals.get(i).end);
+      i++;
+    }
+    result.add(newInterval); // add the union of intervals we got
+    // add all the rest
+    while (i < intervals.size()) {
+      result.add(intervals.get(i++));
+    }*/
+  }
+
+  private int getCoverageOfIntervals(){
+    return coverage;
+  }
 
   /*Given a list of tuples representing intervals, return the range these UNIQUE intervals
   covered. e.g: [(1,3),(2,5),(8,9)] should return 5
@@ -194,12 +248,28 @@ public class MISC {
   c) 8 9 = 1 unique interval
   result = 2 + 2 + 1 = 5 */
   private int getCoverageOfIntervals(ArrayList<Interval> intervals) {
-    int range = 0;
-    List<Interval> mergeIntervals = mergeIntervals(intervals);
-    for (Interval _interval : mergeIntervals) {
-      range += (_interval.end - _interval.start);
+    if (intervals.isEmpty()) {
+      return 0;
     }
-    return range;
+
+    Collections.sort(intervals, new IntervalComparator());
+    int len = 0;
+    Interval prev = intervals.get(0);
+
+    for (int i = 1; i < intervals.size(); i++) {
+      Interval curr = intervals.get(i);
+
+      if (prev.end > curr.start) {
+        prev.end = Math.max(prev.end, curr.end);
+      } else {
+        len += prev.end - prev.start;
+        prev = curr;
+      }
+    }
+
+    len += prev.end - prev.start; // Be very careful to check this case.
+
+    return len;
   }
 
   // Method to convert infix to postfix:

@@ -2859,6 +2859,61 @@ public class Tree {
     return root;
   }
 
+  /* Given a list of child->parent relationships, build a binary tree out of it. All the element Ids inside the tree are unique.
+    Given the following relationships:
 
+    Child Parent IsLeft
+    15 20 true
+    19 80 true
+    17 20 false
+    16 80 false
+    80 50 false
+    50 null false
+    20 50 true
+
+    You should return the following tree:
+
+        50
+       /  \
+      20   80
+     / \   / \
+    15 17 19 16
+  */
+  class Relation {
+    Integer parent;
+    Integer child;
+    boolean isLeft;
+  }
+
+  static  Node buildTree(List<Relation> data) {
+    HashMap<Integer, Node> map = new HashMap<>();
+    Node root = null;
+
+    for(Relation r: data) {
+      Node child = map.get(r.child);
+      if (child  == null) {
+        child = new Node();
+        child.data = r.child;
+        map.put(r.child, child);
+      }
+      if (r.parent == null) {
+        root = child;
+        continue;
+      }
+      Node parent = map.get(r.parent);
+      if (parent == null) {
+        parent = new Node();
+        parent.data = r.parent;
+        map.put(r.parent, parent);
+      }
+
+      if (r.isLeft) {
+        parent.left = child;
+      } else {
+        parent.right = child;
+      }
+    }
+    return root;
+  }
 
 }

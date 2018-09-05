@@ -191,7 +191,7 @@ class StackWithMin extends java.util.Stack<Integer> {
   java.util.Stack<Integer> s2;
 
   public StackWithMin() {
-    s2 = new java.util.Stack<Integer>();
+    s2 = new java.util.Stack<>();
   }
 
   public void push(int value) {
