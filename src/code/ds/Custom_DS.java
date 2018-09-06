@@ -1,5 +1,8 @@
 package code.ds;
 
+import java.time.LocalDateTime;
+import java.util.*;
+
 /**
  * Created by ppatel2 on 6/26/2017.
  */
@@ -46,6 +49,49 @@ public class Custom_DS {
      */
     public String getMinKey() {
       return "";
+    }
+  }
+
+  /** Design a custom data-structure that can store numbers like a dynamically sized array and supports all of the following operations in O(1)
+   get(int index)
+   set(int idx, int value)
+   setAll(int value) */
+
+  class Combo{
+    LocalDateTime timeStamp;
+    Integer value;
+
+    Combo(LocalDateTime time, Integer value){
+      this.timeStamp = time;
+      this.value = value;
+    }
+  }
+
+  class MyDS {
+    private Combo defaultValue = new Combo(LocalDateTime.now(), null);
+    private HashMap<Integer, Combo> map;
+
+    public MyDS() {
+      map = new HashMap<>();
+    }
+
+    public void setAll(int val) {
+      defaultValue.timeStamp = LocalDateTime.now();
+      defaultValue.value = val;
+    }
+
+    public void set(int index, int val) {
+      Combo c = new Combo(LocalDateTime.now(), val);
+      map.put(index, c);
+    }
+
+    public Integer get(int index) {
+      if(!map.containsKey(index))
+        return null;
+      if (map.get(index).timeStamp.isAfter(defaultValue.timeStamp))
+        return map.get(index).value;
+      else
+        return defaultValue.value;
     }
   }
 }

@@ -191,6 +191,7 @@ public class MISC {
    */
   private static List<Interval> intervals = new ArrayList<>();
   static int coverage = 0;
+
   static void addInterval(int from, int to) {
     Interval interval = new Interval(from, to);
     intervals.add(interval);
@@ -199,7 +200,7 @@ public class MISC {
   // in place add interval time = O(n) space O(1)
   static void addInterval1(int from, int to) {
     Interval newInterval = new Interval(from, to);
-    if(intervals.size() == 0){
+    if (intervals.size() == 0) {
       intervals.add(newInterval);
       coverage = newInterval.end - newInterval.start;
       return;
@@ -237,7 +238,7 @@ public class MISC {
     }*/
   }
 
-  private int getCoverageOfIntervals(){
+  private int getCoverageOfIntervals() {
     return coverage;
   }
 
@@ -391,6 +392,48 @@ public class MISC {
         result = op1 / op2;
     }
     return result;
+  }
+
+  // evaluate reverse polish notation
+  static double rpn(List<String> ops) throws IllegalArgumentException, ArithmeticException {
+    double num1;
+    double num2;
+    double num;
+    if (ops == null || ops.size() == 0) {
+      return 0;
+    }
+    Stack<Double> stack = new Stack<>();
+    for (String item : ops) {
+      try {
+        num1 = stack.pop();
+        num2 = stack.pop();
+      } catch (NoSuchElementException ex) {
+        throw new IllegalArgumentException("ps don't represent a well-formed RPN expression");
+      }
+      if (item.equals("+")) {
+        stack.add(num1 + num2);
+      } else if (item.equals("/")) {
+        if (num1 == 0) {
+          throw new ArithmeticException("can not divide by Zero");
+        }
+        stack.add(num2 / num1);
+      } else if (item.equals("*")) {
+        stack.add(num1 * num2);
+      } else if (item.equals("-")) {
+        stack.add(num2 - num1);
+      } else {
+        try {
+          num = Double.parseDouble(item);
+        } catch (NumberFormatException ex) {
+          throw new IllegalArgumentException("ps don't represent a well-formed RPN expression");
+        }
+        stack.add(num);
+      }
+    }
+    if (stack.size() > 1) {
+      throw new IllegalArgumentException("ps don't represent a well-formed RPN expression");
+    }
+    return stack.pop();
   }
 
   /*Given a matrix of following between N LinkedIn users (with ids from 0 to N-1):
