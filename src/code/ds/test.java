@@ -22,7 +22,27 @@ public class test {
 
     List<String> out1 = iprange2cidr(s, e);
     System.out.println(Arrays.toString(out1.toArray()));*/
+    System.out.print(print(6));
 
+  }
+
+  public static String print(int precision) {
+    StringBuilder builder = new StringBuilder();
+    for (int r = 0; r <10; r++) {
+      builder.append("| ");
+      for (int c = 0; c < 10; c++) {
+        String s = Double.toString(1233424234);
+        if (s.length() < precision) {
+          for (int i = 0; i < precision - s.length(); i++) {
+            builder.append(' ');
+          }
+        }
+        builder.append(s);
+        builder.append("  ");
+      }
+      builder.append("|\n");
+    }
+    return builder.toString();
   }
 
   //http://stackoverflow.com/questions/5020317/in-java-given-an-ip-address-range-return-the-minimum-list-of-cidr-blocks-that

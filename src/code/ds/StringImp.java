@@ -2301,18 +2301,19 @@ public class StringImp {
       Set<String> dictionary) {
     startWord = startWord.toUpperCase();
     stopWord = stopWord.toUpperCase();
-    Queue<String> actionQueue = new LinkedList<String>();
-    Set<String> visitedSet = new HashSet<String>();
-    Map<String, String> backtrackMap = new TreeMap<String, String>();
+    Queue<String> actionQueue = new LinkedList<>();
+    Set<String> visitedSet = new HashSet<>();
+    Map<String, String> backtrackMap = new TreeMap<>();
     actionQueue.add(startWord);
     visitedSet.add(startWord);
+
     while (!actionQueue.isEmpty()) {
       String w = actionQueue.poll();
       // For each possible word v from w with one edit operation
       for (String v : getOneEditWords(w)) {
         if (v.equals(stopWord)) {
           // Found our word!  Now, back track.
-          LinkedList<String> list = new LinkedList<String>();
+          LinkedList<String> list = new LinkedList<>();
           // Append v to list
           list.add(v);
           while (w != null) {

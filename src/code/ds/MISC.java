@@ -46,9 +46,8 @@ public class MISC {
     list.add(i4);
     Interval target = new Interval(0, 6);
     //System.out.print(find_min_intervals(list, target));
-    drawCircle(2);
+    //drawCircle(2);
     System.out.println();
-    drawCircle1(2);
 
   }
 
@@ -766,25 +765,27 @@ public class MISC {
 
   //draw a circle
   static void drawCircle(int r) {
-    // Consider a rectangle of size N*N
-    int N = 2 * r + 1;
-    int x, y;  // Coordinates inside the rectangle
-    // Draw a square of size N*N.
-    for (int i = 0; i < N; i++) {
-      for (int j = 0; j < N; j++) {
-        // Start from the left most corner point
-        x = i - r;
-        y = j - r;
-        // If this point is inside the circle, print it
-        if (x * x + y * y <= r * r + 1) {
-          System.out.print(".");
-        } else // If outside the circle, print space
-        {
-          System.out.print(" ");
-        }
-        System.out.print(" ");
-      }
-      System.out.println();
+    double x = 0;
+    double y = r;
+    draw(x, y);
+    draw(-x, y);
+    draw(x, -y);
+    draw(-x, -y);
+    draw(y, x);
+    draw(-y, x);
+    draw(y, -x);
+    draw(-y, -x);
+    while (x < y) {
+      y = Math.sqrt(y * y - x * x);
+      x++;
+      draw(x, y);
+      draw(-x, y);
+      draw(x, -y);
+      draw(-x, -y);
+      draw(y, x);
+      draw(-y, x);
+      draw(y, -x);
+      draw(-y, -x);
     }
   }
 
@@ -799,6 +800,9 @@ public class MISC {
       }
       System.out.println();
     }
+  }
+
+  static void draw(double x, double y) {
   }
 
   /*Museum Problem : Given a 2D grid of rooms which can be closed, open with no guard, or open with a guard.
@@ -2096,9 +2100,6 @@ public class MISC {
     private int n, insert;
     private long sum;
 
-    /**
-     * Initialize your data structure here.
-     */
     public MovingAverage(int size) {
       window = new int[size];
       insert = 0;
@@ -2109,12 +2110,16 @@ public class MISC {
       if (n < window.length) {
         n++;
       }
-      sum -= window[insert];
+      sum -= window[insert]; // subtract num when window is full
       sum += val;
-      window[insert] = val;
+      window[insert] = val; // insert num
       insert = (insert + 1) % window.length;
 
-      return (double) sum / n; // handle divide by zero exception here
+     try {
+       return (double) sum / n; // handle divide by zero exception here
+     }catch(ArithmeticException ex){
+       throw new ArithmeticException("Cannot divide by Zero");
+     }
     }
   }
 

@@ -27,7 +27,8 @@ public class Array {
 
   //https://github.com/tongzhang1994/Facebook-Interview-Coding
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-
+    int[] input = {1, 5, 100};
+    System.out.print(countWays(20, input));
   }
 
   //Merge two sorted array into sorted array Time = O(N+M)
@@ -382,7 +383,7 @@ public class Array {
 
   //k-Sum problem, Time = O(N^k)
   public static List<List<Integer>> kSum(int[] num, int k, int target, int start_index) {
-    List<List<Integer>> result = new LinkedList<List<Integer>>();
+    List<List<Integer>> result = new LinkedList<>();
     if (k == 0) {
       if (target == 0) {
         // if we find the target,open an entry to store the whole path
@@ -2464,22 +2465,29 @@ public class Array {
     }
     return false;
   }
+
   //Contains Duplicate III: Given an array of integers, find out whether there are two distinct indices i and j in
   // the array such that the absolute difference between nums[i] and nums[j] is at most t and the
   // absolute difference between i and j is at most k.
   //Input: nums = [1,2,3,1], k = 3, t = 0 Output: true
   //Input: nums = [1,5,9,1,5,9], k = 2, t = 3 Output: false
   public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
-    if (k < 1 || t < 0) return false;
+    if (k < 1 || t < 0) {
+      return false;
+    }
     Map<Long, Long> map = new HashMap<>();
     for (int i = 0; i < nums.length; i++) {
       long remappedNum = (long) nums[i] - Integer.MIN_VALUE;
-      long bucket = remappedNum / ((long) t + 1); // why t+1 ? because, if t not plus 1, when t == 0, num divide by 0 will cause crash.
+      long bucket = remappedNum / ((long) t
+          + 1); // why t+1 ? because, if t not plus 1, when t == 0, num divide by 0 will cause crash.
 
-      if (map.containsKey(bucket) // means the key in the map duplicated, it means the must be exist two numbers that the different value between them are less than t
-          || (map.containsKey(bucket - 1) && remappedNum - map.get(bucket - 1) <= t) // if the two different numbers are located in two adjacent bucket, the value still might be less than t
-          || (map.containsKey(bucket + 1) && map.get(bucket + 1) - remappedNum <= t))
+      if (map.containsKey(bucket)
+          // means the key in the map duplicated, it means the must be exist two numbers that the different value between them are less than t
+          || (map.containsKey(bucket - 1) && remappedNum - map.get(bucket - 1) <= t)
+          // if the two different numbers are located in two adjacent bucket, the value still might be less than t
+          || (map.containsKey(bucket + 1) && map.get(bucket + 1) - remappedNum <= t)) {
         return true; // the same reason for -1
+      }
       if (map.entrySet().size() >= k) {
         long lastBucket = ((long) nums[i - k] - Integer.MIN_VALUE) / ((long) t + 1);
         map.remove(lastBucket);
@@ -3162,33 +3170,30 @@ public class Array {
   //2) One by one remove min element from heap, put it in result array, and add a new element to heap from remaining elements.
   //So overall complexity will be O(k) + O((n-k)*logK)
 
-  /* Given a total and coins of certain denomination with infinite supply, what is the minimum number
+  /* Minimum Coin Change: Given a total and coins of certain denomination with infinite supply, what is the minimum number
    * of coins it takes to form this total.
    * Time complexity - O(coins.size * total)
    * Space complexity - O(coins.size * total) */
-  public int minimumCoinBottomUp(int total, int coins[]) {
-    int T[] = new int[total + 1];
-    int R[] = new int[total + 1];
-    T[0] = 0;
+  static int minimumCoinBottomUp(int total, int coins[]) {
+    int dp[] = new int[total + 1];
+    int path[] = new int[total + 1];
+    dp[0] = 0;
     for (int i = 1; i <= total; i++) {
-      T[i] = Integer.MAX_VALUE - 1;
-      R[i] = -1;
+      dp[i] = total + 1;
+      path[i] = -1;
     }
-    for (int j = 0; j < coins.length; j++) {
-      for (int i = 1; i <= total; i++) {
+    for (int i = 1; i <= total; i++) {
+      for (int j = 0; j < coins.length; j++) {
         if (i >= coins[j]) {
-          if (T[i - coins[j]] + 1 < T[i]) {
-            T[i] = 1 + T[i - coins[j]];
-            R[i] = j;
-          }
+          dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
         }
       }
     }
-    printCoinCombination(R, coins);
-    return T[total];
+    printCoinCombination(path, coins);
+    return dp[total];
   }
 
-  private void printCoinCombination(int R[], int coins[]) {
+  static void printCoinCombination(int R[], int coins[]) {
     if (R[R.length - 1] == -1) {
       System.out.print("No solution is possible");
       return;
@@ -3203,20 +3208,18 @@ public class Array {
     System.out.print("\n");
   }
 
-  //Given a total and coins of certain denominations find number of ways total
+  //combination Sum: Given a total and coins of certain denominations find number of ways total
   //can be formed from coins assuming infinity supply of coins
   //https://github.com/mission-peace/interview/blob/master/src/com/interview/dynamic/CoinChanging.java
-  public int numberOfSolutionsOnSpace(int total, int arr[]) {
-    int temp[] = new int[total + 1];
-    temp[0] = 1;
+  static int countWays(int total, int arr[]) {
+    int dp[] = new int[total + 1];
+    dp[0] = 1;
     for (int i = 0; i < arr.length; i++) {
-      for (int j = 1; j <= total; j++) {
-        if (j >= arr[i]) {
-          temp[j] += temp[j - arr[i]];
-        }
+      for (int j = arr[i]; j <= total; j++) {
+        dp[j] += dp[j - arr[i]];
       }
     }
-    return temp[total];
+    return dp[total];
   }
 
   //This program plays the game "Fizzbuzz".  It counts to 100, replacing each multiple of 5 with the word "fizz", each
