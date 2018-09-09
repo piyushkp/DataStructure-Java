@@ -1616,22 +1616,19 @@ public class StringImp {
     }
     int l = 0, r = word.length() - 1;
     while (l < r) {
-      if (!isAlphabet(word.charAt(l))) {
+      while (!Character.isLetterOrDigit(word.charAt(l))) {
         l++;
-      } else if (!isAlphabet(word.charAt(r))) {
-        r--;
-      } else if (word.charAt(l) != word.charAt(r)) {
-        return false;
-      } else {
-        l++;
+      }
+      while(!Character.isLetterOrDigit(word.charAt(r))) {
         r--;
       }
+      if (word.charAt(l) != word.charAt(r)) {
+        return false;
+      }
+      l++;
+      r--;
     }
     return true;
-  }
-
-  public static boolean isAlphabet(char x) {
-    return ((x >= 'A' && x <= 'Z') || (x >= 'a' && x <= 'z'));
   }
 
   //Check if characters of a given string can be rearranged to form a palindrome
