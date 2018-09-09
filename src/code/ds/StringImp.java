@@ -30,7 +30,10 @@ public class StringImp {
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
     //System.out.println(wordPatternMatch("abab", "redblueredblue"));
-    System.out.println(isPalindrome1("L*&EVe)))l1"));
+    //System.out.println(isPalindrome1("L*&EVe)))l1"));
+    String[] input = {"a1", "a2", "a3","a4", "b1", "b2", "b3","b4", "c1","c2","c3", "c4"};
+    sortSpecialArrayUtil(input);
+    System.out.println(Arrays.toString(input));
 
   }
 
@@ -1001,6 +1004,12 @@ public class StringImp {
     chars[j] = temp;
   }
 
+  private static void swap(String[] chars, int i, int j) {
+    String temp = chars[i];
+    chars[i] = chars[j];
+    chars[j] = temp;
+  }
+
   //combination of the string
   static void combine(String str) {
     int length = str.length();
@@ -1621,7 +1630,7 @@ public class StringImp {
       while (!Character.isLetterOrDigit(word.charAt(l))) {
         l++;
       }
-      while(!Character.isLetterOrDigit(word.charAt(r))) {
+      while (!Character.isLetterOrDigit(word.charAt(r))) {
         r--;
       }
       if (word.charAt(l) != word.charAt(r)) {
@@ -3073,8 +3082,7 @@ public class StringImp {
 
   /*Given two input arrays, return true if the words array is sorted according to the ordering array
     words = ['cc', 'cb', 'bb', 'ac'] ordering = ['c', 'b', 'a'] Output: True
-    words = ['cc', 'cb', 'bb', 'ac'] ordering = ['b', 'c', 'a'] Output: False
-   */
+    words = ['cc', 'cb', 'bb', 'ac'] ordering = ['b', 'c', 'a'] Output: False  */
   public static boolean checkIfSortedArray(String strs[], char orderings[]) {
     Map<Character, Integer> map = new HashMap();
     for (int i = 0; i < orderings.length; i++) {
@@ -3087,8 +3095,9 @@ public class StringImp {
         if (word1.charAt(j) != word2.charAt(j)) {
           char from = word1.charAt(j);
           char to = word2.charAt(j);
-          if (map.get(from) > map.get(to))
+          if (map.get(from) > map.get(to)) {
             return false;
+          }
         }
       }
     }
@@ -3570,6 +3579,33 @@ public class StringImp {
       idx++;
     }
     return idx == digits ? "0" : new String(stk, idx, digits - idx);
+  }
+
+  /* Given an array with ['a1', 'a2', .....'aN', 'b1', 'b2', ....'bN', 'c1', 'c2', .....'cN'],
+  stagger the sub-arrays so it becomes ['a1', 'b1', 'c1', 'a2', 'b2', 'c2', ...'aN', 'bN', 'cN']. The optimal solution requires linear-time
+  sorting and a constant space complexity.  */
+  private static void sortSpecialArrayUtil(String[] array) {
+    int N = getNumberOfChar(array[array.length - 1]);
+    int charCount = array.length / N;
+    int lastIndex = array.length - 2;
+    String element;
+    for (int i = 1; i <= lastIndex; i++) {
+      element = array[i];
+      swap(array, i, getSwapIndex(charCount, element));
+    }
+  }
+
+  private static int getNumberOfChar(String str) {
+    return Integer.parseInt(str.substring(1, str.length()));
+  }
+
+  private static int getSwapIndex(int charCount, String element) {
+    char c = Character.toLowerCase(element.charAt(0));
+    int num = getNumberOfChar(element);
+
+    // the correct index is found by the following formula: index = charDistance + (charCount * (num - 1))
+    int charDistance = c - 'a';
+    return charDistance + (charCount * (num - 1));
   }
 
 }
