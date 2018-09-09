@@ -29,7 +29,9 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(wordPatternMatch("abab", "redblueredblue"));
+    //System.out.println(wordPatternMatch("abab", "redblueredblue"));
+    System.out.println(isPalindrome1("L*&EVe)))l1"));
+
   }
 
   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3
@@ -3067,6 +3069,30 @@ public class StringImp {
       }
       return findUtil(let);
     }
+  }
+
+  /*Given two input arrays, return true if the words array is sorted according to the ordering array
+    words = ['cc', 'cb', 'bb', 'ac'] ordering = ['c', 'b', 'a'] Output: True
+    words = ['cc', 'cb', 'bb', 'ac'] ordering = ['b', 'c', 'a'] Output: False
+   */
+  public static boolean checkIfSortedArray(String strs[], char orderings[]) {
+    Map<Character, Integer> map = new HashMap();
+    for (int i = 0; i < orderings.length; i++) {
+      map.put(orderings[i], i);
+    }
+    for (int i = 1; i < strs.length; i++) {
+      String word1 = strs[i - 1];
+      String word2 = strs[i];
+      for (int j = 0; j < Math.min(word1.length(), word2.length()); j++) {
+        if (word1.charAt(j) != word2.charAt(j)) {
+          char from = word1.charAt(j);
+          char to = word2.charAt(j);
+          if (map.get(from) > map.get(to))
+            return false;
+        }
+      }
+    }
+    return true;
   }
 
   /* There is a new alien language which uses the latin alphabet. However, the order among letters are unknown to you.
