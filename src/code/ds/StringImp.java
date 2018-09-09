@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -31,7 +31,8 @@ public class StringImp {
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
     //System.out.println(wordPatternMatch("abab", "redblueredblue"));
     //System.out.println(isPalindrome1("L*&EVe)))l1"));
-    String[] input = {"a1", "a2", "a3","a4", "b1", "b2", "b3","b4", "c1","c2","c3", "c4"};
+    hasPalindrome("aaabbbb");
+    String[] input = {"a1", "a2", "a3", "a4", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "c4"};
     sortSpecialArrayUtil(input);
     System.out.println(Arrays.toString(input));
 
@@ -1645,21 +1646,24 @@ public class StringImp {
   //Check if characters of a given string can be rearranged to form a palindrome
   //Permutation of string can form palindrome
   static boolean canFormPalindrome(String str, int totalCharsToCheck) {
-    // Create a count array and initialize all values as 0
-    int count[] = new int[256];
-    // For each character in input strings, increment count in the corresponding count array
+    int[] map = new int[128];
+    int count = 0;
     for (int i = 0; i < str.length(); i++) {
-      count[str.charAt(i)]++;
-    }
-    // Count odd occurring characters
-    int odd = 0;
-    for (int i = 0; i < 256; i++) {
-      if (count[i] % 2 != 0) {
-        odd++;
+      map[str.charAt(i)]++;
+      if (map[str.charAt(i)] % 2 == 0) {
+        count--;
+      } else {
+        count++;
       }
     }
-    // Return true if odd count is 0 or 1, otherwise false
-    return (odd <= totalCharsToCheck + 1);
+    return count <= totalCharsToCheck + 1;
+  }
+  public static boolean hasPalindrome(String s) {
+    BitSet occurrences = new BitSet();
+    for (int i = 0; i < s.length(); i++) {
+      occurrences.flip(Character.getNumericValue(s.charAt(i)));
+    }
+    return occurrences.stream().count() <= 1;
   }
 
   // input string is abxa. it will be determined whether removing one character from the line can result in the string being a palindrome
@@ -3589,6 +3593,7 @@ public class StringImp {
     int charCount = array.length / N;
     int lastIndex = array.length - 2;
     String element;
+
     for (int i = 1; i <= lastIndex; i++) {
       element = array[i];
       swap(array, i, getSwapIndex(charCount, element));
@@ -3602,7 +3607,6 @@ public class StringImp {
   private static int getSwapIndex(int charCount, String element) {
     char c = Character.toLowerCase(element.charAt(0));
     int num = getNumberOfChar(element);
-
     // the correct index is found by the following formula: index = charDistance + (charCount * (num - 1))
     int charDistance = c - 'a';
     return charDistance + (charCount * (num - 1));
