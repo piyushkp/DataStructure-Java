@@ -29,7 +29,7 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(multiply("23433242334323342", "23223233232434324"));
+    System.out.println(wordPatternMatch("abab", "redblueredblue"));
   }
 
   /* Compress a given string. Input: aaaaabbccc  Output: a5b2c3
@@ -3474,13 +3474,13 @@ public class StringImp {
 
   //wordPattern II: Given a pattern and a string str, find if str follows the same pattern.
   //pattern = "abab", str = "redblueredblue" should return true.
-  public boolean wordPatternMatch(String pattern, String str) {
+  static boolean wordPatternMatch(String pattern, String str) {
     Map<Character, String> map = new HashMap<>();
     Set<String> set = new HashSet<>();
     return isMatch(str, 0, pattern, 0, map, set);
   }
 
-  boolean isMatch(String str, int i, String pat, int j, Map<Character, String> map,
+  static boolean isMatch(String str, int i, String pat, int j, Map<Character, String> map,
       Set<String> set) {
     // base case
     if (i == str.length() && j == pat.length()) {

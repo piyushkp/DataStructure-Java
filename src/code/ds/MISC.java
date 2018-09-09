@@ -453,10 +453,7 @@ public class MISC {
     }
     // Phase 2. validation
     for (int i = 0; i < followingMatrix.length; i++) {
-      if (i == c) {
-        continue;
-      }
-      if (followingMatrix[c][i] == true) {
+      if (i !=c && followingMatrix[c][i] == true) {
         return -1;
       }
     }
@@ -465,26 +462,6 @@ public class MISC {
 
   //findCelebrity: Find Famous person in the list of persons.A person is a famous person if he doesn't know anyone in the list and
   //everyone else in the list should know this person.The function isKnow(i,j) => true/ false is given to us.
-  static int getFamousPerson(int[] persons) {
-    if (persons.length == 0) {
-      return -1;
-    }
-    int c = 0;
-    for (int i = 1; i < persons.length; i++) {
-      if (isKnow(c, i)) {
-        c = i;
-      }
-    }
-    for (int i = 0; i < persons.length; i++) {
-      if (i == c) {
-        continue;
-      }
-      if (isKnow(c, i)) {
-        return -1;
-      }
-    }
-    return c;
-  }
 
   public static int findCelebrity(int n) {
     int celeb = 0;
