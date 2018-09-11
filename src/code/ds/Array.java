@@ -74,7 +74,7 @@ public class Array {
       Triplet p = minHeap.poll();
       result.add(p.val);
       if (p.index < chunks.get(p.pos).size()) {
-        p.val = chunks.get(p.pos).get(p.index);
+        p.val = chunks.get(p.pos).get(p.index + 1);
         p.index += 1;
         minHeap.add(p);
       }

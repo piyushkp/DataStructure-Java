@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.*;
+import java.util.stream.*;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -31,10 +32,8 @@ public class StringImp {
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
     //System.out.println(wordPatternMatch("abab", "redblueredblue"));
     //System.out.println(isPalindrome1("L*&EVe)))l1"));
-    hasPalindrome("aaabbbb");
-    String[] input = {"a1", "a2", "a3", "a4", "b1", "b2", "b3", "b4", "c1", "c2", "c3", "c4"};
-    sortSpecialArrayUtil(input);
-    System.out.println(Arrays.toString(input));
+    String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
+    printJSON(str);
 
   }
 
@@ -3612,5 +3611,47 @@ public class StringImp {
     return charDistance + (charCount * (num - 1));
   }
 
+  // JSON Print: pretty print JSON
+  static void printJSON(String str) {
+    char tokens[] = str.toCharArray();
+    String space = "";
+    Stack<String> stack = new Stack<>();
+    for (int i = 0; i < tokens.length; i++) {
+      char temp = tokens[i];
+      if (temp == '{') {
+        space = getTab(stack.size());
+        System.out.print("\n");
+        System.out.print(space+"{");
+        System.out.print("\n"+space);
+        stack.push("" + temp);
+      } else if (temp == '}') {
+        stack.pop();
+        space = getTab(stack.size());
+        System.out.print("\n");
+        System.out.print(space+"}");
+      } else if (temp == '[') {
+        space = getTab(stack.size());
+        System.out.print("\n");
+        System.out.print(space+"[");
+        //System.out.print("\n");
+        stack.push("" + temp);
+      } else if (temp == ']') {
+        stack.pop();
+        space = getTab(stack.size());
+        System.out.print("\n");
+        System.out.print(space+"]");
+      } else if (temp == ',') {
+        System.out.print("\n"+space);
+      } else {
+        System.out.print(String.valueOf(temp).trim());
+      }
+    }
+  }
+
+  public static String getTab(int N) {
+    StringBuffer sbf = new StringBuffer();
+    IntStream.range(0, N).forEach(i -> sbf.append("\t"));
+    return sbf.toString();
+  }
 }
 

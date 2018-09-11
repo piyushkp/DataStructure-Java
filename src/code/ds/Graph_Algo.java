@@ -1,5 +1,6 @@
 package code.ds;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -161,6 +162,52 @@ public class Graph_Algo {
   }
   //8 puzzle problem.
   //https://github.com/ChuntaoLu/Algorithms/blob/master/week4/8-puzzle/src/Solver.java
+
+  // clone unidirected graph
+  // if nodes are unique
+  class UndirectedGraphNode {
+    int label;
+    List<UndirectedGraphNode> neighbors;
+
+    UndirectedGraphNode(int x) {
+      label = x;
+      neighbors = new ArrayList<>();
+    }
+  }
+
+  private HashMap<Integer, UndirectedGraphNode> map = new HashMap<>();
+  private UndirectedGraphNode clone(UndirectedGraphNode node) {
+    if (node == null) {
+      return null;
+    }
+
+    if (map.containsKey(node.label)) {
+      return map.get(node.label);
+    }
+    UndirectedGraphNode tmp = new UndirectedGraphNode(node.label);
+    map.put(tmp.label, tmp);
+    for (UndirectedGraphNode neighbor : node.neighbors) {
+      tmp.neighbors.add(clone(neighbor));
+    }
+    return tmp;
+  }
+
+  // if nodes can have duplicate label
+  UndirectedGraphNode clone(UndirectedGraphNode src, HashMap<UndirectedGraphNode, UndirectedGraphNode> visited){
+    if (src == null){
+      return null;
+    }
+    if (visited.containsKey(src)){
+      return visited.get(src);
+    }
+
+    UndirectedGraphNode tmp = new UndirectedGraphNode(src.label);
+    visited.put(src, tmp);
+    for (UndirectedGraphNode child : src.neighbors){
+        tmp.neighbors.add(clone(child, visited));
+    }
+    return tmp;
+  }
 }
 
 

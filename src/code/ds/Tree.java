@@ -2070,9 +2070,9 @@ public class Tree {
 
   //Serialize/Deserialize the binary tree
   // ‘is used to indicate an internal node set bit, and ‘/’ is used as NULL marker for node which has one child
-  void Serialize(Node root) {
+  static String Serialize(Node root) {
     if (root == null) {
-      return;
+      return "";
     }
     Stack<Node> nodeStack = new Stack<Node>();
     nodeStack.push(root);
@@ -2097,22 +2097,24 @@ public class Tree {
         sb.append("/");
       }
     }
+    return sb.toString();
   }
 
-  int currentIndex = 0;
+  static int currentIndex = 0;
 
-  public Node Deserialize(String str) {
+  static Node Deserialize(String str) {
+    Node root = null;
     if (currentIndex > str.length()) {
       return null;
     } else if (str.charAt(currentIndex) == '/') {
       return null;
     } else if (str.charAt(currentIndex + 1) == '\'') {
-      Node root = new Node(str.charAt(currentIndex));
+      root = new Node(str.charAt(currentIndex));
       currentIndex += 2;
       root.left = Deserialize(str);
       root.right = Deserialize(str);
     } else {
-      Node root = new Node(str.charAt(currentIndex));
+      root = new Node(str.charAt(currentIndex));
       root.left = null;
       root.right = null;
       currentIndex++;
@@ -2834,28 +2836,42 @@ public class Tree {
   //Find if Two binary trees are considered leaf-similar if their leaf value sequence is the same.
   static boolean leafSimilar(Node root1, Node root2) {
     Stack<Node> s1 = new Stack<>(), s2 = new Stack<>();
-    s1.push(root1); s2.push(root2);
-    while (!s1.empty() && !s2.empty())
-      if (dfs(s1) != dfs(s2)) return false;
+    s1.push(root1);
+    s2.push(root2);
+    while (!s1.empty() && !s2.empty()) {
+      if (dfs(s1) != dfs(s2)) {
+        return false;
+      }
+    }
     return s1.empty() && s2.empty();
   }
 
   static int dfs(Stack<Node> s) {
     while (true) {
       Node node = s.pop();
-      if (node.right != null) s.push(node.right);
-      if (node.left != null) s.push(node.left);
-      if (node.left == null && node.right == null) return node.data;
+      if (node.right != null) {
+        s.push(node.right);
+      }
+      if (node.left != null) {
+        s.push(node.left);
+      }
+      if (node.left == null && node.right == null) {
+        return node.data;
+      }
     }
   }
 
   //We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
   //Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
   public static Node pruneTree(Node root) {
-    if (root == null) return null;
+    if (root == null) {
+      return null;
+    }
     root.left = pruneTree(root.left);
     root.right = pruneTree(root.right);
-    if (root.left == null && root.right == null && root.data == 0) return null;
+    if (root.left == null && root.right == null && root.data == 0) {
+      return null;
+    }
     return root;
   }
 
@@ -2880,18 +2896,19 @@ public class Tree {
     15 17 19 16
   */
   class Relation {
+
     Integer parent;
     Integer child;
     boolean isLeft;
   }
 
-  static  Node buildTree(List<Relation> data) {
+  static Node buildTree(List<Relation> data) {
     HashMap<Integer, Node> map = new HashMap<>();
     Node root = null;
 
-    for(Relation r: data) {
+    for (Relation r : data) {
       Node child = map.get(r.child);
-      if (child  == null) {
+      if (child == null) {
         child = new Node();
         child.data = r.child;
         map.put(r.child, child);
