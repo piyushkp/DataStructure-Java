@@ -662,6 +662,9 @@ public class Array {
     return sum;
   }
 
+  //Given a sorted array of distinct positive integers, print all triplets that forms Arithmetic Progression with integral common difference
+  //http://www.techiedelight.com/print-triplets-forms-arithmetic-progression/
+
 
   //Given an unsorted array of integers, find a subarray which adds to a given number.
   // If there are more than one subarrays with sum as the given number, print any of them.

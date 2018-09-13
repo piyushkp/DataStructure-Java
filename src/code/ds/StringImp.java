@@ -3,6 +3,7 @@ package code.ds;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.*;
-import java.util.stream.*;
+import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 /**
  * Created by Piyush Patel.
@@ -488,7 +489,7 @@ public class StringImp {
 
   //Given two string s1 and s2, find if s1 can be converted to s2 with exactly one edit.
   //Time = O(m + n) space =O(1)
-  boolean isEditDistanceOne(String s1, String s2) {
+  static boolean isEditDistanceOne(String s1, String s2) {
     // Find lengths of given strings
     int m = s1.length(), n = s2.length();
     // If difference between lengths is more than 1, then strings can't be at one distance
@@ -1657,6 +1658,7 @@ public class StringImp {
     }
     return count <= totalCharsToCheck + 1;
   }
+
   public static boolean hasPalindrome(String s) {
     BitSet occurrences = new BitSet();
     for (int i = 0; i < s.length(); i++) {
@@ -3621,27 +3623,27 @@ public class StringImp {
       if (temp == '{') {
         space = getTab(stack.size());
         System.out.print("\n");
-        System.out.print(space+"{");
-        System.out.print("\n"+space);
+        System.out.print(space + "{");
+        System.out.print("\n" + space);
         stack.push("" + temp);
       } else if (temp == '}') {
         stack.pop();
         space = getTab(stack.size());
         System.out.print("\n");
-        System.out.print(space+"}");
+        System.out.print(space + "}");
       } else if (temp == '[') {
         space = getTab(stack.size());
         System.out.print("\n");
-        System.out.print(space+"[");
+        System.out.print(space + "[");
         //System.out.print("\n");
         stack.push("" + temp);
       } else if (temp == ']') {
         stack.pop();
         space = getTab(stack.size());
         System.out.print("\n");
-        System.out.print(space+"]");
+        System.out.print(space + "]");
       } else if (temp == ',') {
-        System.out.print("\n"+space);
+        System.out.print("\n" + space);
       } else {
         System.out.print(String.valueOf(temp).trim());
       }
@@ -3653,5 +3655,59 @@ public class StringImp {
     IntStream.range(0, N).forEach(i -> sbf.append("\t"));
     return sbf.toString();
   }
+
+  /* Read N Characters Given Read4 */
+  static int read4(char[] buf) {
+    return -1;
+  }
+
+  static int read(char[] buf, int n) {
+    boolean eof = false;      // end of file flag
+    int total = 0;            // total bytes have read
+    char[] tmp = new char[4]; // temp buffer
+
+    while (!eof && total < n) {
+      int count = read4(tmp);
+
+      // check if it's the end of the file
+      eof = count < 4;
+
+      // get the actual count
+      count = Math.min(count, n - total);
+
+      // copy from temp buffer to buf
+      for (int i = 0; i < count; i++) {
+        buf[total++] = tmp[i];
+      }
+    }
+
+    return total;
+  }
+
+  // Read N Characters Given Read4 II - Call multiple times
+  //http://buttercola.blogspot.com/2014/11/leetcode-read-n-characters-given-read4_23.html
+  private char[] buffer = new char[4];
+  private int offset = 0;
+  private int charactersInBuffer = 0;
+  public int readII(char[] buf, int n) {
+    int totalCharactersRead = 0;
+    boolean eof = false;
+    while (!eof && totalCharactersRead < n) {
+      if (charactersInBuffer == 0) {
+        charactersInBuffer = read4(buffer);
+        eof = charactersInBuffer < 4;
+      }
+      int numCharactersUsed = Math.min(charactersInBuffer, n - totalCharactersRead);
+      for (int i = 0; i < numCharactersUsed; i++) {
+        buf[totalCharactersRead + i] = buffer[offset + i];
+      }
+      totalCharactersRead += numCharactersUsed;
+      charactersInBuffer -= numCharactersUsed;
+      offset = (offset + numCharactersUsed) % 4;
+    }
+    return totalCharactersRead;
+  }
+
+
 }
 

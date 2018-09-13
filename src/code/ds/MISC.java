@@ -2,6 +2,7 @@ package code.ds;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -272,6 +273,69 @@ public class MISC {
     return len;
   }
 
+  //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...]
+  // (si < ei), determine if a person could attend all meetings.
+  static boolean canAttend(Interval[] intervals){
+    Arrays.sort(intervals, new Comparator<Interval>() {
+      @Override
+      public int compare(Interval o1, Interval o2) {
+        return o1.start - o2.start;
+      }
+    });
+    if(intervals == null || intervals.length == 0)
+      return true;
+    for (int i = 0; i < intervals.length -1; i++) {
+        if(intervals[i].end > intervals[i+1].start)
+          return false;
+    }
+    return true;
+  }
+
+  // minimum meeting rooms available
+  static int minMeetingRooms(Interval[] intervals) {
+    if (intervals == null || intervals.length == 0) {
+      return 0;
+    }
+
+    Arrays.sort(intervals, new Comparator<Interval>() {
+      public int compare(Interval i1, Interval i2) {
+        return i1.start - i2.start;
+      }
+    });
+
+    PriorityQueue<Integer> queue = new PriorityQueue<>();
+    int count = 1;
+    queue.offer(intervals[0].end);
+
+    for (int i = 1; i < intervals.length; i++) {
+      if (intervals[i].start < queue.peek()) {
+        count++;
+      } else {
+        queue.poll();
+      }
+      queue.offer(intervals[i].end);
+    }
+    return count;
+  }
+
+  //Solution 1: greedy
+  public int minMeetingRooms1(Interval[] intervals) {
+    int[] start = new int[intervals.length];
+    int[] end = new int[intervals.length];
+    for (int i = 0; i < intervals.length; i++) {
+      start[i] = intervals[i].start;
+      end[i] = intervals[i].end;
+    }
+    Arrays.sort(start);
+    Arrays.sort(end);
+    int endIdx = 0, res = 0;
+    for (int i = 0; i < start.length; i++) {
+      if (start[i] < end[endIdx])		res++;
+      else	endIdx++;
+    }
+    return res;
+  }
+
   // Method to convert infix to postfix:
   private static boolean isOperator(char c) {
     return c == '+' || c == '-' || c == '*' || c == '/' || c == '^'
@@ -453,7 +517,7 @@ public class MISC {
     }
     // Phase 2. validation
     for (int i = 0; i < followingMatrix.length; i++) {
-      if (i !=c && followingMatrix[c][i] == true) {
+      if (i != c && followingMatrix[c][i] == true) {
         return -1;
       }
     }
@@ -2092,11 +2156,11 @@ public class MISC {
       window[insert] = val; // insert num
       insert = (insert + 1) % window.length;
 
-     try {
-       return (double) sum / n; // handle divide by zero exception here
-     }catch(ArithmeticException ex){
-       throw new ArithmeticException("Cannot divide by Zero");
-     }
+      try {
+        return (double) sum / n; // handle divide by zero exception here
+      } catch (ArithmeticException ex) {
+        throw new ArithmeticException("Cannot divide by Zero");
+      }
     }
   }
 
