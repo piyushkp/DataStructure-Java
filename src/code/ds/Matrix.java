@@ -1,14 +1,14 @@
 package code.ds;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.Random;
 import java.util.List;
-import java.util.*;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Stack;
 
 /**
  * Created by Piyush Patel.
@@ -132,7 +132,7 @@ public class Matrix {
     // Calculate count of paths for other cells in bottom-up manner using the recursive solution
     for (int i = 1; i < m; i++) {
       for (int j = 1; j < n; j++)
-        // By uncommenting the last part the code calculatest he total possible paths if the diagonal Movements are allowed
+      // By uncommenting the last part the code calculatest he total possible paths if the diagonal Movements are allowed
       {
         count[i][j] = count[i - 1][j] + count[i][j - 1]; //+ count[i-1][j-1];
       }
@@ -979,7 +979,8 @@ public class Matrix {
       for (int k = 0; k < A[0].length; k++) {
         if (A[i][k] != 0) {
           for (int j = 0; j < B[0].length; j++) {
-            if (B[k][j] != 0) {//we only add up all products that a[i][k] != 0 && b[k][j] != 0 to reduct time
+            if (B[k][j]
+                != 0) {//we only add up all products that a[i][k] != 0 && b[k][j] != 0 to reduct time
               result[i][j] += A[i][k] * B[k][j];
             }
           }
@@ -988,16 +989,17 @@ public class Matrix {
     }
     return result;
   }
+
   //A sparse matrix can be represented as a sequence of rows, each of which is a sequence of (column-number, value) pairs of the
   // nonzero values in the row. To save space and running time it is critical to only store the nonzero elements Time =  O(m*n*nB)
   public static int[][] multiplySparse(int[][] A, int[][] B) {
     int m = A.length, n = A[0].length, nB = B[0].length;
     int[][] result = new int[m][nB];
     List[] indexA = new List[m];
-    for(int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
       List<Integer> numsA = new ArrayList<>();
-      for(int j = 0; j < n; j++) {
-        if(A[i][j] != 0){
+      for (int j = 0; j < n; j++) {
+        if (A[i][j] != 0) {
           numsA.add(j);
           numsA.add(A[i][j]);
         }
@@ -1005,12 +1007,12 @@ public class Matrix {
       indexA[i] = numsA;
     }
 
-    for(int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++) {
       List<Integer> numsA = indexA[i];
-      for(int p = 0; p < numsA.size() - 1; p += 2) {
+      for (int p = 0; p < numsA.size() - 1; p += 2) {
         int colA = numsA.get(p);
         int valA = numsA.get(p + 1);
-        for(int j = 0; j < nB; j ++) {
+        for (int j = 0; j < nB; j++) {
           int valB = B[colA][j];
           result[i][j] += valA * valB;
         }
@@ -1021,14 +1023,17 @@ public class Matrix {
   }
 
   /*Design and implement the constructor of a minesweeper game that takes in the dimension of the field and number of mines as input.*/
-  public int[][] putBomb(int h, int w, int count){
+  public int[][] putBomb(int h, int w, int count) {
     Random r = new Random();
     int[] bombLocs = new int[count]; // bomb location array
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < count; i++) {
       bombLocs[i] = i;
+    }
     for (int i = count; i < h * w; i++) {
       int j = r.nextInt(i + 1);
-      if (j < count)	bombLocs[j] = i;
+      if (j < count) {
+        bombLocs[j] = i;
+      }
     }
     int[][] res = new int[h][w];
     for (int i = 0; i < bombLocs.length; i++) {
@@ -1039,5 +1044,130 @@ public class Matrix {
     return res;
   }
 
+  // Walls and Gates: You are given a m x n 2D grid initialized with these three possible values.
+  //-1 - A wall or an obstacle.
+  //0 - A gate.
+  //INF - Infinity means an empty room
+  private static final int EMPTY = Integer.MAX_VALUE;
+  private static final int GATE = 0;
+  private static final List<int[]> DIRECTIONS = Arrays.asList(
+      new int[]{1, 0},
+      new int[]{-1, 0},
+      new int[]{0, 1},
+      new int[]{0, -1}
+  );
+
+  public void wallsAndGates(int[][] rooms) {
+    int m = rooms.length;
+    if (m == 0) {
+      return;
+    }
+    int n = rooms[0].length;
+    Queue<int[]> q = new LinkedList<>();
+    for (int row = 0; row < m; row++) {
+      for (int col = 0; col < n; col++) {
+        if (rooms[row][col] == GATE) {
+          q.add(new int[]{row, col});
+        }
+      }
+    }
+    while (!q.isEmpty()) {
+      int[] point = q.poll();
+      int row = point[0];
+      int col = point[1];
+      for (int[] direction : DIRECTIONS) {
+        int r = row + direction[0];
+        int c = col + direction[1];
+        if (r < 0 || c < 0 || r >= m || c >= n || rooms[r][c] != EMPTY) {
+          continue;
+        }
+        rooms[r][c] = rooms[row][col] + 1;
+        q.add(new int[]{r, c});
+      }
+    }
+  }
+
+  // Paint House only three colors
+  public int minCost(int[][] costs) {
+    if (costs == null || costs.length == 0) {
+      return 0;
+    }
+
+    for (int i = 1; i < costs.length; i++) {
+      costs[i][0] += Math.min(costs[i - 1][1], costs[i - 1][2]);
+      costs[i][1] += Math.min(costs[i - 1][0], costs[i - 1][2]);
+      costs[i][2] += Math.min(costs[i - 1][0], costs[i - 1][1]);
+    }
+
+    int m = costs.length - 1;
+    return Math.min(Math.min(costs[m][0], costs[m][1]), costs[m][2]);
+  }
+
+  /* Paint House ||:
+   There are a row of n houses, each house can be painted with one of the k colors. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
+    The cost of painting each house with a certain color is represented by a n x k cost matrix. For example, costs[0][0] is the cost of painting house 0 with color 0; costs[1][2] is the cost of painting house 1 with color 2, and so on... Find the minimum cost to paint all houses.
+   */
+  public int minCostII(int[][] costs) {
+    if (costs == null || costs.length == 0) {
+      return 0;
+    }
+
+    int n = costs.length, k = costs[0].length;
+    // min1 is the index of the 1st-smallest cost till previous house
+    // min2 is the index of the 2nd-smallest cost till previous house
+    int min1 = -1, min2 = -1;
+
+    for (int i = 0; i < n; i++) {
+      int last1 = min1, last2 = min2;
+      min1 = -1;
+      min2 = -1;
+
+      for (int j = 0; j < k; j++) {
+        if (j != last1) {
+          // current color j is different to last min1
+          costs[i][j] += last1 < 0 ? 0 : costs[i - 1][last1];
+        } else {
+          costs[i][j] += last2 < 0 ? 0 : costs[i - 1][last2];
+        }
+
+        // find the indices of 1st and 2nd smallest cost of painting current house i
+        if (min1 < 0 || costs[i][j] < costs[i][min1]) {
+          min2 = min1;
+          min1 = j;
+        } else if (min2 < 0 || costs[i][j] < costs[i][min2]) {
+          min2 = j;
+        }
+      }
+    }
+
+    return costs[n - 1][min1];
+  }
+
+  /* Is Graph Bipartite?
+  For each node,
+    If it hasn't been colored, use a color to color it. Then use the other color to color all its adjacent nodes (DFS).
+    If it has been colored, check if the current color is the same as the color that is going to be used to color it. (Please forgive my english... Hope you can understand it.)
+
+   */
+  public boolean isBipartite(int[][] g) {
+    int[] colors = new int[g.length];
+    for (int i = 0; i < g.length; i++)
+      if (colors[i] == 0) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(i);
+        colors[i] = 1;
+        while (!q.isEmpty()) {
+          Integer node = q.poll();
+          for (int adjacent : g[node])
+            if (colors[adjacent] == colors[node])
+              return false;
+            else if (colors[adjacent] == 0) {
+              q.add(adjacent);
+              colors[adjacent] = -colors[node];
+            }
+        }
+      }
+    return true;
+  }
 
 }

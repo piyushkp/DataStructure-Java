@@ -1,6 +1,7 @@
 package code.ds;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1732,6 +1733,24 @@ public class Tree {
     return true;
   }
 
+  // Inorder Successor in Binary Search Tree
+  public Node inorderSuccessor(Node root, Node p) {
+    if (root == null || p == null) {
+      return null;
+    }
+    Node successor = null;
+    while (root != null) {
+      if (p.data < root.data) {
+        successor = root;
+        root = root.left;
+      } else {
+        root = root.right;
+      }
+    }
+
+    return successor;
+  }
+
   //Inorder Successor in Binary Search Tree
   public static Node inorderSuccessor(Node n) {
     if (n == null) {
@@ -2125,6 +2144,7 @@ public class Tree {
 
   // Serialize and Deserialize BST
   private String splitter = ",";
+
   // Encodes a tree to a single string.
   public String serialize(Node root) {
     StringBuilder sb = new StringBuilder();
@@ -2133,7 +2153,9 @@ public class Tree {
   }
 
   private void buildString(Node root, StringBuilder sb) {
-    if (root == null) return;
+    if (root == null) {
+      return;
+    }
     sb.append(root.data).append(splitter);
     buildString(root.left, sb);
     buildString(root.right, sb);
@@ -2141,17 +2163,23 @@ public class Tree {
 
   // Decodes your encoded data to tree.
   public Node deserialize(String data) {
-    if (data.length() == 0) return null;
+    if (data.length() == 0) {
+      return null;
+    }
     int[] pos = new int[1];
     pos[0] = 0;
     return buildTree(data.split(splitter), pos, Integer.MIN_VALUE, Integer.MAX_VALUE);
   }
 
   private Node buildTree(String[] nodes, int[] pos, int min, int max) {
-    if (pos[0] == nodes.length) return null;
+    if (pos[0] == nodes.length) {
+      return null;
+    }
 
     int val = Integer.valueOf(nodes[pos[0]]);
-    if (val < min || val > max) return null; // Go back if we are over the boundary
+    if (val < min || val > max) {
+      return null; // Go back if we are over the boundary
+    }
     Node cur = new Node(val);
 
     pos[0]++; // update current position
@@ -2969,6 +2997,37 @@ public class Tree {
       }
     }
     return root;
+  }
+
+  /*Graph Valid Tree
+   Given n nodes labeled from 0 to n - 1 and a list of undirected edges (each edge is a pair of nodes),
+   write a function to check whether these edges make up a valid tree.
+   Given n = 5 and edges = [[0, 1], [0, 2], [0, 3], [1, 4]], return true.
+   Given n = 5 and edges = [[0, 1], [1, 2], [2, 3], [1, 3], [1, 4]], return false.
+   */
+  public boolean validTree(int n, int[][] edges) {
+    // initialize n isolated islands
+    int[] nums = new int[n];
+    Arrays.fill(nums, -1);
+    // perform union find
+    for (int i = 0; i < edges.length; i++) {
+      int x = find(nums, edges[i][0]);
+      int y = find(nums, edges[i][1]);
+      // if two vertices happen to be in the same set then there's a cycle
+      if (x == y) {
+        return false;
+      }
+      // union
+      nums[x] = y;
+    }
+    return edges.length == n - 1;
+  }
+
+  int find(int nums[], int i) {
+    if (nums[i] == -1) {
+      return i;
+    }
+    return find(nums, nums[i]);
   }
 
 }

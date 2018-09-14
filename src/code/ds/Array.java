@@ -27,8 +27,8 @@ public class Array {
 
   //https://github.com/tongzhang1994/Facebook-Interview-Coding
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    int[] input = {1, 5, 100};
-    System.out.print(countWays(20, input));
+    Integer[] input = {1,2,1,2,6,7,5,1};
+    System.out.print(maxSum3NonOverlapping(input, 2));
   }
 
   //Merge two sorted array into sorted array Time = O(N+M)
@@ -755,7 +755,7 @@ public class Array {
     for (int i = 0; i < arr.length; i++) {
       curr_sum += arr[i];
       if (curr_sum == k) {
-        max = Math.max(max, (i - 0) + 1);
+        max = Math.max(max, i + 1);
       }
       if (map.containsKey(curr_sum - k)) {
         max = Math.max(max, (i - map.get(curr_sum - k)));
@@ -968,12 +968,49 @@ public class Array {
     }
     return res;
   }
+
+  public static Integer maxSum1(Integer arr[], int n, int k) {
+    // k must be greater
+    if (n < k) {
+      System.out.println("Invalid");
+      return null;
+    }
+    // Compute sum of first window of size k
+    int res = 0;
+    int[] output = new int[2];
+    for (int i = 0; i < k; i++) {
+        res += arr[i];
+    }
+    output[0] = 0;
+    output[1] = k - 1;
+    // Compute sums of remaining windows by removing first element of previous window and adding last element of
+    // current window.
+    int curr_sum = res;
+    for (int i = k; i < n; i++) {
+        curr_sum += arr[i] - arr[i - k];
+        if (curr_sum > res) {
+          res = curr_sum;
+          output[0] = i - k + 1;
+          output[1] = i;
+        }
+    }
+    for(int i=output[0]; i<=output[1];i++){
+      arr[i] = -1;
+    }
+    return res;
+  }
   /*Maximum Sum of 3 Non-Overlapping Subarrays size of k
   Input: [1,2,1,2,6,7,5,1], 2
   Output: [0, 3, 5]
   Explanation: Subarrays [1, 2], [2, 6], [7, 5] correspond to the starting indices [0, 3, 5].
   We could have also taken [2, 1], but an answer of [1, 3, 5] would be lexicographically larger.*/
-
+  static int maxSum3NonOverlapping(Integer[] input, int k){
+    int sum =0;
+    for(int i = 0; i<3;i++){
+      sum  +=maxSum1(input, input.length, k);
+    }
+    return sum;
+  }
 
 
   /* Sum of max M subarray(Non Overlapping) of size K. you have given array of Size N and two numbers M, K. K is size of subarray and M is count of subarray.
