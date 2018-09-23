@@ -221,17 +221,13 @@ public class Tree {
     Queue<Node> q = new LinkedList<>();
     // Enqueue Root and initialize height
     q.add(root);
-    while (true) {
+    while (q.size() > 0) {
       // nodeCount (queue size) indicates number of nodes at current level.
       int nodeCount = q.size();
-      if (nodeCount == 0) {
-        break;
-      }
       // Dequeue all nodes of current level and Enqueue all nodes of next level
       while (nodeCount > 0) {
-        Node node = q.peek();
+        Node node = q.poll();
         System.out.print(node.data);
-        q.remove();
         if (node.left != null) {
           q.add(node.left);
         }

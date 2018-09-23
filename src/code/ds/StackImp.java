@@ -133,6 +133,7 @@ public class StackImp {
     }
   }
   //implement nonblocking ConcurrentStack
+  //https://www.ibm.com/developerworks/java/library/j-jtp04186/
   class ConcurrentStack <E> {
     AtomicReference<Node<E>> top = new AtomicReference<>();
     public void push(E item) {

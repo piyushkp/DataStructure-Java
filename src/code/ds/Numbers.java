@@ -21,7 +21,7 @@ public class Numbers {
     int[] in = {0, 2, 8, 5, 2, 1, 4, 13, 23};
     //List<Integer> out = getFibonnaciNumbers(in);
     //System.out.println(nextGreaterNumber(12543 ));
-    lookandsayUtil("11", 1);
+    System.out.println(lookandsayUtil("1", 4));
   }
 
   //Write a function that takes a number n and returns an array containing a Fibonacci sequence of length n
@@ -769,7 +769,7 @@ public class Numbers {
     return -1;
   }
 
-  /*Given a  number start and a number of iteration n, calculate the nth number in a "Look and Say" sequence starting with start.
+  /* Count and say: Given a  number start and a number of iteration n, calculate the nth number in a "Look and Say" sequence starting with start.
       Reusing the previous example with start = 11 and n = 2, LookAndSay(11, 2) = 1211 because LookAndSay(LookAndSay(11)) = 1211 */
   public static String lookandsayUtil(String num, int n) {
     for (int i = 0; i < n; i++) {
@@ -780,18 +780,19 @@ public class Numbers {
 
   public static String lookandsay(String number) {
     StringBuilder result = new StringBuilder();
-    char repeat = number.charAt(0);
-    number = number.substring(1) + " ";
+    char say = number.charAt(0);
     int times = 1;
-    for (char actual : number.toCharArray()) {
-      if (actual != repeat) {
-        result.append(times + "" + repeat);
+    for (int i = 1;i<number.length();i++) {
+      char actual = number.charAt(i);
+      if (actual != say) {
+        result.append(times + "" + say);
         times = 1;
-        repeat = actual;
+        say = actual;
       } else {
-        times += 1;
+        times ++;
       }
     }
+    result.append(times).append(say);
     return result.toString();
   }
 

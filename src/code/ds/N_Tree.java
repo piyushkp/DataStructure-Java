@@ -2,6 +2,7 @@ package code.ds;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.*;
 
 /**
  * Created by ppatel2 on 3/11/2017.
@@ -68,6 +69,39 @@ public class N_Tree {
         break;
       }
       root.addChild(child);
+    }
+    return root;
+  }
+
+  public static String serialize1( NTree root ) {
+    StringBuilder sb = new StringBuilder();
+    if ( root != null ) {
+      sb.append( root.data ).append( "," );
+      for ( NTree child : root.children ) {
+        sb.append( serialize1( child ) );
+      }
+      sb.append( ")" );
+    }
+    return sb.toString();
+  }
+
+  public static NTree simpleDeserialize( String str ) {
+    NTree root = null;
+    Stack<NTree> stack = new Stack<>();
+    StringBuilder data = new StringBuilder();
+
+    for ( int i = 0; i < str.length(); i++ ) {
+      if ( str.charAt( i ) == ',' ) {
+        NTree child = new NTree(data.charAt(0));
+        if ( !stack.isEmpty() ) stack.peek().addChild( child );
+        else root = child;
+        stack.push( child );
+        data = new StringBuilder();
+      } else if ( str.charAt( i ) == ')' ) {
+        stack.pop();
+      } else {
+        data.append( str.charAt( i ) );
+      }
     }
     return root;
   }

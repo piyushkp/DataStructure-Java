@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by ppatel2 on 11/9/2016.
@@ -22,7 +22,31 @@ public class test {
 
     List<String> out1 = iprange2cidr(s, e);
     System.out.println(Arrays.toString(out1.toArray()));*/
-    System.out.print(print(6));
+    //System.out.print(print(6));
+
+    FriendNetwork fn= new FriendNetwork();
+    fn.addUser("piyush");
+    fn.addUser("Hemal");
+    fn.addUser("binka");
+    fn.addUser("nayan");
+    fn.addUser("khyati");
+    fn.addUser("francia");
+    fn.addUser("struti");
+
+    fn.addFriendship("piyush", "francia");
+    fn.addFriendship("hemal", "binka");
+    fn.addFriendship("hemal", "nayan");
+    fn.addFriendship("piyush", "khyati");
+    fn.addFriendship("binka", "struti");
+    fn.addFriendship("piyush", "hemal");
+
+    fn.removeFriendship("piyush", "hemal");
+
+    Set<String> frd = fn.getDirectFriends("piyush");
+
+    Set<String> indirectfrds = fn.getIndirectFriends("piyush");
+
+    System.out.println(fn.getUser("piyush").getFriendships().toString());
 
   }
 

@@ -93,7 +93,7 @@ public class FriendNetwork<T> {
     visited.add(userName);
     for (Friendship frd : user.getFriendships()) {
       User<T> friend = frd.getUser2();
-      if(!visited.contains(friend)){
+      if(!visited.contains(friend.userName)){
         getIndirectFriends(friend, visited, friends);
       }
     }
@@ -253,6 +253,6 @@ class Friendship<T> {
 
   @Override
   public String toString() {
-    return "Friendship [User1=" + User1 + ", User2=" + User2 + "]";
+    return "Friendship [User1=" + User1.userName + ", User2=" + User2.userName + "]";
   }
 }
