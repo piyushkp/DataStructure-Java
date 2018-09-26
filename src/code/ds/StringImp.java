@@ -31,10 +31,10 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    //System.out.println(wordPatternMatch("abab", "redblueredblue"));
+    System.out.println(wordPatternMatch("abab", "applepple"));
     //System.out.println(isPalindrome1("L*&EVe)))l1"));
-    String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
-    printJSON(str);
+    //String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
+    //printJSON(str);
 
   }
 
@@ -3517,43 +3517,43 @@ public class StringImp {
     return isMatch(str, 0, pattern, 0, map, set);
   }
 
-  static boolean isMatch(String str, int i, String pat, int j, Map<Character, String> map,
+  static boolean isMatch(String str, int strIndex, String pat, int patIndex, Map<Character, String> map,
       Set<String> set) {
     // base case
-    if (i == str.length() && j == pat.length()) {
+    if (strIndex == str.length() && patIndex == pat.length()) {
       return true;
     }
-    if (i == str.length() || j == pat.length()) {
+    if (strIndex == str.length() || patIndex == pat.length()) {
       return false;
     }
     // get current pattern character
-    char c = pat.charAt(j);
+    char patChar = pat.charAt(patIndex);
     // if the pattern character exists
-    if (map.containsKey(c)) {
-      String s = map.get(c);
+    if (map.containsKey(patChar)) {
+      String s = map.get(patChar);
       // then check if we can use it to match str[i...i+s.length()]
-      if (!str.startsWith(s, i)) {
+      if (!str.startsWith(s, strIndex)) {
         return false;
       }
       // if it can match, great, continue to match the rest
-      return isMatch(str, i + s.length(), pat, j + 1, map, set);
+      return isMatch(str, strIndex + s.length(), pat, patIndex + 1, map, set);
     }
     // pattern character does not exist in the map
-    for (int k = i; k < str.length(); k++) {
-      String p = str.substring(i, k + 1);
-      if (set.contains(p)) {
+    for (int k = strIndex; k < str.length(); k++) {
+      String strMatch = str.substring(strIndex, k + 1);
+      if (set.contains(strMatch)) {
         continue;
       }
       // create or update it
-      map.put(c, p);
-      set.add(p);
+      map.put(patChar, strMatch);
+      set.add(strMatch);
       // continue to match the rest
-      if (isMatch(str, k + 1, pat, j + 1, map, set)) {
+      if (isMatch(str, k + 1, pat, patIndex + 1, map, set)) {
         return true;
       }
       // backtracking
-      map.remove(c);
-      set.remove(p);
+      map.remove(patChar);
+      set.remove(strMatch);
     }
     // we've tried our best but still no luck
     return false;

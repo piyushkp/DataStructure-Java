@@ -2089,7 +2089,7 @@ public class Tree {
     if (root == null) {
       return "";
     }
-    Stack<Node> nodeStack = new Stack<Node>();
+    Stack<Node> nodeStack = new Stack<>();
     nodeStack.push(root);
     StringBuffer sb = new StringBuffer();
     while (nodeStack.size() > 0) {
