@@ -31,7 +31,7 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(wordPatternMatch("abab", "applepple"));
+    System.out.println(wordPatternMatch("ab", "applepple"));
     //System.out.println(isPalindrome1("L*&EVe)))l1"));
     //String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
     //printJSON(str);
@@ -3513,12 +3513,10 @@ public class StringImp {
   //pattern = "abab", str = "redblueredblue" should return true.
   static boolean wordPatternMatch(String pattern, String str) {
     Map<Character, String> map = new HashMap<>();
-    Set<String> set = new HashSet<>();
-    return isMatch(str, 0, pattern, 0, map, set);
+    return isMatch(str, 0, pattern, 0, map);
   }
 
-  static boolean isMatch(String str, int strIndex, String pat, int patIndex, Map<Character, String> map,
-      Set<String> set) {
+  static boolean isMatch(String str, int strIndex, String pat, int patIndex, Map<Character, String> map) {
     // base case
     if (strIndex == str.length() && patIndex == pat.length()) {
       return true;
@@ -3536,28 +3534,26 @@ public class StringImp {
         return false;
       }
       // if it can match, great, continue to match the rest
-      return isMatch(str, strIndex + s.length(), pat, patIndex + 1, map, set);
+      return isMatch(str, strIndex + s.length(), pat, patIndex + 1, map);
     }
     // pattern character does not exist in the map
     for (int k = strIndex; k < str.length(); k++) {
       String strMatch = str.substring(strIndex, k + 1);
-      if (set.contains(strMatch)) {
+      if (map.values().contains(strMatch)) {
         continue;
       }
-      // create or update it
-      map.put(patChar, strMatch);
-      set.add(strMatch);
-      // continue to match the rest
-      if (isMatch(str, k + 1, pat, patIndex + 1, map, set)) {
-        return true;
+        // create or update it
+        map.put(patChar, strMatch);
+        // continue to match the rest
+        if (isMatch(str, k + 1, pat, patIndex + 1, map)) {
+          return true;
+        }
+        // backtracking
+        map.remove(patChar);
       }
-      // backtracking
-      map.remove(patChar);
-      set.remove(strMatch);
+      // we've tried our best but still no luck
+      return false;
     }
-    // we've tried our best but still no luck
-    return false;
-  }
 
   //Given a non-negative integer num represented as a string, remove k digits from the number so
   //that the new number is the smallest possible.
