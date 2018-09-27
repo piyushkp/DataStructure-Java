@@ -887,6 +887,28 @@ public class LinkList {
       current.next = new_node;
     }
   }
+  //Given a node from a cyclic linked list which has been sorted, write a function to insert a
+  //value into the list such that it remains a cyclic sorted list. The given node can be any single node in the list.
+  void insert(Node node, int x) {
+    if (node == null) {
+      node = new Node(x);
+      node.next = node;
+      return;
+    }
+
+    Node curr = node;
+    Node prev = null;
+    do {
+      prev = curr;
+      curr = curr.next;
+      if (x <= curr.data && x >= prev.data) break;   // For case 1)
+      if ((prev.data > curr.data) && (x < curr.data || x > prev.data)) break; // For case 2)
+    } while (curr != node);   // when back to starting point, then stop. For case 3)
+
+    Node newNode = new Node(x);
+    newNode.next = curr;
+    prev.next = newNode;
+  }
 
   //Write a function to remove/Delete a single occurrence of an integer from a doubly linked list if it is present.
   void remove(Node head, int value) {

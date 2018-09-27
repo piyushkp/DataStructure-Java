@@ -3511,6 +3511,8 @@ public class StringImp {
 
   //wordPattern II: Given a pattern and a string str, find if str follows the same pattern.
   //pattern = "abab", str = "redblueredblue" should return true.
+  //Running time: O (n^m)
+  //Space: O (n)
   static boolean wordPatternMatch(String pattern, String str) {
     Map<Character, String> map = new HashMap<>();
     return isMatch(str, 0, pattern, 0, map);

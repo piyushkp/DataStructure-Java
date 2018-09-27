@@ -2225,44 +2225,18 @@ public class Tree {
   }
 
   //Deepest left leaf node in a binary tree
+  // BFS traverse tree right to left
   public Node deepestLeftLeaf(Node root) {
-    if (root == null) {
-      return null;
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+      root = queue.poll();
+      if (root.right != null)
+        queue.add(root.right);
+      if (root.left != null)
+        queue.add(root.left);
     }
-    Queue<Node> q1 = new LinkedList<>();
-    q1.add(root);
-    Node ret = null;
-    while (!q1.isEmpty()) {
-      Node tmp = q1.poll();
-      if (tmp.left == null && tmp.right == null) {//updating the deepest left leaf
-        ret = tmp;
-        continue;
-      }
-      //ensuring that no leaf which is right to its parent adds on to the queue
-      //so the queue contains only leaves which are left to its parent
-      if (tmp.right != null && !(tmp.right.left == null && tmp.right.right == null)) {
-        q1.add(tmp.right);
-      }
-      if (tmp.left != null) {
-        q1.add(tmp.left);
-      }
-    }
-    return ret;
-  }
-
-  void deepestLeftLeafRecur(Node root, int lvl, int maxlvl, boolean isLeft, Node resPtr) {
-    if (root == null) {
-      return;
-    }
-    // Update result if this node is left leaf and its level is more than the maxl level of the current result
-    if (isLeft && root.left != null && root.right != null && lvl > maxlvl) {
-      resPtr = root;
-      maxlvl = lvl;
-      return;
-    }
-    // Recur for left and right subtrees
-    deepestLeftLeafRecur(root.left, lvl + 1, maxlvl, true, resPtr);
-    deepestLeftLeafRecur(root.right, lvl + 1, maxlvl, false, resPtr);
+    return root;
   }
 
   //Deepest node in binary tree
