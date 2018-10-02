@@ -1,10 +1,8 @@
 package code.ds;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.*;
+import java.util.Set;
 
 /**
  * Created by ppatel2 on 11/9/2016.
@@ -24,7 +22,7 @@ public class test {
     System.out.println(Arrays.toString(out1.toArray()));*/
     //System.out.print(print(6));
 
-    FriendNetwork fn= new FriendNetwork();
+    FriendNetwork fn = new FriendNetwork();
     fn.addUser("piyush");
     fn.addUser("Hemal");
     fn.addUser("binka");
@@ -52,7 +50,7 @@ public class test {
 
   public static String print(int precision) {
     StringBuilder builder = new StringBuilder();
-    for (int r = 0; r <10; r++) {
+    for (int r = 0; r < 10; r++) {
       builder.append("| ");
       for (int c = 0; c < 10; c++) {
         String s = Double.toString(1233424234);
@@ -153,6 +151,30 @@ public class test {
     sbIP.append(String.valueOf(longIP & 0x000000FF));
 
     return sbIP.toString();
+  }
+
+  static int[] pourWater(int[] heights, int V, int K) {
+    for (int i = 0; i < V; ++i) {
+      int l = K, r = K, n = heights.length;
+      while (l > 0 && heights[l] >= heights[l - 1]) {
+        --l;
+      }
+      while (l < K && heights[l] == heights[l + 1]) {
+        ++l;
+      }
+      while (r < n - 1 && heights[r] >= heights[r + 1]) {
+        ++r;
+      }
+      while (r > K && heights[r] == heights[r - 1]) {
+        --r;
+      }
+      if (heights[l] < heights[K]) {
+        ++heights[l];
+      } else {
+        ++heights[r];
+      }
+    }
+    return heights;
   }
 }
 

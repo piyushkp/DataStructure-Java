@@ -27,8 +27,11 @@ public class Array {
 
   //https://github.com/tongzhang1994/Facebook-Interview-Coding
   public static void main(String[] args) throws InterruptedException, ExecutionException {
-    Integer[] input = {1,2,1,2,6,7,5,1};
-    System.out.print(maxSum3NonOverlapping(input, 2));
+    //Integer[] input = {1,2,1,2,6,7,5,1};
+    //System.out.print(maxSum3NonOverlapping(input, 2));
+    double[] input = {.70, 2.80, 4.90};
+    System.out.println(Arrays.toString(minimizeRoundSum(input, 8)));
+
   }
 
   //Merge two sorted array into sorted array Time = O(N+M)
@@ -3326,14 +3329,15 @@ public class Array {
     We also want to minimize sum |xi-yi|
     Minimize rounding sum: input = 30.3, 2.4, 3.5 output = 30 2 4
     */
-  public static double[] minimizeRoundSum(double[] input, int T) {
+  public static long[] minimizeRoundSum(double[] input, int T) {
     double sum = 0;
-    double[] output = new double[input.length];
+    long[] output = new long[input.length];
     for (int i = 0; i < input.length; i++) {
       sum += Math.round(input[i]);
       output[i] = Math.round(input[i]);
     }
     double diff = T - sum;
+
     if (diff != 0) {
       int size = Math.abs((int) Math.round(diff));
       PriorityQueue<Pair<Double, Integer>> maxHeap = new PriorityQueue<>(size,
@@ -3345,17 +3349,22 @@ public class Array {
           });
       for (int i = 0; i < input.length; i++) {
         double delta = Math.abs(input[i] - output[i]);
-        if (i < Math.round(diff)) {
+        if (i < Math.abs(diff)) {
           maxHeap.add(new Pair(delta, i));
-        } else if (delta > maxHeap.peek().getKey()) {
+        } else if (maxHeap.peek()!= null && delta > maxHeap.peek().getKey()) {
           maxHeap.poll();
           maxHeap.add(new Pair(delta, i));
         }
       }
-      while (!maxHeap.isEmpty() && diff > 0) {
+      while (!maxHeap.isEmpty() && diff != 0) {
         int index = maxHeap.poll().getValue();
-        output[index] += 1;
-        diff -= 1;
+        if(diff > 0) {
+          output[index] += 1;
+          diff -= 1;
+        }else{
+          output[index] -= 1;
+          diff += 1;
+        }
       }
     }
     return output;

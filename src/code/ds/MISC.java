@@ -275,18 +275,20 @@ public class MISC {
 
   //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...]
   // (si < ei), determine if a person could attend all meetings.
-  static boolean canAttend(Interval[] intervals){
+  static boolean canAttend(Interval[] intervals) {
     Arrays.sort(intervals, new Comparator<Interval>() {
       @Override
       public int compare(Interval o1, Interval o2) {
         return o1.start - o2.start;
       }
     });
-    if(intervals == null || intervals.length == 0)
+    if (intervals == null || intervals.length == 0) {
       return true;
-    for (int i = 0; i < intervals.length -1; i++) {
-        if(intervals[i].end > intervals[i+1].start)
-          return false;
+    }
+    for (int i = 0; i < intervals.length - 1; i++) {
+      if (intervals[i].end > intervals[i + 1].start) {
+        return false;
+      }
     }
     return true;
   }
@@ -330,11 +332,22 @@ public class MISC {
     Arrays.sort(end);
     int endIdx = 0, res = 0;
     for (int i = 0; i < start.length; i++) {
-      if (start[i] < end[endIdx])		res++;
-      else	endIdx++;
+      if (start[i] < end[endIdx]) {
+        res++;
+      } else {
+        endIdx++;
+      }
     }
     return res;
   }
+  /* Employee Free Time: We are given a list schedule of employees, which represents the working time for each employee.
+    Each employee has a list of non-overlapping Intervals, and these intervals are in sorted order.
+    Return the list of finite intervals representing common, positive-length free time for all employees, also in sorted order.
+    Input: schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]
+    Output: [[3,4]]
+   */
+
+
 
   // Method to convert infix to postfix:
   private static boolean isOperator(char c) {
