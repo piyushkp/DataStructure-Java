@@ -36,19 +36,22 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class MISC {
 
   public static void main(String[] args) throws InterruptedException {
-    Interval i1 = new Interval(0, 3);
-    Interval i2 = new Interval(3, 4);
-    Interval i3 = new Interval(4, 6);
-    Interval i4 = new Interval(2, 7);
+    Interval i1 = new Interval(10, 15);
+    Interval i2 = new Interval(25, 35);
+    Interval i3 = new Interval(45, 65);
+    Interval i4 = new Interval(85, 95);
     ArrayList<Interval> list = new ArrayList<>();
-    list.add(i1);
-    list.add(i2);
     list.add(i3);
+    list.add(i2);
     list.add(i4);
-    Interval target = new Interval(0, 6);
+    list.add(i1);
+    Interval target = new Interval(17, 100);
     //System.out.print(find_min_intervals(list, target));
     //drawCircle(2);
-    System.out.println();
+    for(Interval i : findInterval(list, target)){
+      System.out.println(i.start + " " + i.end);
+    }
+
 
   }
 
@@ -271,6 +274,44 @@ public class MISC {
     len += prev.end - prev.start; // Be very careful to check this case.
 
     return len;
+  }
+  /* you are given a set of non-overlapping intervals and a requestInterval. Find all non-overlapping intervals.
+     Eg: [[10,15] , [25,35]], requestInterval: [17,27]
+     Output: [[17,25]]
+     [[10,15] , [25,35], [45,65], [85,95]], requestInterval: [17,100]
+     Output: [[17,25],[35,45],[65,85],[95,100]]
+   */
+  public static List<Interval> findInterval(List<Interval> intervals, Interval requestInterval) {
+    List<Interval> result = new ArrayList<>();
+    if (intervals == null || intervals.size() == 0 || requestInterval.end < requestInterval.start) {
+      return result;
+    }
+    PriorityQueue<Interval> priorityQueue = new PriorityQueue<>((o1, o2) -> o1.start - o2.start);
+    for (Interval interval : intervals) {
+      priorityQueue.add(interval);
+    }
+    while (requestInterval.start >= priorityQueue.peek().end) {
+      priorityQueue.remove();
+    }
+    int start = requestInterval.start;
+    if (start < priorityQueue.peek().start) {
+      if (requestInterval.end <= priorityQueue.peek().start) {
+        result.add(requestInterval);
+        return result;
+      } else {
+        result.add(new Interval(start, priorityQueue.peek().start));
+      }
+    }
+    start = Math.max(start, priorityQueue.remove().end);
+    while (!priorityQueue.isEmpty() && priorityQueue.peek().start < requestInterval.end) {
+      Interval current = priorityQueue.remove();
+      result.add(new Interval(start, current.start));
+      start = current.end;
+    }
+    if (requestInterval.end > start) {
+      result.add(new Interval(start, requestInterval.end));
+    }
+    return result;
   }
 
   //Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...]
