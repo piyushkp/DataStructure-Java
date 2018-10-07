@@ -82,24 +82,24 @@ public class Custom_DS {
 
   static class SparseSet {
     Integer[] data;
-    Integer[] sparse;
-    Integer setAllValue, sparsePointer, setAllPointer;
+    Integer[] indexer;
+    Integer setAllValue, indexPointer, setAllPointer;
     public SparseSet(int capacity) {
       data = new Integer[capacity];
-      sparse = new Integer[capacity];
-      sparsePointer = 0;
+      indexer = new Integer[capacity];
+      indexPointer = 0;
       setAllPointer = 0;
       setAllValue = null;
     }
     public void set(int index, int value) {
       data[index] = value;
-      sparse[index] = sparsePointer;
-      sparsePointer++;
+      indexer[index] = indexPointer;
+      indexPointer++;
     }
 
     public Integer get(int index) {
       if(data[index] != null) {
-        if (sparse[index] >= setAllPointer) {
+        if (indexer[index] >= setAllPointer) {
           return data[index];
         } else {
           return setAllValue;
@@ -110,7 +110,7 @@ public class Custom_DS {
 
     public void setAll(int value) {
       setAllValue = value;
-      setAllPointer = sparsePointer++;
+      setAllPointer = indexPointer++;
     }
   }
 
