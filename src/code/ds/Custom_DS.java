@@ -8,6 +8,29 @@ import java.util.*;
  */
 public class Custom_DS {
 
+  public static void main(String[] argv) throws InterruptedException {
+    SparseSet ds = new SparseSet(20);
+    ds.set(1,5);
+    ds.set(2,6);
+
+    ds.setAll(7);
+
+    ds.set(2,8);
+    ds.setAll(7);
+    ds.set(1,9);
+    ds.set(3,6);
+    ds.set(4,8);
+    ds.setAll(10);
+    ds.set(4,8);
+    System.out.println(ds.get(1));
+    System.out.println(ds.get(2));
+    System.out.println(ds.get(3));
+    System.out.println(ds.get(4));
+    System.out.println(ds.get(5));
+
+
+  }
+
   /*Implement a data structure supporting the following operations:
   Inc(Key) - Inserts a new key with value 1. Or increments an existing key by 1. Key is guaranteed to be a non-empty string.
   Dec(Key) - If Key's value is 1, remove it from the data structure. Otherwise decrements an existing key by 1. If the key does not exist, this function does nothing. Key is guaranteed to be a non-empty string.
@@ -57,7 +80,42 @@ public class Custom_DS {
    set(int idx, int value)
    setAll(int value) */
 
-  class Combo{
+  static class SparseSet {
+    Integer[] data;
+    Integer[] sparse;
+    Integer setAllValue, sparsePointer, setAllPointer;
+    public SparseSet(int capacity) {
+      data = new Integer[capacity];
+      sparse = new Integer[capacity];
+      sparsePointer = 0;
+      setAllPointer = 0;
+      setAllValue = null;
+    }
+    public void set(int index, int value) {
+      data[index] = value;
+      sparse[index] = sparsePointer;
+      sparsePointer++;
+    }
+
+    public Integer get(int index) {
+      if(data[index] != null) {
+        if (sparse[index] >= setAllPointer) {
+          return data[index];
+        } else {
+          return setAllValue;
+        }
+      }
+      return null;
+    }
+
+    public void setAll(int value) {
+      setAllValue = value;
+      setAllPointer = sparsePointer++;
+    }
+  }
+
+  // with time stamp
+  static class Combo{
     LocalDateTime timeStamp;
     Integer value;
 
@@ -67,11 +125,11 @@ public class Custom_DS {
     }
   }
 
-  class MyDS {
+  static class SetAll {
     private Combo defaultValue = new Combo(LocalDateTime.now(), null);
     private HashMap<Integer, Combo> map;
 
-    public MyDS() {
+    public SetAll() {
       map = new HashMap<>();
     }
 
@@ -94,4 +152,5 @@ public class Custom_DS {
         return defaultValue.value;
     }
   }
+
 }

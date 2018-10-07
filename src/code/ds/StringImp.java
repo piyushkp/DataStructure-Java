@@ -31,10 +31,13 @@ public class StringImp {
     //printAllKLength(set1,3);
     //System.out.print(ransomNote2("aaaba", "aaabbb"));
     //int num = decode1("https://www.google.com/search?q=chinese+to+english&ie=utf-8&oe=utf-8");
-    System.out.println(wordPatternMatch("ab", "applepple"));
+    //System.out.println(wordPatternMatch("ab", "applepple"));
     //System.out.println(isPalindrome1("L*&EVe)))l1"));
     //String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
     //printJSON(str);
+
+    System.out.println(letterPhoneCombinations("789").size());
+    System.out.println(Arrays.toString(letterPhoneCombinations("234").toArray()));
 
   }
 
@@ -3268,22 +3271,23 @@ public class StringImp {
 
   //Letter Combinations of a Phone Number: Given a digit string, return all possible letter combinations that the number could represent.
   //A mapping of digit to letters (just like on the phone buttons) is given below.
+  // Time and Space = O(4^n)
   public static List<String> letterPhoneCombinations(String digits) {
-    LinkedList<String> ans = new LinkedList<>();
-    if (digits.isEmpty()) {
-      return ans;
+    LinkedList<String> queue = new LinkedList<>();
+    if (digits == null || digits.isEmpty()) {
+      return queue;
     }
-    String[] mapping = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv",
+    String[] map = new String[]{"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv",
         "wxyz"};
-    ans.add("");
-    while (ans.peek().length() != digits.length()) {
-      String remove = ans.remove();
-      String map = mapping[digits.charAt(remove.length()) - '0'];
-      for (char c : map.toCharArray()) {
-        ans.addLast(remove + c);
+    queue.offer("");
+    while (!queue.isEmpty() && queue.peek().length() != digits.length()) {
+      String remove = queue.poll();
+      String letters = map[digits.charAt(remove.length()) - '0'];
+      for (char c : letters.toCharArray()) {
+        queue.offer(remove + c);
       }
     }
-    return ans;
+    return queue;
   }
 
   //Given a string with alpha-numeric characters and parentheses, return a string with balanced
