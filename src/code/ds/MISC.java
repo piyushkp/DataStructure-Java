@@ -2175,6 +2175,7 @@ public class MISC {
     }
   }
 
+  List<File> files;
   // read all files from directory in java
   public void listFilesForFolder(final File folder) {
     for (final File fileEntry : folder.listFiles()) {
@@ -2182,6 +2183,7 @@ public class MISC {
         listFilesForFolder(fileEntry);
       } else {
         System.out.println(fileEntry.getName());
+        files.add(fileEntry);
       }
     }
   }
