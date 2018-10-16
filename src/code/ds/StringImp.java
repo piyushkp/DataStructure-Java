@@ -36,8 +36,13 @@ public class StringImp {
     //String str = "{\"id\": \"0002\",\"type\": \"donut\",\"name\": \"Cake\",\"ppu\": 0.55, \"batters\":{\"batter\":[{ \"id\": \"1001\", \"type\": \"Regular\" },{ \"id\": \"1002\", \"type\": \"Chocolate\" }]},\"topping\":[{ \"id\": \"5001\", \"type\": \"None\" },{ \"id\": \"5002\", \"type\": \"Glazed\" }]}";
     //printJSON(str);
 
-    System.out.println(letterPhoneCombinations("789").size());
-    System.out.println(Arrays.toString(letterPhoneCombinations("234").toArray()));
+    //System.out.println(letterPhoneCombinations("12").size());
+    //System.out.println(Arrays.toString(letterPhoneCombinations("2345").toArray()));
+    //System.out.println(Arrays.toString(letterPhoneCombinations("23").toArray()));
+    //System.out.println(Arrays.toString(letterPhoneCombinations("45").toArray()));
+
+    printCombinations(new int[]{1,2,3,4},0, 3, 3, new StringBuilder() );
+
 
   }
 
@@ -1012,6 +1017,20 @@ public class StringImp {
     String temp = chars[i];
     chars[i] = chars[j];
     chars[j] = temp;
+  }
+
+  //Print all possible combinations of r elements in a given array of size n
+  // Input =  {1, 2, 3, 4} and r = 2, then output should be {1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4} and {3, 4}.
+  public static void printCombinations(int[] arr, int start, int end, int r, StringBuilder sb) {
+    if(r == 0) {
+      System.out.println(sb.toString());
+      return;
+    }
+    for(int i = start; i <= end-r+1; i++) {
+      sb.append(arr[i] + " ");
+      printCombinations(arr, i+1, end, r-1, sb);
+      sb.setLength(sb.length()-2);
+    }
   }
 
   //combination of the string

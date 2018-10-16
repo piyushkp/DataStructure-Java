@@ -381,6 +381,38 @@ public class MISC {
     }
     return res;
   }
+
+  // given a list of interval, start and end time of drivers. find maximum active drivers for given intervals
+  // input = [6, 10], [1, 5], [3, 7], [2, 7] output = 3
+  public static int findMaxDriver(Interval[] input){
+    if(input == null || input.length < 1)
+      return 0;
+    int[] start = new int[input.length];
+    int[] end = new int[input.length];
+
+    for(int i = 0; i< input.length;i++){
+      start[i] = input[i].start;
+      end[i] = input[i].end;
+    }
+    Arrays.sort(start);
+    Arrays.sort(end);
+
+    int driverIn = 1, maxDriver = 1;
+    int i = 1, j =0;
+    while(i < input.length && j <input.length){
+      if(start[i] < end[j]){
+        driverIn++;
+        maxDriver = Math.max(driverIn, maxDriver);
+        i++;
+      }else{
+        driverIn--;
+        j++;
+      }
+    }
+    return maxDriver;
+  }
+
+
   /* Employee Free Time: We are given a list schedule of employees, which represents the working time for each employee.
     Each employee has a list of non-overlapping Intervals, and these intervals are in sorted order.
     Return the list of finite intervals representing common, positive-length free time for all employees, also in sorted order.

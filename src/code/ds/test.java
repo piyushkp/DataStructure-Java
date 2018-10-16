@@ -3,6 +3,8 @@ package code.ds;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
+import java.util.regex.*;
 
 /**
  * Created by ppatel2 on 11/9/2016.
@@ -22,7 +24,7 @@ public class test {
     System.out.println(Arrays.toString(out1.toArray()));*/
     //System.out.print(print(6));
 
-    FriendNetwork fn = new FriendNetwork();
+    /*FriendNetwork fn = new FriendNetwork();
     fn.addUser("piyush");
     fn.addUser("Hemal");
     fn.addUser("binka");
@@ -45,6 +47,9 @@ public class test {
     Set<String> indirectfrds = fn.getIndirectFriends("piyush");
 
     System.out.println(fn.getUser("piyush").getFriendships().toString());
+    */
+    System.out.println(countUniqueWords("Java is great. Grails is also great"));
+    printUniquedWords("Java is great. Grails is also great");
 
   }
 
@@ -175,6 +180,63 @@ public class test {
       }
     }
     return heights;
+  }
+
+  public static int countUniqueWords(String str){
+    HashMap<String, Integer> map = new HashMap<>();
+    String[] words = str.split(" ");
+    int count = 0;
+    for(String wrd:words){
+     if(!map.containsKey(wrd)){
+       map.put(wrd, 1);
+     }
+     else{
+       map.put(wrd, map.get(wrd) + 1);
+     }
+    }
+    for (Integer value : map.values()) {
+      if(value == 1){
+        count++;
+      }
+    }
+    return count;
+  }
+
+  static void printUniquedWords(String str)
+  {
+    // Extracting words from string
+    Pattern p = Pattern.compile("[a-zA-Z]+");
+    Matcher m = p.matcher(str);
+
+    // Map to store count of a word
+    HashMap<String, Integer> hm = new HashMap<>();
+
+    // if a word found
+    while (m.find())
+    {
+      String word = m.group();
+
+      // If this is first occurrence of word
+      if(!hm.containsKey(word))
+        hm.put(word, 1);
+      else
+        // increment counter of word
+        hm.put(word, hm.get(word) + 1);
+
+    }
+
+    // Traverse map and print all words whose count
+    // is  1
+    Set<String> s = hm.keySet();
+    Iterator<String> itr = s.iterator();
+
+    while(itr.hasNext())
+    {
+      String w = itr.next();
+
+      if (hm.get(w) == 1)
+        System.out.println(w);
+    }
   }
 }
 

@@ -31,7 +31,6 @@ public class Array {
     //System.out.print(maxSum3NonOverlapping(input, 2));
     double[] input = {.70, 2.80, 4.90};
     System.out.println(Arrays.toString(minimizeRoundSum(input, 8)));
-
   }
 
   //Merge two sorted array into sorted array Time = O(N+M)

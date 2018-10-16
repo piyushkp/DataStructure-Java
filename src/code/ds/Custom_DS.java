@@ -21,12 +21,19 @@ public class Custom_DS {
     ds.set(3,6);
     ds.set(4,8);
     ds.setAll(10);
-    ds.set(4,8);
+    ds.set(4,88);
+    ds.set(5,80);
+
+    ds.set(1,7);
+    ds.setAll(99);
+    ds.set(6,9);
+
     System.out.println(ds.get(1));
     System.out.println(ds.get(2));
     System.out.println(ds.get(3));
     System.out.println(ds.get(4));
     System.out.println(ds.get(5));
+    System.out.println(ds.get(6));
 
 
   }
