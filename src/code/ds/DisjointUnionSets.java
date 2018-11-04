@@ -222,6 +222,7 @@ public class DisjointUnionSets {
     return set.size();
   }
 
+  // DFS solution
   public int findCircleNum(int[][] M) {
     boolean[] visited = new boolean[M.length]; //visited[i] means if ith person is visited in this algorithm
     int count = 0;

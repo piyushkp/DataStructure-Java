@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,7 +43,12 @@ public class StringImp {
     //System.out.println(Arrays.toString(letterPhoneCombinations("23").toArray()));
     //System.out.println(Arrays.toString(letterPhoneCombinations("45").toArray()));
 
-    printCombinations(new int[]{1,2,3,4},0, 3, 3, new StringBuilder() );
+    //printCombinations(new int[]{1,2,3,4},0, 3, 3, new StringBuilder() );
+    String[] strings = new String[]{"apple7", "apple01", "pear07", "peach01", "apple10",
+        "apple0002", "zzz000", "appl9"};
+    List input = Arrays.asList(strings);
+    Collections.sort(input, new NaturalOrderComparator());
+    System.out.println("Sorted: " + input);
 
 
   }
@@ -1022,14 +1029,14 @@ public class StringImp {
   //Print all possible combinations of r elements in a given array of size n
   // Input =  {1, 2, 3, 4} and r = 2, then output should be {1, 2}, {1, 3}, {1, 4}, {2, 3}, {2, 4} and {3, 4}.
   public static void printCombinations(int[] arr, int start, int end, int r, StringBuilder sb) {
-    if(r == 0) {
+    if (r == 0) {
       System.out.println(sb.toString());
       return;
     }
-    for(int i = start; i <= end-r+1; i++) {
+    for (int i = start; i <= end - r + 1; i++) {
       sb.append(arr[i] + " ");
-      printCombinations(arr, i+1, end, r-1, sb);
-      sb.setLength(sb.length()-2);
+      printCombinations(arr, i + 1, end, r - 1, sb);
+      sb.setLength(sb.length() - 2);
     }
   }
 
@@ -3541,7 +3548,8 @@ public class StringImp {
     return isMatch(str, 0, pattern, 0, map);
   }
 
-  static boolean isMatch(String str, int strIndex, String pat, int patIndex, Map<Character, String> map) {
+  static boolean isMatch(String str, int strIndex, String pat, int patIndex,
+      Map<Character, String> map) {
     // base case
     if (strIndex == str.length() && patIndex == pat.length()) {
       return true;
@@ -3567,18 +3575,18 @@ public class StringImp {
       if (map.values().contains(strMatch)) {
         continue;
       }
-        // create or update it
-        map.put(patChar, strMatch);
-        // continue to match the rest
-        if (isMatch(str, k + 1, pat, patIndex + 1, map)) {
-          return true;
-        }
-        // backtracking
-        map.remove(patChar);
+      // create or update it
+      map.put(patChar, strMatch);
+      // continue to match the rest
+      if (isMatch(str, k + 1, pat, patIndex + 1, map)) {
+        return true;
       }
-      // we've tried our best but still no luck
-      return false;
+      // backtracking
+      map.remove(patChar);
     }
+    // we've tried our best but still no luck
+    return false;
+  }
 
   //Given a non-negative integer num represented as a string, remove k digits from the number so
   //that the new number is the smallest possible.
@@ -3710,6 +3718,7 @@ public class StringImp {
   private char[] buffer = new char[4];
   private int offset = 0;
   private int charactersInBuffer = 0;
+
   public int readII(char[] buf, int n) {
     int totalCharactersRead = 0;
     boolean eof = false;
@@ -3729,6 +3738,40 @@ public class StringImp {
     return totalCharactersRead;
   }
 
+  // sort the input in natural order
+  // input = "apple7", "apple01", "pear07", "peach01" output = "apple01", "apple7", "peach01", "pear07"
+  static class NaturalOrderComparator implements Comparator<String> {
 
+    public int compare(String o1, String o2) {
+      if (o1 == null || o2 == null) {
+        return 0;
+      }
+      for (int i = 0; i < o1.length() && i < o2.length(); i++) {
+        if (Character.isDigit(o1.charAt(i)) || Character.isDigit(o2.charAt(i))) {
+          String dig1 = "", dig2 = "";
+          for (int x = i; x < o1.length() && Character.isDigit(o1.charAt(i)); x++) {
+            dig1 += o1.charAt(x);
+          }
+          for (int x = i; x < o2.length() && Character.isDigit(o2.charAt(i)); x++) {
+            dig2 += o2.charAt(x);
+          }
+          if (dig2 == "" || Integer.valueOf(dig1) < Integer.valueOf(dig2)) {
+            return -1;
+          }
+          if (dig1 == "" || Integer.valueOf(dig1) > Integer.valueOf(dig2)) {
+            return 1;
+          }
+        }
+        if (o1.charAt(i) < o2.charAt(i)) {
+          return -1;
+        }
+        if (o1.charAt(i) > o2.charAt(i)) {
+          return 1;
+        }
+      }
+      return 0;
+    }
+
+  }
 }
 
